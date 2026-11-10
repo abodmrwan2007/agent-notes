@@ -3,10 +3,13 @@
 Native iPad note-taking and scientific learning app. Swift, SwiftUI + UIKit, PencilKit, PDFKit.
 The display name is configurable (`APP_DISPLAY_NAME` in `project.yml`).
 
-**Current state: Milestone A source code is written but has never been compiled or run.**
-It was authored on a Windows machine with no Swift toolchain, Xcode, or iPad. Read
-[PROGRESS.md](PROGRESS.md) before relying on anything here. Per-feature status is in
+**Current state: Milestone A builds and its smoke tests pass on an iPad simulator in CI
+(GitHub Actions, Xcode 16.4). It has never run on a physical iPad or with Apple Pencil.**
+Read [PROGRESS.md](PROGRESS.md) for exactly what was and was not verified. Per-feature status is in
 [FEATURE_MATRIX.md](FEATURE_MATRIX.md).
+
+It is authored on a Windows machine without Xcode; every build and test runs in
+`.github/workflows/ci.yml`, which uploads simulator screenshots as an artifact.
 
 ## Layout
 
@@ -49,6 +52,12 @@ Build the app for an iPad simulator (pick a simulator name from `xcrun simctl li
 
 ```bash
 xcodebuild -project AgentNotes.xcodeproj -scheme AgentNotes -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)' build
+```
+
+Run the UI smoke tests (writes screenshots to `/tmp/agentnotes-shots`):
+
+```bash
+xcodebuild -project AgentNotes.xcodeproj -scheme AgentNotes -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)' test
 ```
 
 Or open `AgentNotes.xcodeproj` in Xcode and press Run. To run on a physical iPad set your team ID in

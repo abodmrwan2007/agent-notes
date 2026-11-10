@@ -4,11 +4,13 @@ Last updated: 2026-11-10.
 
 **Status legend**
 
-- **Written**: source code exists; never compiled, run, or tested (no Swift toolchain where it was authored).
+- **Written**: source code exists and compiles in CI (Xcode 16.4), but no test or screenshot exercises it yet.
 - **Partial**: some of the requirement is Written; the rest is not started (see note).
 - **Not started**: no code.
 - **Blocked**: needs an external asset, credential, account or owner decision first.
-- **Verified**: built and tested, with the date and how. *Nothing is Verified yet.*
+- **Sim-verified**: exercised by the UI smoke tests on an iPad simulator in CI on 2026-11-10 and
+  confirmed in the screenshots. Not tested on a physical iPad or with Apple Pencil.
+- **Verified**: fully covered by automated tests that pass in CI, with the date and how.
 
 "Verified" may only be set after the acceptance check was actually executed.
 
@@ -20,20 +22,20 @@ explicit scope from the build brief only. Add researched features as new rows wi
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Primary areas: Library, Editor, Settings | A | Written | |
+| Primary areas: Library, Editor, Settings | A | Sim-verified | Library and editor seen in screenshots; Settings screen not captured |
 | Primary areas: Study, Atlas, Community | B–E | Not started | Honest "not available" screens are Written |
-| Adaptive sidebar | A | Written | `NavigationSplitView` |
-| Palette (white/gray, navy, cyan), dark mode | A | Written | Paper stays white in dark mode |
-| Arabic RTL + English LTR UI | A | Written | 119 strings translated; layout mirroring untested |
+| Adaptive sidebar | A | Sim-verified | `NavigationSplitView`, portrait only |
+| Palette (white/gray, navy, cyan), dark mode | A | Partial | Light palette Sim-verified; dark mode not captured |
+| Arabic RTL + English LTR UI | A | Sim-verified | Library and editor screenshots in both languages |
 | Dynamic Type, VoiceOver labels | A | Partial | System text styles and labels used; no audit done |
 | Keyboard shortcuts | A | Partial | Undo/redo only |
-| Compact toolbar | A | Written | Not yet customizable |
-| Page thumbnails | A | Written | |
+| Compact toolbar | A | Sim-verified | Not yet customizable |
+| Page thumbnails | A | Sim-verified |  |
 | Document tabs | B | Not started | |
 | Assistant / inspector side panel | C | Not started | |
 | PDF beside lecture or atlas | C–D | Not started | |
 | Position preserved when panels toggle | A | Written | Anchor restore in `EditorCanvasController` |
-| Empty / loading / error states | A | Written | Library and editor |
+| Empty / loading / error states | A | Partial | Empty library state Sim-verified; error states not exercised |
 | Offline, quota, purchase, expiry states | E | Not started | |
 
 ## 4. Library, documents, inserts
@@ -47,14 +49,14 @@ explicit scope from the build brief only. Add researched features as new rows wi
 | Tags | B | Not started | |
 | Import PDF (system picker) | A | Written | Password-protected PDFs rejected |
 | Import images | B | Not started | |
-| Blank and multi-page notebooks | A | Written | |
+| Blank and multi-page notebooks | A | Sim-verified |  |
 | Page duplicate / reorder / delete | A | Written | Delete is confirmed, not undoable |
 | Bookmarks | A | Partial | Per-page flag and badge; no bookmark list |
 | Covers, chapter outlines, internal links | B | Not started | |
-| Templates: blank, ruled, grid, dot, Cornell | A | Written | |
+| Templates: blank, ruled, grid, dot, Cornell | A | Partial | Ruled and grid Sim-verified; blank, dot, Cornell compile but were not captured |
 | Templates: planner, custom imported background | B | Not started | |
 | Change background without moving ink | A | Written | |
-| Vertical scrolling | A | Written | |
+| Vertical scrolling | A | Sim-verified |  |
 | Horizontal page turning | B | Not started | |
 | Expandable margins around PDF pages | B | Not started | |
 | Typed text, images, shapes, sticky notes, links, tables, formulas | B | Not started | |
@@ -63,22 +65,22 @@ explicit scope from the build brief only. Add researched features as new rows wi
 | Atlas scene cards | D | Not started | |
 | Object resize / rotate / layer / group / lock | B | Not started | |
 | PDF hyperlinks + return-to-position | B | Not started | |
-| Export PDF with annotations | A | Written | Flattened; ink rasterized at 3x. Not opened in an external viewer yet |
+| Export PDF with annotations | A | Partial | Export completes and the share sheet shows the PDF (Sim-verified). Content not opened in an external viewer; ink rasterized at 3x |
 | Export / import native package | A | Written | Directory sharing untested |
 
 ## 5. Handwriting and gestures
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Pen, pencil, highlighter | A | Written | Native PencilKit inks |
+| Pen, pencil, highlighter | A | Partial | Pen Sim-verified with finger input; pencil, highlighter and real Apple Pencil untested |
 | Eraser (stroke / partial) | A | Written | |
 | Colors, thickness | A | Written | |
 | Opacity, tool favorites | B | Not started | |
 | Extra brushes | B | Not started | Only with a real implementation |
-| Finger drawing mode | A | Written | |
+| Finger drawing mode | A | Sim-verified |  |
 | Lasso selection | A | Written | Native PencilKit lasso |
 | Rectangular selection, resize selection | B | Not started | |
-| Undo / redo | A | Written | Ink only |
+| Undo / redo | A | Sim-verified | Ink only |
 | Pencil double-tap, Pencil Pro squeeze, hover | B | Not started | |
 | (1) Stroke smoothing with adjustable strength | B | Not started | |
 | (2) Mixed Arabic–English recognition | B | Not started | Requires vendor evaluation on a real sample set |
@@ -169,7 +171,7 @@ explicit scope from the build brief only. Add researched features as new rows wi
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Arabic/English normalization | A | Written | `SearchNormalizer` + tests |
+| Arabic/English normalization | A | Verified | `SearchNormalizer` unit tests pass in CI |
 | Title search | A | Written | |
 | PDF text, handwriting, tags, headings, transcripts | B–C | Not started | SQLite FTS5 planned |
 | "Where have I studied this?", highlight compilation, image occlusion | B–C | Not started | |
@@ -178,11 +180,11 @@ explicit scope from the build brief only. Add researched features as new rows wi
 
 | Item | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Versioned file format + migrations | A | Written | Tests written, not run |
-| Atomic saves, autosave, index rebuild | A | Written | |
+| Versioned file format + migrations | A | Verified | Covered by the core unit tests |
+| Atomic saves, autosave, index rebuild | A | Sim-verified | Kill-and-relaunch test keeps ink; index refresh after kill seen. Lost-database rebuild untested |
 | Lazy page loading for long documents | A | Written | |
-| Core unit tests | A | Written | Never executed |
-| Runnable Xcode project | A | Partial | `project.yml` for XcodeGen; project not generated or built |
+| Core unit tests | A | Verified | 20 tests pass in CI (Linux, Swift 6.0), 2026-11-10 |
+| Runnable Xcode project | A | Verified | XcodeGen + Xcode 16.4 build passes in CI, 2026-11-10 |
 | Backend schema, migrations, functions | C–E | Not started | |
 | `.env.example` | A | Written | Placeholders only |
 | Asset license inventory | D | Not started | No third-party assets yet. Code dependency: GRDB.swift (MIT) |
@@ -190,5 +192,6 @@ explicit scope from the build brief only. Add researched features as new rows wi
 
 ## Acceptance checks
 
-None of the acceptance checks in the brief has been executed. Each needs a Mac and, for Pencil,
-a physical iPad. Record results in PROGRESS.md when run.
+Only one check from the brief has been partly executed: "write, force-close, reopen, verify
+content recovery" passes on the simulator with finger input (not with Apple Pencil, not on a device).
+Every other acceptance check is still open. Record results in PROGRESS.md when run.

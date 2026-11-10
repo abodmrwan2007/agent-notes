@@ -6,55 +6,74 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 
 | Item | Status |
 | --- | --- |
-| Milestone A source code | Written |
-| Swift compilation (core package or app) | **Never executed.** No Swift toolchain on the authoring machine |
-| Core unit tests (`swift test`) | **Never executed** |
-| iPad simulator / device run | **Never executed** |
-| Apple Pencil test | **Never executed** |
-| Static checks (`python tools/check_strings.py`) | Passed on 2026-11-10 (119 strings, 4 JSON files, 27 Swift files) |
-| Git repository | Not initialized: `git` is not installed on the authoring machine |
+| Milestone A source code | Written and compiling |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (GitHub Actions run 42816099862, 2026-11-10) |
+| Core unit tests | **20 tests pass** in CI on Linux (Swift 6.0) |
+| UI smoke tests on an iPad Pro simulator | **3 tests pass** in CI; 13 screenshots inspected by eye |
+| Static checks (`python tools/check_strings.py`) | Pass |
+| Physical iPad run | **Never executed** |
+| Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
+| PDF import with a real PDF | **Never executed** (no test drives the file picker yet) |
 
-Expect compile errors on first build. The code was written carefully against known APIs but nothing
-has been checked by a compiler. The first Mac session should fix those before any new feature work.
+Repository: private, `github.com/abodmrwan2007/agent-notes`. CI: `.github/workflows/ci.yml`
+(core tests and static checks on Linux, then build + UI tests on macOS). Documentation-only pushes
+skip CI.
 
-## Authoring environment (2026-11-10)
+## What the simulator run proved (inspected screenshots, 2026-11-10)
 
-Windows 10, PowerShell. Available: Node 24, Python 3.12, winget. Missing: git, Swift, Xcode, Docker,
-WSL distro, Supabase CLI, Blender.
+- Launch into an empty library; create a ruled notebook; editor opens.
+- Finger strokes render; undo and redo work; thumbnails update after autosave.
+- Add a second page (grid template); page indicator follows.
+- Close to library: cover shows the ink and page count.
+- Terminate and relaunch: notebook, both pages and ink are intact.
+- Write, wait 2 s, kill the process with the editor open, relaunch: the stroke survived, and the
+  library cover is up to date.
+- Flattened PDF export completes and the share sheet shows a 127 KB PDF.
+- Arabic launch: right-to-left layout, translated labels, localized date.
 
-## What exists (Milestone A)
+## Bugs found by the simulator run and fixed
 
-- Core package: document manifest model, versioned codec with migration chain, package layout,
-  page operations, PDF crop/rotation geometry, template geometry, bilingual search normalizer, tests.
-- App: library (SQLite/GRDB index, folders, favorites, trash, sort, title search, rename, duplicate,
-  move), PDF and native-package import, blank notebooks with 5 templates, editor (lazy page stack,
-  zoom, PencilKit ink per page, own toolbar, undo/redo, thumbnails, page add/duplicate/reorder/
-  delete/bookmark/template change), debounced atomic autosave, flattened PDF export, native package
-  export, settings, Arabic + English UI, honest placeholder screens for Study/Atlas/Community.
+1. Library cover and page count were stale after a kill (modification date was only written on an
+   orderly close). Now written with every autosave, and stale index rows are refreshed at launch.
+2. Empty strip at the bottom of the editor (safe area). Pages now extend under the home indicator.
+3. Multi-page documents opened scrolled into the middle of page 1 (setting the zoom scale keeps
+   the viewport centre). Now opens at the top.
 
-## First tasks on a Mac (in order)
+## Working environment
 
-1. `brew install xcodegen && xcodegen generate`
-2. `swift test --package-path Packages/AgentNotesCore` and fix failures.
-3. Build the app; fix compile errors. Likely spots: GRDB record conformances
-   (`App/Storage/LibraryDatabase.swift`), SwiftUI overload resolution in `LibraryView.swift` and
-   `EditorScreen.swift`, `@Observable` + `init` in `EditorModel.swift`.
-4. Run the README demo path on a simulator, then on an iPad with Pencil.
-5. Verify the device-only risks below and record results here.
+Authoring machine: Windows 10, no Xcode. Portable Git and GitHub CLI live in
+`C:\Users\lenovo\tools` (not installed system-wide; prepend `mingit\cmd` and `gh\bin` to PATH).
+All compilation and testing happens in GitHub Actions. An attempt to install Visual Studio Build
+Tools + Swift locally was cancelled at the UAC prompt and is no longer needed.
 
-## Unverified behaviour to check on device
+Private-repository macOS minutes are limited and billed at a multiple; a full run takes about
+4–5 minutes. Batch changes rather than pushing one-line fixes.
+
+## Loop for every change
+
+```
+python tools/check_strings.py
+git add -A && git commit -m "..." && git push
+gh run watch <id> --exit-status
+gh run download <id> --dir <scratch>      # screenshots/ and build-log/
+```
+
+Then look at the screenshots. A green run is not enough: two of the three bugs above passed the
+assertions and were only visible in the pictures.
+
+## Still unverified (needs a device, or a test that does not exist yet)
 
 | Risk | Where | What to check |
 | --- | --- | --- |
-| PDF rotation/crop drawing | `PageRenderer.drawBackground` | Assumes `PDFPage.draw(with:to:)` applies crop box and rotation and places the page at the origin. Test with 90/180/270-rotated and cropped PDFs; ink must stay aligned on screen and in export |
-| Ink sharpness when zoomed | `EditorCanvasController` | Each page's `PKCanvasView` is scaled by an ancestor transform. Strokes may look soft at high zoom. If so, re-render at the zoom scale or switch to per-canvas zoom |
-| Finger scroll vs Pencil draw | `PageView.load`, `applyDrawingPolicy` | With `.pencilOnly`, one finger must scroll the outer scroll view; with finger drawing on, two fingers scroll |
-| Programmatic drawing assignment | `PageView.load` | `canvasViewDrawingDidChange` must not trigger a save when a page is merely loaded |
-| Undo across pages | `EditorCanvasController.undoManager` | Canvases should register with the controller's undo manager; undo on a page scrolled far away |
-| Sharing a package directory | `EditorScreen.export` | `UIActivityViewController` with a `.agentnote` directory: Save to Files and AirDrop; re-import through the picker |
-| Tiled PDF drawing off-main | `PageBackgroundView.draw` | No crashes or blank tiles on long PDFs while scrolling fast |
-| Force-quit recovery | `InkAutosaver` | Write, force-quit within 1 s, relaunch. Up to `autosaveDelay` (0.8 s) of strokes can be lost by design if the process is killed without backgrounding |
-| Long documents | `EditorCanvasController.rebuild` | 500+ page PDF: memory stays flat while scrolling; open time acceptable |
+| PDF import, rotation/crop drawing | `DocumentStore.importPDF`, `PageRenderer.drawBackground` | Import real PDFs including 90/180/270-rotated and cropped pages; ink alignment on screen and in export. Next step: bundle fixture PDFs and import them through a test launch argument |
+| Exported PDF content | `PDFExporter` | Only "share sheet appears with a PDF" is tested. Open the file in an external viewer and compare |
+| Ink sharpness when zoomed | `EditorCanvasController` | Canvas is scaled by an ancestor transform; strokes may look soft at high zoom |
+| Pencil vs finger | `PageView.load`, `applyDrawingPolicy` | With Pencil-only mode, one finger must scroll; pressure/tilt rendering |
+| Undo across far-apart pages | `EditorCanvasController.undoManager` | |
+| Native package export/import | `EditorScreen.export`, `DocumentStore.importPackage` | Sharing a directory through the share sheet; re-import |
+| Long documents | `EditorCanvasController.rebuild` | 500+ page PDF: memory while scrolling, open time |
+| Library actions | `LibraryView` | Folders, move, trash/restore, duplicate, rename, sort and search have no UI test yet |
+| Dark mode, rotation, split view | whole app | Not captured yet |
 
 ## Known gaps inside Milestone A scope
 
@@ -63,28 +82,20 @@ WSL distro, Supabase CLI, Blender.
 - Page deletion is not undoable (confirmation dialog instead; undo history is cleared).
 - Exported PDF does not carry over the source PDF's hyperlinks or outline.
 - Library search covers titles only. Full-text search is Milestone B.
-- No app icon artwork (empty AppIcon set: Xcode will warn).
-- No recovery journal beyond per-file atomic writes and index rebuild from packages.
+- No app icon artwork (empty AppIcon set).
 - Password-protected PDFs are rejected with a message.
+- One compiler warning: non-Sendable `NSString` capture in `ThumbnailService.pageThumbnail`.
 
 ## Decisions waiting for the owner
 
 1. Exact annual Pro price (provisional USD 19.99/year) before creating App Store products.
 2. Confirm the "2 one-time atlas sessions" interpretation before public release.
 3. Bundle identifier / Apple developer team (currently placeholder `com.agentnotes.app`).
-4. Whether to install the Swift toolchain on the Windows machine so the core package tests can run
-   there, or to do all compilation on a Mac.
 
-## Next milestones
+## Next steps, in order
 
-See [FEATURE_MATRIX.md](FEATURE_MATRIX.md). Do not start Milestone B features before Milestone A
-compiles and the demo path passes.
-
-## Verification commands
-
-```
-python tools/check_strings.py                                  # anywhere
-swift test --package-path Packages/AgentNotesCore              # Mac (or any Swift toolchain)
-xcodegen generate                                              # Mac
-xcodebuild -project AgentNotes.xcodeproj -scheme AgentNotes -destination 'platform=iOS Simulator,name=iPad Pro 13-inch (M4)' build
-```
+1. Swift Playgrounds (`.swiftpm`) variant so the owner can run the app on their own iPad with
+   Apple Pencil, without a Mac or a paid developer account. Unverified whether GRDB builds there.
+2. Fixture PDFs (rotated, cropped, long) + a UI test for import, annotation alignment and export.
+3. UI tests for library actions, dark mode and landscape.
+4. Then Milestone B. See [FEATURE_MATRIX.md](FEATURE_MATRIX.md).
