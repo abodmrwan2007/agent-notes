@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Cheap Linux job: static checks and the platform-neutral core package.
+  core:
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Core unit tests
+        run: swift test --package-path Packages/AgentNotesCore
+
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Strings, JSON and delimiter checks
+        run: python3 tools/check_strings.py
+
+  # macOS job: generates the Xcode project and compiles the iPad app for the simulator.
+  # macOS minutes are billed at a higher rate on private repositories, so this only
+  # runs after the cheap jobs pass.
+  app:
+    needs: [core, static-checks]
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: xcodebuild -version
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate project
+        run: xcodegen generate
+      - name: Build for iPad simulator
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project AgentNotes.xcodeproj \
+            -scheme AgentNotes \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | tee build.log | grep -E "error:|warning: unre|BUILD |\*\* " || true
+          grep -q "BUILD SUCCEEDED" build.log
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log

@@ -1,0 +1,1196 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld pages": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld صفحة"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حول"
+          }
+        }
+      }
+    },
+    "Add Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة صفحة"
+          }
+        }
+      }
+    },
+    "All Notes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الملاحظات"
+          }
+        }
+      }
+    },
+    "All Notes (no folder)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الملاحظات (بلا مجلد)"
+          }
+        }
+      }
+    },
+    "All notebooks in the trash will be removed from this device. This cannot be undone.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستُحذف كل الدفاتر الموجودة في السلة من هذا الجهاز. لا يمكن التراجع عن ذلك."
+          }
+        }
+      }
+    },
+    "Atlas": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأطلس"
+          }
+        }
+      }
+    },
+    "Back to Library": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى المكتبة"
+          }
+        }
+      }
+    },
+    "Blank": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فارغ"
+          }
+        }
+      }
+    },
+    "Bookmark Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إشارة مرجعية للصفحة"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء"
+          }
+        }
+      }
+    },
+    "Change Template": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيير القالب"
+          }
+        }
+      }
+    },
+    "Circle strokes to select them, then drag to move.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم دائرة حول الخطوط لتحديدها ثم اسحب لتحريكها."
+          }
+        }
+      }
+    },
+    "Color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون"
+          }
+        }
+      }
+    },
+    "Community": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجتمع"
+          }
+        }
+      }
+    },
+    "Cornell": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كورنيل"
+          }
+        }
+      }
+    },
+    "Create a notebook or import a PDF to start writing.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنشئ دفترًا أو استورد ملف PDF لتبدأ الكتابة."
+          }
+        }
+      }
+    },
+    "Custom color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون مخصص"
+          }
+        }
+      }
+    },
+    "Date Created": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ الإنشاء"
+          }
+        }
+      }
+    },
+    "Date Modified": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ التعديل"
+          }
+        }
+      }
+    },
+    "Default template": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القالب الافتراضي"
+          }
+        }
+      }
+    },
+    "Delete Folder": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف المجلد"
+          }
+        }
+      }
+    },
+    "Delete Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الصفحة"
+          }
+        }
+      }
+    },
+    "Delete Permanently": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف نهائي"
+          }
+        }
+      }
+    },
+    "Delete permanently?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف نهائي؟"
+          }
+        }
+      }
+    },
+    "Delete this folder?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذا المجلد؟"
+          }
+        }
+      }
+    },
+    "Delete this page?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذه الصفحة؟"
+          }
+        }
+      }
+    },
+    "Document format": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنسيق المستند"
+          }
+        }
+      }
+    },
+    "Dot Grid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقاط"
+          }
+        }
+      }
+    },
+    "Draw with finger": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرسم بالإصبع"
+          }
+        }
+      }
+    },
+    "Duplicate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكرار"
+          }
+        }
+      }
+    },
+    "Duplicate Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكرار الصفحة"
+          }
+        }
+      }
+    },
+    "Duplicating…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ التكرار…"
+          }
+        }
+      }
+    },
+    "Editable notebook package": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حزمة دفتر قابلة للتعديل"
+          }
+        }
+      }
+    },
+    "Empty Trash": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إفراغ السلة"
+          }
+        }
+      }
+    },
+    "Empty the trash?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إفراغ سلة المحذوفات؟"
+          }
+        }
+      }
+    },
+    "Eraser": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ممحاة"
+          }
+        }
+      }
+    },
+    "Eraser mode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع الممحاة"
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصدير"
+          }
+        }
+      }
+    },
+    "Exporting…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ التصدير…"
+          }
+        }
+      }
+    },
+    "Favorite": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفضلة"
+          }
+        }
+      }
+    },
+    "Favorites": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المفضلة"
+          }
+        }
+      }
+    },
+    "Flashcards, quizzes, focus timer, scientific calculators and the periodic table will live here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستكون هنا البطاقات التعليمية والاختبارات ومؤقت التركيز والآلات الحاسبة العلمية والجدول الدوري."
+          }
+        }
+      }
+    },
+    "Folders": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجلدات"
+          }
+        }
+      }
+    },
+    "Grid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مربعات"
+          }
+        }
+      }
+    },
+    "Highlighter": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم تظليل"
+          }
+        }
+      }
+    },
+    "Import": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد"
+          }
+        }
+      }
+    },
+    "Import PDF": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد PDF"
+          }
+        }
+      }
+    },
+    "Importing…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الاستيراد…"
+          }
+        }
+      }
+    },
+    "Lasso": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد حر"
+          }
+        }
+      }
+    },
+    "Library": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المكتبة"
+          }
+        }
+      }
+    },
+    "Move to": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى"
+          }
+        }
+      }
+    },
+    "Move to Trash": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل إلى السلة"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم"
+          }
+        }
+      }
+    },
+    "New Folder": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد جديد"
+          }
+        }
+      }
+    },
+    "New Notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دفتر جديد"
+          }
+        }
+      }
+    },
+    "New Subfolder": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد فرعي جديد"
+          }
+        }
+      }
+    },
+    "New notebooks": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفاتر الجديدة"
+          }
+        }
+      }
+    },
+    "No favorites yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مفضلات بعد"
+          }
+        }
+      }
+    },
+    "No notebooks here": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد دفاتر هنا"
+          }
+        }
+      }
+    },
+    "Not available in this build.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير متاح في هذه النسخة."
+          }
+        }
+      }
+    },
+    "Notebooks you delete stay here until you remove them permanently.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبقى الدفاتر المحذوفة هنا إلى أن تحذفها نهائيًا."
+          }
+        }
+      }
+    },
+    "Notebooks you open will appear here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستظهر هنا الدفاتر التي تفتحها."
+          }
+        }
+      }
+    },
+    "Notes are stored only on this device in this build. Sync, AI features, subscriptions and the atlas are not implemented yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحفظ الملاحظات على هذا الجهاز فقط في هذه النسخة. المزامنة وميزات الذكاء الاصطناعي والاشتراكات والأطلس غير منفَّذة بعد."
+          }
+        }
+      }
+    },
+    "Nothing opened yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُفتح شيء بعد"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موافق"
+          }
+        }
+      }
+    },
+    "Open": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح"
+          }
+        }
+      }
+    },
+    "Opt-in sharing stays disabled until reporting, blocking and moderation services exist.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبقى المشاركة الاختيارية معطّلة إلى أن تتوفر خدمات الإبلاغ والحظر والإشراف."
+          }
+        }
+      }
+    },
+    "PDF with annotations (flattened)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF مع التعليقات (مسطّح)"
+          }
+        }
+      }
+    },
+    "Page %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفحة %lld"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفحة %1$lld من %2$lld"
+          }
+        }
+      }
+    },
+    "Page actions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات الصفحة"
+          }
+        }
+      }
+    },
+    "Page thumbnails": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مصغّرات الصفحات"
+          }
+        }
+      }
+    },
+    "Partial": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جزئي"
+          }
+        }
+      }
+    },
+    "Password-protected PDFs are not supported yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات PDF المحمية بكلمة مرور غير مدعومة بعد."
+          }
+        }
+      }
+    },
+    "Pen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم حبر"
+          }
+        }
+      }
+    },
+    "Pencil": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم رصاص"
+          }
+        }
+      }
+    },
+    "Planned for milestone %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطط له في المرحلة %@."
+          }
+        }
+      }
+    },
+    "Recents": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأخيرة"
+          }
+        }
+      }
+    },
+    "Redo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Remove Bookmark": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الإشارة المرجعية"
+          }
+        }
+      }
+    },
+    "Remove Favorite": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة من المفضلة"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية"
+          }
+        }
+      }
+    },
+    "Rename Folder": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية المجلد"
+          }
+        }
+      }
+    },
+    "Rename Notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تسمية الدفتر"
+          }
+        }
+      }
+    },
+    "Restore": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة"
+          }
+        }
+      }
+    },
+    "Ruled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسطّر"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ"
+          }
+        }
+      }
+    },
+    "Search titles": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في العناوين"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
+        }
+      }
+    },
+    "Something went wrong": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدث خطأ"
+          }
+        }
+      }
+    },
+    "Sort by": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ترتيب حسب"
+          }
+        }
+      }
+    },
+    "Storage unavailable": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التخزين غير متاح"
+          }
+        }
+      }
+    },
+    "Study": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدراسة"
+          }
+        }
+      }
+    },
+    "Subfolders are removed. Notes inside are kept and moved to All Notes.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُحذف المجلدات الفرعية، وتبقى الملاحظات وتُنقل إلى «كل الملاحظات»."
+          }
+        }
+      }
+    },
+    "The handwriting on one page could not be read. That page is shown read-only to protect the saved file.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الكتابة في إحدى الصفحات. تُعرض تلك الصفحة للقراءة فقط حمايةً للملف المحفوظ."
+          }
+        }
+      }
+    },
+    "The interactive anatomy atlas starts with a heart module. It needs reviewed 3D assets that do not exist yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبدأ أطلس التشريح التفاعلي بوحدة القلب، ويحتاج إلى نماذج ثلاثية الأبعاد مُراجَعة غير متوفرة بعد."
+          }
+        }
+      }
+    },
+    "The notebook could not be saved.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الدفتر."
+          }
+        }
+      }
+    },
+    "The notes library could not be opened on this device.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح مكتبة الملاحظات على هذا الجهاز."
+          }
+        }
+      }
+    },
+    "The page and its handwriting will be removed. This cannot be undone, and it clears the undo history.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ستُحذف الصفحة وما فيها من كتابة. لا يمكن التراجع عن ذلك، وسيُمسح سجل التراجع."
+          }
+        }
+      }
+    },
+    "Thickness": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماكة"
+          }
+        }
+      }
+    },
+    "This PDF has no pages.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الملف لا يحتوي على صفحات."
+          }
+        }
+      }
+    },
+    "This file could not be read as a PDF.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة هذا الملف كملف PDF."
+          }
+        }
+      }
+    },
+    "This file is not a valid notebook package.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الملف ليس حزمة دفتر صالحة."
+          }
+        }
+      }
+    },
+    "This notebook and its handwriting will be removed from this device. This cannot be undone.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيُحذف هذا الدفتر وما فيه من كتابة من هذا الجهاز. لا يمكن التراجع عن ذلك."
+          }
+        }
+      }
+    },
+    "This notebook could not be opened": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح هذا الدفتر"
+          }
+        }
+      }
+    },
+    "Title": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العنوان"
+          }
+        }
+      }
+    },
+    "Touch and hold a notebook and choose Favorite.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط مطولًا على دفتر واختر «مفضلة»."
+          }
+        }
+      }
+    },
+    "Trash": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سلة المحذوفات"
+          }
+        }
+      }
+    },
+    "Trash is empty": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السلة فارغة"
+          }
+        }
+      }
+    },
+    "Undo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تراجع"
+          }
+        }
+      }
+    },
+    "Untitled notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دفتر بلا عنوان"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار"
+          }
+        }
+      }
+    },
+    "When off, only Apple Pencil draws and one finger scrolls. When on, one finger draws and two fingers scroll.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند الإيقاف يرسم قلم Apple Pencil فقط ويُمرَّر بإصبع واحد. عند التشغيل يرسم إصبع واحد ويُمرَّر بإصبعين."
+          }
+        }
+      }
+    },
+    "Whole stroke": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخط كاملًا"
+          }
+        }
+      }
+    },
+    "Workspace": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مساحة العمل"
+          }
+        }
+      }
+    },
+    "Writing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكتابة"
+          }
+        }
+      }
+    },
+    "Your latest strokes could not be saved.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ آخر ما كتبته."
+          }
+        }
+      }
+    },
+    "copy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخة"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
