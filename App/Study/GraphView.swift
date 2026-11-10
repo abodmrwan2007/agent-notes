@@ -154,7 +154,8 @@ struct GraphView: View {
         while x <= xRange.upperBound {
             grid.move(to: point(x, yRange.lowerBound))
             grid.addLine(to: point(x, yRange.upperBound))
-            if abs(x) > step / 2 {
+            // No label on the axis itself or where it would be cut off by the edge.
+            if abs(x) > step / 2, point(x, 0).x > 16, point(x, 0).x < size.width - 16 {
                 let labelY = min(max(point(0, 0).y + 10, 10), size.height - 10)
                 context.draw(
                     Text(verbatim: MathFormatter.format(x)).font(.caption2).foregroundColor(.gray),
@@ -166,7 +167,7 @@ struct GraphView: View {
         while y <= yRange.upperBound {
             grid.move(to: point(xRange.lowerBound, y))
             grid.addLine(to: point(xRange.upperBound, y))
-            if abs(y) > step / 2 {
+            if abs(y) > step / 2, point(0, y).y > 12, point(0, y).y < size.height - 12 {
                 let labelX = min(max(point(0, 0).x + 14, 16), size.width - 16)
                 context.draw(
                     Text(verbatim: MathFormatter.format(y)).font(.caption2).foregroundColor(.gray),

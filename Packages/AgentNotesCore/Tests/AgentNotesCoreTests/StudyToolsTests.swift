@@ -116,6 +116,30 @@ final class MathExpressionTests: XCTestCase {
 }
 
 final class GraphSamplerTests: XCTestCase {
+    func testBranchesReachTheEdgeEvenWhenThePoleIsSampledExactly() throws {
+        // 401 samples on -10...10 put a sample exactly on x = 0, where 1/x is undefined.
+        let yRange = -30.0...30.0
+        let segments = GraphSampler.segments(
+            for: try MathExpression("1/x"), xRange: -10...10, yRange: yRange, samples: 401)
+        XCTAssertEqual(segments.count, 2)
+        XCTAssertLessThan(segments[0].map(\.y).min() ?? 0, yRange.lowerBound)
+        XCTAssertGreaterThan(segments[1].map(\.y).max() ?? 0, yRange.upperBound)
+        XCTAssertTrue(segments[0].allSatisfy { $0.x < 0 })
+        XCTAssertTrue(segments[1].allSatisfy { $0.x > 0 })
+        // Points stay ordered left to right after the extra points are added.
+        for segment in segments {
+            XCTAssertEqual(segment.map(\.x), segment.map(\.x).sorted())
+        }
+    }
+
+    func testCurveReachesTheEdgeOfItsDomain() throws {
+        let segments = GraphSampler.segments(
+            for: try MathExpression("sqrt(x)"), xRange: -4...4, yRange: -1...3, samples: 200)
+        XCTAssertEqual(segments.count, 1)
+        XCTAssertLessThan(segments[0].first?.x ?? 1, 0.001)
+        XCTAssertGreaterThanOrEqual(segments[0].first?.x ?? -1, 0)
+    }
+
     func testContinuousFunctionIsOneSegment() throws {
         let segments = GraphSampler.segments(
             for: try MathExpression("sin(x)"), xRange: -10...10, yRange: -2...2, samples: 400)

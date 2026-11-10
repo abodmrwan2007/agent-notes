@@ -494,20 +494,61 @@ public enum GraphSampler {
             try? expression.evaluate(variables: [variable: x], angleMode: angleMode)
         }
 
-        // Unclamped previous sample; nil after an undefined point.
+        func clamped(_ point: PagePoint) -> PagePoint {
+            PagePoint(x: point.x, y: min(max(point.y, low), high))
+        }
+
+        /// Extra points from `start` toward a break at `limitX`, found by bisection, so a branch
+        /// runs all the way to the edge of the window (or to the edge of the function's domain)
+        /// instead of stopping at the last regular sample.
+        func approach(from start: PagePoint, toward limitX: Double) -> [PagePoint] {
+            var points: [PagePoint] = []
+            var last = start
+            var near = start.x
+            var far = limitX
+            for _ in 0..<24 {
+                let middle = (near + far) / 2
+                guard let y = value(at: middle) else {
+                    far = middle
+                    continue
+                }
+                let candidate = PagePoint(x: middle, y: y)
+                if isDiscontinuity(from: last, to: candidate, span: span, value: value) {
+                    far = middle
+                    continue
+                }
+                points.append(clamped(candidate))
+                last = candidate
+                near = middle
+                if y < low || y > high { break }
+            }
+            return points
+        }
+
+        // Unclamped previous sample (nil after an undefined point) and the x of that undefined point.
         var previous: PagePoint?
+        var undefinedX: Double?
         for index in 0..<samples {
             let x = xRange.lowerBound + Double(index) * step
             guard let y = value(at: x) else {
+                if let previous { current.append(contentsOf: approach(from: previous, toward: x)) }
                 flush()
                 previous = nil
+                undefinedX = x
                 continue
             }
-            if let previous, isDiscontinuity(from: previous, to: PagePoint(x: x, y: y), span: span, value: value) {
-                flush()
+            let point = PagePoint(x: x, y: y)
+            if let previous {
+                if isDiscontinuity(from: previous, to: point, span: span, value: value) {
+                    current.append(contentsOf: approach(from: previous, toward: x))
+                    flush()
+                    current = approach(from: point, toward: previous.x).reversed()
+                }
+            } else if let undefinedX {
+                current = approach(from: point, toward: undefinedX).reversed()
             }
-            current.append(PagePoint(x: x, y: min(max(y, low), high)))
-            previous = PagePoint(x: x, y: y)
+            current.append(clamped(point))
+            previous = point
         }
         flush()
         return segments

@@ -57,6 +57,8 @@ struct PeriodicTableView: View {
                     table(matches: matches)
                         .padding(.bottom, 8)
                 }
+                // Left-to-right in every language, so the table opens on group 1 (hydrogen).
+                .environment(\.layoutDirection, .leftToRight)
                 legend
                 Text("Development data set. It has not yet been validated against IUPAC values and must not be used as a reference.")
                     .font(.footnote)
