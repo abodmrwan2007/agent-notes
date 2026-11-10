@@ -24,8 +24,6 @@ AR = {
     "Settings": "الإعدادات",
     "Not available in this build.": "غير متاح في هذه النسخة.",
     "Planned for milestone %@.": "مخطط له في المرحلة %@.",
-    "Flashcards, quizzes, focus timer, scientific calculators and the periodic table will live here.":
-        "ستكون هنا البطاقات التعليمية والاختبارات ومؤقت التركيز والآلات الحاسبة العلمية والجدول الدوري.",
     "The interactive anatomy atlas starts with a heart module. It needs reviewed 3D assets that do not exist yet.":
         "يبدأ أطلس التشريح التفاعلي بوحدة القلب، ويحتاج إلى نماذج ثلاثية الأبعاد مُراجَعة غير متوفرة بعد.",
     "Opt-in sharing stays disabled until reporting, blocking and moderation services exist.":
@@ -147,6 +145,106 @@ AR = {
     "The handwriting on one page could not be read. That page is shown read-only to protect the saved file.":
         "تعذّرت قراءة الكتابة في إحدى الصفحات. تُعرض تلك الصفحة للقراءة فقط حمايةً للملف المحفوظ.",
     "The notebook could not be saved.": "تعذّر حفظ الدفتر.",
+    # Study tools panel
+    "Scientific Calculator": "الآلة الحاسبة العلمية",
+    "Graphing Calculator": "راسم الدوال",
+    "Periodic Table": "الجدول الدوري",
+    "Focus Timer": "مؤقت التركيز",
+    "Trigonometry, logarithms, powers and factorials, computed on this device.":
+        "دوال مثلثية ولوغاريتمات وقوى ومضروب، تُحسب على هذا الجهاز.",
+    "Plot up to three functions of x. Drag to move, pinch to zoom.":
+        "ارسم حتى ثلاث دوال في x. اسحب للتحريك وقرّب بإصبعين.",
+    "All 118 elements with symbols, masses and groups.": "العناصر الـ118 كلها مع الرموز والكتل والمجموعات.",
+    "Work and break sessions that keep counting in the background.":
+        "جلسات عمل واستراحة يستمر عدّها في الخلفية.",
+    "Step-by-step Math Solver": "حل المسائل خطوة بخطوة",
+    "Needs a symbolic engine or a verified AI explanation.": "يحتاج إلى محرك رمزي أو شرح بالذكاء الاصطناعي مُتحقَّق منه.",
+    "Handwriting Calculator": "آلة حاسبة بخط اليد",
+    "Needs handwriting recognition, which is not chosen yet.": "تحتاج إلى التعرّف على خط اليد، ولم يُختر مزوّده بعد.",
+    "Translation Tool": "أداة الترجمة",
+    "Needs a translation provider.": "تحتاج إلى مزوّد ترجمة.",
+    "Study Games": "ألعاب دراسية",
+    "Needs reviewed study content.": "تحتاج إلى محتوى دراسي مُراجَع.",
+    "Tools": "الأدوات",
+    "Removed": "المُزالة",
+    "Add Back": "إعادة",
+    "Not available yet": "غير متاحة بعد",
+    "Remove from Panel": "إزالة من اللوحة",
+    "Favorites Only": "المفضلة فقط",
+    "No favorite tools yet. Swipe a tool to the right to add it.":
+        "لا توجد أدوات مفضلة بعد. اسحب أداة إلى اليمين لإضافتها.",
+    "All tools were removed. Add them back below.": "أُزيلت كل الأدوات. أعدها من الأسفل.",
+    # Calculator
+    "Enter an expression.": "أدخل عبارة حسابية.",
+    "This character is not understood: %@": "رمز غير مفهوم: %@",
+    "The expression is incomplete.": "العبارة غير مكتملة.",
+    "Unexpected symbol: %@": "رمز في غير موضعه: %@",
+    "A closing parenthesis is missing.": "ينقص قوس إغلاق.",
+    "Unknown name: %@": "اسم غير معروف: %@",
+    "Wrong number of values for %@.": "عدد القيم غير صحيح للدالة %@.",
+    "Division by zero.": "قسمة على صفر.",
+    "Not defined for this value: %@": "غير معرّفة عند هذه القيمة: %@",
+    "The result is too large.": "الناتج أكبر من أن يُعرض.",
+    "Angle unit": "وحدة الزاوية",
+    "Degrees": "درجات",
+    "Radians": "راديان",
+    "Expression": "العبارة",
+    "History": "السجل",
+    "Results you calculate appear here.": "تظهر هنا النتائج التي تحسبها.",
+    # Graph
+    "Function of x": "دالة في x",
+    "Functions": "الدوال",
+    "Use x as the variable, for example x^2, 1/x or 2sin(x). Angles are in radians.":
+        "استخدم x متغيرًا، مثل x^2 أو 1/x أو 2sin(x). الزوايا بالراديان.",
+    "View": "العرض",
+    "Zoom In": "تكبير",
+    "Zoom Out": "تصغير",
+    "Reset View": "إعادة ضبط العرض",
+    "Graph": "الرسم البياني",
+    # Periodic table
+    "Alkali metal": "فلز قلوي",
+    "Alkaline earth metal": "فلز قلوي ترابي",
+    "Transition metal": "فلز انتقالي",
+    "Post-transition metal": "فلز بعد انتقالي",
+    "Metalloid": "شبه فلز",
+    "Nonmetal": "لافلز",
+    "Halogen": "هالوجين",
+    "Noble gas": "غاز نبيل",
+    "Lanthanide": "لانثانيد",
+    "Actinide": "أكتينيد",
+    "Development data set. It has not yet been validated against IUPAC values and must not be used as a reference.":
+        "بيانات تطويرية لم تُدقَّق بعد مقابل قيم IUPAC، ولا يجوز اعتمادها مرجعًا.",
+    "Name, symbol or number": "الاسم أو الرمز أو الرقم",
+    "Atomic number": "العدد الذري",
+    "Symbol": "الرمز",
+    "Atomic mass": "الكتلة الذرية",
+    "Period": "الدورة",
+    "Group": "المجموعة",
+    "Category": "التصنيف",
+    "Brackets show the mass number of a long-lived isotope; this element has no standard atomic weight.":
+        "القوسان يبيّنان العدد الكتلي لنظير طويل العمر؛ ليس لهذا العنصر وزن ذري قياسي.",
+    "Done": "تم",
+    # Focus timer
+    "Focus": "تركيز",
+    "Break": "استراحة",
+    "Pause": "إيقاف مؤقت",
+    "Start": "ابدأ",
+    "Resume": "متابعة",
+    "Reset": "إعادة ضبط",
+    "Completed focus sessions: %lld": "جلسات التركيز المكتملة: %lld",
+    "Focus: %lld min": "التركيز: %lld دقيقة",
+    "Break: %lld min": "الاستراحة: %lld دقيقة",
+    "Session length": "مدة الجلسة",
+    "Lengths can be changed while the timer is stopped.": "يمكن تغيير المدد والمؤقت متوقف.",
+    "Notify me when a session ends": "نبّهني عند انتهاء الجلسة",
+    "Notifications are turned off for this app in the system Settings.":
+        "الإشعارات معطّلة لهذا التطبيق في إعدادات النظام.",
+    "Only the end of the current session is announced. The timer itself keeps running without notifications.":
+        "يُعلَن عن نهاية الجلسة الحالية فقط. المؤقت نفسه يستمر في العمل دون إشعارات.",
+    "Focus session finished": "انتهت جلسة التركيز",
+    "Break finished": "انتهت الاستراحة",
+    "Time for a break.": "حان وقت الاستراحة.",
+    "Time to focus again.": "حان وقت العودة إلى التركيز.",
 }
 
 

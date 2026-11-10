@@ -23,11 +23,7 @@ struct RootView: View {
     private func detail(for item: SidebarItem) -> some View {
         switch item {
         case .study:
-            PlannedAreaView(
-                title: "Study",
-                symbol: "graduationcap",
-                milestone: "B–C",
-                summary: "Flashcards, quizzes, focus timer, scientific calculators and the periodic table will live here.")
+            StudyHomeView()
         case .atlas:
             PlannedAreaView(
                 title: "Atlas",
@@ -98,6 +94,7 @@ struct SidebarView: View {
 
             Section("Workspace") {
                 Label("Study", systemImage: "graduationcap").tag(SidebarItem.study)
+                    .accessibilityIdentifier("sidebar.study")
                 Label("Atlas", systemImage: "heart.text.square").tag(SidebarItem.atlas)
                 Label("Community", systemImage: "person.2").tag(SidebarItem.community)
                 Label("Settings", systemImage: "gearshape").tag(SidebarItem.settings)

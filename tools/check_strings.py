@@ -38,10 +38,12 @@ KEY_PATTERNS = [
     r'\.accessibilityHint\(\s*"((?:[^"\\]|\\.)*)"',
     r'\.confirmationDialog\(\s*"((?:[^"\\]|\\.)*)"',
     r'\.alert\(\s*"((?:[^"\\]|\\.)*)"',
-    r'\btitle:\s*"((?:[^"\\]|\\.)*)",\s*\n\s*symbol:',
+    r'\btitle:\s*"((?:[^"\\]|\\.)*)"',
+    r'\breason:\s*"((?:[^"\\]|\\.)*)"',
     r'\bsummary:\s*"((?:[^"\\]|\\.)*)"',
-    r':\s*LocalizedStringKey\s*=\s*[^"\n]*\?\s*"((?:[^"\\]|\\.)*)"',
-    r':\s*LocalizedStringKey\s*=\s*[^"\n]*\?\s*"(?:[^"\\]|\\.)*"\s*:\s*"((?:[^"\\]|\\.)*)"',
+    r'\bStepper\(\s*"((?:[^"\\]|\\.)*)"',
+    r':\s*LocalizedStringKey\s*=\s*[^"]*?\?\s*"((?:[^"\\]|\\.)*)"',
+    r':\s*LocalizedStringKey\s*=\s*[^"]*?\?\s*"(?:[^"\\]|\\.)*"\s*:\s*"((?:[^"\\]|\\.)*)"',
     r'\breturn\s+"((?:[^"\\]|\\.)*)"\s*$',
 ]
 
@@ -51,7 +53,7 @@ def catalog_key(literal: str, source: str) -> str:
     def replace(match: re.Match) -> str:
         expression = match.group(1)
         # String-typed interpolations in this codebase; everything else is an integer.
-        return "%@" if expression in {"milestone"} else "%lld"
+        return "%@" if expression in {"milestone", "text", "name", "function"} else "%lld"
     return re.sub(r"\\\(([^)]*)\)", replace, literal)
 
 

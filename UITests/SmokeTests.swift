@@ -144,9 +144,93 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "library.card").waitForExistence(timeout: 15))
         sleep(1)
         shot("10-library-arabic")
-        element(app, "library.card").tap()
-        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+
+        element(app, "sidebar.study").tap()
+        XCTAssertTrue(element(app, "study.tool.periodicTable").waitForExistence(timeout: 10))
+        shot("18-study-arabic")
+        element(app, "study.tool.periodicTable").tap()
+        XCTAssertTrue(element(app, "element.Fe").waitForExistence(timeout: 10))
+        sleep(1)
+        shot("19-periodic-table-arabic")
+
+        app.terminate()
+        let relaunched = launch(language: "ar")
+        XCTAssertTrue(element(relaunched, "library.card").waitForExistence(timeout: 15))
+        element(relaunched, "library.card").tap()
+        XCTAssertTrue(element(relaunched, "editor.back").waitForExistence(timeout: 15))
         sleep(2)
         shot("11-editor-arabic")
+    }
+
+    private func pressKeys(_ app: XCUIApplication, _ keys: [String]) {
+        for key in keys {
+            let button = element(app, "key.\(key)")
+            XCTAssertTrue(button.waitForExistence(timeout: 5), "calculator key \(key)")
+            button.tap()
+        }
+    }
+
+    private func goBack(_ app: XCUIApplication, from title: String) {
+        let back = app.navigationBars[title].buttons.element(boundBy: 0)
+        XCTAssertTrue(back.waitForExistence(timeout: 5), "back button on \(title)")
+        back.tap()
+    }
+
+    func test4_studyTools() {
+        let app = launch(language: "en")
+        let study = element(app, "sidebar.study")
+        XCTAssertTrue(study.waitForExistence(timeout: 15))
+        study.tap()
+        let calculator = element(app, "study.tool.calculator")
+        XCTAssertTrue(calculator.waitForExistence(timeout: 10), "study tools list")
+        shot("12-study-home")
+
+        // Scientific calculator: precedence, degree-mode trigonometry, and an error state.
+        calculator.tap()
+        let input = element(app, "calculator.input")
+        XCTAssertTrue(input.waitForExistence(timeout: 10))
+        pressKeys(app, ["2", "+", "3", "×", "4", "="])
+        XCTAssertEqual(input.value as? String, "14")
+        pressKeys(app, ["C", "sin", "3", "0", ")", "="])
+        XCTAssertEqual(input.value as? String, "0.5")
+        pressKeys(app, ["C", "2", "^", "1", "0", "="])
+        XCTAssertEqual(input.value as? String, "1024")
+        pressKeys(app, ["C", "1", "÷", "0", "="])
+        XCTAssertEqual(element(app, "calculator.status").label, "Division by zero.")
+        shot("13-calculator")
+        goBack(app, from: "Scientific Calculator")
+
+        // Graphing calculator: the default examples include a pole (1/x).
+        element(app, "study.tool.graph").tap()
+        XCTAssertTrue(element(app, "graph.plot").waitForExistence(timeout: 10))
+        sleep(1)
+        shot("14-graph")
+        element(app, "graph.zoomIn").tap()
+        element(app, "graph.zoomIn").tap()
+        sleep(1)
+        shot("15-graph-zoomed")
+        goBack(app, from: "Graphing Calculator")
+
+        // Periodic table: open an element.
+        element(app, "study.tool.periodicTable").tap()
+        let iron = element(app, "element.Fe")
+        XCTAssertTrue(iron.waitForExistence(timeout: 10))
+        shot("16-periodic-table")
+        iron.tap()
+        XCTAssertTrue(app.staticTexts["55.845"].waitForExistence(timeout: 5), "iron detail sheet")
+        shot("17-element-detail")
+        app.buttons["Done"].tap()
+        goBack(app, from: "Periodic Table")
+
+        // Focus timer: it must actually count down.
+        element(app, "study.tool.focusTimer").tap()
+        let remaining = element(app, "timer.remaining")
+        XCTAssertTrue(remaining.waitForExistence(timeout: 10))
+        XCTAssertEqual(remaining.label, "25:00")
+        element(app, "timer.start").tap()
+        sleep(3)
+        XCTAssertNotEqual(remaining.label, "25:00", "timer did not count down")
+        shot("20-focus-timer")
+        element(app, "timer.pause").tap()
     }
 }

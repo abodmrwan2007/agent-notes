@@ -11,6 +11,16 @@
         }
       }
     },
+    "A closing parenthesis is missing.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ينقص قوس إغلاق."
+          }
+        }
+      }
+    },
     "About": {
       "localizations": {
         "ar": {
@@ -21,12 +31,62 @@
         }
       }
     },
+    "Actinide": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكتينيد"
+          }
+        }
+      }
+    },
+    "Add Back": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة"
+          }
+        }
+      }
+    },
     "Add Page": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إضافة صفحة"
+          }
+        }
+      }
+    },
+    "Alkali metal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلز قلوي"
+          }
+        }
+      }
+    },
+    "Alkaline earth metal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلز قلوي ترابي"
+          }
+        }
+      }
+    },
+    "All 118 elements with symbols, masses and groups.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العناصر الـ118 كلها مع الرموز والكتل والمجموعات."
           }
         }
       }
@@ -61,12 +121,52 @@
         }
       }
     },
+    "All tools were removed. Add them back below.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُزيلت كل الأدوات. أعدها من الأسفل."
+          }
+        }
+      }
+    },
+    "Angle unit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وحدة الزاوية"
+          }
+        }
+      }
+    },
     "Atlas": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الأطلس"
+          }
+        }
+      }
+    },
+    "Atomic mass": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكتلة الذرية"
+          }
+        }
+      }
+    },
+    "Atomic number": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العدد الذري"
           }
         }
       }
@@ -101,12 +201,62 @@
         }
       }
     },
+    "Brackets show the mass number of a long-lived isotope; this element has no standard atomic weight.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القوسان يبيّنان العدد الكتلي لنظير طويل العمر؛ ليس لهذا العنصر وزن ذري قياسي."
+          }
+        }
+      }
+    },
+    "Break": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استراحة"
+          }
+        }
+      }
+    },
+    "Break finished": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهت الاستراحة"
+          }
+        }
+      }
+    },
+    "Break: %lld min": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاستراحة: %lld دقيقة"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إلغاء"
+          }
+        }
+      }
+    },
+    "Category": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصنيف"
           }
         }
       }
@@ -147,6 +297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المجتمع"
+          }
+        }
+      }
+    },
+    "Completed focus sessions: %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جلسات التركيز المكتملة: %lld"
           }
         }
       }
@@ -211,6 +371,16 @@
         }
       }
     },
+    "Degrees": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "درجات"
+          }
+        }
+      }
+    },
     "Delete Folder": {
       "localizations": {
         "ar": {
@@ -271,12 +441,42 @@
         }
       }
     },
+    "Development data set. It has not yet been validated against IUPAC values and must not be used as a reference.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بيانات تطويرية لم تُدقَّق بعد مقابل قيم IUPAC، ولا يجوز اعتمادها مرجعًا."
+          }
+        }
+      }
+    },
+    "Division by zero.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قسمة على صفر."
+          }
+        }
+      }
+    },
     "Document format": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تنسيق المستند"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم"
           }
         }
       }
@@ -361,6 +561,16 @@
         }
       }
     },
+    "Enter an expression.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدخل عبارة حسابية."
+          }
+        }
+      }
+    },
     "Eraser": {
       "localizations": {
         "ar": {
@@ -401,6 +611,16 @@
         }
       }
     },
+    "Expression": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العبارة"
+          }
+        }
+      }
+    },
     "Favorite": {
       "localizations": {
         "ar": {
@@ -421,12 +641,52 @@
         }
       }
     },
-    "Flashcards, quizzes, focus timer, scientific calculators and the periodic table will live here.": {
+    "Favorites Only": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "ستكون هنا البطاقات التعليمية والاختبارات ومؤقت التركيز والآلات الحاسبة العلمية والجدول الدوري."
+            "value": "المفضلة فقط"
+          }
+        }
+      }
+    },
+    "Focus": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تركيز"
+          }
+        }
+      }
+    },
+    "Focus Timer": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤقت التركيز"
+          }
+        }
+      }
+    },
+    "Focus session finished": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهت جلسة التركيز"
+          }
+        }
+      }
+    },
+    "Focus: %lld min": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركيز: %lld دقيقة"
           }
         }
       }
@@ -441,6 +701,46 @@
         }
       }
     },
+    "Function of x": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دالة في x"
+          }
+        }
+      }
+    },
+    "Functions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدوال"
+          }
+        }
+      }
+    },
+    "Graph": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرسم البياني"
+          }
+        }
+      }
+    },
+    "Graphing Calculator": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "راسم الدوال"
+          }
+        }
+      }
+    },
     "Grid": {
       "localizations": {
         "ar": {
@@ -451,12 +751,52 @@
         }
       }
     },
+    "Group": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المجموعة"
+          }
+        }
+      }
+    },
+    "Halogen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هالوجين"
+          }
+        }
+      }
+    },
+    "Handwriting Calculator": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "آلة حاسبة بخط اليد"
+          }
+        }
+      }
+    },
     "Highlighter": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "قلم تظليل"
+          }
+        }
+      }
+    },
+    "History": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السجل"
           }
         }
       }
@@ -491,6 +831,16 @@
         }
       }
     },
+    "Lanthanide": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لانثانيد"
+          }
+        }
+      }
+    },
     "Lasso": {
       "localizations": {
         "ar": {
@@ -501,12 +851,32 @@
         }
       }
     },
+    "Lengths can be changed while the timer is stopped.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكن تغيير المدد والمؤقت متوقف."
+          }
+        }
+      }
+    },
     "Library": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "المكتبة"
+          }
+        }
+      }
+    },
+    "Metalloid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبه فلز"
           }
         }
       }
@@ -537,6 +907,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "الاسم"
+          }
+        }
+      }
+    },
+    "Name, symbol or number": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاسم أو الرمز أو الرقم"
+          }
+        }
+      }
+    },
+    "Needs a symbolic engine or a verified AI explanation.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج إلى محرك رمزي أو شرح بالذكاء الاصطناعي مُتحقَّق منه."
+          }
+        }
+      }
+    },
+    "Needs a translation provider.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحتاج إلى مزوّد ترجمة."
+          }
+        }
+      }
+    },
+    "Needs handwriting recognition, which is not chosen yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحتاج إلى التعرّف على خط اليد، ولم يُختر مزوّده بعد."
+          }
+        }
+      }
+    },
+    "Needs reviewed study content.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحتاج إلى محتوى دراسي مُراجَع."
           }
         }
       }
@@ -581,6 +1001,16 @@
         }
       }
     },
+    "No favorite tools yet. Swipe a tool to the right to add it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد أدوات مفضلة بعد. اسحب أداة إلى اليمين لإضافتها."
+          }
+        }
+      }
+    },
     "No favorites yet": {
       "localizations": {
         "ar": {
@@ -601,12 +1031,52 @@
         }
       }
     },
+    "Noble gas": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غاز نبيل"
+          }
+        }
+      }
+    },
+    "Nonmetal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لافلز"
+          }
+        }
+      }
+    },
     "Not available in this build.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "غير متاح في هذه النسخة."
+          }
+        }
+      }
+    },
+    "Not available yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير متاحة بعد"
+          }
+        }
+      }
+    },
+    "Not defined for this value: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير معرّفة عند هذه القيمة: %@"
           }
         }
       }
@@ -651,12 +1121,42 @@
         }
       }
     },
+    "Notifications are turned off for this app in the system Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإشعارات معطّلة لهذا التطبيق في إعدادات النظام."
+          }
+        }
+      }
+    },
+    "Notify me when a session ends": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نبّهني عند انتهاء الجلسة"
+          }
+        }
+      }
+    },
     "OK": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "موافق"
+          }
+        }
+      }
+    },
+    "Only the end of the current session is announced. The timer itself keeps running without notifications.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعلَن عن نهاية الجلسة الحالية فقط. المؤقت نفسه يستمر في العمل دون إشعارات."
           }
         }
       }
@@ -751,6 +1251,16 @@
         }
       }
     },
+    "Pause": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف مؤقت"
+          }
+        }
+      }
+    },
     "Pen": {
       "localizations": {
         "ar": {
@@ -771,12 +1281,62 @@
         }
       }
     },
+    "Period": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدورة"
+          }
+        }
+      }
+    },
+    "Periodic Table": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الجدول الدوري"
+          }
+        }
+      }
+    },
     "Planned for milestone %@.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مخطط له في المرحلة %@."
+          }
+        }
+      }
+    },
+    "Plot up to three functions of x. Drag to move, pinch to zoom.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم حتى ثلاث دوال في x. اسحب للتحريك وقرّب بإصبعين."
+          }
+        }
+      }
+    },
+    "Post-transition metal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلز بعد انتقالي"
+          }
+        }
+      }
+    },
+    "Radians": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "راديان"
           }
         }
       }
@@ -821,6 +1381,26 @@
         }
       }
     },
+    "Remove from Panel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة من اللوحة"
+          }
+        }
+      }
+    },
+    "Removed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المُزالة"
+          }
+        }
+      }
+    },
     "Rename": {
       "localizations": {
         "ar": {
@@ -851,12 +1431,52 @@
         }
       }
     },
+    "Reset": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة ضبط"
+          }
+        }
+      }
+    },
+    "Reset View": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة ضبط العرض"
+          }
+        }
+      }
+    },
     "Restore": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "استعادة"
+          }
+        }
+      }
+    },
+    "Results you calculate appear here.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تظهر هنا النتائج التي تحسبها."
+          }
+        }
+      }
+    },
+    "Resume": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متابعة"
           }
         }
       }
@@ -881,12 +1501,32 @@
         }
       }
     },
+    "Scientific Calculator": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الآلة الحاسبة العلمية"
+          }
+        }
+      }
+    },
     "Search titles": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ابحث في العناوين"
+          }
+        }
+      }
+    },
+    "Session length": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة الجلسة"
           }
         }
       }
@@ -921,6 +1561,26 @@
         }
       }
     },
+    "Start": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابدأ"
+          }
+        }
+      }
+    },
+    "Step-by-step Math Solver": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حل المسائل خطوة بخطوة"
+          }
+        }
+      }
+    },
     "Storage unavailable": {
       "localizations": {
         "ar": {
@@ -941,12 +1601,42 @@
         }
       }
     },
+    "Study Games": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ألعاب دراسية"
+          }
+        }
+      }
+    },
     "Subfolders are removed. Notes inside are kept and moved to All Notes.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تُحذف المجلدات الفرعية، وتبقى الملاحظات وتُنقل إلى «كل الملاحظات»."
+          }
+        }
+      }
+    },
+    "Symbol": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرمز"
+          }
+        }
+      }
+    },
+    "The expression is incomplete.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العبارة غير مكتملة."
           }
         }
       }
@@ -1001,6 +1691,16 @@
         }
       }
     },
+    "The result is too large.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الناتج أكبر من أن يُعرض."
+          }
+        }
+      }
+    },
     "Thickness": {
       "localizations": {
         "ar": {
@@ -1017,6 +1717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "هذا الملف لا يحتوي على صفحات."
+          }
+        }
+      }
+    },
+    "This character is not understood: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمز غير مفهوم: %@"
           }
         }
       }
@@ -1061,6 +1771,26 @@
         }
       }
     },
+    "Time for a break.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حان وقت الاستراحة."
+          }
+        }
+      }
+    },
+    "Time to focus again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حان وقت العودة إلى التركيز."
+          }
+        }
+      }
+    },
     "Title": {
       "localizations": {
         "ar": {
@@ -1071,12 +1801,42 @@
         }
       }
     },
+    "Tools": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدوات"
+          }
+        }
+      }
+    },
     "Touch and hold a notebook and choose Favorite.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "اضغط مطولًا على دفتر واختر «مفضلة»."
+          }
+        }
+      }
+    },
+    "Transition metal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فلز انتقالي"
+          }
+        }
+      }
+    },
+    "Translation Tool": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أداة الترجمة"
           }
         }
       }
@@ -1101,12 +1861,42 @@
         }
       }
     },
+    "Trigonometry, logarithms, powers and factorials, computed on this device.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دوال مثلثية ولوغاريتمات وقوى ومضروب، تُحسب على هذا الجهاز."
+          }
+        }
+      }
+    },
     "Undo": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تراجع"
+          }
+        }
+      }
+    },
+    "Unexpected symbol: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمز في غير موضعه: %@"
+          }
+        }
+      }
+    },
+    "Unknown name: %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم غير معروف: %@"
           }
         }
       }
@@ -1121,12 +1911,32 @@
         }
       }
     },
+    "Use x as the variable, for example x^2, 1/x or 2sin(x). Angles are in radians.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم x متغيرًا، مثل x^2 أو 1/x أو 2sin(x). الزوايا بالراديان."
+          }
+        }
+      }
+    },
     "Version": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الإصدار"
+          }
+        }
+      }
+    },
+    "View": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض"
           }
         }
       }
@@ -1151,6 +1961,16 @@
         }
       }
     },
+    "Work and break sessions that keep counting in the background.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جلسات عمل واستراحة يستمر عدّها في الخلفية."
+          }
+        }
+      }
+    },
     "Workspace": {
       "localizations": {
         "ar": {
@@ -1171,12 +1991,42 @@
         }
       }
     },
+    "Wrong number of values for %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عدد القيم غير صحيح للدالة %@."
+          }
+        }
+      }
+    },
     "Your latest strokes could not be saved.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر حفظ آخر ما كتبته."
+          }
+        }
+      }
+    },
+    "Zoom In": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكبير"
+          }
+        }
+      }
+    },
+    "Zoom Out": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصغير"
           }
         }
       }
