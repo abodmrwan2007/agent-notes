@@ -35,6 +35,14 @@ final class SmokeTests: XCTestCase {
         app.descendants(matching: .any).matching(identifier: identifier).firstMatch
     }
 
+    /// Taps the centre of an element by coordinate. Needed for SwiftUI rows and menus whose
+    /// identifier lands on a child (an icon) that XCUITest does not consider hittable.
+    private func tap(_ app: XCUIApplication, _ identifier: String, timeout: TimeInterval = 10) {
+        let target = element(app, identifier)
+        XCTAssertTrue(target.waitForExistence(timeout: timeout), "missing element \(identifier)")
+        target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+    }
+
     private func stroke(_ app: XCUIApplication, from: CGVector, to: CGVector) {
         let start = app.coordinate(withNormalizedOffset: from)
         let end = app.coordinate(withNormalizedOffset: to)
@@ -145,10 +153,10 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("10-library-arabic")
 
-        element(app, "sidebar.study").tap()
+        tap(app, "sidebar.study")
         XCTAssertTrue(element(app, "study.tool.periodicTable").waitForExistence(timeout: 10))
         shot("18-study-arabic")
-        element(app, "study.tool.periodicTable").tap()
+        tap(app, "study.tool.periodicTable")
         XCTAssertTrue(element(app, "element.Fe").waitForExistence(timeout: 10))
         sleep(1)
         shot("19-periodic-table-arabic")
@@ -166,7 +174,7 @@ final class SmokeTests: XCTestCase {
         for key in keys {
             let button = element(app, "key.\(key)")
             XCTAssertTrue(button.waitForExistence(timeout: 5), "calculator key \(key)")
-            button.tap()
+            button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         }
     }
 
@@ -178,15 +186,12 @@ final class SmokeTests: XCTestCase {
 
     func test4_studyTools() {
         let app = launch(language: "en")
-        let study = element(app, "sidebar.study")
-        XCTAssertTrue(study.waitForExistence(timeout: 15))
-        study.tap()
-        let calculator = element(app, "study.tool.calculator")
-        XCTAssertTrue(calculator.waitForExistence(timeout: 10), "study tools list")
+        tap(app, "sidebar.study", timeout: 15)
+        XCTAssertTrue(element(app, "study.tool.calculator").waitForExistence(timeout: 10), "study tools list")
         shot("12-study-home")
 
         // Scientific calculator: precedence, degree-mode trigonometry, and an error state.
-        calculator.tap()
+        tap(app, "study.tool.calculator")
         let input = element(app, "calculator.input")
         XCTAssertTrue(input.waitForExistence(timeout: 10))
         pressKeys(app, ["2", "+", "3", "×", "4", "="])
@@ -201,36 +206,36 @@ final class SmokeTests: XCTestCase {
         goBack(app, from: "Scientific Calculator")
 
         // Graphing calculator: the default examples include a pole (1/x).
-        element(app, "study.tool.graph").tap()
+        tap(app, "study.tool.graph")
         XCTAssertTrue(element(app, "graph.plot").waitForExistence(timeout: 10))
         sleep(1)
         shot("14-graph")
-        element(app, "graph.zoomIn").tap()
-        element(app, "graph.zoomIn").tap()
+        tap(app, "graph.zoomIn")
+        tap(app, "graph.zoomIn")
         sleep(1)
         shot("15-graph-zoomed")
         goBack(app, from: "Graphing Calculator")
 
         // Periodic table: open an element.
-        element(app, "study.tool.periodicTable").tap()
+        tap(app, "study.tool.periodicTable")
         let iron = element(app, "element.Fe")
         XCTAssertTrue(iron.waitForExistence(timeout: 10))
         shot("16-periodic-table")
-        iron.tap()
+        tap(app, "element.Fe")
         XCTAssertTrue(app.staticTexts["55.845"].waitForExistence(timeout: 5), "iron detail sheet")
         shot("17-element-detail")
         app.buttons["Done"].tap()
         goBack(app, from: "Periodic Table")
 
         // Focus timer: it must actually count down.
-        element(app, "study.tool.focusTimer").tap()
+        tap(app, "study.tool.focusTimer")
         let remaining = element(app, "timer.remaining")
         XCTAssertTrue(remaining.waitForExistence(timeout: 10))
         XCTAssertEqual(remaining.label, "25:00")
-        element(app, "timer.start").tap()
+        tap(app, "timer.start")
         sleep(3)
         XCTAssertNotEqual(remaining.label, "25:00", "timer did not count down")
         shot("20-focus-timer")
-        element(app, "timer.pause").tap()
+        tap(app, "timer.pause")
     }
 }
