@@ -43,6 +43,7 @@ struct LibraryView: View {
                         .onTapGesture { app.open(document) }
                         .contextMenu { menu(for: document) }
                         .accessibilityAddTraits(.isButton)
+                        .accessibilityIdentifier("library.card")
                 }
             }
             .padding(24)
@@ -129,6 +130,7 @@ struct LibraryView: View {
                 } actions: {
                     Button("New Notebook") { createNotebook(defaultTemplate) }
                         .buttonStyle(.borderedProminent)
+                        .accessibilityIdentifier("library.empty.newNotebook")
                     Button("Import PDF") { isImporting = true }
                 }
             }

@@ -120,6 +120,7 @@ struct EditorScreen: View {
             Button(action: close) {
                 Label("Library", systemImage: "chevron.backward")
             }
+            .accessibilityIdentifier("editor.back")
 
             Button {
                 withAnimation { showsThumbnails.toggle() }

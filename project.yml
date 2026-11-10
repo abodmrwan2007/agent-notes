@@ -68,12 +68,29 @@ targets:
               public.filename-extension:
                 - agentnote
 
+  # End-to-end smoke tests driven through the UI on an iPad simulator.
+  AgentNotesUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: AgentNotes
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.agentnotes.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: AgentNotes
+
 schemes:
   AgentNotes:
     build:
       targets:
         AgentNotes: all
+        AgentNotesUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
+      targets:
+        - AgentNotesUITests
