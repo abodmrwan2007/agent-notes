@@ -57,6 +57,29 @@ Found in screenshots and fixed: 1/x branches stopping short of the window edge; 
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
 
+## Milestone B, part 2: page objects — IN PROGRESS, PAUSED 2026-11-10
+
+**Resume here.** Work stopped at the owner's request (weekly usage limit). State when paused:
+
+- Code is written and pushed (commit "Milestone B (part 2): page objects…"): text boxes, sticky
+  notes, shapes (rectangle, ellipse, line, arrow), images from Photos; Objects tool (select, move,
+  resize, double-tap to edit text); object actions (colour, duplicate, front/back, rotate 90°,
+  lock, delete); undo/redo; objects in thumbnails, covers and PDF export.
+- Document format bumped to **version 2** (`objects/<page-id>.json`, `assets/`), with a 1→2
+  migration and a version-1 fixture test. `docs/DATA_FORMAT.md` is **not yet updated** for v2.
+- **Not verified.** The first CI run for this commit had not finished when work paused. Check the
+  latest run (`gh run list --limit 1`): fix compile errors first, then look at screenshots 21–28
+  from `test5_pageObjects`.
+- Likely trouble spots: `App/Editor/PageObjectsView.swift` (gesture priority against the scroll
+  view), `EditorModel` object methods, the `photosPicker` wiring in `EditorScreen.swift`, and the
+  UI test's drag coordinates and `typeText` into the text sheet.
+- Known limits by design: rotation in 90° steps only and the resize handle ignores rotation;
+  line/arrow always run top-left to bottom-right; no grouping, stickers, tables or formulas;
+  orphaned image assets are not garbage-collected when their object or page is deleted;
+  image import decodes and downscales on the main thread.
+- No `playground-3` release yet. Publish one from the CI artifact only after the run is green and
+  the screenshots look right. FEATURE_MATRIX.md has not been updated for page objects.
+
 ## Bugs found by the simulator run and fixed
 
 1. Library cover and page count were stale after a kill (modification date was only written on an
