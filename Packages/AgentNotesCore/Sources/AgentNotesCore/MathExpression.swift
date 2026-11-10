@@ -490,24 +490,42 @@ public enum GraphSampler {
             current = []
         }
 
+        func value(at x: Double) -> Double? {
+            try? expression.evaluate(variables: [variable: x], angleMode: angleMode)
+        }
+
+        // Unclamped previous sample; nil after an undefined point.
+        var previous: PagePoint?
         for index in 0..<samples {
             let x = xRange.lowerBound + Double(index) * step
-            guard let y = try? expression.evaluate(variables: [variable: x], angleMode: angleMode) else {
+            guard let y = value(at: x) else {
                 flush()
+                previous = nil
                 continue
             }
-            if let previous = current.last {
-                let jump = abs(y - previous.y)
-                let leavesWindow = y < low || y > high
-                let cameFromOutside = previous.y < low || previous.y > high
-                // A jump larger than the whole window between two neighbouring samples is a pole.
-                if jump > span && (leavesWindow || cameFromOutside || jump > 2 * span) {
-                    flush()
-                }
+            if let previous, isDiscontinuity(from: previous, to: PagePoint(x: x, y: y), span: span, value: value) {
+                flush()
             }
             current.append(PagePoint(x: x, y: min(max(y, low), high)))
+            previous = PagePoint(x: x, y: y)
         }
         flush()
         return segments
+    }
+
+    /// Two neighbouring samples that are far apart are joined only if the function really passes
+    /// between them: the value at the midpoint must lie between the two. Across a pole the
+    /// midpoint is undefined or far outside, so the curve is cut there. (A small step, such as
+    /// floor(x), is still joined.)
+    private static func isDiscontinuity(
+        from a: PagePoint, to b: PagePoint, span: Double, value: (Double) -> Double?
+    ) -> Bool {
+        let jump = abs(b.y - a.y)
+        guard jump > span / 2 else { return false }
+        guard let middle = value((a.x + b.x) / 2) else { return true }
+        // The tolerance is tied to the window, not to the jump: next to a pole one sample can be
+        // astronomically large, and a jump-relative tolerance would then accept anything.
+        let tolerance = span / 100
+        return middle < min(a.y, b.y) - tolerance || middle > max(a.y, b.y) + tolerance
     }
 }

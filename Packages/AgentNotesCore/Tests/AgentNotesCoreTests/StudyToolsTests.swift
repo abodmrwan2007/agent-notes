@@ -124,13 +124,39 @@ final class GraphSamplerTests: XCTestCase {
     }
 
     func testPoleSplitsTheCurveAndNeverCrossesIt() throws {
-        let segments = GraphSampler.segments(
-            for: try MathExpression("1/x"), xRange: -5...5, yRange: -5...5, samples: 501)
-        XCTAssertGreaterThanOrEqual(segments.count, 2)
-        for segment in segments {
-            let signs = Set(segment.map { $0.x > 0 })
-            XCTAssertEqual(signs.count, 1, "a segment crosses the pole at x = 0")
+        // Odd counts sample x = 0 exactly; even counts straddle it. Window sizes mimic real screens.
+        let cases: [(samples: Int, x: ClosedRange<Double>, y: ClosedRange<Double>)] = [
+            (501, -5...5, -5...5),
+            (500, -5...5, -5...5),
+            (414, -10...10, -32...32),
+            (1000, -10...10, -7...7),
+            (37, -1...1, -1...1)
+        ]
+        for testCase in cases {
+            let segments = GraphSampler.segments(
+                for: try MathExpression("1/x"), xRange: testCase.x, yRange: testCase.y, samples: testCase.samples)
+            XCTAssertEqual(segments.count, 2, "\(testCase.samples) samples")
+            for segment in segments {
+                let signs = Set(segment.map { $0.x > 0 })
+                XCTAssertEqual(signs.count, 1, "a segment crosses the pole at x = 0 (\(testCase.samples) samples)")
+            }
         }
+    }
+
+    func testBranchesReachTheEdgeOfTheWindow() throws {
+        // Each branch of 1/x must run off the top or bottom of the visible window, not stop short.
+        let yRange = -32.0...32.0
+        let segments = GraphSampler.segments(
+            for: try MathExpression("1/x"), xRange: -10...10, yRange: yRange, samples: 414)
+        XCTAssertEqual(segments.count, 2)
+        XCTAssertLessThan(segments[0].map(\.y).min() ?? 0, yRange.lowerBound)
+        XCTAssertGreaterThan(segments[1].map(\.y).max() ?? 0, yRange.upperBound)
+    }
+
+    func testSteepButContinuousCurveStaysInOnePiece() throws {
+        let segments = GraphSampler.segments(
+            for: try MathExpression("x^3"), xRange: -10...10, yRange: -5...5, samples: 200)
+        XCTAssertEqual(segments.count, 1)
     }
 
     func testTangentHasNoVerticalConnectors() throws {

@@ -50,15 +50,20 @@ struct PeriodicTableView: View {
     var body: some View {
         let matches = Set(PeriodicTable.search(search).map(\.number))
 
-        ScrollView([.horizontal, .vertical]) {
+        // Vertical scrolling for the page; only the table itself scrolls sideways.
+        ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 16) {
-                table(matches: matches)
+                ScrollView(.horizontal) {
+                    table(matches: matches)
+                        .padding(.bottom, 8)
+                }
                 legend
                 Text("Development data set. It has not yet been validated against IUPAC values and must not be used as a reference.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
             .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .background(Theme.backdrop)
         .navigationTitle("Periodic Table")
@@ -105,7 +110,6 @@ struct PeriodicTableView: View {
                 }
             }
         }
-        .frame(width: 18 * (Self.cell + Self.spacing), alignment: .leading)
     }
 }
 
