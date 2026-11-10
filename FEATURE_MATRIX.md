@@ -18,15 +18,19 @@ Last updated: 2026-11-10.
 Goodnotes, Complete Anatomy and Visible Body has **not been researched yet**. The rows below are the
 explicit scope from the build brief only. Add researched features as new rows with their source.
 
+**Device report:** on 2026-11-10 the owner ran the Swift Playgrounds build (`playground-1`,
+Milestone A) on their own iPad and reported it builds and runs without errors. No per-feature
+detail was reported, so rows stay at Sim-verified until specific device results are recorded.
+
 ## 3. UI and navigation
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
 | Primary areas: Library, Editor, Settings | A | Sim-verified | Library and editor seen in screenshots; Settings screen not captured |
-| Primary areas: Study, Atlas, Community | B–E | Not started | Honest "not available" screens are Written |
+| Primary areas: Study, Atlas, Community | B–E | Partial | Study is built (4 tools, Sim-verified). Atlas and Community show honest "not available" screens |
 | Adaptive sidebar | A | Sim-verified | `NavigationSplitView`, portrait only |
 | Palette (white/gray, navy, cyan), dark mode | A | Partial | Light palette Sim-verified; dark mode not captured |
-| Arabic RTL + English LTR UI | A | Sim-verified | Library and editor screenshots in both languages |
+| Arabic RTL + English LTR UI | A | Sim-verified | 204 strings; library, editor, study panel and periodic table captured in both languages |
 | Dynamic Type, VoiceOver labels | A | Partial | System text styles and labels used; no audit done |
 | Keyboard shortcuts | A | Partial | Undo/redo only |
 | Compact toolbar | A | Sim-verified | Not yet customizable |
@@ -134,19 +138,19 @@ explicit scope from the build brief only. Add researched features as new rows wi
 | Timestamp bookmarks | C | Not started | |
 | Transcript import, lecture summaries | C | Not started | |
 | Audio recording synced to ink, dictation | C | Not started | |
-| Focus timer, activity dashboard, reminders, goals | B–C | Not started | |
+| Focus timer, activity dashboard, reminders, goals | B–C | Partial | Focus timer Sim-verified (counts down; date-based logic unit-tested for backgrounding). Phase-end notification Written, untested. Dashboard, reminders, goals not started |
 
 ## 10. Scientific utilities
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Insert / Study Tools panel with favorites and reorder | B | Not started | |
-| Scientific calculator, graphing calculator | B | Not started | |
-| Handwriting calculator | B | Not started | Depends on recognition |
-| Step-by-step math solver | B–C | Not started | |
-| Translation tool | C | Not started | |
-| Periodic table | B | Blocked | Needs a licensed, cited dataset |
-| Study game | B | Not started | |
+| Insert / Study Tools panel with favorites and reorder | B | Partial | Study panel with favorites, reorder, remove/restore is Written (list Sim-verified; the gestures themselves are not exercised by a test). No Insert panel inside the editor yet |
+| Scientific calculator, graphing calculator | B | Sim-verified | Safe parser with 44 passing core tests (precedence, functions, errors, poles). UI test checks 2+3×4, sin 30°, 2^10, 1÷0. Graph pan/pinch untested; no units |
+| Handwriting calculator | B | Not started | Depends on recognition; listed as unavailable |
+| Step-by-step math solver | B–C | Not started | Listed as unavailable in the Study panel |
+| Translation tool | C | Not started | Listed as unavailable |
+| Periodic table | B | Partial | 118 elements, layout, search, detail sheet Sim-verified. DATA IS UNREVIEWED: typed by hand, must be validated against IUPAC/PubChem; the screen says so |
+| Study game | B | Not started | Listed as unavailable |
 
 ## 11. Plans, quotas, ads
 
@@ -183,7 +187,7 @@ explicit scope from the build brief only. Add researched features as new rows wi
 | Versioned file format + migrations | A | Verified | Covered by the core unit tests |
 | Atomic saves, autosave, index rebuild | A | Sim-verified | Kill-and-relaunch test keeps ink; index refresh after kill seen. Lost-database rebuild untested |
 | Lazy page loading for long documents | A | Written | |
-| Core unit tests | A | Verified | 20 tests pass in CI (Linux, Swift 6.0), 2026-11-10 |
+| Core unit tests | A | Verified | 44 tests pass in CI (Linux, Swift 6.0), 2026-11-10 |
 | Runnable Xcode project | A | Verified | XcodeGen + Xcode 16.4 build passes in CI, 2026-11-10 |
 | Backend schema, migrations, functions | C–E | Not started | |
 | `.env.example` | A | Written | Placeholders only |

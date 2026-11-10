@@ -7,11 +7,11 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (GitHub Actions run 42816099862, 2026-11-10) |
-| Core unit tests | **20 tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **3 tests pass** in CI; 13 screenshots inspected by eye |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 42833212539, 2026-11-10) |
+| Core unit tests | **44 tests pass** in CI on Linux (Swift 6.0) |
+| UI smoke tests on an iPad Pro simulator | **4 tests pass** in CI; 22 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
-| Physical iPad run | **Never executed** |
+| Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
 | PDF import with a real PDF | **Never executed** (no test drives the file picker yet) |
 
@@ -30,6 +30,32 @@ skip CI.
   library cover is up to date.
 - Flattened PDF export completes and the share sheet shows a 127 KB PDF.
 - Arabic launch: right-to-left layout, translated labels, localized date.
+
+## Milestone B, part 1: study tools (2026-11-10)
+
+The Study area now has four working tools and a panel with favorites, reorder and remove/restore:
+
+- **Scientific calculator**: `MathExpression` in the core package is a hand-written recursive-descent
+  parser and evaluator (no `NSExpression`, no dynamic code). Degrees/radians, exact values at
+  multiples of 90 degrees, Arabic-Indic digits, implicit multiplication, typed errors.
+- **Graphing calculator**: `GraphSampler` cuts curves at poles (midpoint test) and extends each
+  branch by bisection to the window edge or the domain edge.
+- **Periodic table**: 118 elements, computed group/period/layout, bilingual names, search, detail.
+  **The data set is unreviewed** (typed by hand); the screen states this. Validate against
+  IUPAC/PubChem and review the Arabic names before release.
+- **Focus timer**: `FocusTimer` is defined by absolute dates, so it stays correct across
+  backgrounding and relaunch. Optional phase-end notification, requested only when switched on.
+
+Simulator run proved: calculator results for 2+3×4, sin(30) in degrees, 2^10 and the 1÷0 error;
+graph renders sin(x) and 1/x with both branches reaching the window edges and no line through the
+pole; periodic table layout in English and Arabic, element detail sheet; timer counts down.
+
+Not exercised by any test: graph pan/pinch, typing a custom formula, panel swipe/reorder gestures,
+timer notification, timer behaviour across a real background/relaunch (unit-tested logic only).
+
+Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
+line through a pole at some window sizes; a large blank area above the periodic table; the table
+opening on its right end in Arabic; axis labels clipped at the plot edge.
 
 ## Bugs found by the simulator run and fixed
 
@@ -98,14 +124,20 @@ assertions and were only visible in the pictures.
   JSON library index instead of GRDB (`playground/LibraryDatabase.swift`), `.lproj` strings.
 - CI (run 42819693304): the generated sources compile as one module; Xcode parses the generated
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
-- Published as release `playground-1` (asset `AgentNotes.swiftpm.zip`) in the private repository.
-- **Never opened in Swift Playgrounds on an iPad yet.** Unknowns: whether the Arabic strings are
-  picked up from the package resources, and whether `.agentnote` import works without a declared type.
+- Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
+  `playground-2` (adds the study tools).
+- The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
+  Arabic strings are picked up from the package resources, and whether `.agentnote` import works
+  without a declared type. `playground-2` has not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
 
-1. Owner opens the playground on the iPad and reports what works with Apple Pencil; fix what fails.
+1. Owner tries `playground-2` on the iPad (Pencil writing, PDF import, study tools) and reports
+   specifics; fix what fails.
+2. Rest of Milestone B, in this order: editor objects (text boxes, sticky notes, shapes, images),
+   image import, PDF text selection and full-text search, hold-to-snap shapes, then the
+   handwriting-recognition vendor evaluation (needs a real bilingual sample set).
 2. Fixture PDFs (rotated, cropped, long) + a UI test for import, annotation alignment and export.
 3. UI tests for library actions, dark mode and landscape.
 4. Then Milestone B. See [FEATURE_MATRIX.md](FEATURE_MATRIX.md).
