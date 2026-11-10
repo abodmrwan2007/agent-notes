@@ -99,6 +99,21 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Page 1 of 2"].waitForExistence(timeout: 5), "page count lost after relaunch")
         sleep(2)
         shot("07-reopened-after-relaunch")
+
+        // Flattened PDF export: the share sheet must appear (the file itself is checked by eye
+        // on a device; the simulator test only proves the export pipeline completes).
+        let export = app.buttons["Export"].firstMatch
+        XCTAssertTrue(export.waitForExistence(timeout: 5))
+        export.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        let exportPDF = app.buttons["PDF with annotations (flattened)"].firstMatch
+        XCTAssertTrue(exportPDF.waitForExistence(timeout: 5), "export menu did not open")
+        exportPDF.tap()
+        XCTAssertTrue(
+            app.otherElements["ActivityListView"].waitForExistence(timeout: 20)
+                || app.navigationBars["UIActivityContentView"].exists,
+            "share sheet did not appear after PDF export")
+        sleep(1)
+        shot("07b-export-share-sheet")
     }
 
     func test2_writeThenKillWithoutLeavingEditor() {

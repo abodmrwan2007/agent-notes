@@ -2,6 +2,10 @@ name: CI
 
 on:
   push:
+    # Documentation-only changes do not spend CI minutes.
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
   workflow_dispatch:
 
 concurrency:

@@ -217,7 +217,12 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     }
 
     private func restore(_ anchor: (pageID: UUID, offset: CGFloat)?) {
-        guard let anchor, let pageView = pageViews.first(where: { $0.pageID == anchor.pageID }) else { return }
+        guard let anchor, let pageView = pageViews.first(where: { $0.pageID == anchor.pageID }) else {
+            // Nothing to return to (first layout): start at the top. Setting the zoom scale keeps
+            // the viewport centre fixed, which would otherwise leave a long document scrolled down.
+            scrollView.contentOffset = CGPoint(x: -scrollView.contentInset.left, y: 0)
+            return
+        }
         let maxY = max(0, scrollView.contentSize.height - scrollView.bounds.height)
         let y = min(max(0, (pageView.frame.minY + anchor.offset) * scrollView.zoomScale), maxY)
         // Narrower than the viewport: centered by the inset. Wider (zoomed in): keep the horizontal position.
