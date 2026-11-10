@@ -64,7 +64,7 @@ jobs:
         run: |
           cd build/playground/AgentNotes.swiftpm
           xcodebuild -list 2>&1 | tail -n 30
-          xcodebuild -scheme "Agent Notes" -destination 'generic/platform=iOS Simulator' \
+          xcodebuild -scheme AgentNotes -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO build > ../../../playground-package-build.log 2>&1
           STATUS=$?
           grep -E " error: |\*\* " ../../../playground-package-build.log | tail -n 40 || true
