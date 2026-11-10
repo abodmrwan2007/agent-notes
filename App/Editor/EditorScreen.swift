@@ -72,6 +72,8 @@ struct EditorScreen: View {
                     layoutVersion: model.layoutVersion,
                     allowsFingerDrawing: allowsFingerDrawing)
             }
+            // Pages scroll under the home indicator instead of leaving an empty strip.
+            .ignoresSafeArea(.container, edges: .bottom)
         }
         .overlay {
             if isExporting {

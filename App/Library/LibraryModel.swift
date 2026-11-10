@@ -68,12 +68,24 @@ final class LibraryModel {
         }
     }
 
-    /// Recovery: any package on disk without an index row (lost or reset database) is re-indexed.
+    /// Recovery at launch. The packages are the source of truth for content:
+    /// - a package without an index row (lost or reset database) is re-indexed;
+    /// - a row that is behind its package (the app was killed before the editor closed) is refreshed.
     func reconcileWithDisk() {
         do {
-            let known = Set(try database.allDocuments().map(\.id))
-            for id in store.documentIDsOnDisk() where !known.contains(id.uuidString) {
-                if let manifest = try? store.loadManifest(id: id) {
+            let rows = Dictionary(
+                try database.allDocuments().map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            for id in store.documentIDsOnDisk() {
+                guard let manifest = try? store.loadManifest(id: id) else { continue }
+                if var row = rows[id.uuidString] {
+                    let isStale = abs(row.modifiedAt.timeIntervalSince(manifest.modifiedAt)) > 1
+                        || row.pageCount != manifest.pages.count
+                        || row.title != manifest.title
+                    if isStale {
+                        row.apply(manifest)
+                        try database.save(row)
+                    }
+                } else {
                     try database.save(DocumentRow(manifest: manifest, folderID: nil))
                 }
             }

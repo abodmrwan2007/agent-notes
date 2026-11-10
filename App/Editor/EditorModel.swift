@@ -46,6 +46,9 @@ final class EditorModel {
         autosaver.onSaved = { [weak self] pageIDs in
             guard let self else { return }
             for id in pageIDs { self.inkRevisions[id, default: 0] += 1 }
+            // Record the change in the manifest right away, so the modification date (and with
+            // it the library cover) is correct even if the app is killed before an orderly close.
+            self.saveManifest()
         }
         autosaver.onError = { [weak self] error in
             self?.alertMessage = String(localized: "Your latest strokes could not be saved.")

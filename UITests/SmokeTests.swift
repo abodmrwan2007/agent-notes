@@ -70,8 +70,14 @@ final class SmokeTests: XCTestCase {
         app.buttons["Redo"].tap()
 
         // Add a second page.
-        app.buttons["Add Page"].tap()
-        app.buttons["Grid"].firstMatch.tap()
+        // SwiftUI Menu labels are not reliably "hittable" for XCUITest, so tap by coordinate.
+        let addPage = app.buttons["Add Page"].firstMatch
+        XCTAssertTrue(addPage.waitForExistence(timeout: 5))
+        addPage.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        let grid = app.buttons["Grid"].firstMatch
+        XCTAssertTrue(grid.waitForExistence(timeout: 5), "template menu did not open")
+        shot("04b-add-page-menu")
+        grid.tap()
         XCTAssertTrue(app.staticTexts["Page 2 of 2"].waitForExistence(timeout: 5), "second page was not added")
         shot("05-editor-two-pages")
 
