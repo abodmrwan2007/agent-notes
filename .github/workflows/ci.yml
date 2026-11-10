@@ -41,8 +41,44 @@ jobs:
         run: xcodebuild -version
       - name: Install XcodeGen
         run: brew install xcodegen
+      - name: Assemble the Swift Playgrounds variant
+        run: python3 tools/build_playground.py
       - name: Generate project
         run: xcodegen generate
+      - name: Compile the Swift Playgrounds sources (single module, no GRDB)
+        run: |
+          set +e
+          xcodebuild \
+            -project AgentNotes.xcodeproj \
+            -scheme AgentNotesPlayground \
+            -destination 'generic/platform=iOS Simulator' \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build > playground-build.log 2>&1
+          STATUS=$?
+          set -e
+          grep -E " error: |\*\* " playground-build.log | tail -n 40 || true
+          exit $STATUS
+      - name: Check that Xcode accepts the playground Package.swift (informational)
+        continue-on-error: true
+        run: |
+          cd build/playground/AgentNotes.swiftpm
+          xcodebuild -list 2>&1 | tail -n 30
+          xcodebuild -scheme "Agent Notes" -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build > ../../../playground-package-build.log 2>&1
+          STATUS=$?
+          grep -E " error: |\*\* " ../../../playground-package-build.log | tail -n 40 || true
+          exit $STATUS
+      - name: Upload the playground package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playground
+          path: |
+            build/playground/AgentNotes.swiftpm.zip
+            playground-build.log
+            playground-package-build.log
+          if-no-files-found: warn
       - name: Pick an iPad simulator
         run: |
           UDID=$(xcrun simctl list devices available -j | python3 -c "

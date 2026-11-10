@@ -33,5 +33,5 @@ enum SettingsKey {
 
 extension UTType {
     /// The native editable document package. Declared in Info.plist (see project.yml).
-    static let agentNote = UTType(exportedAs: "com.agentnotes.document")
+    static let agentNote: UTType = UTType(exportedAs: "com.agentnotes.document")
 }

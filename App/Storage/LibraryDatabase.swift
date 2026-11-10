@@ -1,4 +1,3 @@
-import AgentNotesCore
 import Foundation
 import GRDB
 
@@ -6,52 +5,12 @@ import GRDB
 // Document CONTENT is not stored here: each document is a package directory on disk
 // (see DocumentStore). The index can always be rebuilt from the packages.
 
-struct FolderRow: Codable, FetchableRecord, PersistableRecord, Identifiable, Hashable {
+extension FolderRow: FetchableRecord, PersistableRecord {
     static let databaseTableName = "folder"
-
-    var id: String
-    var parentID: String?
-    var name: String
-    var createdAt: Date
 }
 
-struct DocumentRow: Codable, FetchableRecord, PersistableRecord, Identifiable, Hashable {
+extension DocumentRow: FetchableRecord, PersistableRecord {
     static let databaseTableName = "document"
-
-    var id: String
-    var title: String
-    var folderID: String?
-    var createdAt: Date
-    var modifiedAt: Date
-    var lastOpenedAt: Date?
-    var isFavorite: Bool
-    var trashedAt: Date?
-    var pageCount: Int
-    var hasPDF: Bool
-
-    var documentID: UUID? { UUID(uuidString: id) }
-    var isTrashed: Bool { trashedAt != nil }
-
-    init(manifest: DocumentManifest, folderID: String?) {
-        self.id = manifest.id.uuidString
-        self.title = manifest.title
-        self.folderID = folderID
-        self.createdAt = manifest.createdAt
-        self.modifiedAt = manifest.modifiedAt
-        self.lastOpenedAt = nil
-        self.isFavorite = false
-        self.trashedAt = nil
-        self.pageCount = manifest.pages.count
-        self.hasPDF = !manifest.sources.isEmpty
-    }
-
-    /// Copies the fields the document package is the source of truth for.
-    mutating func apply(_ manifest: DocumentManifest) {
-        title = manifest.title
-        modifiedAt = manifest.modifiedAt
-        pageCount = manifest.pages.count
-        hasPDF = !manifest.sources.isEmpty
-    }
 }
 
 final class LibraryDatabase: @unchecked Sendable {
@@ -112,6 +71,7 @@ final class LibraryDatabase: @unchecked Sendable {
         _ = try queue.write { db in try DocumentRow.deleteOne(db, key: id) }
     }
 
+    /// Subfolders are removed with it (cascade); notes inside fall back to the library root.
     func deleteFolder(id: String) throws {
         _ = try queue.write { db in try FolderRow.deleteOne(db, key: id) }
     }

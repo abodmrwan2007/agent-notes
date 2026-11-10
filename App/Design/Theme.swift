@@ -4,8 +4,13 @@ import UIKit
 
 /// Default palette: white / light gray surfaces, dark navy text, restrained cyan accent.
 enum Theme {
-    /// Defined in Assets.xcassets with light and dark variants.
-    static let accent = Color("AccentColor")
+    /// Restrained cyan. Defined in code (same values as the AccentColor asset) so it does not
+    /// depend on an asset catalog being present.
+    static let accent = Color(uiColor: UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(red: 0.25, green: 0.78, blue: 0.92, alpha: 1)
+            : UIColor(red: 0.00, green: 0.60, blue: 0.78, alpha: 1)
+    })
 
     static let text = Color(uiColor: UIColor { traits in
         traits.userInterfaceStyle == .dark

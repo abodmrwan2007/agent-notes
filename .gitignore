@@ -19,3 +19,6 @@ Package.resolved
 .DS_Store
 __pycache__/
 *.pyc
+
+# Generated Swift Playgrounds variant
+build/
