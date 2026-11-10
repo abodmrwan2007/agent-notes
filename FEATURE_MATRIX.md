@@ -63,11 +63,11 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Vertical scrolling | A | Sim-verified |  |
 | Horizontal page turning | B | Not started | |
 | Expandable margins around PDF pages | B | Not started | |
-| Typed text, images, shapes, sticky notes, links, tables, formulas | B | Not started | |
+| Typed text, images, shapes, sticky notes, links, tables, formulas | B | Partial | Text boxes, sticky notes, 4 shapes Sim-verified (insert, move, edit text, undo, persistence). Image insertion Written, untested. Links, tables, formulas not started |
 | Stickers (original pack, custom import) | B | Not started | Needs original artwork |
 | Audio attachments | C | Not started | |
 | Atlas scene cards | D | Not started | |
-| Object resize / rotate / layer / group / lock | B | Not started | |
+| Object resize / rotate / layer / group / lock | B | Partial | Move, rotate 90°, duplicate + undo Sim-verified. Resize handle, front/back, lock, delete Written and unit-tested in the core model but not driven by a UI test. No free rotation, no grouping |
 | PDF hyperlinks + return-to-position | B | Not started | |
 | Export PDF with annotations | A | Partial | Export completes and the share sheet shows the PDF (Sim-verified). Content not opened in an external viewer; ink rasterized at 3x |
 | Export / import native package | A | Written | Directory sharing untested |
@@ -84,7 +84,7 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Finger drawing mode | A | Sim-verified |  |
 | Lasso selection | A | Written | Native PencilKit lasso |
 | Rectangular selection, resize selection | B | Not started | |
-| Undo / redo | A | Sim-verified | Ink only |
+| Undo / redo | A | Sim-verified | Ink and page objects |
 | Pencil double-tap, Pencil Pro squeeze, hover | B | Not started | |
 | (1) Stroke smoothing with adjustable strength | B | Not started | |
 | (2) Mixed Arabic–English recognition | B | Not started | Requires vendor evaluation on a real sample set |
@@ -184,10 +184,10 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 
 | Item | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Versioned file format + migrations | A | Verified | Covered by the core unit tests |
+| Versioned file format + migrations | A | Verified | Format v2 with a real 1→2 migration; version-1 fixture test passes in CI |
 | Atomic saves, autosave, index rebuild | A | Sim-verified | Kill-and-relaunch test keeps ink; index refresh after kill seen. Lost-database rebuild untested |
 | Lazy page loading for long documents | A | Written | |
-| Core unit tests | A | Verified | 44 tests pass in CI (Linux, Swift 6.0), 2026-11-10 |
+| Core unit tests | A | Verified | All core tests pass in CI (Linux, Swift 6.0), 2026-11-10 |
 | Runnable Xcode project | A | Verified | XcodeGen + Xcode 16.4 build passes in CI, 2026-11-10 |
 | Backend schema, migrations, functions | C–E | Not started | |
 | `.env.example` | A | Written | Placeholders only |

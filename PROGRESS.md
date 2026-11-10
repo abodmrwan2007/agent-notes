@@ -7,9 +7,9 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 42833212539, 2026-11-10) |
-| Core unit tests | **44 tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **4 tests pass** in CI; 22 screenshots, the new ones inspected by eye |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 42861778463, 2026-11-10) |
+| Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
+| UI smoke tests on an iPad Pro simulator | **5 tests pass** in CI; 30 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
@@ -57,28 +57,32 @@ Found in screenshots and fixed: 1/x branches stopping short of the window edge; 
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
 
-## Milestone B, part 2: page objects — IN PROGRESS, PAUSED 2026-11-10
+## Milestone B, part 2: page objects (2026-11-10) — done, Sim-verified
 
-**Resume here.** Work stopped at the owner's request (weekly usage limit). State when paused:
+CI run 42861778463 passed on the first attempt: build, 5 UI tests, core tests. Screenshots 21–28
+were inspected.
 
-- Code is written and pushed (commit "Milestone B (part 2): page objects…"): text boxes, sticky
-  notes, shapes (rectangle, ellipse, line, arrow), images from Photos; Objects tool (select, move,
-  resize, double-tap to edit text); object actions (colour, duplicate, front/back, rotate 90°,
-  lock, delete); undo/redo; objects in thumbnails, covers and PDF export.
-- Document format bumped to **version 2** (`objects/<page-id>.json`, `assets/`), with a 1→2
-  migration and a version-1 fixture test. `docs/DATA_FORMAT.md` is **not yet updated** for v2.
-- **Not verified.** The first CI run for this commit had not finished when work paused. Check the
-  latest run (`gh run list --limit 1`): fix compile errors first, then look at screenshots 21–28
-  from `test5_pageObjects`.
-- Likely trouble spots: `App/Editor/PageObjectsView.swift` (gesture priority against the scroll
-  view), `EditorModel` object methods, the `photosPicker` wiring in `EditorScreen.swift`, and the
-  UI test's drag coordinates and `typeText` into the text sheet.
-- Known limits by design: rotation in 90° steps only and the resize handle ignores rotation;
-  line/arrow always run top-left to bottom-right; no grouping, stickers, tables or formulas;
-  orphaned image assets are not garbage-collected when their object or page is deleted;
-  image import decodes and downscales on the main thread.
-- No `playground-3` release yet. Publish one from the CI artifact only after the run is green and
-  the screenshots look right. FEATURE_MATRIX.md has not been updated for page objects.
+- Insert menu: text box, sticky note, shapes (rectangle, ellipse, line, arrow), image from Photos.
+- Objects tool: tap to select, drag to move, corner handle to resize, double-tap to edit text.
+- Object actions: colour, duplicate, bring to front / send to back, rotate 90°, lock, delete.
+- Undo/redo covers every object change. Objects appear in thumbnails, library covers and PDF export.
+- Document format is **version 2** (`objects/<page-id>.json`, `assets/`); version-1 documents open
+  and are upgraded (fixture test).
+
+Simulator run proved: insert a rectangle and drag it; insert a sticky note, type mixed
+English/Arabic text into the sheet, rotate it, duplicate it and undo the duplication; objects
+survive kill-and-relaunch and show on the library cover.
+
+Not exercised by any test: resize handle, double-tap to edit, lock, front/back, colour change,
+delete, image insertion (Photos picker), objects in an exported PDF, behaviour with Apple Pencil.
+
+Known limits by design: rotation in 90° steps only, and the resize handle ignores rotation;
+line/arrow always run top-left to bottom-right; no grouping, stickers, tables or formulas;
+orphaned image assets are not garbage-collected; image import decodes and downscales on the main
+thread.
+
+**Work paused here on 2026-11-10 at the owner's request (weekly usage limit).** Nothing is half
+done. Next session starts with the "Next steps" list at the end of this file.
 
 ## Bugs found by the simulator run and fixed
 
@@ -148,18 +152,18 @@ assertions and were only visible in the pictures.
 - CI (run 42819693304): the generated sources compile as one module; Xcode parses the generated
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
-  `playground-2` (adds the study tools).
+  `playground-2` (adds the study tools), `playground-3` (adds page objects).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` has not been reported on yet.
+  without a declared type. `playground-2` and `playground-3` have not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
 
-1. Owner tries `playground-2` on the iPad (Pencil writing, PDF import, study tools) and reports
-   specifics; fix what fails.
-2. Rest of Milestone B, in this order: editor objects (text boxes, sticky notes, shapes, images),
-   image import, PDF text selection and full-text search, hold-to-snap shapes, then the
+1. Owner tries `playground-3` on the iPad (Pencil writing, PDF import, study tools, page objects)
+   and reports specifics; fix what fails.
+2. Rest of Milestone B, in this order: PDF text selection and full-text search, hold-to-snap
+   shapes, stroke smoothing, tags and image-page import, stickers, then the
    handwriting-recognition vendor evaluation (needs a real bilingual sample set).
 2. Fixture PDFs (rotated, cropped, long) + a UI test for import, annotation alignment and export.
 3. UI tests for library actions, dark mode and landscape.
