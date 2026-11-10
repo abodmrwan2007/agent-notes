@@ -141,6 +141,16 @@
         }
       }
     },
+    "Arrow": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سهم"
+          }
+        }
+      }
+    },
     "Atlas": {
       "localizations": {
         "ar": {
@@ -237,6 +247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الاستراحة: %lld دقيقة"
+          }
+        }
+      }
+    },
+    "Bring to Front": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إحضار إلى الأمام"
           }
         }
       }
@@ -377,6 +397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "درجات"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف"
           }
         }
       }
@@ -531,12 +561,32 @@
         }
       }
     },
+    "Edit Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعديل النص"
+          }
+        }
+      }
+    },
     "Editable notebook package": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حزمة دفتر قابلة للتعديل"
+          }
+        }
+      }
+    },
+    "Ellipse": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكل بيضاوي"
           }
         }
       }
@@ -801,6 +851,16 @@
         }
       }
     },
+    "Image from Photos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة من الصور"
+          }
+        }
+      }
+    },
     "Import": {
       "localizations": {
         "ar": {
@@ -827,6 +887,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "جارٍ الاستيراد…"
+          }
+        }
+      }
+    },
+    "Insert": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدراج"
           }
         }
       }
@@ -867,6 +937,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "المكتبة"
+          }
+        }
+      }
+    },
+    "Line": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خط"
+          }
+        }
+      }
+    },
+    "Lock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل"
           }
         }
       }
@@ -1151,6 +1241,16 @@
         }
       }
     },
+    "Objects": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العناصر"
+          }
+        }
+      }
+    },
     "Only the end of the current session is announced. The timer itself keeps running without notifications.": {
       "localizations": {
         "ar": {
@@ -1351,6 +1451,16 @@
         }
       }
     },
+    "Rectangle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستطيل"
+          }
+        }
+      }
+    },
     "Redo": {
       "localizations": {
         "ar": {
@@ -1481,6 +1591,16 @@
         }
       }
     },
+    "Rotate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تدوير"
+          }
+        }
+      }
+    },
     "Ruled": {
       "localizations": {
         "ar": {
@@ -1521,6 +1641,16 @@
         }
       }
     },
+    "Send to Back": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال إلى الخلف"
+          }
+        }
+      }
+    },
     "Session length": {
       "localizations": {
         "ar": {
@@ -1537,6 +1667,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الإعدادات"
+          }
+        }
+      }
+    },
+    "Shape": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكل"
           }
         }
       }
@@ -1577,6 +1717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "حل المسائل خطوة بخطوة"
+          }
+        }
+      }
+    },
+    "Sticky Note": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة لاصقة"
           }
         }
       }
@@ -1631,6 +1781,36 @@
         }
       }
     },
+    "Tap an object to select it. Use Insert to add text, notes, shapes and images.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على عنصر لتحديده. استخدم «إدراج» لإضافة نص وملاحظات وأشكال وصور."
+          }
+        }
+      }
+    },
+    "Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نص"
+          }
+        }
+      }
+    },
+    "Text Box": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مربع نص"
+          }
+        }
+      }
+    },
     "The expression is incomplete.": {
       "localizations": {
         "ar": {
@@ -1677,6 +1857,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر فتح مكتبة الملاحظات على هذا الجهاز."
+          }
+        }
+      }
+    },
+    "The objects on this page could not be read, so they cannot be changed.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة عناصر هذه الصفحة، لذلك لا يمكن تعديلها."
           }
         }
       }
@@ -1767,6 +1957,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر فتح هذا الدفتر"
+          }
+        }
+      }
+    },
+    "This picture could not be read.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة هذه الصورة."
           }
         }
       }
@@ -1897,6 +2097,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسم غير معروف: %@"
+          }
+        }
+      }
+    },
+    "Unlock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح القفل"
           }
         }
       }

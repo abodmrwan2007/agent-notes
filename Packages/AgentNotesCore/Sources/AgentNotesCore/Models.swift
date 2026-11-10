@@ -3,11 +3,14 @@ import Foundation
 /// Constants describing the on-disk native document package. See docs/DATA_FORMAT.md.
 public enum DocumentFormat {
     /// Bump when the manifest schema changes and add a step to `ManifestCodec.migrations`.
-    public static let currentVersion = 1
+    /// Version 2 added page objects (`objects/`) and their binary assets (`assets/`).
+    public static let currentVersion = 2
     public static let packageExtension = "agentnote"
     public static let manifestFileName = "manifest.json"
     public static let sourcesDirectoryName = "sources"
     public static let inkDirectoryName = "ink"
+    public static let objectsDirectoryName = "objects"
+    public static let assetsDirectoryName = "assets"
     /// Identifier of the ink payload encoding stored per page.
     public static let pencilKitInkEncoding = "apple.pencilkit.drawing"
 }

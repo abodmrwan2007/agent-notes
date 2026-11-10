@@ -62,7 +62,11 @@ final class PageView: UIView {
     private(set) var page: PageRecord
     private var pdfPage: PDFPage?
     private var background: PageBackgroundView?
+    private(set) var objectsView: PageObjectsView?
     private(set) var canvas: PKCanvasView?
+    /// False when the page's ink file could not be read (shown read-only).
+    private var isInkEditable = true
+    private var isObjectMode = false
 
     /// Pages edited in this session keep their canvas alive so undo keeps working on them.
     var hasSessionEdits = false
@@ -98,6 +102,8 @@ final class PageView: UIView {
     func load(
         drawing: PKDrawing,
         isEditable: Bool,
+        objectsView: PageObjectsView,
+        isObjectMode: Bool,
         tool: PKTool,
         policy: PKCanvasViewDrawingPolicy,
         delegate: PKCanvasViewDelegate
@@ -108,6 +114,12 @@ final class PageView: UIView {
         background.frame = bounds
         addSubview(background)
         self.background = background
+
+        // Stacking order: background, objects, then the ink canvas on top.
+        objectsView.frame = bounds
+        addSubview(objectsView)
+        self.objectsView = objectsView
+        isInkEditable = isEditable
 
         let canvas = PKCanvasView(frame: bounds)
         canvas.backgroundColor = .clear
@@ -134,12 +146,23 @@ final class PageView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.isApplyingDrawing = false
         }
+        setObjectMode(isObjectMode)
+    }
+
+    /// In object mode the ink canvas ignores touches, so they reach the objects underneath it.
+    func setObjectMode(_ enabled: Bool) {
+        isObjectMode = enabled
+        canvas?.isUserInteractionEnabled = isInkEditable && !enabled
+        objectsView?.isEditingEnabled = enabled
+        objectsView?.setNeedsDisplay()
     }
 
     func unload() {
         canvas?.delegate = nil
         canvas?.removeFromSuperview()
         canvas = nil
+        objectsView?.removeFromSuperview()
+        objectsView = nil
         background?.removeFromSuperview()
         background = nil
     }
@@ -147,6 +170,7 @@ final class PageView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         background?.frame = bounds
+        objectsView?.frame = bounds
         canvas?.frame = bounds
         canvas?.contentSize = bounds.size
     }

@@ -3,6 +3,20 @@ import Foundation
 import Observation
 import PDFKit
 import PencilKit
+import UIKit
+
+/// The selected page object, addressed by stable identifiers.
+struct ObjectSelection: Equatable {
+    let pageID: UUID
+    let objectID: UUID
+}
+
+/// A request to edit the text of an object (drives the text sheet).
+struct TextEditTarget: Identifiable {
+    let id = UUID()
+    let selection: ObjectSelection
+    let text: String
+}
 
 enum InkLoadResult {
     case drawing(PKDrawing)
@@ -25,6 +39,16 @@ final class EditorModel {
     private(set) var inkRevisions: [UUID: Int] = [:]
     /// Bumped when pages are added, removed, reordered or restyled; drives canvas rebuild.
     private(set) var layoutVersion = 0
+    /// The selected page object (object mode).
+    private(set) var selection: ObjectSelection?
+    /// Bumped whenever any page's objects change, so views re-read `selectedObject`.
+    private(set) var objectsRevision = 0
+    var textEditTarget: TextEditTarget?
+
+    @ObservationIgnored private var objectLayers: [UUID: PageObjectLayer] = [:]
+    /// Pages whose objects file could not be decoded: never written, to protect the file.
+    @ObservationIgnored private var unreadableObjectPages: Set<UUID> = []
+    @ObservationIgnored private let assetCache = NSCache<NSString, UIImage>()
 
     @ObservationIgnored let store: DocumentStore
     @ObservationIgnored let thumbnails: ThumbnailService
@@ -91,6 +115,214 @@ final class EditorModel {
         autosaver.schedule(pageID: pageID, drawing: drawing)
     }
 
+    // MARK: Page objects (text, sticky notes, shapes, images)
+
+    /// Objects of a page, loaded from the package on first use.
+    func objects(for pageID: UUID) -> PageObjectLayer {
+        if let cached = objectLayers[pageID] { return cached }
+        let layer: PageObjectLayer
+        do {
+            layer = try store.loadObjects(documentID: documentID, pageID: pageID)
+        } catch {
+            unreadableObjectPages.insert(pageID)
+            layer = PageObjectLayer()
+        }
+        objectLayers[pageID] = layer
+        return layer
+    }
+
+    var selectedObject: PageObject? {
+        _ = objectsRevision
+        guard let selection else { return nil }
+        return objects(for: selection.pageID).object(id: selection.objectID)
+    }
+
+    func asset(named fileName: String) -> UIImage? {
+        if let cached = assetCache.object(forKey: fileName as NSString) { return cached }
+        let url = store.assetURL(documentID: documentID, fileName: fileName)
+        guard let image = UIImage(contentsOfFile: url.path) else { return nil }
+        assetCache.setObject(image, forKey: fileName as NSString)
+        return image
+    }
+
+    func select(_ newSelection: ObjectSelection?) {
+        guard selection != newSelection else { return }
+        selection = newSelection
+        canvas?.refreshObjectSelection()
+    }
+
+    /// The single entry point for every change to a page's objects: saves atomically, updates
+    /// thumbnails and the canvas, and registers undo (which, replayed, registers redo).
+    func commitObjects(_ layer: PageObjectLayer, pageID: UUID) {
+        let previous = objects(for: pageID)
+        guard !unreadableObjectPages.contains(pageID) else {
+            alertMessage = String(localized: "The objects on this page could not be read, so they cannot be changed.")
+            canvas?.refreshObjects(pageID: pageID)
+            return
+        }
+        guard previous != layer else {
+            canvas?.refreshObjects(pageID: pageID)
+            return
+        }
+        do {
+            try store.saveObjects(layer, documentID: documentID, pageID: pageID)
+        } catch {
+            alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription
+            canvas?.refreshObjects(pageID: pageID)
+            return
+        }
+        objectLayers[pageID] = layer
+        objectsRevision += 1
+        inkRevisions[pageID, default: 0] += 1
+        if let selection, selection.pageID == pageID, layer.object(id: selection.objectID) == nil {
+            self.selection = nil
+        }
+        saveManifest()
+        canvas?.refreshObjects(pageID: pageID)
+        canvas?.registerUndo { [weak self] in
+            self?.commitObjects(previous, pageID: pageID)
+        }
+    }
+
+    /// Adds a new object in the middle of the visible part of the current page and selects it.
+    func insertObject(kind: PageObjectKind, shape: ShapeKind? = nil) {
+        guard let page = currentPage else { return }
+        let size: (width: Double, height: Double)
+        var object: PageObject
+        switch kind {
+        case .text:
+            size = (260, 64)
+            object = PageObject(kind: .text, frame: placement(size, on: page),
+                                text: String(localized: "Text"), fontSize: 18)
+        case .stickyNote:
+            size = (190, 190)
+            object = PageObject(kind: .stickyNote, frame: placement(size, on: page), text: "", fontSize: 15)
+        case .shape:
+            let shapeKind = shape ?? .rectangle
+            size = shapeKind == .line || shapeKind == .arrow ? (200, 90) : (200, 140)
+            object = PageObject(kind: .shape, frame: placement(size, on: page), shape: shapeKind, lineWidth: 2.5)
+        case .image:
+            return // images come through insertImage(data:)
+        }
+        object.colorHex = kind == .stickyNote ? nil : tool.objectColorHex
+        add(object, to: page.id)
+        if object.hasText {
+            beginEditingText(ObjectSelection(pageID: page.id, objectID: object.id))
+        }
+    }
+
+    /// Stores the picture inside the document package (downscaled if very large) and places it.
+    func insertImage(data: Data) {
+        guard let page = currentPage else { return }
+        guard let original = UIImage(data: data), original.size.width > 0, original.size.height > 0 else {
+            alertMessage = String(localized: "This picture could not be read.")
+            return
+        }
+        let image = Self.downscaled(original, maxPixels: 2048)
+        guard let encoded = image.jpegData(compressionQuality: 0.85) else {
+            alertMessage = String(localized: "This picture could not be read.")
+            return
+        }
+        do {
+            let fileName = try store.addAsset(encoded, fileExtension: "jpg", documentID: documentID)
+            // Fit within 60% of the page width and half its height, keeping the proportions.
+            let imageWidth = Double(image.size.width)
+            let imageHeight = Double(image.size.height)
+            let scale = min(page.size.width * 0.6 / imageWidth, page.size.height * 0.5 / imageHeight, 1)
+            let size = (width: imageWidth * scale, height: imageHeight * scale)
+            add(PageObject(kind: .image, frame: placement(size, on: page), assetFileName: fileName), to: page.id)
+        } catch {
+            alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription
+        }
+    }
+
+    private func add(_ object: PageObject, to pageID: UUID) {
+        var layer = objects(for: pageID)
+        layer.add(object)
+        tool.kind = .objects
+        commitObjects(layer, pageID: pageID)
+        select(ObjectSelection(pageID: pageID, objectID: object.id))
+    }
+
+    private func placement(_ size: (width: Double, height: Double), on page: PageRecord) -> PageRect {
+        let centre = canvas?.visibleCenter(ofPage: page.id)
+            ?? PagePoint(x: page.size.width / 2, y: page.size.height / 2)
+        let x = min(max(centre.x - size.width / 2, 0), max(page.size.width - size.width, 0))
+        let y = min(max(centre.y - size.height / 2, 0), max(page.size.height - size.height, 0))
+        return PageRect(x: x, y: y, width: size.width, height: size.height)
+    }
+
+    private static func downscaled(_ image: UIImage, maxPixels: CGFloat) -> UIImage {
+        let pixelWidth = image.size.width * image.scale
+        let pixelHeight = image.size.height * image.scale
+        let longest = max(pixelWidth, pixelHeight)
+        let factor = longest > maxPixels ? maxPixels / longest : 1
+        let target = CGSize(width: pixelWidth * factor, height: pixelHeight * factor)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+        // Redrawing also bakes in the photo's orientation and gives a white background.
+        return UIGraphicsImageRenderer(size: target, format: format).image { context in
+            UIColor.white.setFill()
+            context.fill(CGRect(origin: .zero, size: target))
+            image.draw(in: CGRect(origin: .zero, size: target))
+        }
+    }
+
+    /// Changes the selected object. Does nothing when it is locked.
+    func updateSelected(_ change: (inout PageObject) -> Void) {
+        guard let selection else { return }
+        var layer = objects(for: selection.pageID)
+        guard layer.update(selection.objectID, change) else { return }
+        commitObjects(layer, pageID: selection.pageID)
+    }
+
+    func deleteSelected() {
+        guard let selection else { return }
+        var layer = objects(for: selection.pageID)
+        guard layer.remove(selection.objectID) else { return }
+        commitObjects(layer, pageID: selection.pageID)
+    }
+
+    func duplicateSelected() {
+        guard let selection else { return }
+        var layer = objects(for: selection.pageID)
+        guard let copy = layer.duplicate(selection.objectID) else { return }
+        commitObjects(layer, pageID: selection.pageID)
+        select(ObjectSelection(pageID: selection.pageID, objectID: copy.id))
+    }
+
+    func reorderSelected(toFront: Bool) {
+        guard let selection else { return }
+        var layer = objects(for: selection.pageID)
+        if toFront { layer.bringToFront(selection.objectID) } else { layer.sendToBack(selection.objectID) }
+        commitObjects(layer, pageID: selection.pageID)
+    }
+
+    func toggleLockSelected() {
+        guard let selection, let object = selectedObject else { return }
+        var layer = objects(for: selection.pageID)
+        layer.setLocked(!object.isLocked, id: selection.objectID)
+        commitObjects(layer, pageID: selection.pageID)
+    }
+
+    func rotateSelected() {
+        updateSelected { $0.rotation = ($0.rotation + 90).truncatingRemainder(dividingBy: 360) }
+    }
+
+    func beginEditingText(_ target: ObjectSelection) {
+        guard let object = objects(for: target.pageID).object(id: target.objectID),
+              object.hasText, !object.isLocked else { return }
+        select(target)
+        textEditTarget = TextEditTarget(selection: target, text: object.text ?? "")
+    }
+
+    func applyText(_ text: String, to target: ObjectSelection) {
+        var layer = objects(for: target.pageID)
+        guard layer.update(target.objectID, { $0.text = text }) else { return }
+        commitObjects(layer, pageID: target.pageID)
+    }
+
     // MARK: Page operations
 
     func addPage(template: PageTemplate) {
@@ -106,6 +338,7 @@ final class EditorModel {
         do {
             let copy = try manifest.duplicatePage(pageID)
             try store.copyInk(documentID: documentID, from: pageID, to: copy.id)
+            try store.copyObjects(documentID: documentID, from: pageID, to: copy.id)
             commitStructureChange(scrollTo: copy.id)
         } catch {
             alertMessage = error.localizedDescription
@@ -118,6 +351,9 @@ final class EditorModel {
             try manifest.removePage(pageID)
             autosaver.discard(pageID: pageID)
             store.deleteInk(documentID: documentID, pageID: pageID)
+            store.deleteObjects(documentID: documentID, pageID: pageID)
+            objectLayers[pageID] = nil
+            if selection?.pageID == pageID { selection = nil }
             inkRevisions[pageID] = nil
             canvas?.clearUndoHistory()
             currentPageIndex = min(currentPageIndex, manifest.pages.count - 1)

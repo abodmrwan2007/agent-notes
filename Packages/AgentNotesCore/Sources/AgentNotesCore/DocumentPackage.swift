@@ -29,10 +29,49 @@ public struct DocumentPackageLayout: Sendable {
         inkDirectory.appendingPathComponent(pageID.uuidString + ".ink", isDirectory: false)
     }
 
+    public var objectsDirectory: URL {
+        root.appendingPathComponent(DocumentFormat.objectsDirectoryName, isDirectory: true)
+    }
+
+    public var assetsDirectory: URL {
+        root.appendingPathComponent(DocumentFormat.assetsDirectoryName, isDirectory: true)
+    }
+
+    /// Typed text, sticky notes, shapes and image placements of one page.
+    public func objectsURL(pageID: UUID) -> URL {
+        objectsDirectory.appendingPathComponent(pageID.uuidString + ".json", isDirectory: false)
+    }
+
+    /// A binary asset (an inserted image) referenced by page objects.
+    public func assetURL(fileName: String) -> URL {
+        assetsDirectory.appendingPathComponent(fileName, isDirectory: false)
+    }
+
+    /// Safe to call on an existing package: also creates directories added by newer format versions.
     public func createDirectories(using fileManager: FileManager = .default) throws {
-        try fileManager.createDirectory(at: root, withIntermediateDirectories: true)
-        try fileManager.createDirectory(at: sourcesDirectory, withIntermediateDirectories: true)
-        try fileManager.createDirectory(at: inkDirectory, withIntermediateDirectories: true)
+        for directory in [root, sourcesDirectory, inkDirectory, objectsDirectory, assetsDirectory] {
+            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        }
+    }
+
+    /// Missing file means "no objects on this page".
+    public func readObjects(pageID: UUID) throws -> PageObjectLayer {
+        let url = objectsURL(pageID: pageID)
+        guard FileManager.default.fileExists(atPath: url.path) else { return PageObjectLayer() }
+        return try PageObjectCodec.decode(Data(contentsOf: url))
+    }
+
+    /// Atomic. An empty layer removes the file.
+    public func writeObjects(_ layer: PageObjectLayer, pageID: UUID) throws {
+        let url = objectsURL(pageID: pageID)
+        if layer.isEmpty {
+            if FileManager.default.fileExists(atPath: url.path) {
+                try FileManager.default.removeItem(at: url)
+            }
+            return
+        }
+        try FileManager.default.createDirectory(at: objectsDirectory, withIntermediateDirectories: true)
+        try PageObjectCodec.encode(layer).write(to: url, options: .atomic)
     }
 
     public func readManifest() throws -> DocumentManifest {
@@ -56,8 +95,13 @@ public enum ManifestCodecError: Error, Equatable {
 public enum ManifestCodec {
     public typealias Migration = (inout [String: Any]) throws -> Void
 
-    /// Keyed by the version being upgraded FROM. Version 1 is the first format, so this is empty.
-    static let migrations: [Int: Migration] = [:]
+    /// Keyed by the version being upgraded FROM.
+    static let migrations: [Int: Migration] = [
+        // 1 -> 2: page objects and assets were added as new, optional files. The manifest itself
+        // is unchanged, so there is nothing to rewrite; the version bump stops older app
+        // versions from opening (and silently ignoring the objects of) newer documents.
+        1: { _ in }
+    ]
 
     public static func encode(_ manifest: DocumentManifest) throws -> Data {
         let encoder = JSONEncoder()

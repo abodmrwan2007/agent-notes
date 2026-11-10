@@ -19,6 +19,7 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     /// While true, the page width tracks the view width (e.g. when a side panel opens or the iPad rotates).
     private var followsFitZoom = true
     private var currentTool: PKTool = PKInkingTool(.pen, color: .black, width: 3)
+    private var isObjectMode = false
 
     private static let margin: CGFloat = 24
     private static let pageSpacing: CGFloat = 20
@@ -107,6 +108,57 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         let maxY = max(0, scrollView.contentSize.height - scrollView.bounds.height)
         let y = min(max(0, (pageView.frame.minY - Self.margin / 2) * scrollView.zoomScale), maxY)
         scrollView.setContentOffset(CGPoint(x: scrollView.contentOffset.x, y: y), animated: animated)
+    }
+
+    // MARK: Page objects
+
+    /// Object mode: touches select and edit objects instead of drawing ink.
+    func setObjectMode(_ enabled: Bool) {
+        guard isObjectMode != enabled else { return }
+        isObjectMode = enabled
+        for pageView in pageViews {
+            pageView.setObjectMode(enabled)
+        }
+    }
+
+    func refreshObjects(pageID: UUID) {
+        pageViews.first { $0.pageID == pageID }?.objectsView?.setLayer(model.objects(for: pageID))
+        refreshObjectSelection()
+    }
+
+    func refreshObjectSelection() {
+        let selection = model.selection
+        for pageView in pageViews {
+            pageView.objectsView?.selectedID = selection?.pageID == pageView.pageID ? selection?.objectID : nil
+        }
+    }
+
+    func registerUndo(_ action: @escaping () -> Void) {
+        editorUndoManager.registerUndo(withTarget: self) { _ in action() }
+        undoStateChanged()
+    }
+
+    /// Centre of the part of a page that is currently on screen, in page coordinates.
+    func visibleCenter(ofPage pageID: UUID) -> PagePoint? {
+        let zoom = scrollView.zoomScale
+        guard zoom > 0, let pageView = pageViews.first(where: { $0.pageID == pageID }) else { return nil }
+        let visible = CGRect(
+            x: scrollView.contentOffset.x / zoom,
+            y: scrollView.contentOffset.y / zoom,
+            width: scrollView.bounds.width / zoom,
+            height: scrollView.bounds.height / zoom)
+        let onPage = visible.intersection(pageView.frame)
+        guard !onPage.isNull, !onPage.isEmpty else { return nil }
+        return PagePoint(
+            x: Double(onPage.midX - pageView.frame.minX),
+            y: Double(onPage.midY - pageView.frame.minY))
+    }
+
+    /// Objects are drawn by an ordinary view that an ancestor transform scales, so its backing
+    /// store is re-rendered at the zoomed resolution to keep text sharp.
+    private var objectRenderScale: CGFloat {
+        let screenScale = view.window?.screen.scale ?? traitCollection.displayScale
+        return max(screenScale, 1) * min(max(scrollView.zoomScale, 1), 4)
     }
 
     func undo() {
@@ -271,8 +323,27 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
             drawing = PKDrawing()
             isEditable = false
         }
+        let pageID = pageView.pageID
+        let objectsView = PageObjectsView(
+            layer: model.objects(for: pageID),
+            pageSize: pageView.page.size,
+            assetProvider: { [weak model = self.model] name in model?.asset(named: name) })
+        objectsView.onSelect = { [weak self] id in
+            self?.model.select(id.map { ObjectSelection(pageID: pageID, objectID: $0) })
+        }
+        objectsView.onCommit = { [weak self] layer in
+            self?.model.commitObjects(layer, pageID: pageID)
+        }
+        objectsView.onEditText = { [weak self] id in
+            self?.model.beginEditingText(ObjectSelection(pageID: pageID, objectID: id))
+        }
+        let selection = model.selection
+        objectsView.selectedID = selection?.pageID == pageID ? selection?.objectID : nil
+        objectsView.setRenderScale(objectRenderScale)
+
         pageView.load(
-            drawing: drawing, isEditable: isEditable, tool: currentTool, policy: drawingPolicy, delegate: self)
+            drawing: drawing, isEditable: isEditable, objectsView: objectsView, isObjectMode: isObjectMode,
+            tool: currentTool, policy: drawingPolicy, delegate: self)
     }
 
     private var drawingPolicy: PKCanvasViewDrawingPolicy {
@@ -310,6 +381,10 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         guard scrollView === self.scrollView else { return }
         followsFitZoom = abs(scale - fitZoom) < 0.02
         updateVisiblePages()
+        let renderScale = objectRenderScale
+        for pageView in pageViews {
+            pageView.objectsView?.setRenderScale(renderScale)
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

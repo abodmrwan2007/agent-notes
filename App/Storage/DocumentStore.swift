@@ -91,6 +91,41 @@ final class DocumentStore: @unchecked Sendable {
         try fileManager.copyItem(at: source, to: files.inkURL(pageID: targetPageID))
     }
 
+    // MARK: Page objects and assets
+
+    /// Throws when the file exists but cannot be decoded, so callers never overwrite it blindly.
+    func loadObjects(documentID: UUID, pageID: UUID) throws -> PageObjectLayer {
+        try layout(for: documentID).readObjects(pageID: pageID)
+    }
+
+    func saveObjects(_ layer: PageObjectLayer, documentID: UUID, pageID: UUID) throws {
+        try layout(for: documentID).writeObjects(layer, pageID: pageID)
+    }
+
+    func deleteObjects(documentID: UUID, pageID: UUID) {
+        try? fileManager.removeItem(at: layout(for: documentID).objectsURL(pageID: pageID))
+    }
+
+    func copyObjects(documentID: UUID, from sourcePageID: UUID, to targetPageID: UUID) throws {
+        let files = self.layout(for: documentID)
+        let source = files.objectsURL(pageID: sourcePageID)
+        guard fileManager.fileExists(atPath: source.path) else { return }
+        try fileManager.copyItem(at: source, to: files.objectsURL(pageID: targetPageID))
+    }
+
+    func assetURL(documentID: UUID, fileName: String) -> URL {
+        layout(for: documentID).assetURL(fileName: fileName)
+    }
+
+    /// Stores image data inside the package and returns its file name.
+    func addAsset(_ data: Data, fileExtension: String, documentID: UUID) throws -> String {
+        let files = self.layout(for: documentID)
+        try fileManager.createDirectory(at: files.assetsDirectory, withIntermediateDirectories: true)
+        let fileName = UUID().uuidString + "." + fileExtension
+        try data.write(to: files.assetURL(fileName: fileName), options: .atomic)
+        return fileName
+    }
+
     /// Opens a fresh PDFDocument instance. Callers on different threads must not share one.
     func openPDF(manifest: DocumentManifest, sourceID: UUID) -> PDFDocument? {
         guard let source = manifest.sources.first(where: { $0.id == sourceID }) else { return nil }

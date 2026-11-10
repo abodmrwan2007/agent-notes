@@ -84,7 +84,16 @@ final class ThumbnailService: @unchecked Sendable {
             pdfPage = openPDF?.page(at: reference.pageIndex)
         }
         let ink = store.loadInkData(documentID: manifest.id, pageID: page.id).flatMap { try? PKDrawing(data: $0) }
-        return PageRenderer.image(page: page, pdfPage: pdfPage, ink: ink, maxDimension: maxDimension)
+        let objects = (try? store.loadObjects(documentID: manifest.id, pageID: page.id)) ?? PageObjectLayer()
+        let assetStore = self.store
+        let documentID = manifest.id
+        return PageRenderer.image(
+            page: page,
+            pdfPage: pdfPage,
+            objects: objects,
+            asset: { UIImage(contentsOfFile: assetStore.assetURL(documentID: documentID, fileName: $0).path) },
+            ink: ink,
+            maxDimension: maxDimension)
     }
 
     private func deleteCoverFiles(prefix: String, keeping: String?) {

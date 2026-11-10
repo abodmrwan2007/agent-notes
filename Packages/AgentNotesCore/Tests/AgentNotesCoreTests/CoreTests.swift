@@ -39,20 +39,53 @@ final class ManifestCodecTests: XCTestCase {
         }
     }
 
+    /// A manifest exactly as version 1 of the app wrote it (before page objects existed).
+    private let version1Fixture = """
+    {
+      "createdAt" : "2023-11-14T22:13:20Z",
+      "formatVersion" : 1,
+      "id" : "11111111-2222-3333-4444-555555555555",
+      "inkEncoding" : "apple.pencilkit.drawing",
+      "modifiedAt" : "2023-11-14T22:13:20Z",
+      "pages" : [
+        {
+          "id" : "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+          "isBookmarked" : true,
+          "size" : { "height" : 842, "width" : 595 },
+          "template" : "ruled"
+        }
+      ],
+      "sources" : [],
+      "title" : "قلب Heart"
+    }
+    """
+
+    func testVersion1DocumentsStillOpenAndAreUpgraded() throws {
+        let decoded = try ManifestCodec.decode(Data(version1Fixture.utf8))
+        XCTAssertEqual(decoded.formatVersion, DocumentFormat.currentVersion)
+        XCTAssertEqual(decoded.title, "قلب Heart")
+        XCTAssertEqual(decoded.id, UUID(uuidString: "11111111-2222-3333-4444-555555555555"))
+        XCTAssertEqual(decoded.pages.count, 1)
+        XCTAssertEqual(decoded.pages[0].template, .ruled)
+        XCTAssertTrue(decoded.pages[0].isBookmarked)
+        XCTAssertEqual(decoded.createdAt, Date(timeIntervalSince1970: 1_700_000_000))
+    }
+
     func testMigrationStepsRunInOrder() throws {
-        // Simulate a future v2 that renames `title` -> handled by a v1->v2 step that uppercases it.
-        let data = try ManifestCodec.encode(sampleManifest())
+        // A made-up future chain on top of the fixture: 1 -> 2 -> 3, each step leaving a mark.
         let migrations: [Int: ManifestCodec.Migration] = [
-            1: { object in object["title"] = "migrated" }
+            1: { object in object["title"] = "one" },
+            2: { object in object["title"] = (object["title"] as? String ?? "") + "+two" }
         ]
-        let decoded = try ManifestCodec.decode(data, migrations: migrations, currentVersion: 2)
-        XCTAssertEqual(decoded.title, "migrated")
-        XCTAssertEqual(decoded.formatVersion, 2)
+        let decoded = try ManifestCodec.decode(Data(version1Fixture.utf8), migrations: migrations, currentVersion: 3)
+        XCTAssertEqual(decoded.title, "one+two")
+        XCTAssertEqual(decoded.formatVersion, 3)
     }
 
     func testMissingMigrationIsAnError() throws {
-        let data = try ManifestCodec.encode(sampleManifest())
-        XCTAssertThrowsError(try ManifestCodec.decode(data, migrations: [:], currentVersion: 2)) { error in
+        XCTAssertThrowsError(
+            try ManifestCodec.decode(Data(version1Fixture.utf8), migrations: [:], currentVersion: 2)
+        ) { error in
             XCTAssertEqual(error as? ManifestCodecError, .missingMigration(from: 1))
         }
     }

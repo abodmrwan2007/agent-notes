@@ -8,6 +8,8 @@ enum InkToolKind: String, CaseIterable, Identifiable {
     case highlighter
     case eraser
     case lasso
+    /// Select, move and resize page objects (text, notes, shapes, images) instead of drawing.
+    case objects
 
     var id: String { rawValue }
 
@@ -18,6 +20,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .highlighter: return "Highlighter"
         case .eraser: return "Eraser"
         case .lasso: return "Lasso"
+        case .objects: return "Objects"
         }
     }
 
@@ -28,6 +31,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .highlighter: return "highlighter"
         case .eraser: return "eraser"
         case .lasso: return "lasso"
+        case .objects: return "cursorarrow"
         }
     }
 
@@ -37,7 +41,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .pen: return .pen
         case .pencil: return .pencil
         case .highlighter: return .marker
-        case .eraser, .lasso: return nil
+        case .eraser, .lasso, .objects: return nil
         }
     }
 
@@ -96,6 +100,11 @@ struct ToolState: Equatable {
         set { widths[kind] = newValue }
     }
 
+    /// Colour given to newly inserted text and shapes: the current pen colour.
+    var objectColorHex: String {
+        (colors[.pen] ?? ToolState.presetColors[0]).hexString
+    }
+
     var palette: [UIColor] {
         kind == .highlighter ? ToolState.highlighterColors : ToolState.presetColors
     }
@@ -108,6 +117,9 @@ struct ToolState: Equatable {
             return PKLassoTool()
         case .pen, .pencil, .highlighter:
             return PKInkingTool(kind.inkType ?? .pen, color: color, width: width)
+        case .objects:
+            // The ink canvas ignores touches in object mode; this tool is never used to draw.
+            return PKInkingTool(.pen, color: colors[.pen] ?? ToolState.presetColors[0], width: widths[.pen] ?? 3)
         }
     }
 }

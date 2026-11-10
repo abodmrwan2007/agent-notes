@@ -245,6 +245,30 @@ AR = {
     "Break finished": "انتهت الاستراحة",
     "Time for a break.": "حان وقت الاستراحة.",
     "Time to focus again.": "حان وقت العودة إلى التركيز.",
+    # Page objects
+    "Objects": "العناصر",
+    "Insert": "إدراج",
+    "Text Box": "مربع نص",
+    "Sticky Note": "ملاحظة لاصقة",
+    "Shape": "شكل",
+    "Image from Photos": "صورة من الصور",
+    "Rectangle": "مستطيل",
+    "Ellipse": "شكل بيضاوي",
+    "Line": "خط",
+    "Arrow": "سهم",
+    "Edit Text": "تعديل النص",
+    "Bring to Front": "إحضار إلى الأمام",
+    "Send to Back": "إرسال إلى الخلف",
+    "Rotate": "تدوير",
+    "Lock": "قفل",
+    "Unlock": "فتح القفل",
+    "Delete": "حذف",
+    "Text": "نص",
+    "Tap an object to select it. Use Insert to add text, notes, shapes and images.":
+        "اضغط على عنصر لتحديده. استخدم «إدراج» لإضافة نص وملاحظات وأشكال وصور.",
+    "The objects on this page could not be read, so they cannot be changed.":
+        "تعذّرت قراءة عناصر هذه الصفحة، لذلك لا يمكن تعديلها.",
+    "This picture could not be read.": "تعذّرت قراءة هذه الصورة.",
 }
 
 

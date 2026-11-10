@@ -1,4 +1,5 @@
 import AgentNotesCore
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -53,6 +54,8 @@ struct EditorScreen: View {
     @State private var pagePendingDeletion: PageRecord?
     @State private var sharedFile: SharedFile?
     @State private var isExporting = false
+    @State private var isPickingPhoto = false
+    @State private var pickedPhoto: PhotosPickerItem?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -92,6 +95,23 @@ struct EditorScreen: View {
         .namePrompt($prompt)
         .sheet(item: $sharedFile) { file in
             ActivityView(items: [file.url])
+        }
+        .sheet(item: $model.textEditTarget) { target in
+            TextEditSheet(initialText: target.text) { text in
+                model.applyText(text, to: target.selection)
+            }
+        }
+        .photosPicker(isPresented: $isPickingPhoto, selection: $pickedPhoto, matching: .images)
+        .onChange(of: pickedPhoto) { _, item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    model.insertImage(data: data)
+                } else {
+                    model.alertMessage = String(localized: "This picture could not be read.")
+                }
+                pickedPhoto = nil
+            }
         }
         .confirmationDialog(
             "Delete this page?",
@@ -149,6 +169,38 @@ struct EditorScreen: View {
                 .font(.subheadline)
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
+
+            Menu {
+                Button {
+                    model.insertObject(kind: .text)
+                } label: {
+                    Label("Text Box", systemImage: "textformat")
+                }
+                Button {
+                    model.insertObject(kind: .stickyNote)
+                } label: {
+                    Label("Sticky Note", systemImage: "note.text")
+                }
+                Menu {
+                    ForEach(ShapeKind.allCases, id: \.self) { shape in
+                        Button {
+                            model.insertObject(kind: .shape, shape: shape)
+                        } label: {
+                            Label(shape.title, systemImage: shape.symbol)
+                        }
+                    }
+                } label: {
+                    Label("Shape", systemImage: "square.on.circle")
+                }
+                Button {
+                    isPickingPhoto = true
+                } label: {
+                    Label("Image from Photos", systemImage: "photo")
+                }
+            } label: {
+                Image(systemName: "plus.circle")
+            }
+            .accessibilityLabel("Insert")
 
             Menu {
                 ForEach(PageTemplate.allCases, id: \.self) { template in
@@ -305,6 +357,10 @@ struct InkToolbar: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
         .background(.bar)
+        .onChange(of: model.tool.kind) { _, kind in
+            // Leaving object mode clears the selection.
+            if kind != .objects { model.select(nil) }
+        }
     }
 
     @ViewBuilder
@@ -342,10 +398,166 @@ struct InkToolbar: View {
             }
             .pickerStyle(.segmented)
             .frame(maxWidth: 240)
+        } else if model.tool.kind == .objects {
+            ObjectOptions(model: model)
         } else {
             Text("Circle strokes to select them, then drag to move.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
+        }
+    }
+}
+
+// MARK: - Page objects
+
+extension ShapeKind {
+    var title: LocalizedStringKey {
+        switch self {
+        case .rectangle: return "Rectangle"
+        case .ellipse: return "Ellipse"
+        case .line: return "Line"
+        case .arrow: return "Arrow"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .rectangle: return "rectangle"
+        case .ellipse: return "circle"
+        case .line: return "line.diagonal"
+        case .arrow: return "arrow.down.right"
+        }
+    }
+}
+
+/// Actions for the selected object, shown in the toolbar while the Objects tool is active.
+struct ObjectOptions: View {
+    let model: EditorModel
+
+    private static let stickyColors = ["FFE066", "B8F2C8", "A8E0FF", "FFC2D6", "FFFFFF"]
+
+    var body: some View {
+        if let object = model.selectedObject {
+            HStack(spacing: 14) {
+                if object.hasText {
+                    Button {
+                        if let selection = model.selection { model.beginEditingText(selection) }
+                    } label: {
+                        Image(systemName: "character.cursor.ibeam")
+                    }
+                    .accessibilityLabel("Edit Text")
+                    .accessibilityIdentifier("object.editText")
+                }
+
+                if object.kind != .image {
+                    let palette = object.kind == .stickyNote
+                        ? Self.stickyColors
+                        : ToolState.presetColors.map(\.hexString)
+                    ForEach(palette, id: \.self) { hex in
+                        Button {
+                            model.updateSelected { $0.colorHex = hex }
+                        } label: {
+                            Circle()
+                                .fill(Color(uiColor: UIColor(hex: hex)))
+                                .frame(width: 22, height: 22)
+                                .overlay(Circle().strokeBorder(Color.gray.opacity(0.5), lineWidth: 1))
+                        }
+                        .accessibilityLabel("Color")
+                    }
+                }
+
+                Divider().frame(height: 24)
+
+                Button {
+                    model.duplicateSelected()
+                } label: {
+                    Image(systemName: "plus.square.on.square")
+                }
+                .accessibilityLabel("Duplicate")
+                .accessibilityIdentifier("object.duplicate")
+
+                Button {
+                    model.reorderSelected(toFront: true)
+                } label: {
+                    Image(systemName: "square.3.layers.3d.top.filled")
+                }
+                .accessibilityLabel("Bring to Front")
+
+                Button {
+                    model.reorderSelected(toFront: false)
+                } label: {
+                    Image(systemName: "square.3.layers.3d.bottom.filled")
+                }
+                .accessibilityLabel("Send to Back")
+
+                Button {
+                    model.rotateSelected()
+                } label: {
+                    Image(systemName: "rotate.right")
+                }
+                .accessibilityLabel("Rotate")
+                .accessibilityIdentifier("object.rotate")
+
+                Button {
+                    model.toggleLockSelected()
+                } label: {
+                    Image(systemName: object.isLocked ? "lock.fill" : "lock.open")
+                }
+                .accessibilityLabel(object.isLocked ? Text("Unlock") : Text("Lock"))
+                .accessibilityIdentifier("object.lock")
+
+                Button(role: .destructive) {
+                    model.deleteSelected()
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .accessibilityLabel("Delete")
+                .accessibilityIdentifier("object.delete")
+                .disabled(object.isLocked)
+            }
+            .disabled(false)
+        } else {
+            Text("Tap an object to select it. Use Insert to add text, notes, shapes and images.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// Edits the text of a text box or sticky note.
+struct TextEditSheet: View {
+    let initialText: String
+    let onSave: (String) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+    @FocusState private var isFocused: Bool
+
+    var body: some View {
+        NavigationStack {
+            TextEditor(text: $text)
+                .font(.title3)
+                .padding(12)
+                .focused($isFocused)
+                .accessibilityIdentifier("object.textEditor")
+                .navigationTitle("Edit Text")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") { dismiss() }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") {
+                            onSave(text)
+                            dismiss()
+                        }
+                    }
+                }
+        }
+        .presentationDetents([.medium, .large])
+        .onAppear {
+            text = initialText
+            isFocused = true
         }
     }
 }
@@ -479,6 +691,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
             context.coordinator.appliedTool = tool
             controller.apply(tool: tool.makeTool())
         }
+        controller.setObjectMode(tool.kind == .objects)
     }
 }
 

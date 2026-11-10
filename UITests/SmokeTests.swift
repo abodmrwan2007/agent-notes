@@ -239,4 +239,70 @@ final class SmokeTests: XCTestCase {
         shot("20-focus-timer")
         tap(app, "timer.pause")
     }
+
+    private func openMenu(_ app: XCUIApplication, _ label: String) {
+        let button = app.buttons[label].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 5), "menu button \(label)")
+        button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+    }
+
+    private func menuItem(_ app: XCUIApplication, _ label: String) {
+        let item = app.buttons[label].firstMatch
+        XCTAssertTrue(item.waitForExistence(timeout: 5), "menu item \(label)")
+        item.tap()
+    }
+
+    func test5_pageObjects() {
+        var app = launch(language: "en")
+        tap(app, "library.card", timeout: 15)
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        sleep(1)
+
+        // Insert a rectangle: it appears selected, with the object actions in the toolbar.
+        openMenu(app, "Insert")
+        menuItem(app, "Shape")
+        menuItem(app, "Rectangle")
+        XCTAssertTrue(element(app, "object.delete").waitForExistence(timeout: 5), "shape was not inserted and selected")
+        shot("21-object-shape")
+
+        // Drag it away from the centre.
+        let centre = CGVector(dx: 0.57, dy: 0.55)
+        app.coordinate(withNormalizedOffset: centre)
+            .press(forDuration: 0.2, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.36, dy: 0.30)))
+        shot("22-object-moved")
+
+        // Insert a sticky note; the text sheet opens. Type into it.
+        openMenu(app, "Insert")
+        menuItem(app, "Sticky Note")
+        let editor = element(app, "object.textEditor")
+        XCTAssertTrue(editor.waitForExistence(timeout: 5), "text sheet did not open")
+        editor.tap()
+        editor.typeText("Mitral valve = الصمام التاجي")
+        shot("23-object-text-sheet")
+        app.buttons["Done"].tap()
+        XCTAssertTrue(element(app, "object.editText").waitForExistence(timeout: 5), "sticky note not selected")
+        sleep(1)
+        shot("24-object-sticky")
+
+        // Rotate and duplicate the note, then undo the duplication.
+        tap(app, "object.rotate")
+        tap(app, "object.duplicate")
+        sleep(1)
+        shot("25-object-rotated-duplicated")
+        app.buttons["Undo"].tap()
+        sleep(1)
+        shot("26-object-after-undo")
+
+        // Objects must survive a kill and relaunch, and appear on the library cover.
+        sleep(1)
+        app.terminate()
+        app = launch(language: "en")
+        XCTAssertTrue(element(app, "library.card").waitForExistence(timeout: 15))
+        sleep(2)
+        shot("27-library-cover-with-objects")
+        tap(app, "library.card")
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        sleep(2)
+        shot("28-objects-after-relaunch")
+    }
 }
