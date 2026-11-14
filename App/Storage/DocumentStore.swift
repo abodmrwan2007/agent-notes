@@ -1,12 +1,14 @@
 import AgentNotesCore
 import Foundation
 import PDFKit
+import UIKit
 
 enum DocumentStoreError: LocalizedError {
     case unreadablePDF
     case lockedPDF
     case emptyPDF
     case notAPackage
+    case unreadableImage
 
     var errorDescription: String? {
         switch self {
@@ -18,6 +20,8 @@ enum DocumentStoreError: LocalizedError {
             return String(localized: "This PDF has no pages.")
         case .notAPackage:
             return String(localized: "This file is not a valid notebook package.")
+        case .unreadableImage:
+            return String(localized: "None of the selected images could be read.")
         }
     }
 }
@@ -176,6 +180,55 @@ final class DocumentStore: @unchecked Sendable {
             try layout.writeManifest(manifest)
         }
         return manifest
+    }
+
+    /// One notebook from photos or scans: one page per image, sized to the image's proportions at
+    /// the default page width. Each image is stored in the package and placed as a locked,
+    /// full-page object, so it cannot be moved by accident and ink goes on top of it.
+    func importImages(from urls: [URL], title: String) throws -> DocumentManifest {
+        var manifest = DocumentManifest(title: title, pages: [])
+        try assemblePackage(for: manifest.id) { layout in
+            for url in urls {
+                let scoped = url.startAccessingSecurityScopedResource()
+                defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+                guard let data = try? Data(contentsOf: url), let image = UIImage(data: data),
+                      image.size.width > 0, image.size.height > 0 else { continue }
+
+                let jpeg = Self.normalizedJPEG(image, maxPixels: 2400)
+                let fileName = UUID().uuidString + ".jpg"
+                try jpeg.write(to: layout.assetURL(fileName: fileName), options: .atomic)
+
+                let width = AppConfig.defaultPageSize.width
+                let height = (width * Double(image.size.height / image.size.width)).rounded()
+                let page = PageRecord(size: PageSize(width: width, height: height), template: .blank)
+                var objects = PageObjectLayer()
+                objects.add(PageObject(
+                    kind: .image, frame: PageRect(x: 0, y: 0, width: width, height: height),
+                    isLocked: true, assetFileName: fileName))
+                try layout.writeObjects(objects, pageID: page.id)
+                manifest.pages.append(page)
+            }
+            guard !manifest.pages.isEmpty else { throw DocumentStoreError.unreadableImage }
+            try layout.writeManifest(manifest)
+        }
+        return manifest
+    }
+
+    /// Bakes in the photo's orientation and limits the size; returns JPEG data.
+    private static func normalizedJPEG(_ image: UIImage, maxPixels: CGFloat) -> Data {
+        let pixelWidth = image.size.width * image.scale
+        let pixelHeight = image.size.height * image.scale
+        let factor = min(maxPixels / max(pixelWidth, pixelHeight), 1)
+        let target = CGSize(width: pixelWidth * factor, height: pixelHeight * factor)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        format.opaque = true
+        let rendered = UIGraphicsImageRenderer(size: target, format: format).image { context in
+            UIColor.white.setFill()
+            context.fill(CGRect(origin: .zero, size: target))
+            image.draw(in: CGRect(origin: .zero, size: target))
+        }
+        return rendered.jpegData(compressionQuality: 0.85) ?? Data()
     }
 
     /// Imports a native package exported from this app. Keeps its identifier unless it collides.

@@ -370,4 +370,65 @@ final class SmokeTests: XCTestCase {
         sleep(2)
         shot("34-rotated-page-highlight")
     }
+
+    private func card(_ app: XCUIApplication, titled title: String) -> XCUIElement {
+        app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier == 'library.card' AND label CONTAINS %@", title))
+            .firstMatch
+    }
+
+    func test7_tagsImagesAndShapeSnapping() {
+        continueAfterFailure = true
+        var app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+
+        // Imported images became one notebook with one page per image.
+        let photos = card(app, titled: "Whiteboard photos")
+        XCTAssertTrue(photos.waitForExistence(timeout: 15), "image notebook missing")
+        sleep(1)
+        shot("35-library-with-image-notebook")
+        photos.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        XCTAssertTrue(app.staticTexts["Page 1 of 2"].waitForExistence(timeout: 5), "expected two image pages")
+        sleep(2)
+        shot("36-image-pages")
+
+        // Hold-to-snap: draw a stroke, keep the finger still, lift.
+        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.62))
+        let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.75, dy: 0.70))
+        start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.9)
+        sleep(1)
+        shot("37-stroke-held-snapped")
+        XCTAssertTrue(app.buttons["Undo"].isEnabled, "the stroke was not registered")
+        app.buttons["Undo"].tap()
+        sleep(1)
+        shot("38-after-undo-snapped-stroke")
+        tap(app, "editor.back")
+
+        // Tags: add one from the notebook's context menu, then filter by it in the sidebar.
+        let cardiology = card(app, titled: "Cardiology fixture")
+        XCTAssertTrue(cardiology.waitForExistence(timeout: 10))
+        cardiology.press(forDuration: 1.2)
+        let tagsItem = app.buttons["Tags…"].firstMatch
+        XCTAssertTrue(tagsItem.waitForExistence(timeout: 5), "Tags… menu item")
+        tagsItem.tap()
+        let field = element(app, "tags.newTag")
+        XCTAssertTrue(field.waitForExistence(timeout: 5))
+        field.tap()
+        field.typeText("cardiology\n")
+        shot("39-tag-editor")
+        tap(app, "tags.done")
+        sleep(1)
+        shot("40-card-with-tag")
+
+        // The tag survives a relaunch and filters the library.
+        app.terminate()
+        app = launch(language: "en")
+        let tagRow = app.staticTexts["cardiology"].firstMatch
+        XCTAssertTrue(tagRow.waitForExistence(timeout: 15), "tag missing from the sidebar after relaunch")
+        tagRow.tap()
+        sleep(1)
+        XCTAssertTrue(card(app, titled: "Cardiology fixture").exists, "tag filter does not show the tagged notebook")
+        XCTAssertFalse(card(app, titled: "Whiteboard photos").exists, "tag filter shows an untagged notebook")
+        shot("41-tag-filter")
+    }
 }

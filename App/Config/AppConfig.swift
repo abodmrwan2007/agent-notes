@@ -29,6 +29,10 @@ enum SettingsKey {
     static let allowsFingerDrawing = "allowsFingerDrawing"
     static let defaultTemplate = "defaultTemplate"
     static let librarySort = "librarySort"
+    /// Replace a stroke with a clean line, circle, ellipse or rectangle when the pen is held at its end.
+    static let snapShapesOnHold = "snapShapesOnHold"
+    /// 0 (off) to 1 (strong), applied when each stroke is finished.
+    static let smoothingStrength = "smoothingStrength"
 }
 
 extension UTType {

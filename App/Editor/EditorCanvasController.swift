@@ -423,7 +423,24 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
         guard let pageView = canvasView.superview as? PageView, !pageView.isApplyingDrawing else { return }
         pageView.hasSessionEdits = true
-        model.inkChanged(pageID: pageView.pageID, drawing: canvasView.drawing)
+        let drawing = canvasView.drawing
+
+        // Exactly one new stroke drawn with a pen, pencil or highlighter: snap or smooth it.
+        let addedOneStroke = drawing.strokes.count == pageView.strokeCount + 1
+        pageView.strokeCount = drawing.strokes.count
+        if addedOneStroke, currentTool is PKInkingTool, let refined = InkRefiner.refineLastStroke(of: drawing) {
+            // Replaced on the next run-loop turn: assigning the drawing from inside this callback
+            // is not safe. The unrefined stroke is never saved.
+            let pageID = pageView.pageID
+            DispatchQueue.main.async { [weak self, weak pageView] in
+                guard let self, let pageView, pageView.canvas === canvasView else { return }
+                pageView.replaceDrawing(refined)
+                self.model.inkChanged(pageID: pageID, drawing: refined)
+                self.undoStateChanged()
+            }
+            return
+        }
+        model.inkChanged(pageID: pageView.pageID, drawing: drawing)
         undoStateChanged()
     }
 }

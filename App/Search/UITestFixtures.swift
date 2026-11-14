@@ -7,6 +7,33 @@ import UIKit
 /// behaviour: it only runs when the app is launched with `-uiTestSeedPDF` in a Debug build.
 enum UITestFixtures {
     static let pdfTitle = "Cardiology fixture"
+    static let imagesTitle = "Whiteboard photos"
+
+    /// Two "photos" of different shapes (landscape and portrait) for the image-import path.
+    static func makeWhiteboardImages() throws -> [URL] {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("fixtures", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let specs: [(String, CGSize, UIColor)] = [
+            ("whiteboard-1.png", CGSize(width: 1600, height: 1000), UIColor(red: 0.93, green: 0.96, blue: 1, alpha: 1)),
+            ("whiteboard-2.png", CGSize(width: 900, height: 1400), UIColor(red: 1, green: 0.97, blue: 0.88, alpha: 1))
+        ]
+        return try specs.map { name, size, color in
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = 1
+            let data = UIGraphicsImageRenderer(size: size, format: format).pngData { context in
+                color.setFill()
+                context.fill(CGRect(origin: .zero, size: size))
+                UIColor.darkGray.setStroke()
+                let frame = UIBezierPath(rect: CGRect(origin: .zero, size: size).insetBy(dx: 40, dy: 40))
+                frame.lineWidth = 12
+                frame.stroke()
+                draw(name, size: 64, weight: .bold, at: CGRect(x: 80, y: 80, width: size.width - 160, height: 100))
+            }
+            let url = directory.appendingPathComponent(name)
+            try data.write(to: url)
+            return url
+        }
+    }
 
     static func makeCardiologyPDF() throws -> URL {
         let directory = FileManager.default.temporaryDirectory.appendingPathComponent("fixtures", isDirectory: true)

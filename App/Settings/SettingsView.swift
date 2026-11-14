@@ -4,6 +4,8 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage(SettingsKey.allowsFingerDrawing) private var allowsFingerDrawing = false
     @AppStorage(SettingsKey.defaultTemplate) private var defaultTemplateRaw = PageTemplate.ruled.rawValue
+    @AppStorage(SettingsKey.snapShapesOnHold) private var snapShapesOnHold = true
+    @AppStorage(SettingsKey.smoothingStrength) private var smoothingStrength = 0.0
 
     var body: some View {
         Form {
@@ -13,6 +15,24 @@ struct SettingsView: View {
                 Text("Writing")
             } footer: {
                 Text("When off, only Apple Pencil draws and one finger scrolls. When on, one finger draws and two fingers scroll.")
+            }
+
+            Section {
+                Toggle("Straighten shapes when holding the pen at the end", isOn: $snapShapesOnHold)
+                VStack(alignment: .leading) {
+                    Text("Stroke smoothing")
+                    Slider(value: $smoothingStrength, in: 0...1) {
+                        Text("Stroke smoothing")
+                    } minimumValueLabel: {
+                        Text("Off")
+                    } maximumValueLabel: {
+                        Text("Strong")
+                    }
+                }
+            } header: {
+                Text("Shapes and smoothing")
+            } footer: {
+                Text("Draw a line, circle, ellipse or rectangle and keep the pen still for half a second before lifting it. Both features apply when the stroke is finished, not while you write. Undo removes the corrected stroke.")
             }
 
             Section("New notebooks") {

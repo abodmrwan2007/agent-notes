@@ -1,6 +1,7 @@
 import AgentNotesCore
 import Foundation
 import Observation
+import UniformTypeIdentifiers
 
 enum SidebarItem: Hashable {
     case all
@@ -9,6 +10,7 @@ enum SidebarItem: Hashable {
     case trash
     case search
     case folder(String)
+    case tag(String)
     case study
     case atlas
     case community
@@ -16,7 +18,7 @@ enum SidebarItem: Hashable {
 
     var isLibrarySection: Bool {
         switch self {
-        case .all, .recents, .favorites, .trash, .folder: return true
+        case .all, .recents, .favorites, .trash, .folder, .tag: return true
         case .search, .study, .atlas, .community, .settings: return false
         }
     }
@@ -115,12 +117,17 @@ final class LibraryModel {
                     .prefix(30))
         case .folder(let id):
             result = active.filter { $0.folderID == id }
+        case .tag(let tag):
+            result = active.filter { $0.tags.contains(tag) }
         default:
             result = active
         }
 
         if !search.trimmingCharacters(in: .whitespaces).isEmpty {
-            result = result.filter { SearchNormalizer.matches($0.title, query: search) }
+            result = result.filter { row in
+                SearchNormalizer.matches(row.title, query: search)
+                    || row.tags.contains { SearchNormalizer.matches($0, query: search) }
+            }
         }
         guard item != .recents else { return result }
 
@@ -132,6 +139,17 @@ final class LibraryModel {
     }
 
     var trashCount: Int { documents.filter(\.isTrashed).count }
+
+    /// Every tag in use on a non-trashed notebook, sorted.
+    var allTags: [String] {
+        Set(documents.filter { !$0.isTrashed }.flatMap(\.tags))
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
+    func setTags(_ tags: [String], for document: DocumentRow) {
+        let cleaned = Set(tags.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty })
+        update(document) { $0.tags = cleaned.sorted { $0.localizedStandardCompare($1) == .orderedAscending } }
+    }
 
     var folderTree: [FolderNode] {
         func nodes(parent: String?) -> [FolderNode] {
@@ -175,12 +193,29 @@ final class LibraryModel {
         }
     }
 
-    /// Imports PDFs and native packages. Each file is processed off the main thread.
+    /// Imports PDFs and native packages (one notebook each) and images (all selected images
+    /// together become one notebook, in selection order). Work runs off the main thread.
     func importFiles(_ urls: [URL], folderID: String?) async {
         busyMessage = String(localized: "Importing…")
         defer { busyMessage = nil }
         let store = self.store
-        for url in urls {
+
+        let images = urls.filter { (UTType(filenameExtension: $0.pathExtension)?.conforms(to: .image)) ?? false }
+        if !images.isEmpty {
+            let title = images.count == 1
+                ? images[0].deletingPathExtension().lastPathComponent
+                : String(localized: "Imported images")
+            do {
+                let manifest = try await Task.detached(priority: .userInitiated) {
+                    try store.importImages(from: images, title: title)
+                }.value
+                try database.save(DocumentRow(manifest: manifest, folderID: folderID))
+            } catch {
+                report(error)
+            }
+        }
+
+        for url in urls where !images.contains(url) {
             let isPackage = url.pathExtension.lowercased() == DocumentFormat.packageExtension
             do {
                 let manifest = try await Task.detached(priority: .userInitiated) {
@@ -200,6 +235,16 @@ final class LibraryModel {
 
     #if DEBUG
     /// Development fixtures only (see UITestFixtures).
+    func importImagesSynchronously(_ urls: [URL], title: String) {
+        do {
+            let manifest = try store.importImages(from: urls, title: title)
+            try database.save(DocumentRow(manifest: manifest, folderID: nil))
+        } catch {
+            report(error)
+        }
+        reload()
+    }
+
     func importSynchronously(_ url: URL) {
         do {
             let manifest = try store.importPDF(from: url)

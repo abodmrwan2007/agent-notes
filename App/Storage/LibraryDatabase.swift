@@ -44,6 +44,12 @@ final class LibraryDatabase: @unchecked Sendable {
                 t.column("hasPDF", .boolean).notNull().defaults(to: false)
             }
         }
+        migrator.registerMigration("v2_tags") { db in
+            // JSON array of strings, written by GRDB's Codable support.
+            try db.alter(table: "document") { t in
+                t.add(column: "tags", .text).notNull().defaults(to: "[]")
+            }
+        }
         return migrator
     }
 

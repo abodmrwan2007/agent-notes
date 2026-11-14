@@ -66,10 +66,13 @@ final class AppModel {
     /// UI tests pass `-uiTestSeedPDF` to get a known PDF without driving the file picker.
     private func seedUITestFixturesIfRequested() {
         guard ProcessInfo.processInfo.arguments.contains("-uiTestSeedPDF") else { return }
-        let title = UITestFixtures.pdfTitle
-        if library.documents(for: .all, search: "", sort: .title).contains(where: { $0.title == title }) { return }
-        guard let url = try? UITestFixtures.makeCardiologyPDF() else { return }
-        library.importSynchronously(url)
+        let existing = Set(library.documents(for: .all, search: "", sort: .title).map(\.title))
+        if !existing.contains(UITestFixtures.pdfTitle), let url = try? UITestFixtures.makeCardiologyPDF() {
+            library.importSynchronously(url)
+        }
+        if !existing.contains(UITestFixtures.imagesTitle), let urls = try? UITestFixtures.makeWhiteboardImages() {
+            library.importImagesSynchronously(urls, title: UITestFixtures.imagesTitle)
+        }
     }
     #endif
 }

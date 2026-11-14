@@ -13,6 +13,7 @@ struct LibraryView: View {
     @State private var prompt: NamePrompt?
     @State private var pendingDeletion: DocumentRow?
     @State private var isConfirmingEmptyTrash = false
+    @State private var taggedDocument: DocumentRow?
 
     private var library: LibraryModel { app.library }
     private var sort: LibrarySort { LibrarySort(rawValue: sortRaw) ?? .modified }
@@ -29,6 +30,7 @@ struct LibraryView: View {
         case .favorites: return Text("Favorites")
         case .trash: return Text("Trash")
         case .folder(let id): return Text(verbatim: library.folderName(id: id) ?? "")
+        case .tag(let tag): return Text(verbatim: "#" + tag)
         default: return Text("All Notes")
         }
     }
@@ -64,7 +66,7 @@ struct LibraryView: View {
         .toolbar { toolbar }
         .fileImporter(
             isPresented: $isImporting,
-            allowedContentTypes: [.pdf, .agentNote],
+            allowedContentTypes: [.pdf, .image, .agentNote],
             allowsMultipleSelection: true
         ) { result in
             switch result {
@@ -75,6 +77,9 @@ struct LibraryView: View {
             }
         }
         .namePrompt($prompt)
+        .sheet(item: $taggedDocument) { document in
+            TagEditor(document: document)
+        }
         .confirmationDialog(
             "Delete permanently?",
             isPresented: Binding(get: { pendingDeletion != nil }, set: { if !$0 { pendingDeletion = nil } }),
@@ -217,6 +222,11 @@ struct LibraryView: View {
             } label: {
                 Label("Duplicate", systemImage: "plus.square.on.square")
             }
+            Button {
+                taggedDocument = document
+            } label: {
+                Label("Tags…", systemImage: "tag")
+            }
             Menu {
                 Button("All Notes (no folder)") { library.move(document, toFolder: nil) }
                 ForEach(library.folderPaths, id: \.id) { entry in
@@ -279,6 +289,13 @@ struct DocumentCard: View {
                 .foregroundStyle(Theme.text)
                 .lineLimit(2)
 
+            if !document.tags.isEmpty {
+                Text(verbatim: document.tags.map { "#" + $0 }.joined(separator: " "))
+                    .font(.caption)
+                    .foregroundStyle(Theme.accent)
+                    .lineLimit(1)
+            }
+
             HStack(spacing: 6) {
                 Text(document.modifiedAt, format: .dateTime.day().month().year())
                 Text(verbatim: "·")
@@ -293,5 +310,79 @@ struct DocumentCard: View {
             guard let id = document.documentID else { return }
             cover = await app.thumbnails.cover(for: id, stamp: document.modifiedAt)
         }
+    }
+}
+
+/// Adds and removes tags on one notebook. Existing tags from the whole library are offered.
+struct TagEditor: View {
+    let document: DocumentRow
+
+    @Environment(AppModel.self) private var app
+    @Environment(\.dismiss) private var dismiss
+    @State private var selected: Set<String> = []
+    @State private var newTag = ""
+
+    private var choices: [String] {
+        Array(Set(app.library.allTags).union(selected))
+            .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    HStack {
+                        TextField("New tag", text: $newTag)
+                            .textInputAutocapitalization(.never)
+                            .onSubmit(addTag)
+                            .accessibilityIdentifier("tags.newTag")
+                        Button("Add", action: addTag)
+                            .disabled(newTag.trimmingCharacters(in: .whitespaces).isEmpty)
+                    }
+                }
+                if !choices.isEmpty {
+                    Section("Tags") {
+                        ForEach(choices, id: \.self) { tag in
+                            Button {
+                                if !selected.insert(tag).inserted { selected.remove(tag) }
+                            } label: {
+                                HStack {
+                                    Text(verbatim: "#" + tag).foregroundStyle(Theme.text)
+                                    Spacer()
+                                    if selected.contains(tag) {
+                                        Image(systemName: "checkmark").foregroundStyle(Theme.accent)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle(Text(verbatim: document.title))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") {
+                        addTag()
+                        app.library.setTags(Array(selected), for: document)
+                        dismiss()
+                    }
+                    .accessibilityIdentifier("tags.done")
+                }
+            }
+        }
+        .onAppear { selected = Set(document.tags) }
+    }
+
+    private func addTag() {
+        // "#anatomy" and "anatomy" are the same tag.
+        let tag = newTag.trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(charactersIn: "#"))
+        guard !tag.isEmpty else { return }
+        selected.insert(tag)
+        newTag = ""
     }
 }

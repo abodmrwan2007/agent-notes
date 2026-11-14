@@ -285,6 +285,21 @@ AR = {
     "No selectable text here. Scanned pages need OCR, which is not available yet.":
         "لا يوجد نص قابل للتحديد هنا. الصفحات الممسوحة ضوئيًا تحتاج إلى التعرّف الضوئي على النص، وهو غير متاح بعد.",
     "Drag across the text of a PDF page to select it.": "اسحب فوق نص صفحة PDF لتحديده.",
+    # Shapes and smoothing
+    "Straighten shapes when holding the pen at the end": "تقويم الأشكال عند تثبيت القلم في نهاية الخط",
+    "Stroke smoothing": "تنعيم الخط",
+    "Off": "إيقاف",
+    "Strong": "قوي",
+    "Shapes and smoothing": "الأشكال والتنعيم",
+    "Draw a line, circle, ellipse or rectangle and keep the pen still for half a second before lifting it. Both features apply when the stroke is finished, not while you write. Undo removes the corrected stroke.":
+        "ارسم خطًا أو دائرة أو شكلًا بيضاويًا أو مستطيلًا وثبّت القلم نصف ثانية قبل رفعه. تُطبَّق الميزتان عند انتهاء الخط لا أثناء الكتابة. التراجع يزيل الخط المُصحَّح.",
+    # Tags and image import
+    "Tags…": "الوسوم…",
+    "Tags": "الوسوم",
+    "New tag": "وسم جديد",
+    "Add": "إضافة",
+    "Imported images": "صور مستوردة",
+    "None of the selected images could be read.": "تعذّرت قراءة كل الصور المحددة.",
 }
 
 

@@ -23,6 +23,8 @@ struct DocumentRow: Codable, Identifiable, Hashable {
     var trashedAt: Date?
     var pageCount: Int
     var hasPDF: Bool
+    /// User tags, kept sorted and unique. Stored as JSON in the index.
+    var tags: [String] = []
 
     var documentID: UUID? { UUID(uuidString: id) }
     var isTrashed: Bool { trashedAt != nil }
@@ -38,6 +40,23 @@ struct DocumentRow: Codable, Identifiable, Hashable {
         self.trashedAt = nil
         self.pageCount = manifest.pages.count
         self.hasPDF = !manifest.sources.isEmpty
+        self.tags = []
+    }
+
+    // Rows written before tags existed have no `tags` value.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        folderID = try container.decodeIfPresent(String.self, forKey: .folderID)
+        createdAt = try container.decode(Date.self, forKey: .createdAt)
+        modifiedAt = try container.decode(Date.self, forKey: .modifiedAt)
+        lastOpenedAt = try container.decodeIfPresent(Date.self, forKey: .lastOpenedAt)
+        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+        trashedAt = try container.decodeIfPresent(Date.self, forKey: .trashedAt)
+        pageCount = try container.decode(Int.self, forKey: .pageCount)
+        hasPDF = try container.decode(Bool.self, forKey: .hasPDF)
+        tags = try container.decodeIfPresent([String].self, forKey: .tags) ?? []
     }
 
     /// Copies the fields the document package is the source of truth for.

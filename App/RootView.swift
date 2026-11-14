@@ -97,6 +97,19 @@ struct SidebarView: View {
                 }
             }
 
+            if !app.library.allTags.isEmpty {
+                Section("Tags") {
+                    ForEach(app.library.allTags, id: \.self) { tag in
+                        Label {
+                            Text(verbatim: tag)
+                        } icon: {
+                            Image(systemName: "tag")
+                        }
+                        .tag(SidebarItem.tag(tag))
+                    }
+                }
+            }
+
             Section("Workspace") {
                 Label("Study", systemImage: "graduationcap").tag(SidebarItem.study)
                     .accessibilityIdentifier("sidebar.study")

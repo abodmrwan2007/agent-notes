@@ -84,6 +84,8 @@ final class PageView: UIView {
     var hasSessionEdits = false
     /// True while a drawing is being assigned programmatically (not a user edit).
     private(set) var isApplyingDrawing = false
+    /// Strokes on the canvas after the last change; tells a newly drawn stroke from other edits.
+    var strokeCount = 0
 
     var isLoaded: Bool { canvas != nil }
 
@@ -151,6 +153,7 @@ final class PageView: UIView {
 
         isApplyingDrawing = true
         canvas.drawing = drawing
+        strokeCount = drawing.strokes.count
         canvas.delegate = delegate
         addSubview(canvas)
         self.canvas = canvas
@@ -167,6 +170,17 @@ final class PageView: UIView {
             self.textLayer = textLayer
         }
         setInteraction(interaction)
+    }
+
+    /// Programmatic replacement (snapped or smoothed stroke) that is not reported as a user edit.
+    func replaceDrawing(_ drawing: PKDrawing) {
+        guard let canvas else { return }
+        isApplyingDrawing = true
+        canvas.drawing = drawing
+        strokeCount = drawing.strokes.count
+        DispatchQueue.main.async { [weak self] in
+            self?.isApplyingDrawing = false
+        }
     }
 
     /// Only the layer that matches the mode receives touches; the others let them through.

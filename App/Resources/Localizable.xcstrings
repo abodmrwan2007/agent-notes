@@ -41,6 +41,16 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة"
+          }
+        }
+      }
+    },
     "Add Back": {
       "localizations": {
         "ar": {
@@ -561,6 +571,16 @@
         }
       }
     },
+    "Draw a line, circle, ellipse or rectangle and keep the pen still for half a second before lifting it. Both features apply when the stroke is finished, not while you write. Undo removes the corrected stroke.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم خطًا أو دائرة أو شكلًا بيضاويًا أو مستطيلًا وثبّت القلم نصف ثانية قبل رفعه. تُطبَّق الميزتان عند انتهاء الخط لا أثناء الكتابة. التراجع يزيل الخط المُصحَّح."
+          }
+        }
+      }
+    },
     "Draw with finger": {
       "localizations": {
         "ar": {
@@ -921,6 +941,16 @@
         }
       }
     },
+    "Imported images": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صور مستوردة"
+          }
+        }
+      }
+    },
     "Importing…": {
       "localizations": {
         "ar": {
@@ -1131,6 +1161,16 @@
         }
       }
     },
+    "New tag": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وسم جديد"
+          }
+        }
+      }
+    },
     "No favorite tools yet. Swipe a tool to the right to add it.": {
       "localizations": {
         "ar": {
@@ -1177,6 +1217,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "غاز نبيل"
+          }
+        }
+      }
+    },
+    "None of the selected images could be read.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة كل الصور المحددة."
           }
         }
       }
@@ -1297,6 +1347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "العناصر"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
           }
         }
       }
@@ -1791,6 +1851,16 @@
         }
       }
     },
+    "Shapes and smoothing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأشكال والتنعيم"
+          }
+        }
+      }
+    },
     "Something went wrong": {
       "localizations": {
         "ar": {
@@ -1851,6 +1921,36 @@
         }
       }
     },
+    "Straighten shapes when holding the pen at the end": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقويم الأشكال عند تثبيت القلم في نهاية الخط"
+          }
+        }
+      }
+    },
+    "Stroke smoothing": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنعيم الخط"
+          }
+        }
+      }
+    },
+    "Strong": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قوي"
+          }
+        }
+      }
+    },
     "Study": {
       "localizations": {
         "ar": {
@@ -1887,6 +1987,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الرمز"
+          }
+        }
+      }
+    },
+    "Tags": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوسوم"
+          }
+        }
+      }
+    },
+    "Tags…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوسوم…"
           }
         }
       }
