@@ -388,7 +388,9 @@ final class SmokeTests: XCTestCase {
         shot("35-library-with-image-notebook")
         photos.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
-        XCTAssertTrue(app.staticTexts["Page 1 of 2"].waitForExistence(timeout: 5), "expected two image pages")
+        // Both short pages fit on screen, so the indicator may name either page; check the count.
+        let pageCount = app.staticTexts.matching(NSPredicate(format: "label ENDSWITH 'of 2'")).firstMatch
+        XCTAssertTrue(pageCount.waitForExistence(timeout: 5), "expected two image pages")
         sleep(2)
         shot("36-image-pages")
 
