@@ -7,9 +7,9 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43618173671, 2026-11-14) |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43622982759, 2026-11-14) |
 | Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **6 tests pass** in CI; 36 screenshots, the new ones inspected by eye |
+| UI smoke tests on an iPad Pro simulator | **7 tests pass** in CI; 43 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
@@ -56,6 +56,32 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## Milestone B, part 4: shapes, smoothing, tags, image import (2026-11-14) — done
+
+CI run 43622982759: build, 7 UI tests, core tests all pass. Screenshots 35–41 inspected.
+
+- **Hold to snap** (`InkGeometry`, `InkRefiner`): keep the pen still ≥ 0.45 s at the end of a stroke
+  and a recognized line, circle, ellipse or rectangle replaces it, keeping the pen's ink, width
+  and pressure. Unit tests cover recognition of wobbly lines, circles, flat ellipses and
+  rectangles, and that cursive scribbles, a "U", a dot and a double loop are NOT turned into shapes.
+  Rectangles and ellipses are axis-aligned only; no triangles or arrows.
+- **Stroke smoothing** with strength 0–1 in Settings (default off). Unit-tested: jitter reduced,
+  ends and point count kept, straight lines unchanged.
+- Both apply **when the pen is lifted**, not live while writing (PencilKit does not expose the
+  stroke in progress). That makes requirement 5.1 ("low-latency smoothing while writing") only
+  partially met; live stabilization needs a custom ink engine.
+- **Tags** on notebooks: context menu "Tags…", shown on cards, a Tags sidebar section that filters,
+  included in library title search. Stored in the SQLite index (migration `v2_tags`; old rows
+  decode with no tags). Sim-verified across a relaunch.
+- **Images as a notebook**: selecting images in Import creates one notebook, one page per image
+  sized to its proportions, image stored in the package as a locked full-page object.
+  Sim-verified with a generated two-image fixture (landscape + portrait). The system file picker
+  itself is still not driven by a test.
+
+Not verified: the snap/smooth result with a real Apple Pencil and real handwriting; what Undo does
+after a snap (PencilKit's own undo registration for the replaced stroke is not inspected; screenshot
+38 exists but nothing asserts it); smoothing at all in the simulator.
 
 ## Milestone B, part 3: search and PDF text (2026-11-14) — done, Sim-verified
 
@@ -185,19 +211,22 @@ assertions and were only visible in the pictures.
 - CI (run 42819693304): the generated sources compile as one module; Xcode parses the generated
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
-  `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection).
+  `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection), `playground-5` (adds hold-to-snap, smoothing,
+  tags, image import).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` to `-4` have not been reported on yet.
+  without a declared type. `playground-2` to `-5` have not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
 
 1. Owner tries `playground-4` on the iPad with real lecture PDFs (Pencil writing, import, search,
    text selection) and reports specifics; fix what fails.
-2. Rest of Milestone B, in this order: hold-to-snap shapes, stroke smoothing, tags and image-page
-   import, stickers, then the handwriting-recognition vendor evaluation (needs a real bilingual
-   sample set) and OCR for scanned pages.
+2. Rest of Milestone B: stickers (needs original artwork), templates (planner, custom background),
+   horizontal page turning, scribble-to-erase, Pencil double-tap/squeeze, then the
+   handwriting-recognition vendor evaluation (needs a real bilingual sample set from the owner)
+   and OCR for scanned pages (Apple Vision supports Arabic text recognition on recent iPadOS;
+   verify before relying on it).
 2. Fixture PDFs (rotated, cropped, long) + a UI test for import, annotation alignment and export.
 3. UI tests for library actions, dark mode and landscape.
 4. Then Milestone B. See [FEATURE_MATRIX.md](FEATURE_MATRIX.md).

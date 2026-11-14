@@ -50,9 +50,9 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Favorites, trash with recovery, recents | A | Written | |
 | Sorting, title search | A | Written | |
 | Duplicate, move, rename | A | Written | |
-| Tags | B | Not started | |
+| Tags | B | Sim-verified | Add/remove per notebook, sidebar filter, library search; persists across relaunch |
 | Import PDF (system picker) | A | Written | Password-protected PDFs rejected |
-| Import images | B | Not started | |
+| Import images | B | Sim-verified | One notebook per import, a page per image sized to it, locked full-page image object. Real photos and the file picker untested |
 | Blank and multi-page notebooks | A | Sim-verified |  |
 | Page duplicate / reorder / delete | A | Written | Delete is confirmed, not undoable |
 | Bookmarks | A | Partial | Per-page flag and badge; no bookmark list |
@@ -86,11 +86,11 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Rectangular selection, resize selection | B | Not started | |
 | Undo / redo | A | Sim-verified | Ink and page objects |
 | Pencil double-tap, Pencil Pro squeeze, hover | B | Not started | |
-| (1) Stroke smoothing with adjustable strength | B | Not started | |
+| (1) Stroke smoothing with adjustable strength | B | Partial | Strength 0–1 in Settings, unit-tested in core. Applied when the stroke is finished, not live while writing (PencilKit limit); not checked on a device |
 | (2) Mixed Arabic–English recognition | B | Not started | Requires vendor evaluation on a real sample set |
 | (3) Handwriting beautification with preview | B | Not started | Experimental until proven; never a font swap |
 | Recognition vendor evaluation (native / ML Kit / MyScript) | B | Not started | |
-| Hold-to-snap shapes | B | Not started | |
+| Hold-to-snap shapes | B | Partial | Line, circle, ellipse, rectangle (axis-aligned) after holding ≥0.45 s; recognizer unit-tested incl. no false positives on handwriting; snapped on lift, not while holding. No arrows/curves/rotated shapes |
 | Scribble-to-erase with undo | B | Not started | |
 | Configurable gesture preferences | B | Not started | |
 | Mind-map connectors | C | Not started | |
