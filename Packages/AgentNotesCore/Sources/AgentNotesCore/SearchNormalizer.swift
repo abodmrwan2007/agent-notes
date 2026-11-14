@@ -101,7 +101,7 @@ public enum SearchNormalizer {
 }
 
 /// A short piece of text around a match, for search results.
-public struct TextExcerpt: Equatable, Sendable {
+public struct TextExcerpt: Hashable, Sendable {
     public var before: String
     public var match: String
     public var after: String
