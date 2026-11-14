@@ -126,9 +126,14 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     private func applyOpenTargetIfNeeded() {
         guard !hasAppliedOpenTarget, let target = model.openTarget else { return }
         hasAppliedOpenTarget = true
-        scrollToPage(id: target.pageID, animated: false)
-        updateVisiblePages()
-        pageViews.first { $0.pageID == target.pageID }?.textLayer?.highlight(target.highlightQuery)
+        // Outside the layout pass: changing the scroll position and drawing from inside
+        // viewDidLayoutSubviews kept the app from ever settling.
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.scrollToPage(id: target.pageID, animated: false)
+            self.updateVisiblePages()
+            self.pageViews.first { $0.pageID == target.pageID }?.textLayer?.highlight(target.highlightQuery)
+        }
     }
 
     func refreshObjects(pageID: UUID) {

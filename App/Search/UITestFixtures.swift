@@ -60,10 +60,15 @@ enum UITestFixtures {
         _ text: String, size: CGFloat, weight: UIFont.Weight = .regular, at rect: CGRect, rightToLeft: Bool = false
     ) {
         let paragraph = NSMutableParagraphStyle()
+        // The system font's Arabic glyphs come out of PDF text extraction garbled (missing
+        // dots, stray symbols); Geeza Pro keeps a correct glyph-to-character mapping.
+        let font = rightToLeft
+            ? (UIFont(name: "GeezaPro", size: size) ?? UIFont.systemFont(ofSize: size, weight: weight))
+            : UIFont.systemFont(ofSize: size, weight: weight)
         paragraph.alignment = rightToLeft ? .right : .left
         paragraph.baseWritingDirection = rightToLeft ? .rightToLeft : .leftToRight
         NSAttributedString(string: text, attributes: [
-            .font: UIFont.systemFont(ofSize: size, weight: weight),
+            .font: font,
             .foregroundColor: UIColor.black,
             .paragraphStyle: paragraph
         ]).draw(with: rect, options: .usesLineFragmentOrigin, context: nil)
