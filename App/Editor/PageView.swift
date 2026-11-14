@@ -57,6 +57,16 @@ final class PageBackgroundView: UIView {
 ///
 /// Until `load` is called this is a lightweight white placeholder, which is what keeps
 /// very long documents cheap.
+/// What touches on a page do.
+enum PageInteraction {
+    /// Draw, erase and lasso ink.
+    case ink
+    /// Select, move and resize page objects.
+    case objects
+    /// Select the PDF's own text.
+    case text
+}
+
 final class PageView: UIView {
     let pageID: UUID
     private(set) var page: PageRecord
@@ -64,9 +74,11 @@ final class PageView: UIView {
     private var background: PageBackgroundView?
     private(set) var objectsView: PageObjectsView?
     private(set) var canvas: PKCanvasView?
+    /// Only on PDF pages: search highlights and text selection.
+    private(set) var textLayer: PDFTextLayerView?
     /// False when the page's ink file could not be read (shown read-only).
     private var isInkEditable = true
-    private var isObjectMode = false
+    private var interaction: PageInteraction = .ink
 
     /// Pages edited in this session keep their canvas alive so undo keeps working on them.
     var hasSessionEdits = false
@@ -103,7 +115,7 @@ final class PageView: UIView {
         drawing: PKDrawing,
         isEditable: Bool,
         objectsView: PageObjectsView,
-        isObjectMode: Bool,
+        interaction: PageInteraction,
         tool: PKTool,
         policy: PKCanvasViewDrawingPolicy,
         delegate: PKCanvasViewDelegate
@@ -146,21 +158,32 @@ final class PageView: UIView {
         DispatchQueue.main.async { [weak self] in
             self?.isApplyingDrawing = false
         }
-        setObjectMode(isObjectMode)
+
+        // The text layer is on top so it can receive touches in text mode.
+        if let pdfPage {
+            let textLayer = PDFTextLayerView(pdfPage: pdfPage)
+            textLayer.frame = bounds
+            addSubview(textLayer)
+            self.textLayer = textLayer
+        }
+        setInteraction(interaction)
     }
 
-    /// In object mode the ink canvas ignores touches, so they reach the objects underneath it.
-    func setObjectMode(_ enabled: Bool) {
-        isObjectMode = enabled
-        canvas?.isUserInteractionEnabled = isInkEditable && !enabled
-        objectsView?.isEditingEnabled = enabled
+    /// Only the layer that matches the mode receives touches; the others let them through.
+    func setInteraction(_ mode: PageInteraction) {
+        interaction = mode
+        canvas?.isUserInteractionEnabled = isInkEditable && mode == .ink
+        objectsView?.isEditingEnabled = mode == .objects
         objectsView?.setNeedsDisplay()
+        textLayer?.isSelectionEnabled = mode == .text
     }
 
     func unload() {
         canvas?.delegate = nil
         canvas?.removeFromSuperview()
         canvas = nil
+        textLayer?.removeFromSuperview()
+        textLayer = nil
         objectsView?.removeFromSuperview()
         objectsView = nil
         background?.removeFromSuperview()
@@ -171,6 +194,7 @@ final class PageView: UIView {
         super.layoutSubviews()
         background?.frame = bounds
         objectsView?.frame = bounds
+        textLayer?.frame = bounds
         canvas?.frame = bounds
         canvas?.contentSize = bounds.size
     }

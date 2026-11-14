@@ -8,6 +8,8 @@ enum InkToolKind: String, CaseIterable, Identifiable {
     case highlighter
     case eraser
     case lasso
+    /// Select the text of PDF pages.
+    case text
     /// Select, move and resize page objects (text, notes, shapes, images) instead of drawing.
     case objects
 
@@ -20,6 +22,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .highlighter: return "Highlighter"
         case .eraser: return "Eraser"
         case .lasso: return "Lasso"
+        case .text: return "Select Text"
         case .objects: return "Objects"
         }
     }
@@ -31,6 +34,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .highlighter: return "highlighter"
         case .eraser: return "eraser"
         case .lasso: return "lasso"
+        case .text: return "character.textbox"
         case .objects: return "cursorarrow"
         }
     }
@@ -41,12 +45,20 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .pen: return .pen
         case .pencil: return .pencil
         case .highlighter: return .marker
-        case .eraser, .lasso, .objects: return nil
+        case .eraser, .lasso, .text, .objects: return nil
         }
     }
 
     var widthRange: ClosedRange<CGFloat>? {
         inkType?.validWidthRange
+    }
+
+    var pageInteraction: PageInteraction {
+        switch self {
+        case .objects: return .objects
+        case .text: return .text
+        default: return .ink
+        }
     }
 }
 
@@ -117,8 +129,8 @@ struct ToolState: Equatable {
             return PKLassoTool()
         case .pen, .pencil, .highlighter:
             return PKInkingTool(kind.inkType ?? .pen, color: color, width: width)
-        case .objects:
-            // The ink canvas ignores touches in object mode; this tool is never used to draw.
+        case .objects, .text:
+            // The ink canvas ignores touches in these modes; this tool is never used to draw.
             return PKInkingTool(.pen, color: colors[.pen] ?? ToolState.presetColors[0], width: widths[.pen] ?? 3)
         }
     }

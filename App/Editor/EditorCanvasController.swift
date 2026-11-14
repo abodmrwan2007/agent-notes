@@ -19,7 +19,8 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     /// While true, the page width tracks the view width (e.g. when a side panel opens or the iPad rotates).
     private var followsFitZoom = true
     private var currentTool: PKTool = PKInkingTool(.pen, color: .black, width: 3)
-    private var isObjectMode = false
+    private var interaction: PageInteraction = .ink
+    private var hasAppliedOpenTarget = false
 
     private static let margin: CGFloat = 24
     private static let pageSpacing: CGFloat = 20
@@ -75,6 +76,7 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
 
         if appliedLayoutVersion != model.layoutVersion {
             rebuild()
+            applyOpenTargetIfNeeded()
         } else if size != lastBoundsSize {
             // A panel opened/closed or the device rotated: keep the same content at the top.
             let anchor = captureAnchor()
@@ -112,13 +114,22 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
 
     // MARK: Page objects
 
-    /// Object mode: touches select and edit objects instead of drawing ink.
-    func setObjectMode(_ enabled: Bool) {
-        guard isObjectMode != enabled else { return }
-        isObjectMode = enabled
+    /// Ink, object or text-selection mode for every page.
+    func setInteraction(_ mode: PageInteraction) {
+        guard interaction != mode else { return }
+        interaction = mode
         for pageView in pageViews {
-            pageView.setObjectMode(enabled)
+            pageView.setInteraction(mode)
         }
+    }
+
+    /// Opening from a search result: jump to that page once, and highlight the query on it.
+    private func applyOpenTargetIfNeeded() {
+        guard !hasAppliedOpenTarget, let target = model.openTarget else { return }
+        hasAppliedOpenTarget = true
+        scrollToPage(id: target.pageID, animated: false)
+        updateVisiblePages()
+        pageViews.first { $0.pageID == target.pageID }?.textLayer?.highlight(target.highlightQuery)
     }
 
     func refreshObjects(pageID: UUID) {
@@ -342,8 +353,17 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         objectsView.setRenderScale(objectRenderScale)
 
         pageView.load(
-            drawing: drawing, isEditable: isEditable, objectsView: objectsView, isObjectMode: isObjectMode,
+            drawing: drawing, isEditable: isEditable, objectsView: objectsView, interaction: interaction,
             tool: currentTool, policy: drawingPolicy, delegate: self)
+
+        if let textLayer = pageView.textLayer {
+            textLayer.onSelectionChange = { [weak self] text in
+                self?.model.setTextSelection(text.map { TextSelection(pageID: pageID, text: $0) })
+            }
+            if let target = model.openTarget, target.pageID == pageID, hasAppliedOpenTarget {
+                textLayer.highlight(target.highlightQuery)
+            }
+        }
     }
 
     private var drawingPolicy: PKCanvasViewDrawingPolicy {

@@ -2,19 +2,20 @@ import SwiftUI
 
 struct RootView: View {
     @Environment(AppModel.self) private var app
-    @State private var selection: SidebarItem? = .all
 
     var body: some View {
+        @Bindable var app = app
         if let documentID = app.openDocumentID {
             EditorHost(documentID: documentID)
                 .id(documentID)
         } else {
             NavigationSplitView {
-                SidebarView(selection: $selection)
+                SidebarView(selection: $app.sidebarSelection)
             } detail: {
                 NavigationStack {
-                    detail(for: selection ?? .all)
+                    detail(for: app.sidebarSelection ?? .all)
                 }
+                .id(app.sidebarSelection)
             }
         }
     }
@@ -22,6 +23,8 @@ struct RootView: View {
     @ViewBuilder
     private func detail(for item: SidebarItem) -> some View {
         switch item {
+        case .search:
+            SearchView()
         case .study:
             StudyHomeView()
         case .atlas:
@@ -54,6 +57,8 @@ struct SidebarView: View {
         List(selection: $selection) {
             Section("Library") {
                 Label("All Notes", systemImage: "square.grid.2x2").tag(SidebarItem.all)
+                Label("Search", systemImage: "text.magnifyingglass").tag(SidebarItem.search)
+                    .accessibilityIdentifier("sidebar.search")
                 Label("Recents", systemImage: "clock").tag(SidebarItem.recents)
                 Label("Favorites", systemImage: "star").tag(SidebarItem.favorites)
                 Label("Trash", systemImage: "trash")

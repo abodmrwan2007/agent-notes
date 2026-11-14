@@ -7,6 +7,7 @@ enum SidebarItem: Hashable {
     case recents
     case favorites
     case trash
+    case search
     case folder(String)
     case study
     case atlas
@@ -16,7 +17,7 @@ enum SidebarItem: Hashable {
     var isLibrarySection: Bool {
         switch self {
         case .all, .recents, .favorites, .trash, .folder: return true
-        case .study, .atlas, .community, .settings: return false
+        case .search, .study, .atlas, .community, .settings: return false
         }
     }
 }
@@ -49,11 +50,13 @@ final class LibraryModel {
     @ObservationIgnored private let store: DocumentStore
     @ObservationIgnored private let database: LibraryDatabase
     @ObservationIgnored private let thumbnails: ThumbnailService
+    @ObservationIgnored private let textIndex: TextIndexService
 
-    init(store: DocumentStore, database: LibraryDatabase, thumbnails: ThumbnailService) {
+    init(store: DocumentStore, database: LibraryDatabase, thumbnails: ThumbnailService, textIndex: TextIndexService) {
         self.store = store
         self.database = database
         self.thumbnails = thumbnails
+        self.textIndex = textIndex
     }
 
     // MARK: Loading
@@ -184,12 +187,29 @@ final class LibraryModel {
                     try isPackage ? store.importPackage(from: url) : store.importPDF(from: url)
                 }.value
                 try database.save(DocumentRow(manifest: manifest, folderID: folderID))
+                // Extract the PDF text now, so the first search does not have to wait for it.
+                let textIndex = self.textIndex
+                let id = manifest.id
+                Task.detached(priority: .utility) { textIndex.prepare(documentID: id) }
             } catch {
                 report(error)
             }
         }
         reload()
     }
+
+    #if DEBUG
+    /// Development fixtures only (see UITestFixtures).
+    func importSynchronously(_ url: URL) {
+        do {
+            let manifest = try store.importPDF(from: url)
+            try database.save(DocumentRow(manifest: manifest, folderID: nil))
+        } catch {
+            report(error)
+        }
+        reload()
+    }
+    #endif
 
     func duplicate(_ document: DocumentRow) async {
         guard let id = document.documentID else { return }
@@ -246,6 +266,7 @@ final class LibraryModel {
             if let id = document.documentID {
                 try store.deleteDocument(id: id)
                 thumbnails.removeCovers(for: id)
+                textIndex.removeCache(documentID: id)
             }
             try database.deleteDocument(id: document.id)
         } catch {

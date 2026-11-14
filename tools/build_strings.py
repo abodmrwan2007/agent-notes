@@ -269,6 +269,22 @@ AR = {
     "The objects on this page could not be read, so they cannot be changed.":
         "تعذّرت قراءة عناصر هذه الصفحة، لذلك لا يمكن تعديلها.",
     "This picture could not be read.": "تعذّرت قراءة هذه الصورة.",
+    # Search and PDF text
+    "Search": "البحث",
+    "Search all notes": "ابحث في كل الملاحظات",
+    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet.":
+        "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد.",
+    "Search your notes": "ابحث في ملاحظاتك",
+    "Arabic and English, with or without diacritics.": "بالعربية والإنجليزية، مع التشكيل أو بدونه.",
+    "PDF text": "نص PDF",
+    "Typed text": "نص مكتوب",
+    "Select Text": "تحديد النص",
+    "Copy": "نسخ",
+    "Copied": "تم النسخ",
+    "Where Else?": "أين ذُكر أيضًا؟",
+    "No selectable text here. Scanned pages need OCR, which is not available yet.":
+        "لا يوجد نص قابل للتحديد هنا. الصفحات الممسوحة ضوئيًا تحتاج إلى التعرّف الضوئي على النص، وهو غير متاح بعد.",
+    "Drag across the text of a PDF page to select it.": "اسحب فوق نص صفحة PDF لتحديده.",
 }
 
 

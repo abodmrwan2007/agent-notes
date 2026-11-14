@@ -141,6 +141,16 @@
         }
       }
     },
+    "Arabic and English, with or without diacritics.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بالعربية والإنجليزية، مع التشكيل أو بدونه."
+          }
+        }
+      }
+    },
     "Arrow": {
       "localizations": {
         "ar": {
@@ -331,6 +341,26 @@
         }
       }
     },
+    "Copied": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم النسخ"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ"
+          }
+        }
+      }
+    },
     "Cornell": {
       "localizations": {
         "ar": {
@@ -517,6 +547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نقاط"
+          }
+        }
+      }
+    },
+    "Drag across the text of a PDF page to select it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب فوق نص صفحة PDF لتحديده."
           }
         }
       }
@@ -1121,6 +1161,16 @@
         }
       }
     },
+    "No selectable text here. Scanned pages need OCR, which is not available yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد نص قابل للتحديد هنا. الصفحات الممسوحة ضوئيًا تحتاج إلى التعرّف الضوئي على النص، وهو غير متاح بعد."
+          }
+        }
+      }
+    },
     "Noble gas": {
       "localizations": {
         "ar": {
@@ -1277,6 +1327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تبقى المشاركة الاختيارية معطّلة إلى أن تتوفر خدمات الإبلاغ والحظر والإشراف."
+          }
+        }
+      }
+    },
+    "PDF text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نص PDF"
           }
         }
       }
@@ -1631,12 +1691,62 @@
         }
       }
     },
+    "Search": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البحث"
+          }
+        }
+      }
+    },
+    "Search all notes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في كل الملاحظات"
+          }
+        }
+      }
+    },
     "Search titles": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ابحث في العناوين"
+          }
+        }
+      }
+    },
+    "Search your notes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في ملاحظاتك"
+          }
+        }
+      }
+    },
+    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد."
+          }
+        }
+      }
+    },
+    "Select Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديد النص"
           }
         }
       }
@@ -2071,6 +2181,16 @@
         }
       }
     },
+    "Typed text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نص مكتوب"
+          }
+        }
+      }
+    },
     "Undo": {
       "localizations": {
         "ar": {
@@ -2157,6 +2277,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "عند الإيقاف يرسم قلم Apple Pencil فقط ويُمرَّر بإصبع واحد. عند التشغيل يرسم إصبع واحد ويُمرَّر بإصبعين."
+          }
+        }
+      }
+    },
+    "Where Else?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أين ذُكر أيضًا؟"
           }
         }
       }

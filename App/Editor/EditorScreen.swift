@@ -30,7 +30,9 @@ struct EditorHost: View {
         .task {
             guard model == nil, loadError == nil else { return }
             do {
-                model = try EditorModel(documentID: documentID, store: app.store, thumbnails: app.thumbnails)
+                let editor = try EditorModel(documentID: documentID, store: app.store, thumbnails: app.thumbnails)
+                editor.openTarget = app.openTarget
+                model = editor
             } catch {
                 loadError = error.localizedDescription
             }
@@ -358,8 +360,9 @@ struct InkToolbar: View {
         .padding(.vertical, 6)
         .background(.bar)
         .onChange(of: model.tool.kind) { _, kind in
-            // Leaving object mode clears the selection.
+            // Leaving a selection mode clears its selection.
             if kind != .objects { model.select(nil) }
+            if kind != .text { model.setTextSelection(nil) }
         }
     }
 
@@ -400,6 +403,8 @@ struct InkToolbar: View {
             .frame(maxWidth: 240)
         } else if model.tool.kind == .objects {
             ObjectOptions(model: model)
+        } else if model.tool.kind == .text {
+            TextSelectionOptions(model: model)
         } else {
             Text("Circle strokes to select them, then drag to move.")
                 .font(.footnote)
@@ -426,6 +431,51 @@ extension ShapeKind {
         case .ellipse: return "circle"
         case .line: return "line.diagonal"
         case .arrow: return "arrow.down.right"
+        }
+    }
+}
+
+/// Actions for selected PDF text, shown in the toolbar while the Select Text tool is active.
+struct TextSelectionOptions: View {
+    let model: EditorModel
+    @Environment(AppModel.self) private var app
+    @State private var didCopy = false
+
+    var body: some View {
+        if let selection = model.textSelection, !selection.text.isEmpty {
+            HStack(spacing: 12) {
+                Text(verbatim: "“" + String(selection.text.prefix(60)) + (selection.text.count > 60 ? "…" : "") + "”")
+                    .font(.footnote)
+                    .lineLimit(1)
+                    .frame(maxWidth: 280, alignment: .leading)
+                    .accessibilityIdentifier("text.selection")
+                Button {
+                    UIPasteboard.general.string = selection.text
+                    didCopy = true
+                } label: {
+                    let title: LocalizedStringKey = didCopy ? "Copied" : "Copy"
+                    Label(title, systemImage: didCopy ? "checkmark" : "doc.on.doc")
+                }
+                .accessibilityIdentifier("text.copy")
+                Button {
+                    let query = selection.text
+                    model.persistNow()
+                    app.library.refreshRow(from: model.manifest)
+                    app.showSearch(for: query)
+                } label: {
+                    Label("Where Else?", systemImage: "text.magnifyingglass")
+                }
+                .accessibilityIdentifier("text.searchNotes")
+            }
+            .onChange(of: selection) { _, _ in didCopy = false }
+        } else if model.textSelection != nil {
+            Text("No selectable text here. Scanned pages need OCR, which is not available yet.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        } else {
+            Text("Drag across the text of a PDF page to select it.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
         }
     }
 }
@@ -691,7 +741,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
             context.coordinator.appliedTool = tool
             controller.apply(tool: tool.makeTool())
         }
-        controller.setObjectMode(tool.kind == .objects)
+        controller.setInteraction(tool.kind.pageInteraction)
     }
 }
 

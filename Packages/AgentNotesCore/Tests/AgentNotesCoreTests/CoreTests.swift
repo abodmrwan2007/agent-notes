@@ -253,6 +253,17 @@ final class SearchNormalizerTests: XCTestCase {
         XCTAssertEqual(SearchNormalizer.normalize("Café"), "cafe")
     }
 
+    func testWhitespaceAndLineBreaksCollapse() {
+        XCTAssertEqual(SearchNormalizer.normalize("mitral\n\n  valve"), "mitral valve")
+        XCTAssertTrue(SearchNormalizer.matches("the mitral\nvalve closes", query: "Mitral valve"))
+    }
+
+    func testArabicPresentationFormsFromPDFs() {
+        // "قلب" written with presentation forms, as some PDF text layers produce it.
+        let presentation = "\u{FED7}\u{FEE0}\u{FE8F}"
+        XCTAssertEqual(SearchNormalizer.normalize(presentation), SearchNormalizer.normalize("قلب"))
+    }
+
     func testMixedScriptMatching() {
         XCTAssertTrue(SearchNormalizer.matches("الصمام التاجي Mitral valve", query: "mitral"))
         XCTAssertTrue(SearchNormalizer.matches("الصِّمام التاجي Mitral valve", query: "الصمام"))

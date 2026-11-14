@@ -11,6 +11,12 @@ struct ObjectSelection: Equatable {
     let objectID: UUID
 }
 
+/// Text selected on a PDF page. An empty `text` means the page had nothing selectable there.
+struct TextSelection: Equatable {
+    let pageID: UUID
+    let text: String
+}
+
 /// A request to edit the text of an object (drives the text sheet).
 struct TextEditTarget: Identifiable {
     let id = UUID()
@@ -44,6 +50,9 @@ final class EditorModel {
     /// Bumped whenever any page's objects change, so views re-read `selectedObject`.
     private(set) var objectsRevision = 0
     var textEditTarget: TextEditTarget?
+    private(set) var textSelection: TextSelection?
+    /// Page to show first and query to highlight, when opened from a search result.
+    @ObservationIgnored var openTarget: OpenTarget?
 
     @ObservationIgnored private var objectLayers: [UUID: PageObjectLayer] = [:]
     /// Pages whose objects file could not be decoded: never written, to protect the file.
@@ -113,6 +122,12 @@ final class EditorModel {
     func inkChanged(pageID: UUID, drawing: PKDrawing) {
         hasUnrecordedChanges = true
         autosaver.schedule(pageID: pageID, drawing: drawing)
+    }
+
+    // MARK: PDF text selection
+
+    func setTextSelection(_ selection: TextSelection?) {
+        textSelection = selection
     }
 
     // MARK: Page objects (text, sticky notes, shapes, images)

@@ -13,7 +13,7 @@ final class SmokeTests: XCTestCase {
         try? FileManager.default.createDirectory(at: shotsDirectory, withIntermediateDirectories: true)
     }
 
-    private func launch(language: String) -> XCUIApplication {
+    private func launch(language: String, extraArguments: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
         // The simulator has no Apple Pencil, so finger drawing is switched on through the same
         // user default the Settings toggle writes.
@@ -21,7 +21,7 @@ final class SmokeTests: XCTestCase {
             "-allowsFingerDrawing", "YES",
             "-AppleLanguages", "(\(language))",
             "-AppleLocale", language
-        ]
+        ] + extraArguments
         app.launch()
         return app
     }
@@ -304,5 +304,69 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
         sleep(2)
         shot("28-objects-after-relaunch")
+    }
+
+    private func search(_ app: XCUIApplication, _ text: String) {
+        let field = element(app, "search.field")
+        XCTAssertTrue(field.waitForExistence(timeout: 10), "search field")
+        field.tap()
+        if let current = field.value as? String, !current.isEmpty, current != "Search all notes" {
+            field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+        }
+        field.typeText(text)
+    }
+
+    func test6_pdfSearchAndTextSelection() {
+        // Soft checks: keep going so every screenshot is captured even if one step fails.
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+        tap(app, "sidebar.search", timeout: 15)
+
+        // English full-text search inside the imported PDF.
+        search(app, "mitral valve")
+        XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 20), "no result for 'mitral valve'")
+        sleep(1)
+        shot("29-search-results")
+
+        // Arabic search with a query written without hamza and diacritics.
+        search(app, "الصمام التاجي")
+        let arabicHit = element(app, "search.hit").waitForExistence(timeout: 10)
+        sleep(1)
+        shot("30-search-arabic")
+        XCTAssertTrue(arabicHit, "no result for the Arabic query (PDF text layer may store Arabic differently)")
+
+        // Open a result: the page is shown with the match highlighted.
+        search(app, "mitral valve")
+        XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 10))
+        tap(app, "search.hit")
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15), "result did not open the PDF")
+        sleep(2)
+        shot("31-result-opened-highlighted")
+
+        // Select PDF text by dragging across the first paragraph.
+        app.buttons["Select Text"].firstMatch.tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
+            .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+        let copy = element(app, "text.copy")
+        XCTAssertTrue(copy.waitForExistence(timeout: 5), "no text was selected")
+        sleep(1)
+        shot("32-text-selected")
+
+        // "Where else?" goes back to search with the selected text.
+        if element(app, "text.searchNotes").exists {
+            tap(app, "text.searchNotes")
+            XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 15), "where-else search found nothing")
+            sleep(1)
+            shot("33-where-else")
+        }
+
+        // The rotated second page: open it from a search and check the highlight lines up.
+        if !element(app, "search.field").exists { tap(app, "sidebar.search") }
+        search(app, "aortic valve")
+        XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 10), "no result on the rotated page")
+        tap(app, "search.hit")
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        sleep(2)
+        shot("34-rotated-page-highlight")
     }
 }
