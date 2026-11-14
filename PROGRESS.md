@@ -7,13 +7,13 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 42861778463, 2026-11-10) |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43618173671, 2026-11-14) |
 | Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **5 tests pass** in CI; 30 screenshots, the new ones inspected by eye |
+| UI smoke tests on an iPad Pro simulator | **6 tests pass** in CI; 36 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
-| PDF import with a real PDF | **Never executed** (no test drives the file picker yet) |
+| PDF import with a real PDF | Sim-verified with a generated fixture PDF (import path, text layer, rotated page). The file picker itself and real lecture PDFs are untested |
 
 Repository: private, `github.com/abodmrwan2007/agent-notes`. CI: `.github/workflows/ci.yml`
 (core tests and static checks on Linux, then build + UI tests on macOS). Documentation-only pushes
@@ -56,6 +56,39 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## Milestone B, part 3: search and PDF text (2026-11-14) — done, Sim-verified
+
+CI run 43618173671: build, 6 UI tests, core tests all pass. Screenshots 29–34 inspected.
+
+- **Search screen** (sidebar): titles, the text layer of imported PDFs, and typed text (text boxes,
+  sticky notes). Arabic/English normalization from `SearchNormalizer`; `TextMatcher` maps matches
+  back to the original text for excerpts and highlights. PDF text is extracted once per source PDF
+  and cached in Caches (`TextIndexService`); search runs off the main thread and is cancelled when
+  the query changes.
+- **Open a result** at its page with every match highlighted on the PDF text.
+- **Select Text tool** in the editor: drag across PDF text, then Copy or "Where Else?" (searches all
+  notes for the selection).
+- PDF import, search, highlight and selection are now exercised with a real PDF: a Debug-only
+  fixture (`UITestFixtures`, launch argument `-uiTestSeedPDF`) with English, Arabic and a page
+  rotated 90°.
+
+Simulator run proved: English and Arabic search inside the PDF; highlight sits exactly on the words
+on the normal page **and on the 90°-rotated page** (closes the long-standing rotation/crop
+alignment risk for search/selection overlays; ink alignment on rotated pages is still unverified);
+text selection follows the drag and is copied; "Where Else?" returns results.
+
+Findings worth knowing:
+- Arabic search depends on the PDF's own text layer. A PDF generated with the iOS system font
+  extracted garbled Arabic (dotless letters, stray symbols); with Geeza Pro the letters were
+  correct but the lam-alef ligatures (لأ) and one other ligature still came out as symbols. Real
+  lecture PDFs will vary; badly encoded ones need OCR, which does not exist yet.
+- Jumping to a result from inside the layout pass kept the app from ever going idle; it now runs
+  right after layout.
+
+Not covered: handwriting search (no recognizer), search inside scanned PDFs (no OCR), a persistent
+full-text index (search scans cached text; fine for a student library, revisit with SQLite FTS5 for
+very large libraries), chapter/heading information in results, highlights for typed-text matches.
 
 ## Milestone B, part 2: page objects (2026-11-10) — done, Sim-verified
 
@@ -152,19 +185,19 @@ assertions and were only visible in the pictures.
 - CI (run 42819693304): the generated sources compile as one module; Xcode parses the generated
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
-  `playground-2` (adds the study tools), `playground-3` (adds page objects).
+  `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` and `playground-3` have not been reported on yet.
+  without a declared type. `playground-2` to `-4` have not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
 
-1. Owner tries `playground-3` on the iPad (Pencil writing, PDF import, study tools, page objects)
-   and reports specifics; fix what fails.
-2. Rest of Milestone B, in this order: PDF text selection and full-text search, hold-to-snap
-   shapes, stroke smoothing, tags and image-page import, stickers, then the
-   handwriting-recognition vendor evaluation (needs a real bilingual sample set).
+1. Owner tries `playground-4` on the iPad with real lecture PDFs (Pencil writing, import, search,
+   text selection) and reports specifics; fix what fails.
+2. Rest of Milestone B, in this order: hold-to-snap shapes, stroke smoothing, tags and image-page
+   import, stickers, then the handwriting-recognition vendor evaluation (needs a real bilingual
+   sample set) and OCR for scanned pages.
 2. Fixture PDFs (rotated, cropped, long) + a UI test for import, annotation alignment and export.
 3. UI tests for library actions, dark mode and landscape.
 4. Then Milestone B. See [FEATURE_MATRIX.md](FEATURE_MATRIX.md).

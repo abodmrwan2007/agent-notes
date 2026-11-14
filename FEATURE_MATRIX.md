@@ -99,8 +99,8 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Unified selection action menu | B | Not started | |
-| PDF text extraction, OCR, ink recognition | B | Not started | |
+| Unified selection action menu | B | Partial | Select Text tool on PDF pages with Copy and "Where Else?" (Sim-verified). Translate, Medical Term, Explain, Summarize, Flashcards, Mind Map, Show in Atlas, Attach Sticky Note not started |
+| PDF text extraction, OCR, ink recognition | B | Partial | PDF text-layer extraction Sim-verified (cached per source). OCR and ink recognition not started; garbled text layers (seen with some Arabic fonts) need OCR |
 | Uncertain-word review | B | Not started | |
 | Arabic–English translation | C | Not started | |
 | Medical terminology entries | C | Blocked | Needs a licensed or original reviewed term set |
@@ -177,8 +177,8 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | --- | --- | --- | --- |
 | Arabic/English normalization | A | Verified | `SearchNormalizer` unit tests pass in CI |
 | Title search | A | Written | |
-| PDF text, handwriting, tags, headings, transcripts | B–C | Not started | SQLite FTS5 planned |
-| "Where have I studied this?", highlight compilation, image occlusion | B–C | Not started | |
+| PDF text, handwriting, tags, headings, transcripts | B–C | Partial | PDF text and typed text searchable, with excerpts and page numbers (Sim-verified in English and Arabic). Handwriting, tags, headings, transcripts not started |
+| "Where have I studied this?", highlight compilation, image occlusion | B–C | Partial | "Where Else?" from a PDF text selection searches all notes (Sim-verified). Highlight compilation and image occlusion not started |
 
 ## 14–15. Engineering and deliverables
 
