@@ -76,7 +76,6 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
 
         if appliedLayoutVersion != model.layoutVersion {
             rebuild()
-            applyOpenTargetIfNeeded()
         } else if size != lastBoundsSize {
             // A panel opened/closed or the device rotated: keep the same content at the top.
             let anchor = captureAnchor()
@@ -263,6 +262,8 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         centerContent()
         restore(anchor)
         updateVisiblePages()
+        // The first build can come from either layout or a SwiftUI update, so this lives here.
+        applyOpenTargetIfNeeded()
     }
 
     /// Centers the pages horizontally when they are narrower than the viewport.

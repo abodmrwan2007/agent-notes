@@ -17,6 +17,7 @@ final class SmokeTests: XCTestCase {
         let app = XCUIApplication()
         // The simulator has no Apple Pencil, so finger drawing is switched on through the same
         // user default the Settings toggle writes.
+        app.launchEnvironment["SHOTS_DIR"] = shotsDirectory.path
         app.launchArguments = [
             "-allowsFingerDrawing", "YES",
             "-AppleLanguages", "(\(language))",

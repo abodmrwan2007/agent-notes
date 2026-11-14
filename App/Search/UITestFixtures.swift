@@ -34,7 +34,26 @@ enum UITestFixtures {
         guard let document = PDFDocument(data: data) else { throw CocoaError(.fileWriteUnknown) }
         document.page(at: 1)?.rotation = 90
         guard document.write(to: url) else { throw CocoaError(.fileWriteUnknown) }
+        dumpExtractedText(of: url)
         return url
+    }
+
+    /// Diagnostics for the UI tests: writes the text PDFKit extracts from the fixture, with the
+    /// Unicode scalars of every line, next to the screenshots (the simulator can write there).
+    private static func dumpExtractedText(of url: URL) {
+        guard let directory = ProcessInfo.processInfo.environment["SHOTS_DIR"],
+              let pdf = PDFDocument(url: url) else { return }
+        var report = ""
+        for index in 0..<pdf.pageCount {
+            let text = pdf.page(at: index)?.string ?? "<nil>"
+            report += "=== page \(index + 1) ===\n\(text)\n--- scalars ---\n"
+            for line in text.split(separator: "\n") {
+                report += line.unicodeScalars.map { String(format: "%04X", $0.value) }.joined(separator: " ") + "\n"
+            }
+        }
+        try? report.write(
+            to: URL(fileURLWithPath: directory).appendingPathComponent("fixture-extracted-text.txt"),
+            atomically: true, encoding: .utf8)
     }
 
     private static func draw(
