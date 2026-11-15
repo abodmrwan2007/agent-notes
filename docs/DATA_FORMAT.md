@@ -1,4 +1,4 @@
-# Native document format (version 5)
+﻿# Native document format (version 5)
 
 A document is a directory with the extension `.agentnote`
 (uniform type `com.agentnotes.document`, conforms to `com.apple.package`).
@@ -26,7 +26,7 @@ UTF-8 JSON, keys sorted, dates in ISO 8601 (UTC, second precision).
 | `inkEncoding` | string | `apple.pencilkit.drawing` |
 | `sources[]` | object | `id` (UUID), `kind` (`pdf`), `fileName` (inside `sources/`), `originalFileName` |
 | `pages[]` | object | In display order, see below |
-| `recordings[]` | object or absent | (v5) `id` (UUID), `fileName` (inside `audio/`), `startedAt` (date), `duration` (seconds). Ink strokes are linked to a recording by their PencilKit creation date falling inside `startedAt…startedAt+duration` |
+| `recordings[]` | object or absent | (v5) `id` (UUID), `fileName` (inside `audio/`), `title`, `startedAt` (date), `duration` (seconds). Ink strokes are linked to a recording by their PencilKit creation date falling inside `startedAt…startedAt+duration` |
 
 Page object:
 
