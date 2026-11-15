@@ -146,6 +146,22 @@ final class LibraryModel {
             .sorted { $0.localizedStandardCompare($1) == .orderedAscending }
     }
 
+    func setCover(_ cover: NotebookCover?, for document: DocumentRow) {
+        update(document) { $0.coverStyle = cover?.rawValue }
+    }
+
+    /// Locking and unlocking both ask for Face ID / Touch ID or the passcode first.
+    func setProtected(_ protected: Bool, for document: DocumentRow) async {
+        let reason = protected
+            ? String(localized: "Lock this notebook")
+            : String(localized: "Remove the lock from this notebook")
+        if let message = await NotebookLock.authenticate(reason: reason) {
+            if !message.isEmpty { errorMessage = message }
+            return
+        }
+        update(document) { $0.isProtected = protected }
+    }
+
     func setTags(_ tags: [String], for document: DocumentRow) {
         let cleaned = Set(tags.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty })
         update(document) { $0.tags = cleaned.sorted { $0.localizedStandardCompare($1) == .orderedAscending } }

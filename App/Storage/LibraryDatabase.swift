@@ -50,6 +50,12 @@ final class LibraryDatabase: @unchecked Sendable {
                 t.add(column: "tags", .text).notNull().defaults(to: "[]")
             }
         }
+        migrator.registerMigration("v3_lock_cover") { db in
+            try db.alter(table: "document") { t in
+                t.add(column: "isProtected", .boolean).notNull().defaults(to: false)
+                t.add(column: "coverStyle", .text)
+            }
+        }
         return migrator
     }
 

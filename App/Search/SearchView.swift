@@ -45,7 +45,7 @@ struct SearchView: View {
                     }
                 }
             } footer: {
-                Text("Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet.")
+                Text("Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet. Locked notebooks are not searched.")
             }
 
             ForEach(groups) { group in

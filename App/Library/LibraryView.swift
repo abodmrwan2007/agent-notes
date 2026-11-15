@@ -228,6 +228,24 @@ struct LibraryView: View {
                 Label("Tags…", systemImage: "tag")
             }
             Menu {
+                Button("First Page") { library.setCover(nil, for: document) }
+                ForEach(NotebookCover.allCases) { cover in
+                    Button {
+                        library.setCover(cover, for: document)
+                    } label: {
+                        Text(cover.title)
+                    }
+                }
+            } label: {
+                Label("Cover", systemImage: "book.closed")
+            }
+            Button {
+                Task { await library.setProtected(!document.isProtected, for: document) }
+            } label: {
+                let title: LocalizedStringKey = document.isProtected ? "Remove Lock" : "Lock…"
+                Label(title, systemImage: document.isProtected ? "lock.open" : "lock")
+            }
+            Menu {
                 Button("All Notes (no folder)") { library.move(document, toFolder: nil) }
                 ForEach(library.folderPaths, id: \.id) { entry in
                     Button(entry.path) { library.move(document, toFolder: entry.id) }
@@ -261,7 +279,11 @@ struct DocumentCard: View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack {
                 RoundedRectangle(cornerRadius: Theme.cornerRadius).fill(.white)
-                if let cover {
+                if document.isProtected {
+                    LockedCoverView()
+                } else if let style = document.coverStyle.flatMap(NotebookCover.init(rawValue:)) {
+                    NotebookCoverView(cover: style, title: document.title)
+                } else if let cover {
                     Image(uiImage: cover)
                         .resizable()
                         .scaledToFit()
@@ -307,7 +329,8 @@ struct DocumentCard: View {
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
         .task(id: document.modifiedAt) {
-            guard let id = document.documentID else { return }
+            // A locked notebook's pages are never rendered in the library.
+            guard !document.isProtected, let id = document.documentID else { return }
             cover = await app.thumbnails.cover(for: id, stamp: document.modifiedAt)
         }
     }

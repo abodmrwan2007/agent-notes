@@ -58,6 +58,9 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown
+            ],
+            capabilities: [
+                .faceID(purposeString: "Face ID unlocks the notebooks you have locked.")
             ]
         )
     ],

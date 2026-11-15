@@ -117,7 +117,8 @@ final class TextIndexService: @unchecked Sendable {
         guard !key.isEmpty else { return [] }
         var hits: [SearchHit] = []
 
-        for row in documents where !row.isTrashed {
+        // Locked notebooks are never searched: results would show their content.
+        for row in documents where !row.isTrashed && !row.isProtected {
             try Task.checkCancellation()
             guard let documentID = row.documentID,
                   let manifest = try? store.loadManifest(id: documentID) else { continue }

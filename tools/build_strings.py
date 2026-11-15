@@ -272,8 +272,8 @@ AR = {
     # Search and PDF text
     "Search": "البحث",
     "Search all notes": "ابحث في كل الملاحظات",
-    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet.":
-        "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد.",
+    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet. Locked notebooks are not searched.":
+        "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد، ولا يُبحث في الدفاتر المقفلة.",
     "Search your notes": "ابحث في ملاحظاتك",
     "Arabic and English, with or without diacritics.": "بالعربية والإنجليزية، مع التشكيل أو بدونه.",
     "PDF text": "نص PDF",
@@ -345,6 +345,30 @@ AR = {
     "Crayon": "شمع ملوّن",
     "Ruler": "المسطرة",
     "Reading Mode": "وضع القراءة",
+    # Covers, lock, interface colour
+    "Cover": "الغلاف",
+    "First Page": "الصفحة الأولى",
+    "Navy": "كحلي",
+    "Ocean": "محيطي",
+    "Coral": "مرجاني",
+    "Forest": "أخضر غامق",
+    "Sand": "رملي",
+    "Plum": "بنفسجي غامق",
+    "Locked": "مقفل",
+    "Lock…": "قفل…",
+    "Remove Lock": "إزالة القفل",
+    "Lock this notebook": "قفل هذا الدفتر",
+    "Remove the lock from this notebook": "إزالة القفل عن هذا الدفتر",
+    "Open the locked notebook": "فتح الدفتر المقفل",
+    "Set a passcode on this iPad to lock notebooks.": "اضبط رمز دخول لهذا الآيباد لتتمكن من قفل الدفاتر.",
+    "The notebook could not be unlocked.": "تعذّر فتح قفل الدفتر.",
+    "Appearance": "المظهر",
+    "Interface color": "لون الواجهة",
+    "Cyan": "سماوي",
+    "Blue": "أزرق",
+    "Teal": "فيروزي",
+    "Purple": "بنفسجي",
+    "Green": "أخضر",
 }
 
 

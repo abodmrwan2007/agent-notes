@@ -3,6 +3,7 @@ import SwiftUI
 @main
 struct AgentNotesApp: App {
     @State private var boot: Result<AppModel, Error>
+    @AppStorage(AccentChoice.storageKey) private var interfaceColor = AccentChoice.cyan.rawValue
 
     init() {
         do {
@@ -19,6 +20,8 @@ struct AgentNotesApp: App {
                 RootView()
                     .environment(app)
                     .tint(Theme.accent)
+                    // Rebuild everything when the interface colour changes.
+                    .id(interfaceColor)
             case .failure(let error):
                 // Local storage could not be opened. Say so instead of showing an empty library.
                 ContentUnavailableView {

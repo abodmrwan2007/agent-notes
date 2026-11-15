@@ -171,6 +171,16 @@
         }
       }
     },
+    "Appearance": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر"
+          }
+        }
+      }
+    },
     "Arabic and English, with or without diacritics.": {
       "localizations": {
         "ar": {
@@ -247,6 +257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فارغ"
+          }
+        }
+      }
+    },
+    "Blue": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أزرق"
           }
         }
       }
@@ -451,12 +471,32 @@
         }
       }
     },
+    "Coral": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرجاني"
+          }
+        }
+      }
+    },
     "Cornell": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "كورنيل"
+          }
+        }
+      }
+    },
+    "Cover": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الغلاف"
           }
         }
       }
@@ -487,6 +527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لون مخصص"
+          }
+        }
+      }
+    },
+    "Cyan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سماوي"
           }
         }
       }
@@ -881,6 +931,16 @@
         }
       }
     },
+    "First Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة الأولى"
+          }
+        }
+      }
+    },
     "Flask": {
       "localizations": {
         "ar": {
@@ -941,6 +1001,16 @@
         }
       }
     },
+    "Forest": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخضر غامق"
+          }
+        }
+      }
+    },
     "Fountain Pen": {
       "localizations": {
         "ar": {
@@ -987,6 +1057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "راسم الدوال"
+          }
+        }
+      }
+    },
+    "Green": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخضر"
           }
         }
       }
@@ -1161,6 +1241,16 @@
         }
       }
     },
+    "Interface color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الواجهة"
+          }
+        }
+      }
+    },
     "Lanthanide": {
       "localizations": {
         "ar": {
@@ -1217,6 +1307,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "قفل"
+          }
+        }
+      }
+    },
+    "Lock this notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل هذا الدفتر"
+          }
+        }
+      }
+    },
+    "Locked": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقفل"
+          }
+        }
+      }
+    },
+    "Lock…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قفل…"
           }
         }
       }
@@ -1287,6 +1407,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الاسم أو الرمز أو الرقم"
+          }
+        }
+      }
+    },
+    "Navy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كحلي"
           }
         }
       }
@@ -1571,6 +1701,16 @@
         }
       }
     },
+    "Ocean": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محيطي"
+          }
+        }
+      }
+    },
     "Off": {
       "localizations": {
         "ar": {
@@ -1597,6 +1737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فتح"
+          }
+        }
+      }
+    },
+    "Open the locked notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح الدفتر المقفل"
           }
         }
       }
@@ -1781,12 +1931,32 @@
         }
       }
     },
+    "Plum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بنفسجي غامق"
+          }
+        }
+      }
+    },
     "Post-transition metal": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "فلز بعد انتقالي"
+          }
+        }
+      }
+    },
+    "Purple": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بنفسجي"
           }
         }
       }
@@ -1881,6 +2051,16 @@
         }
       }
     },
+    "Remove Lock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة القفل"
+          }
+        }
+      }
+    },
     "Remove from My Stickers": {
       "localizations": {
         "ar": {
@@ -1897,6 +2077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إزالة من اللوحة"
+          }
+        }
+      }
+    },
+    "Remove the lock from this notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة القفل عن هذا الدفتر"
           }
         }
       }
@@ -2041,6 +2231,16 @@
         }
       }
     },
+    "Sand": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رملي"
+          }
+        }
+      }
+    },
     "Save": {
       "localizations": {
         "ar": {
@@ -2111,12 +2311,12 @@
         }
       }
     },
-    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet.": {
+    "Searches titles, the text of imported PDFs, and typed text. Handwriting is not searchable yet. Locked notebooks are not searched.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد."
+            "value": "يبحث في العناوين ونصوص ملفات PDF المستوردة والنصوص المكتوبة. البحث في خط اليد غير متاح بعد، ولا يُبحث في الدفاتر المقفلة."
           }
         }
       }
@@ -2147,6 +2347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مدة الجلسة"
+          }
+        }
+      }
+    },
+    "Set a passcode on this iPad to lock notebooks.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضبط رمز دخول لهذا الآيباد لتتمكن من قفل الدفاتر."
           }
         }
       }
@@ -2371,6 +2581,16 @@
         }
       }
     },
+    "Teal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فيروزي"
+          }
+        }
+      }
+    },
     "Text": {
       "localizations": {
         "ar": {
@@ -2437,6 +2657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر حفظ الدفتر."
+          }
+        }
+      }
+    },
+    "The notebook could not be unlocked.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر فتح قفل الدفتر."
           }
         }
       }

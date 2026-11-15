@@ -508,4 +508,46 @@ final class SmokeTests: XCTestCase {
         shot("49-reading-mode")
         tap(app, "editor.reading")
     }
+
+    func test10_coversLockAndInterfaceColor() {
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+
+        // A coloured cover instead of the first page.
+        let notebook = card(app, titled: "Whiteboard photos")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.press(forDuration: 1.2)
+        let coverMenu = app.buttons["Cover"].firstMatch
+        XCTAssertTrue(coverMenu.waitForExistence(timeout: 5), "Cover menu")
+        coverMenu.tap()
+        let coral = app.buttons["Coral"].firstMatch
+        XCTAssertTrue(coral.waitForExistence(timeout: 5))
+        coral.tap()
+        sleep(1)
+        shot("50-coral-cover")
+
+        // Locking needs a device passcode; the simulator has none, so the app must say so
+        // instead of locking (or pretending to).
+        notebook.press(forDuration: 1.2)
+        let lock = app.buttons["Lock…"].firstMatch
+        XCTAssertTrue(lock.waitForExistence(timeout: 5), "Lock menu item")
+        lock.tap()
+        let message = app.staticTexts["Set a passcode on this iPad to lock notebooks."]
+        XCTAssertTrue(message.waitForExistence(timeout: 10), "no explanation when the device has no passcode")
+        shot("51-lock-needs-passcode")
+        app.buttons["OK"].firstMatch.tap()
+
+        // Interface colour.
+        app.staticTexts["Settings"].firstMatch.tap()
+        let picker = element(app, "settings.interfaceColor")
+        XCTAssertTrue(picker.waitForExistence(timeout: 10))
+        picker.tap()
+        let purple = app.buttons["Purple"].firstMatch
+        XCTAssertTrue(purple.waitForExistence(timeout: 5), "colour choices")
+        purple.tap()
+        sleep(1)
+        app.staticTexts["All Notes"].firstMatch.tap()
+        sleep(1)
+        shot("52-purple-interface")
+    }
 }

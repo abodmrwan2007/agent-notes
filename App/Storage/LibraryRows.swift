@@ -25,6 +25,10 @@ struct DocumentRow: Codable, Identifiable, Hashable {
     var hasPDF: Bool
     /// User tags, kept sorted and unique. Stored as JSON in the index.
     var tags: [String] = []
+    /// Opening requires Face ID / Touch ID or the device passcode. Not encryption: see NotebookLock.
+    var isProtected = false
+    /// A `NotebookCover` raw value, or nil to show the first page.
+    var coverStyle: String?
 
     var documentID: UUID? { UUID(uuidString: id) }
     var isTrashed: Bool { trashedAt != nil }
@@ -57,6 +61,8 @@ struct DocumentRow: Codable, Identifiable, Hashable {
         pageCount = try container.decode(Int.self, forKey: .pageCount)
         hasPDF = try container.decode(Bool.self, forKey: .hasPDF)
         tags = try container.decodeIfPresent([String].self, forKey: .tags) ?? []
+        isProtected = try container.decodeIfPresent(Bool.self, forKey: .isProtected) ?? false
+        coverStyle = try container.decodeIfPresent(String.self, forKey: .coverStyle)
     }
 
     /// Copies the fields the document package is the source of truth for.

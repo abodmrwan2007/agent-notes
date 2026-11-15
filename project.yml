@@ -57,6 +57,8 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         ITSAppUsesNonExemptEncryption: false
+        NSFaceIDUsageDescription: Face ID unlocks the notebooks you have locked.
+        NSPhotoLibraryUsageDescription: Pictures you choose are added to your notes.
         # The native editable notebook package (a directory treated as one file).
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: com.agentnotes.document

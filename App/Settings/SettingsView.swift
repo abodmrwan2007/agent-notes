@@ -7,6 +7,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.snapShapesOnHold) private var snapShapesOnHold = true
     @AppStorage(SettingsKey.smoothingStrength) private var smoothingStrength = 0.0
     @AppStorage(SettingsKey.scribbleToErase) private var scribbleToErase = true
+    @AppStorage(AccentChoice.storageKey) private var interfaceColor = AccentChoice.cyan.rawValue
 
     var body: some View {
         Form {
@@ -36,6 +37,20 @@ struct SettingsView: View {
             } footer: {
                 Text("Draw a line, circle, ellipse or rectangle and keep the pen still for half a second before lifting it. Both features apply when the stroke is finished, not while you write. Undo removes the corrected stroke.")
                 Text("To erase, scribble back and forth at least five times across the strokes. Undo brings them back.")
+            }
+
+            Section("Appearance") {
+                Picker("Interface color", selection: $interfaceColor) {
+                    ForEach(AccentChoice.allCases) { choice in
+                        Label {
+                            Text(choice.title)
+                        } icon: {
+                            Image(systemName: "circle.fill").foregroundStyle(choice.color)
+                        }
+                        .tag(choice.rawValue)
+                    }
+                }
+                .accessibilityIdentifier("settings.interfaceColor")
             }
 
             Section("New notebooks") {

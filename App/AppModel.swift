@@ -44,6 +44,20 @@ final class AppModel {
 
     func open(_ document: DocumentRow, target: OpenTarget? = nil) {
         guard !document.isTrashed, let id = document.documentID else { return }
+        guard document.isProtected else {
+            finishOpening(document, id: id, target: target)
+            return
+        }
+        Task {
+            if let message = await NotebookLock.authenticate(reason: String(localized: "Open the locked notebook")) {
+                if !message.isEmpty { library.errorMessage = message }
+                return
+            }
+            finishOpening(document, id: id, target: target)
+        }
+    }
+
+    private func finishOpening(_ document: DocumentRow, id: UUID, target: OpenTarget?) {
         library.markOpened(document)
         openTarget = target
         openDocumentID = id
