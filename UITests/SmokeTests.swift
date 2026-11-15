@@ -652,7 +652,9 @@ final class SmokeTests: XCTestCase {
         shot("58b-after-tapping-writing")
         tap(app, "editor.panel")
         app.buttons["Audio"].firstMatch.tap()
-        XCTAssertTrue(element(app, "audio.nowPlaying").waitForExistence(timeout: 5), "tapping the writing did not play the recording")
+        // The progress bar is shown only for the recording that is playing (List rows merge
+        // their contents into one cell, so it is found by type rather than identifier).
+        XCTAssertTrue(app.progressIndicators.firstMatch.waitForExistence(timeout: 5), "tapping the writing did not play the recording")
         sleep(1)
         shot("59-tap-writing-plays-audio")
     }
