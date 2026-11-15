@@ -63,6 +63,8 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(back.waitForExistence(timeout: 15), "editor did not open")
         XCTAssertTrue(app.staticTexts["Page 1 of 1"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["Undo"].isEnabled, "nothing to undo before writing")
+        // Give the page time to load its canvas (slow right after the simulator boots).
+        sleep(2)
         shot("02-editor-empty")
 
         // Write three strokes.
@@ -457,7 +459,7 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "object.delete").waitForExistence(timeout: 5), "sticker was not inserted")
         openMenu(app, "Insert")
         menuItem(app, "Sticker…")
-        tap(app, "sticker.importantAR")
+        tap(app, "sticker.tw-1f4cc")
         sleep(1)
         shot("44-stickers-on-page")
     }
@@ -639,7 +641,13 @@ final class SmokeTests: XCTestCase {
         if listen.waitForExistence(timeout: 5) {
             listen.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
         }
+        // Close the panel so the page is back where the stroke was drawn, then tap the stroke.
+        tap(app, "editor.panel")
+        sleep(1)
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.50, dy: 0.91)).tap()
+        shot("58b-after-tapping-writing")
+        tap(app, "editor.panel")
+        app.buttons["Audio"].firstMatch.tap()
         XCTAssertTrue(element(app, "audio.nowPlaying").waitForExistence(timeout: 5), "tapping the writing did not play the recording")
         sleep(1)
         shot("59-tap-writing-plays-audio")
