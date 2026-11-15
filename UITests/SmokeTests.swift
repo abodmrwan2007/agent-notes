@@ -490,7 +490,7 @@ final class SmokeTests: XCTestCase {
         // Brushes menu and the ruler.
         let brushes = app.buttons["Brushes"].firstMatch
         XCTAssertTrue(brushes.waitForExistence(timeout: 5))
-        brushes.press(forDuration: 1.0)
+        brushes.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 1.0)
         let watercolor = app.buttons["Watercolor"].firstMatch
         XCTAssertTrue(watercolor.waitForExistence(timeout: 5), "brush menu did not open")
         watercolor.tap()
