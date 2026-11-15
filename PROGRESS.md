@@ -7,9 +7,9 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43695433516, 2026-11-15) |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43706433953, 2026-11-15) |
 | Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **8 tests pass** in CI; 44 screenshots, the new ones inspected by eye |
+| UI smoke tests on an iPad Pro simulator | **10 tests pass** in CI; 52 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
@@ -57,24 +57,25 @@ Found in screenshots and fixed: 1/x branches stopping short of the window edge; 
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
 
-## Side panel, brushes, ruler, reading mode, stickers, lock, covers, colour (2026-11-15) — PARTLY VERIFIED
+## Side panel, brushes, ruler, reading mode, stickers, lock, covers, colour (2026-11-15) — done
 
-**CI is blocked.** From run 43703503433 GitHub no longer starts jobs: "recent account payments have
-failed or your spending limit needs to be increased". The private repository's free Actions minutes
-are used up (macOS minutes count 10x). Owner decision needed: make the repository public (free
-minutes for public repos), raise the spending limit / add payment, or wait for the monthly reset.
-Nothing was changed in the GitHub account.
+The repository was made **public** on 2026-11-15 at the owner's request, after a scan found no
+secrets or personal data in any file or commit; this restored free GitHub Actions minutes (the
+private quota had run out). CI run 43706433953: build, 10 UI tests, core tests all pass.
 
-What the last runs proved before the block:
-- Run 43697213071 (stickers): build and all UI tests passed; sticker pack inserted from the sheet.
-- Run 43699230801 (commit 6343061, the current app code): app and Swift Playgrounds builds succeeded.
-  The coloured cover was seen working (screenshot 50); the lock asked the system for the iPad
-  passcode with the reason "Lock this notebook" instead of locking (screenshot 51). Tests 2–5 and 7
-  passed. The other UI failures in that run came from test ordering (a test named `test10` ran
-  before `test1`), since fixed by renaming it `test9z`; the fixed tests have not run yet.
-- Never exercised by a test: the editor side panel (tools and stickers beside the page, calculator
-  "Insert into Page"), the Brushes menu, the ruler, reading mode, the interface colour.
-- Published as `playground-7` from run 43699230801's artifact (same app code as HEAD).
+Sim-verified with screenshots 45–52: side panel beside the page (Tools and Stickers tabs; the
+compact calculator; "Insert into Page" put "12×3 = 36" on the page as text); stickers inserted
+from the panel; watercolor brush; PencilKit ruler on the current page; reading mode hides the
+toolbars; coral notebook cover; locking asks the system for the iPad passcode and does not lock when
+left unauthenticated; purple interface colour. Layout fixes found in screenshots: the toolbar now
+scrolls sideways instead of clipping its first button when the panel is open; calculator keys stay
+on one line in the panel.
+
+Lock scope (also stated in code): stops opening, previewing (library cover) and searching a locked
+notebook inside the app; not separate encryption.
+
+Reference inventory: docs/REFERENCE_FEATURES.md (CollaNote rows from the owner's screenshots;
+Goodnotes / Notability / Freenotes / Notion rows from general knowledge, unverified).
 
 ## Milestone B, part 5: scribble erase, Apple Pencil, planner, backgrounds (2026-11-15) — done
 
@@ -256,10 +257,11 @@ assertions and were only visible in the pictures.
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
   `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection), `playground-5` (adds hold-to-snap, smoothing,
-  tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds).
+  tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds),
+  `playground-7`/`playground-8` (side panel, stickers, brushes, ruler, reading mode, lock, covers, colour).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` to `-6` have not been reported on yet.
+  without a declared type. `playground-2` to `-8` have not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
