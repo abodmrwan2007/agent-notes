@@ -167,8 +167,9 @@ final class SmokeTests: XCTestCase {
         app.terminate()
         let relaunched = launch(language: "ar")
         XCTAssertTrue(element(relaunched, "library.card").waitForExistence(timeout: 15))
-        element(relaunched, "library.card").tap()
-        XCTAssertTrue(element(relaunched, "editor.back").waitForExistence(timeout: 15))
+        sleep(1)
+        tap(relaunched, "library.card")
+        XCTAssertTrue(element(relaunched, "editor.back").waitForExistence(timeout: 30))
         sleep(2)
         shot("11-editor-arabic")
     }

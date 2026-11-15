@@ -107,6 +107,8 @@ struct RecordingsList: View {
                                     ProgressView(value: min(audio.playbackTime, recording.duration), total: max(recording.duration, 0.1))
                                 }
                                 .font(.caption)
+                                // One element, so VoiceOver reads it and tests can find it.
+                                .accessibilityElement(children: .combine)
                                 .accessibilityIdentifier("audio.nowPlaying")
                             }
                         }
