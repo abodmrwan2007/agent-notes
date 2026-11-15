@@ -57,6 +57,25 @@ Found in screenshots and fixed: 1/x branches stopping short of the window edge; 
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
 
+## Side panel, brushes, ruler, reading mode, stickers, lock, covers, colour (2026-11-15) — PARTLY VERIFIED
+
+**CI is blocked.** From run 43703503433 GitHub no longer starts jobs: "recent account payments have
+failed or your spending limit needs to be increased". The private repository's free Actions minutes
+are used up (macOS minutes count 10x). Owner decision needed: make the repository public (free
+minutes for public repos), raise the spending limit / add payment, or wait for the monthly reset.
+Nothing was changed in the GitHub account.
+
+What the last runs proved before the block:
+- Run 43697213071 (stickers): build and all UI tests passed; sticker pack inserted from the sheet.
+- Run 43699230801 (commit 6343061, the current app code): app and Swift Playgrounds builds succeeded.
+  The coloured cover was seen working (screenshot 50); the lock asked the system for the iPad
+  passcode with the reason "Lock this notebook" instead of locking (screenshot 51). Tests 2–5 and 7
+  passed. The other UI failures in that run came from test ordering (a test named `test10` ran
+  before `test1`), since fixed by renaming it `test9z`; the fixed tests have not run yet.
+- Never exercised by a test: the editor side panel (tools and stickers beside the page, calculator
+  "Insert into Page"), the Brushes menu, the ruler, reading mode, the interface colour.
+- Published as `playground-7` from run 43699230801's artifact (same app code as HEAD).
+
 ## Milestone B, part 5: scribble erase, Apple Pencil, planner, backgrounds (2026-11-15) — done
 
 CI run 43695433516: build, 8 UI tests, core tests all pass. Planner screenshot (42) inspected.
