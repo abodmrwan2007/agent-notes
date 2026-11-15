@@ -181,7 +181,9 @@ struct CalculatorView: View {
                             press(key)
                         } label: {
                             Text(verbatim: key.label)
-                                .font(.title3.weight(.medium))
+                                .font(compact ? .body.weight(.medium) : .title3.weight(.medium))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.6)
                                 .frame(maxWidth: .infinity, minHeight: compact ? 38 : 52)
                         }
                         .buttonStyle(.bordered)

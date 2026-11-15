@@ -396,6 +396,54 @@ struct InkToolbar: View {
 
     var body: some View {
         HStack(spacing: 10) {
+            // Tools and their options scroll sideways when space is short (for example with the
+            // side panel open); Undo, Redo and finger drawing stay fixed on the trailing edge.
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    toolButtons
+                    Divider().frame(height: 24)
+                    options
+                }
+                .padding(.vertical, 2)
+            }
+            Spacer(minLength: 8)
+
+            Button {
+                model.canvas?.undo()
+            } label: {
+                Image(systemName: "arrow.uturn.backward")
+            }
+            .disabled(!model.canUndo)
+            .keyboardShortcut("z", modifiers: .command)
+            .accessibilityLabel("Undo")
+
+            Button {
+                model.canvas?.redo()
+            } label: {
+                Image(systemName: "arrow.uturn.forward")
+            }
+            .disabled(!model.canRedo)
+            .keyboardShortcut("z", modifiers: [.command, .shift])
+            .accessibilityLabel("Redo")
+
+            Toggle(isOn: $allowsFingerDrawing) {
+                Image(systemName: "hand.point.up.left")
+            }
+            .toggleStyle(.button)
+            .accessibilityLabel("Draw with finger")
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(.bar)
+        .onChange(of: model.tool.kind) { _, kind in
+            // Leaving a selection mode clears its selection.
+            if kind != .objects { model.select(nil) }
+            if kind != .text { model.setTextSelection(nil) }
+        }
+    }
+
+    @ViewBuilder
+    private var toolButtons: some View {
             ForEach(InkToolKind.allCases) { kind in
                 let isSelected = model.tool.kind == kind
                 let icon = Image(systemName: kind == .brush ? model.tool.brushInk.symbol : kind.symbol)
@@ -439,43 +487,6 @@ struct InkToolbar: View {
             .toggleStyle(.button)
             .accessibilityLabel("Ruler")
             .accessibilityIdentifier("tool.ruler")
-
-            Divider().frame(height: 24)
-            options
-            Spacer(minLength: 8)
-
-            Button {
-                model.canvas?.undo()
-            } label: {
-                Image(systemName: "arrow.uturn.backward")
-            }
-            .disabled(!model.canUndo)
-            .keyboardShortcut("z", modifiers: .command)
-            .accessibilityLabel("Undo")
-
-            Button {
-                model.canvas?.redo()
-            } label: {
-                Image(systemName: "arrow.uturn.forward")
-            }
-            .disabled(!model.canRedo)
-            .keyboardShortcut("z", modifiers: [.command, .shift])
-            .accessibilityLabel("Redo")
-
-            Toggle(isOn: $allowsFingerDrawing) {
-                Image(systemName: "hand.point.up.left")
-            }
-            .toggleStyle(.button)
-            .accessibilityLabel("Draw with finger")
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
-        .background(.bar)
-        .onChange(of: model.tool.kind) { _, kind in
-            // Leaving a selection mode clears its selection.
-            if kind != .objects { model.select(nil) }
-            if kind != .text { model.setTextSelection(nil) }
-        }
     }
 
     @ViewBuilder
@@ -504,7 +515,7 @@ struct InkToolbar: View {
             Slider(
                 value: Binding(get: { model.tool.width }, set: { model.tool.width = $0 }),
                 in: range)
-                .frame(maxWidth: 160)
+                .frame(width: 160)
                 .accessibilityLabel("Thickness")
         } else if model.tool.kind == .eraser {
             Picker("Eraser mode", selection: $model.tool.eraserMode) {
@@ -512,7 +523,7 @@ struct InkToolbar: View {
                 Text("Partial").tag(EraserMode.pixel)
             }
             .pickerStyle(.segmented)
-            .frame(maxWidth: 240)
+            .frame(width: 240)
         } else if model.tool.kind == .objects {
             ObjectOptions(model: model)
         } else if model.tool.kind == .text {
