@@ -334,6 +334,17 @@ AR = {
     "Important": "مهم",
     "Exam": "امتحان",
     "Review": "مراجعة",
+    # Side panel, brushes, ruler, reading mode
+    "Panel": "اللوحة",
+    "Tools and Stickers": "الأدوات والملصقات",
+    "Insert into Page": "إدراج في الصفحة",
+    "Brushes": "الفُرَش",
+    "Fountain Pen": "قلم حبر سائل",
+    "Monoline": "خط موحّد",
+    "Watercolor": "ألوان مائية",
+    "Crayon": "شمع ملوّن",
+    "Ruler": "المسطرة",
+    "Reading Mode": "وضع القراءة",
 }
 
 

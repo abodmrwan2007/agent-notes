@@ -66,6 +66,16 @@ private struct CalculationRecord: Identifiable {
 }
 
 struct CalculatorView: View {
+    /// Narrow layout for the editor's side panel: no history column, smaller keys.
+    let compact: Bool
+    /// When set, a button puts the last calculation on the page as text.
+    let onInsert: ((String) -> Void)?
+
+    init(compact: Bool = false, onInsert: ((String) -> Void)? = nil) {
+        self.compact = compact
+        self.onInsert = onInsert
+    }
+
     @AppStorage("calculator.angleMode") private var angleModeRaw = AngleMode.degrees.rawValue
     @State private var input = ""
     @State private var errorMessage: String?
@@ -85,33 +95,56 @@ struct CalculatorView: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            VStack(spacing: 16) {
-                display
-                Picker("Angle unit", selection: $angleModeRaw) {
-                    Text("Degrees").tag(AngleMode.degrees.rawValue)
-                    Text("Radians").tag(AngleMode.radians.rawValue)
+        Group {
+            if compact {
+                ScrollView {
+                    calculatorColumn
+                        .padding(12)
                 }
-                .pickerStyle(.segmented)
-                keypad
-            }
-            .padding(20)
-            .frame(maxWidth: 560)
-            .frame(maxWidth: .infinity)
+            } else {
+                HStack(alignment: .top, spacing: 0) {
+                    calculatorColumn
+                        .padding(20)
+                        .frame(maxWidth: 560)
+                        .frame(maxWidth: .infinity)
 
-            Divider()
-            historyList
-                .frame(width: 280)
+                    Divider()
+                    historyList
+                        .frame(width: 280)
+                }
+            }
         }
         .background(Theme.backdrop)
         .navigationTitle("Scientific Calculator")
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    private var calculatorColumn: some View {
+        VStack(spacing: compact ? 12 : 16) {
+            display
+            Picker("Angle unit", selection: $angleModeRaw) {
+                Text("Degrees").tag(AngleMode.degrees.rawValue)
+                Text("Radians").tag(AngleMode.radians.rawValue)
+            }
+            .pickerStyle(.segmented)
+            keypad
+            if let onInsert, let last = history.first {
+                Button {
+                    onInsert(last.expression + " = " + last.result)
+                } label: {
+                    Label("Insert into Page", systemImage: "text.badge.plus")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("calculator.insert")
+            }
+        }
+    }
+
     private var display: some View {
         VStack(alignment: .trailing, spacing: 6) {
             TextField("Expression", text: $input)
-                .font(.system(size: 34, weight: .medium, design: .rounded))
+                .font(.system(size: compact ? 26 : 34, weight: .medium, design: .rounded))
                 .multilineTextAlignment(.trailing)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -149,7 +182,7 @@ struct CalculatorView: View {
                         } label: {
                             Text(verbatim: key.label)
                                 .font(.title3.weight(.medium))
-                                .frame(maxWidth: .infinity, minHeight: 52)
+                                .frame(maxWidth: .infinity, minHeight: compact ? 38 : 52)
                         }
                         .buttonStyle(.bordered)
                         .tint(tint(for: key))

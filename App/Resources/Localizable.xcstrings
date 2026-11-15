@@ -321,6 +321,16 @@
         }
       }
     },
+    "Brushes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفُرَش"
+          }
+        }
+      }
+    },
     "Built-in": {
       "localizations": {
         "ar": {
@@ -447,6 +457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "كورنيل"
+          }
+        }
+      }
+    },
+    "Crayon": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شمع ملوّن"
           }
         }
       }
@@ -921,6 +941,16 @@
         }
       }
     },
+    "Fountain Pen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم حبر سائل"
+          }
+        }
+      }
+    },
     "Function of x": {
       "localizations": {
         "ar": {
@@ -1121,6 +1151,16 @@
         }
       }
     },
+    "Insert into Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدراج في الصفحة"
+          }
+        }
+      }
+    },
     "Lanthanide": {
       "localizations": {
         "ar": {
@@ -1187,6 +1227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "شبه فلز"
+          }
+        }
+      }
+    },
+    "Monoline": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خط موحّد"
           }
         }
       }
@@ -1621,6 +1671,16 @@
         }
       }
     },
+    "Panel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللوحة"
+          }
+        }
+      }
+    },
     "Partial": {
       "localizations": {
         "ar": {
@@ -1747,6 +1807,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "راديان"
+          }
+        }
+      }
+    },
+    "Reading Mode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع القراءة"
           }
         }
       }
@@ -1957,6 +2027,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مسطّر"
+          }
+        }
+      }
+    },
+    "Ruler": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المسطرة"
           }
         }
       }
@@ -2531,6 +2611,16 @@
         }
       }
     },
+    "Tools and Stickers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدوات والملصقات"
+          }
+        }
+      }
+    },
     "Touch and hold a notebook and choose Favorite.": {
       "localizations": {
         "ar": {
@@ -2687,6 +2777,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تنبيه"
+          }
+        }
+      }
+    },
+    "Watercolor": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ألوان مائية"
           }
         }
       }

@@ -6,6 +6,8 @@ enum InkToolKind: String, CaseIterable, Identifiable {
     case pen
     case pencil
     case highlighter
+    /// Fountain pen, monoline, watercolor or crayon (PencilKit's newer inks).
+    case brush
     case eraser
     case lasso
     /// Select the text of PDF pages.
@@ -20,6 +22,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .pen: return "Pen"
         case .pencil: return "Pencil"
         case .highlighter: return "Highlighter"
+        case .brush: return "Brushes"
         case .eraser: return "Eraser"
         case .lasso: return "Lasso"
         case .text: return "Select Text"
@@ -32,6 +35,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .pen: return "pencil.tip"
         case .pencil: return "pencil"
         case .highlighter: return "highlighter"
+        case .brush: return "paintbrush.pointed"
         case .eraser: return "eraser"
         case .lasso: return "lasso"
         case .text: return "character.textbox"
@@ -45,6 +49,7 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .pen: return .pen
         case .pencil: return .pencil
         case .highlighter: return .marker
+        case .brush: return .fountainPen
         case .eraser, .lasso, .text, .objects: return nil
         }
     }
@@ -58,6 +63,44 @@ enum InkToolKind: String, CaseIterable, Identifiable {
         case .objects: return .objects
         case .text: return .text
         default: return .ink
+        }
+    }
+}
+
+/// The ink used by the Brushes tool. All are native PencilKit inks (iPadOS 17+), so strokes stay
+/// editable and export like any other ink.
+enum BrushInk: String, CaseIterable, Identifiable {
+    case fountainPen
+    case monoline
+    case watercolor
+    case crayon
+
+    var id: String { rawValue }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .fountainPen: return "Fountain Pen"
+        case .monoline: return "Monoline"
+        case .watercolor: return "Watercolor"
+        case .crayon: return "Crayon"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .fountainPen: return "signature"
+        case .monoline: return "pencil.line"
+        case .watercolor: return "paintbrush"
+        case .crayon: return "scribble.variable"
+        }
+    }
+
+    var inkType: PKInkingTool.InkType {
+        switch self {
+        case .fountainPen: return .fountainPen
+        case .monoline: return .monoline
+        case .watercolor: return .watercolor
+        case .crayon: return .crayon
         }
     }
 }
@@ -90,6 +133,7 @@ struct ToolState: Equatable {
 
     var kind: InkToolKind = .pen
     var eraserMode: EraserMode = .stroke
+    var brushInk: BrushInk = .fountainPen
     private var colors: [InkToolKind: UIColor] = [
         .pen: ToolState.presetColors[0],
         .pencil: ToolState.presetColors[0],
@@ -106,10 +150,15 @@ struct ToolState: Equatable {
     var width: CGFloat {
         get {
             let value = widths[kind] ?? 3
-            guard let range = kind.widthRange else { return value }
+            guard let range = widthRange else { return value }
             return min(max(value, range.lowerBound), range.upperBound)
         }
         set { widths[kind] = newValue }
+    }
+
+    /// Valid stroke widths for the active tool (nil for tools that do not draw).
+    var widthRange: ClosedRange<CGFloat>? {
+        kind == .brush ? brushInk.inkType.validWidthRange : kind.widthRange
     }
 
     /// Colour given to newly inserted text and shapes: the current pen colour.
@@ -129,6 +178,8 @@ struct ToolState: Equatable {
             return PKLassoTool()
         case .pen, .pencil, .highlighter:
             return PKInkingTool(kind.inkType ?? .pen, color: color, width: width)
+        case .brush:
+            return PKInkingTool(brushInk.inkType, color: color, width: width)
         case .objects, .text:
             // The ink canvas ignores touches in these modes; this tool is never used to draw.
             return PKInkingTool(.pen, color: colors[.pen] ?? ToolState.presetColors[0], width: widths[.pen] ?? 3)

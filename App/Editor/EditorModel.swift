@@ -50,6 +50,10 @@ final class EditorModel {
     /// Bumped whenever any page's objects change, so views re-read `selectedObject`.
     private(set) var objectsRevision = 0
     var textEditTarget: TextEditTarget?
+    /// Shows PencilKit's ruler on the page being written on.
+    var isRulerActive = false
+    /// Reading mode: toolbars hidden, nothing on the page can be changed by touch.
+    var isReadingMode = false
     /// Short message shown over the canvas (for example after scribble-to-erase), with Undo.
     private(set) var notice: String?
     @ObservationIgnored private var noticeToken = UUID()
@@ -312,6 +316,16 @@ final class EditorModel {
         } catch {
             alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription
         }
+    }
+
+    /// Puts plain text on the current page as a text box (for example a calculator result).
+    func insertTextObject(_ text: String) {
+        guard let page = currentPage, !text.isEmpty else { return }
+        let width = min(max(Double(text.count) * 10 + 24, 120), page.size.width * 0.8)
+        let object = PageObject(
+            kind: .text, frame: placement((width: width, height: 40), on: page),
+            text: text, fontSize: 18, colorHex: tool.objectColorHex)
+        add(object, to: page.id)
     }
 
     /// Places a sticker (PNG, transparency kept) in the middle of the visible part of the page.

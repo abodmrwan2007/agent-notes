@@ -60,16 +60,19 @@ struct EditorScreen: View {
     @State private var pickedPhoto: PhotosPickerItem?
     @State private var isPickingBackground = false
     @State private var isPickingSticker = false
+    @State private var showsToolPanel = false
     @State private var pickedBackground: PhotosPickerItem?
 
     var body: some View {
         VStack(spacing: 0) {
             topBar
             Divider()
-            InkToolbar(model: model, allowsFingerDrawing: $allowsFingerDrawing)
-            Divider()
+            if !model.isReadingMode {
+                InkToolbar(model: model, allowsFingerDrawing: $allowsFingerDrawing)
+                Divider()
+            }
             HStack(spacing: 0) {
-                if showsThumbnails {
+                if showsThumbnails, !model.isReadingMode {
                     PageSidebar(model: model) { pagePendingDeletion = $0 }
                         .frame(width: 148)
                     Divider()
@@ -78,7 +81,15 @@ struct EditorScreen: View {
                     model: model,
                     tool: model.tool,
                     layoutVersion: model.layoutVersion,
-                    allowsFingerDrawing: allowsFingerDrawing)
+                    allowsFingerDrawing: allowsFingerDrawing,
+                    isRulerActive: model.isRulerActive,
+                    isReadingMode: model.isReadingMode)
+                if showsToolPanel, !model.isReadingMode {
+                    Divider()
+                    EditorSidePanel(model: model)
+                        .frame(width: 360)
+                        .transition(.move(edge: .trailing))
+                }
             }
             // Pages scroll under the home indicator instead of leaving an empty strip.
             .ignoresSafeArea(.container, edges: .bottom)
@@ -206,6 +217,14 @@ struct EditorScreen: View {
 
             Spacer(minLength: 8)
 
+            Button {
+                withAnimation { model.isReadingMode.toggle() }
+            } label: {
+                Image(systemName: model.isReadingMode ? "book.fill" : "book")
+            }
+            .accessibilityLabel("Reading Mode")
+            .accessibilityIdentifier("editor.reading")
+
             Text("Page \(model.currentPageIndex + 1) of \(model.manifest.pages.count)")
                 .font(.subheadline)
                 .monospacedDigit()
@@ -284,6 +303,15 @@ struct EditorScreen: View {
             }
             .accessibilityLabel("Export")
             .disabled(isExporting)
+
+            Button {
+                withAnimation { showsToolPanel.toggle() }
+            } label: {
+                Image(systemName: "sidebar.trailing")
+            }
+            .accessibilityLabel("Tools and Stickers")
+            .accessibilityIdentifier("editor.panel")
+            .disabled(model.isReadingMode)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
@@ -370,19 +398,47 @@ struct InkToolbar: View {
         HStack(spacing: 10) {
             ForEach(InkToolKind.allCases) { kind in
                 let isSelected = model.tool.kind == kind
-                Button {
-                    model.selectTool(kind)
-                } label: {
-                    Image(systemName: kind.symbol)
-                        .font(.title3)
-                        .frame(width: 40, height: 36)
-                        .background(
-                            isSelected ? Theme.accent.opacity(0.18) : Color.clear,
-                            in: RoundedRectangle(cornerRadius: 8))
+                let icon = Image(systemName: kind == .brush ? model.tool.brushInk.symbol : kind.symbol)
+                    .font(.title3)
+                    .frame(width: 40, height: 36)
+                    .background(
+                        isSelected ? Theme.accent.opacity(0.18) : Color.clear,
+                        in: RoundedRectangle(cornerRadius: 8))
+                if kind == .brush {
+                    // Tap selects the brush; the menu chooses its ink.
+                    Menu {
+                        ForEach(BrushInk.allCases) { ink in
+                            Button {
+                                model.tool.brushInk = ink
+                                model.selectTool(.brush)
+                            } label: {
+                                Label(ink.title, systemImage: ink.symbol)
+                            }
+                        }
+                    } label: {
+                        icon
+                    } primaryAction: {
+                        model.selectTool(.brush)
+                    }
+                    .accessibilityLabel(Text(kind.title))
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
+                } else {
+                    Button {
+                        model.selectTool(kind)
+                    } label: {
+                        icon
+                    }
+                    .accessibilityLabel(Text(kind.title))
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
-                .accessibilityLabel(Text(kind.title))
-                .accessibilityAddTraits(isSelected ? .isSelected : [])
             }
+
+            Toggle(isOn: $model.isRulerActive) {
+                Image(systemName: "ruler")
+            }
+            .toggleStyle(.button)
+            .accessibilityLabel("Ruler")
+            .accessibilityIdentifier("tool.ruler")
 
             Divider().frame(height: 24)
             options
@@ -424,7 +480,7 @@ struct InkToolbar: View {
 
     @ViewBuilder
     private var options: some View {
-        if let range = model.tool.kind.widthRange {
+        if let range = model.tool.widthRange {
             ForEach(Array(model.tool.palette.enumerated()), id: \.offset) { _, color in
                 Button {
                     model.tool.color = color
@@ -770,6 +826,8 @@ struct EditorCanvasView: UIViewControllerRepresentable {
     let tool: ToolState
     let layoutVersion: Int
     let allowsFingerDrawing: Bool
+    let isRulerActive: Bool
+    let isReadingMode: Bool
 
     final class Coordinator {
         var appliedTool: ToolState?
@@ -797,7 +855,8 @@ struct EditorCanvasView: UIViewControllerRepresentable {
             context.coordinator.appliedTool = tool
             controller.apply(tool: tool.makeTool())
         }
-        controller.setInteraction(tool.kind.pageInteraction)
+        controller.setInteraction(isReadingMode ? .read : tool.kind.pageInteraction)
+        controller.setRulerActive(isRulerActive)
     }
 }
 

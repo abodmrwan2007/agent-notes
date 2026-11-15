@@ -21,6 +21,7 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     private var followsFitZoom = true
     private var currentTool: PKTool = PKInkingTool(.pen, color: .black, width: 3)
     private var interaction: PageInteraction = .ink
+    private var isRulerActive = false
     private let hoverRing = CAShapeLayer()
     private var hasAppliedOpenTarget = false
 
@@ -133,6 +134,22 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         interaction = mode
         for pageView in pageViews {
             pageView.setInteraction(mode)
+        }
+        applyDrawingPolicy()
+        applyRuler()
+    }
+
+    func setRulerActive(_ active: Bool) {
+        guard isRulerActive != active else { return }
+        isRulerActive = active
+        applyRuler()
+    }
+
+    /// The ruler is shown on the current page only (each page has its own canvas).
+    private func applyRuler() {
+        let current = model.currentPageIndex
+        for (index, pageView) in pageViews.enumerated() {
+            pageView.canvas?.isRulerActive = isRulerActive && interaction == .ink && index == current
         }
     }
 
@@ -341,6 +358,7 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         let index = pageViews.firstIndex { $0.frame.maxY + Self.pageSpacing / 2 > centerY } ?? pageViews.count - 1
         if model.currentPageIndex != index {
             model.currentPageIndex = index
+            if isRulerActive { applyRuler() }
         }
     }
 
@@ -392,8 +410,8 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     }
 
     private func applyDrawingPolicy() {
-        // Finger drawing on: one finger draws, so scrolling needs two.
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = allowsFingerDrawing ? 2 : 1
+        // Finger drawing on: one finger draws, so scrolling needs two (only while drawing).
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = allowsFingerDrawing && interaction == .ink ? 2 : 1
         for pageView in pageViews {
             pageView.canvas?.drawingPolicy = drawingPolicy
         }

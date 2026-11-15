@@ -460,4 +460,52 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("44-stickers-on-page")
     }
+
+    func test9_sidePanelBrushesRulerReading() {
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+
+        // Tools open beside the page; a calculation goes onto the page as text.
+        tap(app, "editor.panel")
+        tap(app, "panel.tool.calculator")
+        pressKeys(app, ["1", "2", "×", "3", "="])
+        sleep(1)
+        shot("45-panel-calculator")
+        tap(app, "calculator.insert")
+        sleep(1)
+        shot("46-calculation-on-page")
+
+        // Stickers from the panel, without leaving the page.
+        app.buttons["Stickers"].firstMatch.tap()
+        tap(app, "sticker.star")
+        tap(app, "sticker.examAR")
+        sleep(1)
+        shot("47-panel-stickers")
+        tap(app, "editor.panel")
+
+        // Brushes menu and the ruler.
+        let brushes = app.buttons["Brushes"].firstMatch
+        XCTAssertTrue(brushes.waitForExistence(timeout: 5))
+        brushes.press(forDuration: 1.0)
+        let watercolor = app.buttons["Watercolor"].firstMatch
+        XCTAssertTrue(watercolor.waitForExistence(timeout: 5), "brush menu did not open")
+        watercolor.tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.80))
+            .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.70, dy: 0.84)))
+        tap(app, "tool.ruler")
+        sleep(1)
+        shot("48-watercolor-and-ruler")
+        tap(app, "tool.ruler")
+
+        // Reading mode hides the tools.
+        tap(app, "editor.reading")
+        sleep(1)
+        XCTAssertFalse(app.buttons["Undo"].exists, "toolbar still visible in reading mode")
+        shot("49-reading-mode")
+        tap(app, "editor.reading")
+    }
 }

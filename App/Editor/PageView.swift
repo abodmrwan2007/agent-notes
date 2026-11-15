@@ -69,6 +69,8 @@ enum PageInteraction {
     case objects
     /// Select the PDF's own text.
     case text
+    /// Reading mode: nothing on the page reacts to touch except scrolling and zooming.
+    case read
 }
 
 final class PageView: UIView {

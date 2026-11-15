@@ -3,6 +3,13 @@ import SwiftUI
 
 /// Plots y = f(x) for up to three functions. Angles are in radians, as is conventional for graphs.
 struct GraphView: View {
+    /// Narrow layout for the editor's side panel: function list above the plot.
+    let compact: Bool
+
+    init(compact: Bool = false) {
+        self.compact = compact
+    }
+
     // Two starting examples: a smooth curve and one with a pole at x = 0.
     @State private var formulas = ["sin(x)", "1/x", ""]
     // The visible window: centre and width in graph units. Height follows the view's aspect ratio.
@@ -16,11 +23,22 @@ struct GraphView: View {
     private static let defaultSpan = 20.0
 
     var body: some View {
-        HStack(spacing: 0) {
-            controls
-                .frame(width: 300)
-            Divider()
-            plot
+        Group {
+            if compact {
+                VStack(spacing: 0) {
+                    controls
+                        .frame(height: 330)
+                    Divider()
+                    plot
+                }
+            } else {
+                HStack(spacing: 0) {
+                    controls
+                        .frame(width: 300)
+                    Divider()
+                    plot
+                }
+            }
         }
         .navigationTitle("Graphing Calculator")
         .navigationBarTitleDisplayMode(.inline)

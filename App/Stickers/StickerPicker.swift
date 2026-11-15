@@ -1,81 +1,19 @@
 import PhotosUI
 import SwiftUI
 
-/// Chooses a sticker to place on the current page: the built-in pack or the user's own.
+/// The sticker sheet opened from Insert ▸ Sticker….
 struct StickerPicker: View {
     /// PNG data and the size to give it on the page.
     let onPick: (Data, CGSize) -> Void
 
     @Environment(\.dismiss) private var dismiss
-    @State private var custom = CustomStickerStore()
-    @State private var pickedPhoto: PhotosPickerItem?
-    @State private var pendingRemoval: CustomStickerStore.Item?
-
-    private let columns = [GridItem(.adaptive(minimum: 84, maximum: 110), spacing: 16)]
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Built-in")
-                        .font(.headline)
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(Sticker.allCases) { sticker in
-                            Button {
-                                if let data = sticker.pngData() {
-                                    onPick(data, sticker.pageSize)
-                                    dismiss()
-                                }
-                            } label: {
-                                Image(uiImage: sticker.image(scale: 2))
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 72)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(6)
-                                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel(Text(verbatim: sticker.accessibilityName))
-                            .accessibilityIdentifier("sticker.\(sticker.rawValue)")
-                        }
-                    }
-
-                    HStack {
-                        Text("My Stickers")
-                            .font(.headline)
-                        Spacer()
-                        PhotosPicker(selection: $pickedPhoto, matching: .images) {
-                            Label("Add from Photos", systemImage: "plus")
-                        }
-                    }
-                    if custom.items.isEmpty {
-                        Text("Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        LazyVGrid(columns: columns, spacing: 16) {
-                            ForEach(custom.items) { item in
-                                Button {
-                                    pick(item)
-                                } label: {
-                                    AsyncStickerThumbnail(url: item.url)
-                                }
-                                .buttonStyle(.plain)
-                                .contextMenu {
-                                    Button(role: .destructive) {
-                                        pendingRemoval = item
-                                    } label: {
-                                        Label("Remove from My Stickers", systemImage: "trash")
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    Text("The built-in stickers are original artwork made for this app.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                StickerGrid { data, size in
+                    onPick(data, size)
+                    dismiss()
                 }
                 .padding(20)
             }
@@ -86,35 +24,113 @@ struct StickerPicker: View {
                     Button("Cancel") { dismiss() }
                 }
             }
-            .onChange(of: pickedPhoto) { _, item in
-                guard let item else { return }
-                Task {
-                    if let data = try? await item.loadTransferable(type: Data.self) {
-                        custom.add(imageData: data)
-                    } else {
-                        custom.errorMessage = String(localized: "This picture could not be read.")
+        }
+    }
+}
+
+/// The built-in pack and the user's own stickers. Used by the sheet and by the editor's side
+/// panel, where it stays open while writing so several stickers can be placed in a row.
+struct StickerGrid: View {
+    let onPick: (Data, CGSize) -> Void
+    var minimumCell: CGFloat = 84
+
+    @State private var custom = CustomStickerStore()
+    @State private var pickedPhoto: PhotosPickerItem?
+    @State private var pendingRemoval: CustomStickerStore.Item?
+
+    private var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: minimumCell, maximum: minimumCell + 26), spacing: 12)]
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Text("Built-in")
+                .font(.headline)
+            LazyVGrid(columns: columns, spacing: 12) {
+                ForEach(Sticker.allCases) { sticker in
+                    Button {
+                        if let data = sticker.pngData() {
+                            onPick(data, sticker.pageSize)
+                        }
+                    } label: {
+                        Image(uiImage: sticker.image(scale: 2))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: minimumCell - 12)
+                            .frame(maxWidth: .infinity)
+                            .padding(6)
+                            .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
                     }
-                    pickedPhoto = nil
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text(verbatim: sticker.accessibilityName))
+                    .accessibilityIdentifier("sticker.\(sticker.rawValue)")
                 }
             }
-            .confirmationDialog(
-                "Remove this sticker?",
-                isPresented: Binding(get: { pendingRemoval != nil }, set: { if !$0 { pendingRemoval = nil } }),
-                titleVisibility: .visible,
-                presenting: pendingRemoval
-            ) { item in
-                Button("Remove from My Stickers", role: .destructive) { custom.remove(item) }
-            } message: { _ in
-                Text("Notebooks that already use it keep their copy.")
+
+            HStack {
+                Text("My Stickers")
+                    .font(.headline)
+                Spacer()
+                PhotosPicker(selection: $pickedPhoto, matching: .images) {
+                    Label("Add from Photos", systemImage: "plus")
+                }
             }
-            .alert(
-                "Something went wrong",
-                isPresented: Binding(get: { custom.errorMessage != nil }, set: { if !$0 { custom.errorMessage = nil } })
-            ) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(verbatim: custom.errorMessage ?? "")
+            if custom.items.isEmpty {
+                Text("Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } else {
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(custom.items) { item in
+                        Button {
+                            pick(item)
+                        } label: {
+                            CustomStickerThumbnail(url: item.url, height: minimumCell - 12)
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                pendingRemoval = item
+                            } label: {
+                                Label("Remove from My Stickers", systemImage: "trash")
+                            }
+                        }
+                    }
+                }
             }
+
+            Text("The built-in stickers are original artwork made for this app.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+        .onChange(of: pickedPhoto) { _, item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    custom.add(imageData: data)
+                } else {
+                    custom.errorMessage = String(localized: "This picture could not be read.")
+                }
+                pickedPhoto = nil
+            }
+        }
+        .confirmationDialog(
+            "Remove this sticker?",
+            isPresented: Binding(get: { pendingRemoval != nil }, set: { if !$0 { pendingRemoval = nil } }),
+            titleVisibility: .visible,
+            presenting: pendingRemoval
+        ) { item in
+            Button("Remove from My Stickers", role: .destructive) { custom.remove(item) }
+        } message: { _ in
+            Text("Notebooks that already use it keep their copy.")
+        }
+        .alert(
+            "Something went wrong",
+            isPresented: Binding(get: { custom.errorMessage != nil }, set: { if !$0 { custom.errorMessage = nil } })
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(verbatim: custom.errorMessage ?? "")
         }
     }
 
@@ -124,12 +140,12 @@ struct StickerPicker: View {
         let longest = max(image.size.width, image.size.height, 1)
         let scale = 120 / longest
         onPick(data, CGSize(width: image.size.width * scale, height: image.size.height * scale))
-        dismiss()
     }
 }
 
-private struct AsyncStickerThumbnail: View {
+private struct CustomStickerThumbnail: View {
     let url: URL
+    let height: CGFloat
     @State private var image: UIImage?
 
     var body: some View {
@@ -140,7 +156,7 @@ private struct AsyncStickerThumbnail: View {
                 Color.clear
             }
         }
-        .frame(height: 72)
+        .frame(height: height)
         .frame(maxWidth: .infinity)
         .padding(6)
         .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
