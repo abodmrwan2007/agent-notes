@@ -509,9 +509,11 @@ final class SmokeTests: XCTestCase {
         tap(app, "editor.reading")
     }
 
-    func test10_coversLockAndInterfaceColor() {
+    // Named "9z" so it runs after test9 (XCTest runs tests in alphabetical order: "test10"
+    // would run before "test1_" and change the library the other tests expect).
+    func test9z_coversLockAndInterfaceColor() {
         continueAfterFailure = true
-        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+        var app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
 
         // A coloured cover instead of the first page.
         let notebook = card(app, titled: "Whiteboard photos")
@@ -526,16 +528,20 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("50-coral-cover")
 
-        // Locking needs a device passcode; the simulator has none, so the app must say so
-        // instead of locking (or pretending to).
+        // Locking asks the system for Face ID or the device passcode before anything changes.
         notebook.press(forDuration: 1.2)
         let lock = app.buttons["Lock…"].firstMatch
         XCTAssertTrue(lock.waitForExistence(timeout: 5), "Lock menu item")
         lock.tap()
-        let message = app.staticTexts["Set a passcode on this iPad to lock notebooks."]
-        XCTAssertTrue(message.waitForExistence(timeout: 10), "no explanation when the device has no passcode")
-        shot("51-lock-needs-passcode")
-        app.buttons["OK"].firstMatch.tap()
+        sleep(3)
+        shot("51-lock-asks-for-passcode")
+
+        // Leaving without authenticating must not lock the notebook.
+        app.terminate()
+        app = launch(language: "en")
+        let again = card(app, titled: "Whiteboard photos")
+        XCTAssertTrue(again.waitForExistence(timeout: 15))
+        XCTAssertFalse(again.label.contains("Locked"), "the notebook was locked without authentication")
 
         // Interface colour.
         app.staticTexts["Settings"].firstMatch.tap()
