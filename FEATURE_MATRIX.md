@@ -64,7 +64,7 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Horizontal page turning | B | Not started | |
 | Expandable margins around PDF pages | B | Not started | |
 | Typed text, images, shapes, sticky notes, links, tables, formulas | B | Partial | Text boxes, sticky notes, 4 shapes Sim-verified (insert, move, edit text, undo, persistence). Image insertion Written, untested. Links, tables, formulas not started |
-| Stickers (original pack, custom import) | B | Not started | Needs original artwork |
+| Stickers (original pack, custom import) | B | Sim-verified | 46 Twemoji medical/study stickers (CC BY 4.0, attributed), 6 original banners, custom stickers from Photos |
 | Audio attachments | C | Not started | |
 | Atlas scene cards | D | Not started | |
 | Object resize / rotate / layer / group / lock | B | Partial | Move, rotate 90°, duplicate + undo Sim-verified. Resize handle, front/back, lock, delete Written and unit-tested in the core model but not driven by a UI test. No free rotation, no grouping |
@@ -137,7 +137,7 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | YouTube embed / local video beside notes | C | Not started | IFrame API policy check pending |
 | Timestamp bookmarks | C | Not started | |
 | Transcript import, lecture summaries | C | Not started | |
-| Audio recording synced to ink, dictation | C | Not started | |
+| Audio recording synced to ink, dictation | C | Partial | Recording while writing, recordings in the notebook, tap a stroke to play from that moment (Sim-verified; real microphone untested). Foreground only. Dictation not started |
 | Focus timer, activity dashboard, reminders, goals | B–C | Partial | Focus timer Sim-verified (counts down; date-based logic unit-tested for backgrounding). Phase-end notification Written, untested. Dashboard, reminders, goals not started |
 
 ## 10. Scientific utilities

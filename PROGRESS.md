@@ -7,9 +7,9 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43706433953, 2026-11-15) |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43751306864, 2026-11-15) |
 | Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **10 tests pass** in CI; 52 screenshots, the new ones inspected by eye |
+| UI smoke tests on an iPad Pro simulator | **12 tests pass** in CI; 60 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
@@ -56,6 +56,30 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## Discoverability, Twemoji stickers, sticky-note styles, lecture audio (2026-11-15) — done
+
+Owner feedback: on `playground-8` they saw no new features (they were hidden behind unlabeled
+icons) and found the hand-drawn stickers poor. Response:
+
+- **Labelled top-bar buttons** (Record, Read, Insert, Tools) and a **What's New** sheet that opens once
+  after an update and lists every feature with exactly where to find it (Settings ▸ What's New).
+- **Twemoji stickers**: 46 SVGs (26 medical, 20 study) from jdecked/twemoji v16.0.1, CC BY 4.0,
+  downloaded with the owner's approval, vector asset catalog, attribution in the sticker panel and
+  Settings ▸ Acknowledgements (`third_party/twemoji/`). The old hand-drawn pictorial stickers were
+  removed from the picker; the six banners remain (and now fit on one line).
+- **Sticky notes in five styles** (plain, lined, grid, taped, pinned), seven colours, soft shadow.
+  Document format **v4** (`noteStyle`).
+- **Lecture audio**: Record in the top bar while writing; recordings are saved in the notebook
+  (`audio/`, format **v5** `recordings`); Audio tab in the side panel (play, pause, progress, delete);
+  "Tap writing to hear it" plays from 3 s before the tapped stroke was written (stroke creation
+  dates, `AudioTimeline` unit-tested). Recording stops (and is saved) when the app leaves the
+  foreground or audio is interrupted; no background recording yet.
+
+CI run 43751306864: build, 12 UI tests, core tests all pass. Verified in screenshots: What's New,
+labelled buttons, Twemoji grid, stickers on the page, pinned sticky note with Arabic text, a 10-second
+recording saved and listed, tapping the stroke written during it started playback (progress bar).
+The CI Mac has no real microphone, so the recorded audio itself is not checked.
 
 ## Side panel, brushes, ruler, reading mode, stickers, lock, covers, colour (2026-11-15) — done
 
@@ -258,10 +282,11 @@ assertions and were only visible in the pictures.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
   `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection), `playground-5` (adds hold-to-snap, smoothing,
   tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds),
-  `playground-7`/`playground-8` (side panel, stickers, brushes, ruler, reading mode, lock, covers, colour).
+  `playground-7`/`playground-8` (side panel, stickers, brushes, ruler, reading mode, lock, covers, colour),
+  `playground-9` (Twemoji stickers, sticky-note styles, labelled buttons, What's New, lecture audio).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` to `-8` have not been reported on yet.
+  without a declared type. The owner reported on `playground-8` (features hard to find; stickers poor), addressed in `playground-9`.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
