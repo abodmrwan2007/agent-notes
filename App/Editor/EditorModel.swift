@@ -314,6 +314,18 @@ final class EditorModel {
         }
     }
 
+    /// Places a sticker (PNG, transparency kept) in the middle of the visible part of the page.
+    func insertSticker(pngData: Data, size: CGSize) {
+        guard let page = currentPage else { return }
+        do {
+            let fileName = try store.addAsset(pngData, fileExtension: "png", documentID: documentID)
+            let frame = placement((width: Double(size.width), height: Double(size.height)), on: page)
+            add(PageObject(kind: .image, frame: frame, assetFileName: fileName), to: page.id)
+        } catch {
+            alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription
+        }
+    }
+
     private func add(_ object: PageObject, to pageID: UUID) {
         var layer = objects(for: pageID)
         layer.add(object)

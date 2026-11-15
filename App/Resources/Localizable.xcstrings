@@ -71,6 +71,26 @@
         }
       }
     },
+    "Add from Photos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة من الصور"
+          }
+        }
+      }
+    },
+    "Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف صورك لتستخدمها ملصقات. الصور المقصوصة بخلفية شفافة تبدو أفضل."
+          }
+        }
+      }
+    },
     "Alkali metal": {
       "localizations": {
         "ar": {
@@ -231,6 +251,16 @@
         }
       }
     },
+    "Bone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عظمة"
+          }
+        }
+      }
+    },
     "Bookmark Page": {
       "localizations": {
         "ar": {
@@ -291,12 +321,32 @@
         }
       }
     },
+    "Built-in": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المرفقة"
+          }
+        }
+      }
+    },
     "Cancel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إلغاء"
+          }
+        }
+      }
+    },
+    "Capsule": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبسولة"
           }
         }
       }
@@ -317,6 +367,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تغيير القالب"
+          }
+        }
+      }
+    },
+    "Check mark": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "علامة صح"
           }
         }
       }
@@ -407,6 +467,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لون مخصص"
+          }
+        }
+      }
+    },
+    "DNA": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حمض نووي"
           }
         }
       }
@@ -721,6 +791,16 @@
         }
       }
     },
+    "Exam": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امتحان"
+          }
+        }
+      }
+    },
     "Export": {
       "localizations": {
         "ar": {
@@ -777,6 +857,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المفضلة فقط"
+          }
+        }
+      }
+    },
+    "Flask": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دورق"
           }
         }
       }
@@ -911,6 +1001,26 @@
         }
       }
     },
+    "Heart": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلب"
+          }
+        }
+      }
+    },
+    "Heartbeat": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نبض القلب"
+          }
+        }
+      }
+    },
     "Highlighter": {
       "localizations": {
         "ar": {
@@ -927,6 +1037,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "السجل"
+          }
+        }
+      }
+    },
+    "Idea": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فكرة"
           }
         }
       }
@@ -957,6 +1077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "استيراد PDF"
+          }
+        }
+      }
+    },
+    "Important": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهم"
           }
         }
       }
@@ -1077,6 +1207,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نقل إلى السلة"
+          }
+        }
+      }
+    },
+    "My Stickers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملصقاتي"
           }
         }
       }
@@ -1287,6 +1427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "غير معرّفة عند هذه القيمة: %@"
+          }
+        }
+      }
+    },
+    "Notebooks that already use it keep their copy.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفاتر التي تستخدمه تحتفظ بنسختها."
           }
         }
       }
@@ -1581,6 +1731,16 @@
         }
       }
     },
+    "Question": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سؤال"
+          }
+        }
+      }
+    },
     "Radians": {
       "localizations": {
         "ar": {
@@ -1651,12 +1811,32 @@
         }
       }
     },
+    "Remove from My Stickers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة من ملصقاتي"
+          }
+        }
+      }
+    },
     "Remove from Panel": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إزالة من اللوحة"
+          }
+        }
+      }
+    },
+    "Remove this sticker?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة هذا الملصق؟"
           }
         }
       }
@@ -1747,6 +1927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "متابعة"
+          }
+        }
+      }
+    },
+    "Review": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مراجعة"
           }
         }
       }
@@ -1931,6 +2121,16 @@
         }
       }
     },
+    "Star": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نجمة"
+          }
+        }
+      }
+    },
     "Start": {
       "localizations": {
         "ar": {
@@ -1947,6 +2147,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "حل المسائل خطوة بخطوة"
+          }
+        }
+      }
+    },
+    "Stickers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملصقات"
+          }
+        }
+      }
+    },
+    "Sticker…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملصق…"
           }
         }
       }
@@ -2087,6 +2307,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مربع نص"
+          }
+        }
+      }
+    },
+    "The built-in stickers are original artwork made for this app.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملصقات المرفقة رسومات أصلية صُمّمت لهذا التطبيق."
           }
         }
       }
@@ -2447,6 +2677,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "العرض"
+          }
+        }
+      }
+    },
+    "Warning": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنبيه"
           }
         }
       }

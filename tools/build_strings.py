@@ -308,6 +308,32 @@ AR = {
     "To erase, scribble back and forth at least five times across the strokes. Undo brings them back.":
         "للمسح، خربش ذهابًا وإيابًا خمس مرات على الأقل فوق الخطوط. التراجع يعيدها.",
     "Erased %lld strokes": "مُسح %lld من الخطوط",
+    # Stickers
+    "Sticker…": "ملصق…",
+    "Stickers": "الملصقات",
+    "Built-in": "المرفقة",
+    "My Stickers": "ملصقاتي",
+    "Add from Photos": "إضافة من الصور",
+    "Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.":
+        "أضف صورك لتستخدمها ملصقات. الصور المقصوصة بخلفية شفافة تبدو أفضل.",
+    "Remove from My Stickers": "إزالة من ملصقاتي",
+    "Remove this sticker?": "إزالة هذا الملصق؟",
+    "Notebooks that already use it keep their copy.": "الدفاتر التي تستخدمه تحتفظ بنسختها.",
+    "The built-in stickers are original artwork made for this app.": "الملصقات المرفقة رسومات أصلية صُمّمت لهذا التطبيق.",
+    "Star": "نجمة",
+    "Heart": "قلب",
+    "Check mark": "علامة صح",
+    "Warning": "تنبيه",
+    "Question": "سؤال",
+    "Idea": "فكرة",
+    "Capsule": "كبسولة",
+    "DNA": "حمض نووي",
+    "Flask": "دورق",
+    "Heartbeat": "نبض القلب",
+    "Bone": "عظمة",
+    "Important": "مهم",
+    "Exam": "امتحان",
+    "Review": "مراجعة",
 }
 
 

@@ -59,6 +59,7 @@ struct EditorScreen: View {
     @State private var isPickingPhoto = false
     @State private var pickedPhoto: PhotosPickerItem?
     @State private var isPickingBackground = false
+    @State private var isPickingSticker = false
     @State private var pickedBackground: PhotosPickerItem?
 
     var body: some View {
@@ -107,6 +108,11 @@ struct EditorScreen: View {
         }
         .photosPicker(isPresented: $isPickingPhoto, selection: $pickedPhoto, matching: .images)
         .photosPicker(isPresented: $isPickingBackground, selection: $pickedBackground, matching: .images)
+        .sheet(isPresented: $isPickingSticker) {
+            StickerPicker { data, size in
+                model.insertSticker(pngData: data, size: size)
+            }
+        }
         .onChange(of: pickedBackground) { _, item in
             guard let item, let pageID = model.currentPage?.id else { return }
             Task {
@@ -231,6 +237,11 @@ struct EditorScreen: View {
                     isPickingPhoto = true
                 } label: {
                     Label("Image from Photos", systemImage: "photo")
+                }
+                Button {
+                    isPickingSticker = true
+                } label: {
+                    Label("Sticker…", systemImage: "face.smiling")
                 }
             } label: {
                 Image(systemName: "plus.circle")

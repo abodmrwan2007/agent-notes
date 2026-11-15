@@ -445,5 +445,19 @@ final class SmokeTests: XCTestCase {
         menuItem(app, "Planner")
         sleep(2)
         shot("42-planner-page")
+
+        // Built-in stickers: the picker shows the original pack; a sticker lands on the page selected.
+        openMenu(app, "Insert")
+        menuItem(app, "Sticker…")
+        XCTAssertTrue(element(app, "sticker.heart").waitForExistence(timeout: 5), "sticker picker did not open")
+        sleep(1)
+        shot("43-sticker-picker")
+        tap(app, "sticker.heart")
+        XCTAssertTrue(element(app, "object.delete").waitForExistence(timeout: 5), "sticker was not inserted")
+        openMenu(app, "Insert")
+        menuItem(app, "Sticker…")
+        tap(app, "sticker.importantAR")
+        sleep(1)
+        shot("44-stickers-on-page")
     }
 }
