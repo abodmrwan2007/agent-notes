@@ -58,6 +58,8 @@ struct EditorScreen: View {
     @State private var isExporting = false
     @State private var isPickingPhoto = false
     @State private var pickedPhoto: PhotosPickerItem?
+    @State private var isPickingBackground = false
+    @State private var pickedBackground: PhotosPickerItem?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -104,6 +106,37 @@ struct EditorScreen: View {
             }
         }
         .photosPicker(isPresented: $isPickingPhoto, selection: $pickedPhoto, matching: .images)
+        .photosPicker(isPresented: $isPickingBackground, selection: $pickedBackground, matching: .images)
+        .onChange(of: pickedBackground) { _, item in
+            guard let item, let pageID = model.currentPage?.id else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self) {
+                    model.setBackgroundImage(data: data, pageID: pageID)
+                } else {
+                    model.alertMessage = String(localized: "This picture could not be read.")
+                }
+                pickedBackground = nil
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if let notice = model.notice {
+                HStack(spacing: 16) {
+                    Text(verbatim: notice)
+                    Button("Undo") {
+                        model.canvas?.undo()
+                        model.dismissNotice()
+                    }
+                    .fontWeight(.semibold)
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(.regularMaterial, in: Capsule())
+                .padding(.bottom, 28)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .accessibilityIdentifier("editor.notice")
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: model.notice)
         .onChange(of: pickedPhoto) { _, item in
             guard let item else { return }
             Task {
@@ -261,6 +294,18 @@ struct EditorScreen: View {
                 } label: {
                     Label("Change Template", systemImage: "rectangle.dashed")
                 }
+                Button {
+                    isPickingBackground = true
+                } label: {
+                    Label("Background Image…", systemImage: "photo.on.rectangle")
+                }
+                if page.backgroundAsset != nil {
+                    Button {
+                        model.removeBackgroundImage(pageID: page.id)
+                    } label: {
+                        Label("Remove Background Image", systemImage: "rectangle.slash")
+                    }
+                }
             }
             Button {
                 model.toggleBookmark(page.id)
@@ -315,7 +360,7 @@ struct InkToolbar: View {
             ForEach(InkToolKind.allCases) { kind in
                 let isSelected = model.tool.kind == kind
                 Button {
-                    model.tool.kind = kind
+                    model.selectTool(kind)
                 } label: {
                     Image(systemName: kind.symbol)
                         .font(.title3)

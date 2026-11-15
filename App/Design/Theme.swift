@@ -38,6 +38,7 @@ extension PageTemplate {
         case .grid: return "Grid"
         case .dotGrid: return "Dot Grid"
         case .cornell: return "Cornell"
+        case .planner: return "Planner"
         }
     }
 
@@ -48,6 +49,7 @@ extension PageTemplate {
         case .grid: return "squareshape.split.3x3"
         case .dotGrid: return "circle.grid.3x3"
         case .cornell: return "rectangle.split.2x1"
+        case .planner: return "calendar"
         }
     }
 }

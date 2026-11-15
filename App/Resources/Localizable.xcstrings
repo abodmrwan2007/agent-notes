@@ -211,6 +211,16 @@
         }
       }
     },
+    "Background Image…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة خلفية…"
+          }
+        }
+      }
+    },
     "Blank": {
       "localizations": {
         "ar": {
@@ -677,6 +687,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أدخل عبارة حسابية."
+          }
+        }
+      }
+    },
+    "Erased %lld strokes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مُسح %lld من الخطوط"
           }
         }
       }
@@ -1531,6 +1551,16 @@
         }
       }
     },
+    "Planner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخطِّط"
+          }
+        }
+      }
+    },
     "Plot up to three functions of x. Drag to move, pinch to zoom.": {
       "localizations": {
         "ar": {
@@ -1587,6 +1617,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Remove Background Image": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة صورة الخلفية"
           }
         }
       }
@@ -1747,6 +1787,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الآلة الحاسبة العلمية"
+          }
+        }
+      }
+    },
+    "Scribble over ink to erase it": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخربشة فوق الحبر تمسحه"
           }
         }
       }
@@ -2227,6 +2277,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "العنوان"
+          }
+        }
+      }
+    },
+    "To erase, scribble back and forth at least five times across the strokes. Undo brings them back.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "للمسح، خربش ذهابًا وإيابًا خمس مرات على الأقل فوق الخطوط. التراجع يعيدها."
           }
         }
       }

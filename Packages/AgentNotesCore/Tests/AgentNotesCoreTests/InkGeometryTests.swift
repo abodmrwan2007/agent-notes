@@ -159,4 +159,48 @@ final class InkGeometryTests: XCTestCase {
             XCTAssertEqual(a.y, b.y, accuracy: 1e-9)
         }
     }
+
+    // MARK: Scribble to erase
+
+    private func zigzag(strokes: Int, width: Double = 120, height: Double = 30, vertical: Bool = false) -> [PagePoint] {
+        var points: [PagePoint] = []
+        for stroke in 0..<strokes {
+            for step in 0..<10 {
+                let t = Double(step) / 10
+                let along = stroke.isMultiple(of: 2) ? t * width : (1 - t) * width
+                let across = (Double(stroke) + t) / Double(strokes) * height
+                points.append(vertical ? PagePoint(x: 100 + across, y: 100 + along) : PagePoint(x: 100 + along, y: 100 + across))
+            }
+        }
+        return points
+    }
+
+    func testZigzagIsAScribble() {
+        XCTAssertTrue(InkGeometry.isScribble(zigzag(strokes: 6)))
+        XCTAssertTrue(InkGeometry.isScribble(zigzag(strokes: 8, vertical: true)), "vertical scribbles count too")
+        // Starting with a backward move must not confuse the counter.
+        XCTAssertTrue(InkGeometry.isScribble(zigzag(strokes: 6).reversed()))
+    }
+
+    func testTooFewBackAndForthIsNotAScribble() {
+        XCTAssertFalse(InkGeometry.isScribble(zigzag(strokes: 3)), "an N or Z shape is not a scribble")
+    }
+
+    func testWritingIsNotAScribble() {
+        // Cursive loops moving forward along a line ("eeeeee").
+        let cursive = (0..<160).map { index -> PagePoint in
+            let t = Double(index) / 10
+            return PagePoint(x: 50 + t * 18 - 8 * sin(t * 2.6), y: 100 + 10 * cos(t * 2.6))
+        }
+        XCTAssertFalse(InkGeometry.isScribble(cursive))
+        // A "W" or "M": many vertical turns but the pen keeps moving forward.
+        let w = (0..<60).map { index -> PagePoint in
+            let t = Double(index) / 59
+            return PagePoint(x: 50 + t * 200, y: 100 + 60 * abs(sin(t * .pi * 4)))
+        }
+        XCTAssertFalse(InkGeometry.isScribble(w))
+        XCTAssertFalse(InkGeometry.isScribble((0..<30).map { PagePoint(x: Double($0) * 10, y: 0) }))
+        // Tiny jitter is ignored.
+        XCTAssertFalse(InkGeometry.isScribble(zigzag(strokes: 8, width: 10, height: 5)))
+    }
 }

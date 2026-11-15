@@ -4,7 +4,8 @@ import Foundation
 public enum DocumentFormat {
     /// Bump when the manifest schema changes and add a step to `ManifestCodec.migrations`.
     /// Version 2 added page objects (`objects/`) and their binary assets (`assets/`).
-    public static let currentVersion = 2
+    /// Version 3 added the `planner` template and per-page background images.
+    public static let currentVersion = 3
     public static let packageExtension = "agentnote"
     public static let manifestFileName = "manifest.json"
     public static let sourcesDirectoryName = "sources"
@@ -35,6 +36,8 @@ public enum PageTemplate: String, Codable, CaseIterable, Sendable {
     case grid
     case dotGrid
     case cornell
+    /// A week: header band and seven day rows.
+    case planner
 }
 
 /// Points a page at one page of a preserved original PDF stored in the package.
@@ -57,19 +60,23 @@ public struct PageRecord: Codable, Hashable, Identifiable, Sendable {
     public var template: PageTemplate
     public var pdf: PDFPageReference?
     public var isBookmarked: Bool
+    /// Asset file (in `assets/`) drawn as the page background instead of the template.
+    public var backgroundAsset: String?
 
     public init(
         id: UUID = UUID(),
         size: PageSize,
         template: PageTemplate = .blank,
         pdf: PDFPageReference? = nil,
-        isBookmarked: Bool = false
+        isBookmarked: Bool = false,
+        backgroundAsset: String? = nil
     ) {
         self.id = id
         self.size = size
         self.template = template
         self.pdf = pdf
         self.isBookmarked = isBookmarked
+        self.backgroundAsset = backgroundAsset
     }
 }
 

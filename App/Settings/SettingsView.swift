@@ -6,6 +6,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.defaultTemplate) private var defaultTemplateRaw = PageTemplate.ruled.rawValue
     @AppStorage(SettingsKey.snapShapesOnHold) private var snapShapesOnHold = true
     @AppStorage(SettingsKey.smoothingStrength) private var smoothingStrength = 0.0
+    @AppStorage(SettingsKey.scribbleToErase) private var scribbleToErase = true
 
     var body: some View {
         Form {
@@ -19,6 +20,7 @@ struct SettingsView: View {
 
             Section {
                 Toggle("Straighten shapes when holding the pen at the end", isOn: $snapShapesOnHold)
+                Toggle("Scribble over ink to erase it", isOn: $scribbleToErase)
                 VStack(alignment: .leading) {
                     Text("Stroke smoothing")
                     Slider(value: $smoothingStrength, in: 0...1) {
@@ -33,6 +35,7 @@ struct SettingsView: View {
                 Text("Shapes and smoothing")
             } footer: {
                 Text("Draw a line, circle, ellipse or rectangle and keep the pen still for half a second before lifting it. Both features apply when the stroke is finished, not while you write. Undo removes the corrected stroke.")
+                Text("To erase, scribble back and forth at least five times across the strokes. Undo brings them back.")
             }
 
             Section("New notebooks") {

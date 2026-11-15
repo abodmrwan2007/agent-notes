@@ -87,9 +87,13 @@ final class ThumbnailService: @unchecked Sendable {
         let objects = (try? store.loadObjects(documentID: manifest.id, pageID: page.id)) ?? PageObjectLayer()
         let assetStore = self.store
         let documentID = manifest.id
+        let background = page.backgroundAsset.flatMap {
+            UIImage(contentsOfFile: assetStore.assetURL(documentID: documentID, fileName: $0).path)
+        }
         return PageRenderer.image(
             page: page,
             pdfPage: pdfPage,
+            backgroundImage: background,
             objects: objects,
             asset: { UIImage(contentsOfFile: assetStore.assetURL(documentID: documentID, fileName: $0).path) },
             ink: ink,

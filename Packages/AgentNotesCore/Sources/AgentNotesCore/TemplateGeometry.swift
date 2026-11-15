@@ -70,8 +70,31 @@ public enum TemplateGeometry {
             lines.append(TemplateLine(
                 start: PagePoint(x: 0, y: summaryY), end: PagePoint(x: size.width, y: summaryY), isEmphasized: true))
             return TemplateLayout(lines: lines)
+        case .planner:
+            // Header band for the week's title, then seven equal day rows with a narrow
+            // left column for the day's name.
+            let top = plannerHeaderHeight
+            let bottom = size.height - plannerBottomMargin
+            let rowHeight = (bottom - top) / 7
+            var lines: [TemplateLine] = []
+            for row in 0...7 {
+                let y = (top + Double(row) * rowHeight).rounded()
+                lines.append(TemplateLine(start: PagePoint(x: 0, y: y), end: PagePoint(x: size.width, y: y), isEmphasized: true))
+            }
+            lines.append(TemplateLine(
+                start: PagePoint(x: plannerDayColumn, y: top), end: PagePoint(x: plannerDayColumn, y: bottom), isEmphasized: true))
+            for row in 0..<7 {
+                let rowTop = top + Double(row) * rowHeight
+                lines += horizontalLines(
+                    from: rowTop + ruledSpacing, to: rowTop + rowHeight - 4, x0: plannerDayColumn, x1: size.width)
+            }
+            return TemplateLayout(lines: lines)
         }
     }
+
+    public static let plannerHeaderHeight = 90.0
+    public static let plannerBottomMargin = 30.0
+    public static let plannerDayColumn = 70.0
 
     private static func horizontalLines(
         from top: Double, to bottom: Double, x0: Double, x1: Double, spacing: Double = ruledSpacing

@@ -233,6 +233,23 @@ final class TemplateGeometryTests: XCTestCase {
         }
     }
 
+    func testPlannerHasSevenDayRows() {
+        let size = PageSize.a4
+        let layout = TemplateGeometry.layout(for: .planner, size: size)
+        let horizontalDividers = layout.lines.filter { $0.isEmphasized && $0.start.y == $0.end.y }
+        XCTAssertEqual(horizontalDividers.count, 8, "header line, six day dividers and a bottom line")
+        XCTAssertEqual(layout.lines.filter { $0.isEmphasized && $0.start.x == $0.end.x }.count, 1)
+        XCTAssertEqual(horizontalDividers.first?.start.y, TemplateGeometry.plannerHeaderHeight)
+    }
+
+    func testVersion2DocumentsOpenWithoutBackgrounds() throws {
+        var manifest = sampleManifest()
+        manifest.formatVersion = 2
+        let decoded = try ManifestCodec.decode(ManifestCodec.encode(manifest))
+        XCTAssertEqual(decoded.formatVersion, DocumentFormat.currentVersion)
+        XCTAssertNil(decoded.pages[0].backgroundAsset)
+    }
+
     func testGridAndDotsAreNonEmpty() {
         XCTAssertFalse(TemplateGeometry.layout(for: .grid, size: .a4).lines.isEmpty)
         XCTAssertFalse(TemplateGeometry.layout(for: .dotGrid, size: .a4).dots.isEmpty)

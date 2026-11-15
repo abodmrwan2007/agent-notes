@@ -7,7 +7,8 @@ import UIKit
 /// Layout: `scrollView` zooms `contentView`; `contentView` holds one `PageView` per page,
 /// laid out vertically in unscaled points. Only pages near the viewport carry a PencilKit
 /// canvas and a rendered background; the rest are placeholders.
-final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCanvasViewDelegate {
+final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCanvasViewDelegate,
+    UIPencilInteractionDelegate {
     private let model: EditorModel
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -20,6 +21,7 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     private var followsFitZoom = true
     private var currentTool: PKTool = PKInkingTool(.pen, color: .black, width: 3)
     private var interaction: PageInteraction = .ink
+    private let hoverRing = CAShapeLayer()
     private var hasAppliedOpenTarget = false
 
     private static let margin: CGFloat = 24
@@ -61,6 +63,18 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         applyDrawingPolicy()
+
+        // Apple Pencil double-tap (2nd generation and Pro) and squeeze (Pro).
+        let pencil = UIPencilInteraction()
+        pencil.delegate = self
+        view.addInteraction(pencil)
+
+        // Apple Pencil hover (supported iPads): a ring shows where and how wide the pen will draw.
+        hoverRing.fillColor = UIColor.clear.cgColor
+        hoverRing.lineWidth = 1.5
+        hoverRing.isHidden = true
+        view.layer.addSublayer(hoverRing)
+        view.addGestureRecognizer(UIHoverGestureRecognizer(target: self, action: #selector(handleHover)))
 
         let center = NotificationCenter.default
         for name in [Notification.Name.NSUndoManagerDidUndoChange, .NSUndoManagerDidRedoChange,
@@ -235,12 +249,13 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         var y = Self.margin
         for page in pages {
             let pdfPage = model.pdfPage(for: page)
+            let backgroundImage = page.backgroundAsset.flatMap { model.asset(named: $0) }
             let pageView: PageView
             if let existing = reusable.removeValue(forKey: page.id) {
                 pageView = existing
-                pageView.update(page: page, pdfPage: pdfPage)
+                pageView.update(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage)
             } else {
-                pageView = PageView(page: page, pdfPage: pdfPage)
+                pageView = PageView(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage)
                 contentView.addSubview(pageView)
             }
             let size = page.size.cgSize
@@ -418,6 +433,54 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         updateVisiblePages()
     }
 
+    // MARK: Apple Pencil
+
+    private func performPreferredTapAction() {
+        switch UIPencilInteraction.preferredTapAction {
+        case .switchEraser:
+            model.toggleEraser()
+        case .switchPrevious:
+            model.switchToPreviousTool()
+        default:
+            // "Show color palette", "Show ink attributes" and "Ignore": this app has no floating
+            // palette yet, so these do nothing rather than something unexpected.
+            break
+        }
+    }
+
+    func pencilInteractionDidTap(_ interaction: UIPencilInteraction) {
+        performPreferredTapAction()
+    }
+
+    @available(iOS 17.5, *)
+    func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveTap tap: UIPencilInteraction.Tap) {
+        performPreferredTapAction()
+    }
+
+    /// Squeeze (Apple Pencil Pro): back to the previous tool, so pen and eraser are one squeeze apart.
+    @available(iOS 17.5, *)
+    func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveSqueeze squeeze: UIPencilInteraction.Squeeze) {
+        guard squeeze.phase == .ended else { return }
+        model.switchToPreviousTool()
+    }
+
+    @objc private func handleHover(_ recognizer: UIHoverGestureRecognizer) {
+        guard let inking = currentTool as? PKInkingTool, interaction == .ink,
+              recognizer.state == .began || recognizer.state == .changed else {
+            hoverRing.isHidden = true
+            return
+        }
+        let diameter = max(inking.width * scrollView.zoomScale, 6)
+        let center = recognizer.location(in: view)
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        hoverRing.path = UIBezierPath(ovalIn: CGRect(
+            x: center.x - diameter / 2, y: center.y - diameter / 2, width: diameter, height: diameter)).cgPath
+        hoverRing.strokeColor = inking.color.withAlphaComponent(0.8).cgColor
+        hoverRing.isHidden = false
+        CATransaction.commit()
+    }
+
     // MARK: PKCanvasViewDelegate
 
     func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
@@ -425,9 +488,20 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         pageView.hasSessionEdits = true
         let drawing = canvasView.drawing
 
-        // Exactly one new stroke drawn with a pen, pencil or highlighter: snap or smooth it.
+        // Exactly one new stroke drawn with a pen, pencil or highlighter: erase, snap or smooth.
         let addedOneStroke = drawing.strokes.count == pageView.strokeCount + 1
         pageView.strokeCount = drawing.strokes.count
+        if addedOneStroke, currentTool is PKInkingTool, let result = InkRefiner.scribbleErase(in: drawing) {
+            let pageID = pageView.pageID
+            DispatchQueue.main.async { [weak self, weak pageView] in
+                guard let self, let pageView, pageView.canvas === canvasView else { return }
+                pageView.replaceDrawing(result.drawing)
+                self.model.inkChanged(pageID: pageID, drawing: result.drawing)
+                self.model.showNotice(String(localized: "Erased \(result.erased) strokes"))
+                self.undoStateChanged()
+            }
+            return
+        }
         if addedOneStroke, currentTool is PKInkingTool, let refined = InkRefiner.refineLastStroke(of: drawing) {
             // Replaced on the next run-loop turn: assigning the drawing from inside this callback
             // is not safe. The unrefined stroke is never saved.

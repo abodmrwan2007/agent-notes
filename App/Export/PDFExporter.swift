@@ -32,7 +32,11 @@ enum PDFExporter {
                     }
 
                     context.beginPage(withBounds: page.size.cgRect, pageInfo: [:])
-                    PageRenderer.drawBackground(page: page, pdfPage: pdfPage, in: context.cgContext)
+                    let background = page.backgroundAsset.flatMap {
+                        UIImage(contentsOfFile: store.assetURL(documentID: manifest.id, fileName: $0).path)
+                    }
+                    PageRenderer.drawBackground(
+                        page: page, pdfPage: pdfPage, backgroundImage: background, in: context.cgContext)
 
                     // Typed text and shapes are drawn as vector content; images at their own resolution.
                     if let objects = try? store.loadObjects(documentID: manifest.id, pageID: page.id) {

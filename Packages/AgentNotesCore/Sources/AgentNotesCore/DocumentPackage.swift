@@ -100,7 +100,10 @@ public enum ManifestCodec {
         // 1 -> 2: page objects and assets were added as new, optional files. The manifest itself
         // is unchanged, so there is nothing to rewrite; the version bump stops older app
         // versions from opening (and silently ignoring the objects of) newer documents.
-        1: { _ in }
+        1: { _ in },
+        // 2 -> 3: new optional page field `backgroundAsset` and the `planner` template value.
+        // Nothing to rewrite; the bump keeps older versions from dropping them on save.
+        2: { _ in }
     ]
 
     public static func encode(_ manifest: DocumentManifest) throws -> Data {

@@ -15,6 +15,32 @@ enum InkRefiner {
         UserDefaults.standard.object(forKey: SettingsKey.snapShapesOnHold) as? Bool ?? true
     }
 
+    static var scribbleErases: Bool {
+        UserDefaults.standard.object(forKey: SettingsKey.scribbleToErase) as? Bool ?? true
+    }
+
+    /// If the last stroke is a scribble drawn over other strokes, returns the drawing without the
+    /// scribble and without the strokes it covers, and how many were erased. Strokes count as
+    /// covered when their centre lies inside the scribble's area. A scribble over empty paper is
+    /// left alone (it is ordinary ink).
+    static func scribbleErase(in drawing: PKDrawing) -> (drawing: PKDrawing, erased: Int)? {
+        guard scribbleErases, drawing.strokes.count >= 2, let scribble = drawing.strokes.last else { return nil }
+        let locations = scribble.path.map { $0.location.applying(scribble.transform) }
+        guard InkGeometry.isScribble(locations.map { PagePoint(x: Double($0.x), y: Double($0.y)) }) else { return nil }
+
+        let area = scribble.renderBounds.insetBy(dx: -4, dy: -4)
+        let others = drawing.strokes.dropLast()
+        let kept = others.filter { stroke in
+            let bounds = stroke.renderBounds
+            return !area.contains(CGPoint(x: bounds.midX, y: bounds.midY))
+        }
+        let erased = others.count - kept.count
+        guard erased > 0 else { return nil }
+        var result = drawing
+        result.strokes = Array(kept)
+        return (result, erased)
+    }
+
     static var smoothingStrength: Double {
         UserDefaults.standard.object(forKey: SettingsKey.smoothingStrength) as? Double ?? 0
     }

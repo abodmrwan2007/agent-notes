@@ -433,4 +433,17 @@ final class SmokeTests: XCTestCase {
         XCTAssertFalse(card(app, titled: "Whiteboard photos").exists, "tag filter shows an untagged notebook")
         shot("41-tag-filter")
     }
+
+    func test8_plannerTemplate() {
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        openMenu(app, "Add Page")
+        menuItem(app, "Planner")
+        sleep(2)
+        shot("42-planner-page")
+    }
 }

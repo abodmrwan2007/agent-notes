@@ -39,7 +39,7 @@ enum PageRenderer {
     private static let dividerColor = UIColor(red: 0.35, green: 0.66, blue: 0.80, alpha: 1)
 
     /// Expects a UIKit-style context: origin top-left, y down, 1 unit = 1 point, page at the origin.
-    static func drawBackground(page: PageRecord, pdfPage: PDFPage?, in context: CGContext) {
+    static func drawBackground(page: PageRecord, pdfPage: PDFPage?, backgroundImage: UIImage? = nil, in context: CGContext) {
         let rect = page.size.cgRect
         context.setFillColor(UIColor.white.cgColor)
         context.fill(rect)
@@ -51,6 +51,17 @@ enum PageRenderer {
             context.translateBy(x: 0, y: rect.height)
             context.scaleBy(x: 1, y: -1)
             pdfPage.draw(with: .cropBox, to: context)
+            context.restoreGState()
+        } else if let backgroundImage, backgroundImage.size.width > 0, backgroundImage.size.height > 0 {
+            // Custom paper: fills the page (aspect fill, centred), replacing the template.
+            let scale = max(rect.width / backgroundImage.size.width, rect.height / backgroundImage.size.height)
+            let size = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
+            let origin = CGPoint(x: (rect.width - size.width) / 2, y: (rect.height - size.height) / 2)
+            context.saveGState()
+            context.clip(to: rect)
+            UIGraphicsPushContext(context)
+            backgroundImage.draw(in: CGRect(origin: origin, size: size))
+            UIGraphicsPopContext()
             context.restoreGState()
         } else {
             drawTemplate(page.template, size: page.size, in: context)
@@ -201,6 +212,7 @@ enum PageRenderer {
     static func image(
         page: PageRecord,
         pdfPage: PDFPage?,
+        backgroundImage: UIImage? = nil,
         objects: PageObjectLayer = PageObjectLayer(),
         asset: (String) -> UIImage? = { _ in nil },
         ink: PKDrawing?,
@@ -215,7 +227,7 @@ enum PageRenderer {
         return UIGraphicsImageRenderer(size: target, format: format).image { rendererContext in
             let context = rendererContext.cgContext
             context.scaleBy(x: scale, y: scale)
-            drawBackground(page: page, pdfPage: pdfPage, in: context)
+            drawBackground(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage, in: context)
             // Stacking order everywhere: background, then objects, then handwriting on top.
             drawObjects(objects, image: asset)
             if let ink {

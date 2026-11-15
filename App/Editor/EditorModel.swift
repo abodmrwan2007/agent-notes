@@ -50,6 +50,10 @@ final class EditorModel {
     /// Bumped whenever any page's objects change, so views re-read `selectedObject`.
     private(set) var objectsRevision = 0
     var textEditTarget: TextEditTarget?
+    /// Short message shown over the canvas (for example after scribble-to-erase), with Undo.
+    private(set) var notice: String?
+    @ObservationIgnored private var noticeToken = UUID()
+    @ObservationIgnored private var previousToolKind: InkToolKind = .eraser
     private(set) var textSelection: TextSelection?
     /// Page to show first and query to highlight, when opened from a search result.
     @ObservationIgnored var openTarget: OpenTarget?
@@ -122,6 +126,65 @@ final class EditorModel {
     func inkChanged(pageID: UUID, drawing: PKDrawing) {
         hasUnrecordedChanges = true
         autosaver.schedule(pageID: pageID, drawing: drawing)
+    }
+
+    // MARK: Tools and notices
+
+    /// Selects a tool and remembers the previous one (for Apple Pencil double-tap and squeeze).
+    func selectTool(_ kind: InkToolKind) {
+        guard tool.kind != kind else { return }
+        previousToolKind = tool.kind
+        tool.kind = kind
+    }
+
+    /// Double-tap "switch to eraser": eraser, or back to the tool used before it.
+    func toggleEraser() {
+        selectTool(tool.kind == .eraser ? (previousToolKind == .eraser ? .pen : previousToolKind) : .eraser)
+    }
+
+    func switchToPreviousTool() {
+        selectTool(previousToolKind)
+    }
+
+    func showNotice(_ text: String) {
+        let token = UUID()
+        noticeToken = token
+        notice = text
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+            guard let self, self.noticeToken == token else { return }
+            self.notice = nil
+        }
+    }
+
+    func dismissNotice() {
+        notice = nil
+    }
+
+    // MARK: Page backgrounds
+
+    /// Uses a picture as the page's paper. Ink and objects keep their positions.
+    func setBackgroundImage(data: Data, pageID: UUID) {
+        guard let index = manifest.index(of: pageID), manifest.pages[index].pdf == nil else { return }
+        guard let image = UIImage(data: data), image.size.width > 0, image.size.height > 0,
+              let encoded = Self.downscaled(image, maxPixels: 2400).jpegData(compressionQuality: 0.85) else {
+            alertMessage = String(localized: "This picture could not be read.")
+            return
+        }
+        do {
+            let fileName = try store.addAsset(encoded, fileExtension: "jpg", documentID: documentID)
+            manifest.pages[index].backgroundAsset = fileName
+            inkRevisions[pageID, default: 0] += 1
+            commitStructureChange(scrollTo: nil)
+        } catch {
+            alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription
+        }
+    }
+
+    func removeBackgroundImage(pageID: UUID) {
+        guard let index = manifest.index(of: pageID) else { return }
+        manifest.pages[index].backgroundAsset = nil
+        inkRevisions[pageID, default: 0] += 1
+        commitStructureChange(scrollTo: nil)
     }
 
     // MARK: PDF text selection
@@ -387,6 +450,9 @@ final class EditorModel {
     func setTemplate(_ template: PageTemplate, forPage pageID: UUID) {
         do {
             try manifest.setTemplate(template, forPage: pageID)
+            // A chosen template replaces a custom background image.
+            if let index = manifest.index(of: pageID) { manifest.pages[index].backgroundAsset = nil }
+            inkRevisions[pageID, default: 0] += 1
             commitStructureChange(scrollTo: nil)
         } catch {
             alertMessage = error.localizedDescription

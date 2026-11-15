@@ -300,6 +300,14 @@ AR = {
     "Add": "إضافة",
     "Imported images": "صور مستوردة",
     "None of the selected images could be read.": "تعذّرت قراءة كل الصور المحددة.",
+    # Planner, backgrounds, scribble
+    "Planner": "مخطِّط",
+    "Background Image…": "صورة خلفية…",
+    "Remove Background Image": "إزالة صورة الخلفية",
+    "Scribble over ink to erase it": "الخربشة فوق الحبر تمسحه",
+    "To erase, scribble back and forth at least five times across the strokes. Undo brings them back.":
+        "للمسح، خربش ذهابًا وإيابًا خمس مرات على الأقل فوق الخطوط. التراجع يعيدها.",
+    "Erased %lld strokes": "مُسح %lld من الخطوط",
 }
 
 

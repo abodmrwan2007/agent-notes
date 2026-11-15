@@ -12,10 +12,12 @@ final class PageBackgroundView: UIView {
     private let lock = NSLock()
     private var page: PageRecord
     private var pdfPage: PDFPage?
+    private var backgroundImage: UIImage?
 
-    init(page: PageRecord, pdfPage: PDFPage?) {
+    init(page: PageRecord, pdfPage: PDFPage?, backgroundImage: UIImage?) {
         self.page = page
         self.pdfPage = pdfPage
+        self.backgroundImage = backgroundImage
         super.init(frame: .zero)
         isOpaque = true
         backgroundColor = .white
@@ -32,10 +34,11 @@ final class PageBackgroundView: UIView {
         fatalError("init(coder:) is not supported")
     }
 
-    func configure(page: PageRecord, pdfPage: PDFPage?) {
+    func configure(page: PageRecord, pdfPage: PDFPage?, backgroundImage: UIImage?) {
         lock.lock()
         self.page = page
         self.pdfPage = pdfPage
+        self.backgroundImage = backgroundImage
         lock.unlock()
         layer.contents = nil
         layer.setNeedsDisplay()
@@ -46,8 +49,9 @@ final class PageBackgroundView: UIView {
         lock.lock()
         let page = self.page
         let pdfPage = self.pdfPage
+        let backgroundImage = self.backgroundImage
         lock.unlock()
-        PageRenderer.drawBackground(page: page, pdfPage: pdfPage, in: context)
+        PageRenderer.drawBackground(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage, in: context)
     }
 }
 
@@ -71,6 +75,7 @@ final class PageView: UIView {
     let pageID: UUID
     private(set) var page: PageRecord
     private var pdfPage: PDFPage?
+    private var backgroundImage: UIImage?
     private var background: PageBackgroundView?
     private(set) var objectsView: PageObjectsView?
     private(set) var canvas: PKCanvasView?
@@ -89,10 +94,11 @@ final class PageView: UIView {
 
     var isLoaded: Bool { canvas != nil }
 
-    init(page: PageRecord, pdfPage: PDFPage?) {
+    init(page: PageRecord, pdfPage: PDFPage?, backgroundImage: UIImage?) {
         self.pageID = page.id
         self.page = page
         self.pdfPage = pdfPage
+        self.backgroundImage = backgroundImage
         super.init(frame: .zero)
         backgroundColor = .white
         layer.borderColor = UIColor.separator.cgColor
@@ -104,12 +110,14 @@ final class PageView: UIView {
         fatalError("init(coder:) is not supported")
     }
 
-    func update(page: PageRecord, pdfPage: PDFPage?) {
+    func update(page: PageRecord, pdfPage: PDFPage?, backgroundImage: UIImage?) {
         let backgroundChanged = page.template != self.page.template || page.pdf != self.page.pdf
+            || page.backgroundAsset != self.page.backgroundAsset
         self.page = page
         self.pdfPage = pdfPage
+        self.backgroundImage = backgroundImage
         if backgroundChanged {
-            background?.configure(page: page, pdfPage: pdfPage)
+            background?.configure(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage)
         }
     }
 
@@ -124,7 +132,7 @@ final class PageView: UIView {
     ) {
         guard canvas == nil else { return }
 
-        let background = PageBackgroundView(page: page, pdfPage: pdfPage)
+        let background = PageBackgroundView(page: page, pdfPage: pdfPage, backgroundImage: backgroundImage)
         background.frame = bounds
         addSubview(background)
         self.background = background

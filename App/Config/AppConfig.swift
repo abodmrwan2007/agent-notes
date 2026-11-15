@@ -33,6 +33,8 @@ enum SettingsKey {
     static let snapShapesOnHold = "snapShapesOnHold"
     /// 0 (off) to 1 (strong), applied when each stroke is finished.
     static let smoothingStrength = "smoothingStrength"
+    /// Scribbling back and forth over ink erases it.
+    static let scribbleToErase = "scribbleToErase"
 }
 
 extension UTType {

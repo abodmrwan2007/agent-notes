@@ -140,6 +140,63 @@ public enum InkGeometry {
         return nil
     }
 
+    // MARK: Scribble to erase
+
+    /// True for a fast back-and-forth zigzag (the "scribble out" gesture). Ordinary writing moves
+    /// forward with only small backward loops, so it does not qualify: a reversal only counts
+    /// when the pen travels back at least `backtrack` of the scribble's width.
+    public static func isScribble(_ points: [PagePoint], minimumReversals: Int = 4, backtrack: Double = 0.35) -> Bool {
+        guard points.count >= 8 else { return false }
+        let xs = points.map(\.x)
+        let ys = points.map(\.y)
+        guard let minX = xs.min(), let maxX = xs.max(), let minY = ys.min(), let maxY = ys.max() else { return false }
+        let width = maxX - minX
+        let height = maxY - minY
+        // Measure along the longer side of the scribble.
+        let horizontal = width >= height
+        let span = max(width, height)
+        guard span >= 20 else { return false }
+        let along = horizontal ? xs : ys
+
+        // Count changes of direction along that side, ignoring wiggles smaller than the threshold.
+        let threshold = span * backtrack
+        var reversals = 0
+        var direction = 0 // 0 unknown, 1 increasing, -1 decreasing
+        var high = along[0]
+        var low = along[0]
+        for value in along.dropFirst() {
+            switch direction {
+            case 0:
+                high = max(high, value)
+                low = min(low, value)
+                if value - low >= threshold {
+                    direction = 1
+                    high = value
+                } else if high - value >= threshold {
+                    direction = -1
+                    low = value
+                }
+            case 1:
+                if value > high {
+                    high = value
+                } else if high - value >= threshold {
+                    reversals += 1
+                    direction = -1
+                    low = value
+                }
+            default:
+                if value < low {
+                    low = value
+                } else if value - low >= threshold {
+                    reversals += 1
+                    direction = 1
+                    high = value
+                }
+            }
+        }
+        return reversals >= minimumReversals && pathLength(points) >= span * 2.5
+    }
+
     // MARK: Smoothing
 
     /// Smooths a stroke's path. `strength` is 0 (unchanged) to 1 (strong). The ends stay where
