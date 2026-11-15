@@ -103,7 +103,9 @@ public enum ManifestCodec {
         1: { _ in },
         // 2 -> 3: new optional page field `backgroundAsset` and the `planner` template value.
         // Nothing to rewrite; the bump keeps older versions from dropping them on save.
-        2: { _ in }
+        2: { _ in },
+        // 3 -> 4: optional `noteStyle` on sticky notes; old notes are plain.
+        3: { _ in }
     ]
 
     public static func encode(_ manifest: DocumentManifest) throws -> Data {

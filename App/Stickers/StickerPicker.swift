@@ -44,10 +44,13 @@ struct StickerGrid: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("Built-in")
+            twemojiSection("Medical", group: .medical)
+            twemojiSection("Study", group: .study)
+
+            Text("Banners")
                 .font(.headline)
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(Sticker.allCases) { sticker in
+                ForEach(Sticker.allCases.filter(\.isBanner)) { sticker in
                     Button {
                         if let data = sticker.pngData() {
                             onPick(data, sticker.pageSize)
@@ -99,7 +102,7 @@ struct StickerGrid: View {
                 }
             }
 
-            Text("The built-in stickers are original artwork made for this app.")
+            Text("Medical and study stickers: Twemoji by Twitter, Inc and other contributors, licensed under CC BY 4.0. Banners are original artwork made for this app.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
@@ -131,6 +134,36 @@ struct StickerGrid: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text(verbatim: custom.errorMessage ?? "")
+        }
+    }
+
+    @ViewBuilder
+    private func twemojiSection(_ title: LocalizedStringKey, group: TwemojiSticker.Group) -> some View {
+        Text(title)
+            .font(.headline)
+        LazyVGrid(columns: columns, spacing: 12) {
+            ForEach(TwemojiSticker.stickers(in: group)) { sticker in
+                Button {
+                    if let data = sticker.pngData() {
+                        onPick(data, CGSize(width: 96, height: 96))
+                    }
+                } label: {
+                    Group {
+                        if let image = sticker.vectorImage {
+                            Image(uiImage: image).resizable().scaledToFit()
+                        } else {
+                            Image(systemName: "questionmark.square.dashed").foregroundStyle(.secondary)
+                        }
+                    }
+                    .frame(height: minimumCell - 24)
+                    .frame(maxWidth: .infinity, minHeight: minimumCell - 12)
+                    .padding(6)
+                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(verbatim: sticker.accessibilityName))
+                .accessibilityIdentifier("sticker.tw-\(sticker.code)")
+            }
         }
     }
 

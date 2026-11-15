@@ -8,6 +8,7 @@ be listed here before release, with its source and the obligations it carries.
 | Asset | Where | Source | Ownership / license | Obligations |
 | --- | --- | --- | --- | --- |
 | Built-in sticker pack (18 stickers: star, heart, check, warning, question, idea, capsule, DNA, flask, heartbeat, bone, arrow, and Important / Exam / Review banners in English and Arabic) | `App/Stickers/StickerArt.swift` | Original vector drawings written as code for this project (paths and fills); banner lettering uses the iOS system font at render time | Project-owned original work | None. No third-party icon sets, clip art or SF Symbols are used, so stickers may be embedded in exported user documents |
+| Twemoji medical and study stickers (46 SVGs: anatomical heart, lungs, brain, tooth, bone, stethoscope, DNA, microbe, microscope, …) | `App/Resources/Twemoji.xcassets` | https://github.com/jdecked/twemoji v16.0.1, downloaded 2026-11-15 with the owner's approval; see `third_party/twemoji/` | © Twitter, Inc and other contributors, **CC BY 4.0** | Attribution: shown in the sticker panel and Settings ▸ Acknowledgements; license text in `third_party/twemoji/LICENSE-GRAPHICS`. Used unmodified |
 | Page templates (ruled, grid, dot grid, Cornell, planner) | `Packages/AgentNotesCore/.../TemplateGeometry.swift` | Original geometry | Project-owned | None |
 | App icon | — | Not created yet | — | — |
 

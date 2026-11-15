@@ -267,7 +267,7 @@ final class EditorModel {
     }
 
     /// Adds a new object in the middle of the visible part of the current page and selects it.
-    func insertObject(kind: PageObjectKind, shape: ShapeKind? = nil) {
+    func insertObject(kind: PageObjectKind, shape: ShapeKind? = nil, noteStyle: NoteStyle? = nil) {
         guard let page = currentPage else { return }
         let size: (width: Double, height: Double)
         var object: PageObject
@@ -278,7 +278,9 @@ final class EditorModel {
                                 text: String(localized: "Text"), fontSize: 18)
         case .stickyNote:
             size = (190, 190)
-            object = PageObject(kind: .stickyNote, frame: placement(size, on: page), text: "", fontSize: 15)
+            object = PageObject(
+                kind: .stickyNote, frame: placement(size, on: page), text: "", fontSize: 15,
+                noteStyle: noteStyle == .plain ? nil : noteStyle)
         case .shape:
             let shapeKind = shape ?? .rectangle
             size = shapeKind == .line || shapeKind == .arrow ? (200, 90) : (200, 140)

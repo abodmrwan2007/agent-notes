@@ -8,6 +8,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.smoothingStrength) private var smoothingStrength = 0.0
     @AppStorage(SettingsKey.scribbleToErase) private var scribbleToErase = true
     @AppStorage(AccentChoice.storageKey) private var interfaceColor = AccentChoice.cyan.rawValue
+    @State private var showsWhatsNew = false
 
     var body: some View {
         Form {
@@ -61,6 +62,19 @@ struct SettingsView: View {
                 }
             }
 
+            Section("Help") {
+                Button {
+                    showsWhatsNew = true
+                } label: {
+                    Label("What's New", systemImage: "sparkles")
+                }
+                NavigationLink {
+                    AcknowledgementsView()
+                } label: {
+                    Label("Acknowledgements", systemImage: "doc.text")
+                }
+            }
+
             Section {
                 LabeledContent("Version", value: AppConfig.versionString)
                 LabeledContent("Document format", value: "v\(DocumentFormat.currentVersion)")
@@ -71,5 +85,28 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
+        .sheet(isPresented: $showsWhatsNew) {
+            WhatsNewView()
+        }
     }
 }
+
+/// Credits and licenses for third-party material shipped with the app.
+struct AcknowledgementsView: View {
+    var body: some View {
+        List {
+            Section(header: Text(verbatim: "Twemoji")) {
+                Text(verbatim: "Copyright 2019 Twitter, Inc and other contributors. Graphics licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/")
+                Text("Used unmodified as medical and study stickers.")
+                    .foregroundStyle(.secondary)
+            }
+            Section(header: Text(verbatim: "GRDB.swift")) {
+                Text(verbatim: "Copyright (C) 2015-2025 Gwendal Roué. MIT License.")
+                Text("Library index database (not used in the Swift Playgrounds build).")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .navigationTitle("Acknowledgements")
+    }
+}
+

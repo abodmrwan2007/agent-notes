@@ -31,6 +31,16 @@
         }
       }
     },
+    "Acknowledgements": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكر وتراخيص"
+          }
+        }
+      }
+    },
     "Actinide": {
       "localizations": {
         "ar": {
@@ -251,6 +261,16 @@
         }
       }
     },
+    "Banners": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شرائط"
+          }
+        }
+      }
+    },
     "Blank": {
       "localizations": {
         "ar": {
@@ -351,12 +371,12 @@
         }
       }
     },
-    "Built-in": {
+    "Brushes and ruler": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "المرفقة"
+            "value": "الفُرَش والمسطرة"
           }
         }
       }
@@ -407,6 +427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "علامة صح"
+          }
+        }
+      }
+    },
+    "Choose the Select Text tool and drag across a PDF, then Copy or Where Else?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر أداة «تحديد النص» واسحب فوق ملف PDF، ثم «نسخ» أو «أين ذُكر أيضًا؟»."
           }
         }
       }
@@ -717,6 +747,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسحب فوق نص صفحة PDF لتحديده."
+          }
+        }
+      }
+    },
+    "Draw a line, circle or rectangle and keep the pen still for half a second before lifting it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ارسم خطًا أو دائرة أو مستطيلًا وثبّت القلم نصف ثانية قبل رفعه."
           }
         }
       }
@@ -1081,6 +1121,16 @@
         }
       }
     },
+    "Grid Paper": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مربعات"
+          }
+        }
+      }
+    },
     "Group": {
       "localizations": {
         "ar": {
@@ -1127,6 +1177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نبض القلب"
+          }
+        }
+      }
+    },
+    "Help": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مساعدة"
           }
         }
       }
@@ -1241,6 +1301,26 @@
         }
       }
     },
+    "Insert ▸ Sticker…, or the Stickers tab in Tools: heart, lungs, brain, stethoscope, DNA and more.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدراج ◂ ملصق…، أو تبويب الملصقات في الأدوات: قلب، رئتان، دماغ، سماعة طبيب، حمض نووي والمزيد."
+          }
+        }
+      }
+    },
+    "Insert ▸ Sticky Note: plain, lined, grid, taped or pinned, in seven colours.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدراج ◂ ملاحظة لاصقة: عادية أو مسطّرة أو مربعات أو بشريط لاصق أو بدبوس، بسبعة ألوان."
+          }
+        }
+      }
+    },
     "Interface color": {
       "localizations": {
         "ar": {
@@ -1291,12 +1371,32 @@
         }
       }
     },
+    "Library index database (not used in the Swift Playgrounds build).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قاعدة بيانات فهرس المكتبة (غير مستخدمة في نسخة Swift Playgrounds)."
+          }
+        }
+      }
+    },
     "Line": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "خط"
+          }
+        }
+      }
+    },
+    "Lined": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسطّرة"
           }
         }
       }
@@ -1321,6 +1421,16 @@
         }
       }
     },
+    "Lock, covers and tags": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القفل والأغلفة والوسوم"
+          }
+        }
+      }
+    },
     "Locked": {
       "localizations": {
         "ar": {
@@ -1337,6 +1447,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "قفل…"
+          }
+        }
+      }
+    },
+    "Medical": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طبية"
+          }
+        }
+      }
+    },
+    "Medical and study stickers: Twemoji by Twitter, Inc and other contributors, licensed under CC BY 4.0. Banners are original artwork made for this app.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملصقات الطبية والدراسية: Twemoji من Twitter, Inc والمساهمين، بترخيص CC BY 4.0. الشرائط رسومات أصلية صُمّمت لهذا التطبيق."
+          }
+        }
+      }
+    },
+    "Medical stickers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملصقات طبية"
           }
         }
       }
@@ -1741,6 +1881,16 @@
         }
       }
     },
+    "Open a notebook and tap Tools at the top. The calculator, graphing, periodic table, timer and stickers stay open next to the page.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح دفترًا واضغط «الأدوات» في الأعلى. تبقى الحاسبة وراسم الدوال والجدول الدوري والمؤقت والملصقات مفتوحة بجانب الصفحة."
+          }
+        }
+      }
+    },
     "Open the locked notebook": {
       "localizations": {
         "ar": {
@@ -1881,6 +2031,16 @@
         }
       }
     },
+    "Perfect shapes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أشكال متقنة"
+          }
+        }
+      }
+    },
     "Period": {
       "localizations": {
         "ar": {
@@ -1897,6 +2057,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الجدول الدوري"
+          }
+        }
+      }
+    },
+    "Pinned": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدبوس"
+          }
+        }
+      }
+    },
+    "Plain": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عادية"
           }
         }
       }
@@ -1981,7 +2161,27 @@
         }
       }
     },
+    "Read": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قراءة"
+          }
+        }
+      }
+    },
     "Reading Mode": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع القراءة"
+          }
+        }
+      }
+    },
+    "Reading mode": {
       "localizations": {
         "ar": {
           "stringUnit": {
@@ -2261,12 +2461,32 @@
         }
       }
     },
+    "Scribble back and forth over ink to erase it. Undo brings it back.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خربش ذهابًا وإيابًا فوق الحبر لتمسحه. التراجع يعيده."
+          }
+        }
+      }
+    },
     "Scribble over ink to erase it": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الخربشة فوق الحبر تمسحه"
+          }
+        }
+      }
+    },
+    "Scribble to erase": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المسح بالخربشة"
           }
         }
       }
@@ -2287,6 +2507,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "ابحث في كل الملاحظات"
+          }
+        }
+      }
+    },
+    "Search everything": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في كل شيء"
+          }
+        }
+      }
+    },
+    "Search in the sidebar finds words in titles, PDFs and typed text, in Arabic and English.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«البحث» في الشريط الجانبي يجد الكلمات في العناوين وملفات PDF والنصوص المكتوبة، بالعربية والإنجليزية."
           }
         }
       }
@@ -2327,6 +2567,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تحديد النص"
+          }
+        }
+      }
+    },
+    "Select and copy PDF text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّد نص PDF وانسخه"
           }
         }
       }
@@ -2471,6 +2721,16 @@
         }
       }
     },
+    "Sticky notes in five styles": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظات لاصقة بخمسة أنماط"
+          }
+        }
+      }
+    },
     "Storage unavailable": {
       "localizations": {
         "ar": {
@@ -2531,6 +2791,26 @@
         }
       }
     },
+    "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز."
+          }
+        }
+      }
+    },
+    "Study tools": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدوات الدراسة"
+          }
+        }
+      }
+    },
     "Subfolders are removed. Notes inside are kept and moved to All Notes.": {
       "localizations": {
         "ar": {
@@ -2571,12 +2851,32 @@
         }
       }
     },
+    "Tap Read at the top to hide the tools while you study.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط «قراءة» في الأعلى لإخفاء الأدوات أثناء المذاكرة."
+          }
+        }
+      }
+    },
     "Tap an object to select it. Use Insert to add text, notes, shapes and images.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "اضغط على عنصر لتحديده. استخدم «إدراج» لإضافة نص وملاحظات وأشكال وصور."
+          }
+        }
+      }
+    },
+    "Taped": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بشريط لاصق"
           }
         }
       }
@@ -2611,12 +2911,12 @@
         }
       }
     },
-    "The built-in stickers are original artwork made for this app.": {
+    "The brush button holds fountain pen, monoline, watercolor and crayon. The ruler button shows a ruler on the page.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الملصقات المرفقة رسومات أصلية صُمّمت لهذا التطبيق."
+            "value": "زر الفُرَش فيه قلم الحبر السائل والخط الموحّد والألوان المائية والشمع الملوّن. وزر المسطرة يُظهر مسطرة على الصفحة."
           }
         }
       }
@@ -2851,12 +3151,32 @@
         }
       }
     },
+    "Tools beside your page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدوات بجانب صفحتك"
+          }
+        }
+      }
+    },
     "Touch and hold a notebook and choose Favorite.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "اضغط مطولًا على دفتر واختر «مفضلة»."
+          }
+        }
+      }
+    },
+    "Touch and hold a notebook in the library for Lock…, Cover and Tags…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط مطولًا على دفتر في المكتبة لتجد «قفل…» و«الغلاف» و«الوسوم…»."
           }
         }
       }
@@ -2981,6 +3301,16 @@
         }
       }
     },
+    "Used unmodified as medical and study stickers.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستخدمة دون تعديل كملصقات طبية ودراسية."
+          }
+        }
+      }
+    },
     "Version": {
       "localizations": {
         "ar": {
@@ -3017,6 +3347,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ألوان مائية"
+          }
+        }
+      }
+    },
+    "What's New": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الجديد"
           }
         }
       }
@@ -3071,6 +3411,16 @@
         }
       }
     },
+    "Write": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كتابة"
+          }
+        }
+      }
+    },
     "Writing": {
       "localizations": {
         "ar": {
@@ -3087,6 +3437,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "عدد القيم غير صحيح للدالة %@."
+          }
+        }
+      }
+    },
+    "You can open this again from Settings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك فتح هذه الشاشة مجددًا من الإعدادات."
           }
         }
       }

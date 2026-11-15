@@ -311,7 +311,6 @@ AR = {
     # Stickers
     "Sticker…": "ملصق…",
     "Stickers": "الملصقات",
-    "Built-in": "المرفقة",
     "My Stickers": "ملصقاتي",
     "Add from Photos": "إضافة من الصور",
     "Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.":
@@ -319,7 +318,6 @@ AR = {
     "Remove from My Stickers": "إزالة من ملصقاتي",
     "Remove this sticker?": "إزالة هذا الملصق؟",
     "Notebooks that already use it keep their copy.": "الدفاتر التي تستخدمه تحتفظ بنسختها.",
-    "The built-in stickers are original artwork made for this app.": "الملصقات المرفقة رسومات أصلية صُمّمت لهذا التطبيق.",
     "Star": "نجمة",
     "Heart": "قلب",
     "Check mark": "علامة صح",
@@ -369,6 +367,58 @@ AR = {
     "Teal": "فيروزي",
     "Purple": "بنفسجي",
     "Green": "أخضر",
+    # Stickers (Twemoji), sticky note styles
+    "Medical": "طبية",
+    "Banners": "شرائط",
+    "Medical and study stickers: Twemoji by Twitter, Inc and other contributors, licensed under CC BY 4.0. Banners are original artwork made for this app.":
+        "الملصقات الطبية والدراسية: Twemoji من Twitter, Inc والمساهمين، بترخيص CC BY 4.0. الشرائط رسومات أصلية صُمّمت لهذا التطبيق.",
+    "Plain": "عادية",
+    "Lined": "مسطّرة",
+    "Grid Paper": "مربعات",
+    "Taped": "بشريط لاصق",
+    "Pinned": "بدبوس",
+    # Top bar
+    "Read": "قراءة",
+    "Write": "كتابة",
+    # What's New and acknowledgements
+    "What's New": "الجديد",
+    "Help": "مساعدة",
+    "Acknowledgements": "شكر وتراخيص",
+    "Used unmodified as medical and study stickers.": "مستخدمة دون تعديل كملصقات طبية ودراسية.",
+    "Library index database (not used in the Swift Playgrounds build).": "قاعدة بيانات فهرس المكتبة (غير مستخدمة في نسخة Swift Playgrounds).",
+    "You can open this again from Settings.": "يمكنك فتح هذه الشاشة مجددًا من الإعدادات.",
+    "Tools beside your page": "الأدوات بجانب صفحتك",
+    "Open a notebook and tap Tools at the top. The calculator, graphing, periodic table, timer and stickers stay open next to the page.":
+        "افتح دفترًا واضغط «الأدوات» في الأعلى. تبقى الحاسبة وراسم الدوال والجدول الدوري والمؤقت والملصقات مفتوحة بجانب الصفحة.",
+    "Medical stickers": "ملصقات طبية",
+    "Insert ▸ Sticker…, or the Stickers tab in Tools: heart, lungs, brain, stethoscope, DNA and more.":
+        "إدراج ◂ ملصق…، أو تبويب الملصقات في الأدوات: قلب، رئتان، دماغ، سماعة طبيب، حمض نووي والمزيد.",
+    "Sticky notes in five styles": "ملاحظات لاصقة بخمسة أنماط",
+    "Insert ▸ Sticky Note: plain, lined, grid, taped or pinned, in seven colours.":
+        "إدراج ◂ ملاحظة لاصقة: عادية أو مسطّرة أو مربعات أو بشريط لاصق أو بدبوس، بسبعة ألوان.",
+    "Search everything": "ابحث في كل شيء",
+    "Search in the sidebar finds words in titles, PDFs and typed text, in Arabic and English.":
+        "«البحث» في الشريط الجانبي يجد الكلمات في العناوين وملفات PDF والنصوص المكتوبة، بالعربية والإنجليزية.",
+    "Select and copy PDF text": "حدّد نص PDF وانسخه",
+    "Choose the Select Text tool and drag across a PDF, then Copy or Where Else?":
+        "اختر أداة «تحديد النص» واسحب فوق ملف PDF، ثم «نسخ» أو «أين ذُكر أيضًا؟».",
+    "Brushes and ruler": "الفُرَش والمسطرة",
+    "The brush button holds fountain pen, monoline, watercolor and crayon. The ruler button shows a ruler on the page.":
+        "زر الفُرَش فيه قلم الحبر السائل والخط الموحّد والألوان المائية والشمع الملوّن. وزر المسطرة يُظهر مسطرة على الصفحة.",
+    "Perfect shapes": "أشكال متقنة",
+    "Draw a line, circle or rectangle and keep the pen still for half a second before lifting it.":
+        "ارسم خطًا أو دائرة أو مستطيلًا وثبّت القلم نصف ثانية قبل رفعه.",
+    "Scribble to erase": "المسح بالخربشة",
+    "Scribble back and forth over ink to erase it. Undo brings it back.":
+        "خربش ذهابًا وإيابًا فوق الحبر لتمسحه. التراجع يعيده.",
+    "Reading mode": "وضع القراءة",
+    "Tap Read at the top to hide the tools while you study.": "اضغط «قراءة» في الأعلى لإخفاء الأدوات أثناء المذاكرة.",
+    "Lock, covers and tags": "القفل والأغلفة والوسوم",
+    "Touch and hold a notebook in the library for Lock…, Cover and Tags…":
+        "اضغط مطولًا على دفتر في المكتبة لتجد «قفل…» و«الغلاف» و«الوسوم…».",
+    "Study tools": "أدوات الدراسة",
+    "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
+        "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
 }
 
 

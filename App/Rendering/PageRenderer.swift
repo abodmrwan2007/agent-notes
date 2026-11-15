@@ -128,14 +128,7 @@ enum PageRenderer {
             }
             switch object.kind {
             case .stickyNote:
-                let paper = UIBezierPath(roundedRect: rect, cornerRadius: 6)
-                UIColor(hex: object.colorHex ?? stickyDefaultColor).setFill()
-                paper.fill()
-                UIColor.black.withAlphaComponent(0.12).setStroke()
-                paper.lineWidth = 0.5
-                paper.stroke()
-                drawText(object.text ?? "", in: rect.insetBy(dx: 10, dy: 10),
-                         size: object.fontSize ?? 15, color: UIColor(hex: inkDefaultColor))
+                drawStickyNote(object, in: rect, context: context)
             case .text:
                 drawText(object.text ?? "", in: rect.insetBy(dx: 4, dy: 4),
                          size: object.fontSize ?? 18, color: UIColor(hex: object.colorHex ?? inkDefaultColor))
@@ -162,6 +155,70 @@ enum PageRenderer {
             }
             context.restoreGState()
         }
+    }
+
+    private static func drawStickyNote(_ object: PageObject, in rect: CGRect, context: CGContext) {
+        let style = object.noteStyle ?? .plain
+        let paperColor = UIColor(hex: object.colorHex ?? stickyDefaultColor)
+
+        // Soft shadow so the note sits on the page.
+        context.saveGState()
+        context.setShadow(offset: CGSize(width: 0, height: 2), blur: 5, color: UIColor.black.withAlphaComponent(0.18).cgColor)
+        let paper = UIBezierPath(roundedRect: rect, cornerRadius: 6)
+        paperColor.setFill()
+        paper.fill()
+        context.restoreGState()
+
+        let lineColor = UIColor.black.withAlphaComponent(0.10)
+        var textTop = rect.minY + 10
+        switch style {
+        case .lined:
+            lineColor.setStroke()
+            var y = rect.minY + 34
+            while y < rect.maxY - 8 {
+                let line = UIBezierPath()
+                line.move(to: CGPoint(x: rect.minX + 8, y: y))
+                line.addLine(to: CGPoint(x: rect.maxX - 8, y: y))
+                line.lineWidth = 0.7
+                line.stroke()
+                y += 22
+            }
+            textTop = rect.minY + 14
+        case .grid:
+            lineColor.setStroke()
+            let grid = UIBezierPath()
+            var x = rect.minX + 14
+            while x < rect.maxX - 4 { grid.move(to: CGPoint(x: x, y: rect.minY + 4)); grid.addLine(to: CGPoint(x: x, y: rect.maxY - 4)); x += 14 }
+            var y = rect.minY + 14
+            while y < rect.maxY - 4 { grid.move(to: CGPoint(x: rect.minX + 4, y: y)); grid.addLine(to: CGPoint(x: rect.maxX - 4, y: y)); y += 14 }
+            grid.lineWidth = 0.5
+            grid.stroke()
+        case .taped:
+            // A translucent strip of tape, slightly tilted, across the top edge.
+            context.saveGState()
+            context.translateBy(x: rect.midX, y: rect.minY + 2)
+            context.rotate(by: -0.06)
+            let tape = UIBezierPath(rect: CGRect(x: -rect.width * 0.22, y: -11, width: rect.width * 0.44, height: 22))
+            UIColor(white: 0.92, alpha: 0.75).setFill()
+            tape.fill()
+            context.restoreGState()
+            textTop = rect.minY + 22
+        case .pinned:
+            let pin = CGRect(x: rect.midX - 8, y: rect.minY + 4, width: 16, height: 16)
+            context.saveGState()
+            context.setShadow(offset: CGSize(width: 1, height: 2), blur: 2, color: UIColor.black.withAlphaComponent(0.3).cgColor)
+            UIColor(red: 0.88, green: 0.22, blue: 0.25, alpha: 1).setFill()
+            UIBezierPath(ovalIn: pin).fill()
+            context.restoreGState()
+            UIColor.white.withAlphaComponent(0.7).setFill()
+            UIBezierPath(ovalIn: CGRect(x: pin.minX + 4, y: pin.minY + 3, width: 5, height: 4)).fill()
+            textTop = rect.minY + 26
+        case .plain:
+            break
+        }
+
+        let textRect = CGRect(x: rect.minX + 10, y: textTop, width: rect.width - 20, height: rect.maxY - textTop - 8)
+        drawText(object.text ?? "", in: textRect, size: object.fontSize ?? 15, color: UIColor(hex: inkDefaultColor))
     }
 
     private static func drawText(_ text: String, in rect: CGRect, size: Double, color: UIColor) {

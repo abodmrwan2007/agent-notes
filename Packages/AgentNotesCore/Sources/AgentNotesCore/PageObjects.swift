@@ -30,6 +30,17 @@ public enum PageObjectKind: String, Codable, Sendable {
     case shape
 }
 
+/// Paper of a sticky note.
+public enum NoteStyle: String, Codable, CaseIterable, Sendable {
+    case plain
+    case lined
+    case grid
+    /// A strip of tape across the top.
+    case taped
+    /// A pin at the top.
+    case pinned
+}
+
 public enum ShapeKind: String, Codable, CaseIterable, Sendable {
     case rectangle
     case ellipse
@@ -57,6 +68,8 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
     public var lineWidth: Double?
     /// File name inside the package `assets/` directory (images).
     public var assetFileName: String?
+    /// Sticky notes only; nil means plain.
+    public var noteStyle: NoteStyle?
 
     public init(
         id: UUID = UUID(),
@@ -69,7 +82,8 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
         colorHex: String? = nil,
         shape: ShapeKind? = nil,
         lineWidth: Double? = nil,
-        assetFileName: String? = nil
+        assetFileName: String? = nil,
+        noteStyle: NoteStyle? = nil
     ) {
         self.id = id
         self.kind = kind
@@ -82,6 +96,7 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
         self.shape = shape
         self.lineWidth = lineWidth
         self.assetFileName = assetFileName
+        self.noteStyle = noteStyle
     }
 
     public var hasText: Bool { kind == .text || kind == .stickyNote }

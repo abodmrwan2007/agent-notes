@@ -127,6 +127,8 @@ final class PageObjectTests: XCTestCase {
             colorHex: "CC2229", shape: .arrow, lineWidth: 3))
         layer.add(PageObject(
             kind: .image, frame: PageRect(x: 0, y: 0, width: 300, height: 200), assetFileName: "a.jpg"))
+        layer.add(PageObject(
+            kind: .stickyNote, frame: PageRect(x: 5, y: 5, width: 150, height: 150), text: "مهم", noteStyle: .taped))
         try layout.writeObjects(layer, pageID: pageID)
         XCTAssertEqual(try layout.readObjects(pageID: pageID), layer)
 

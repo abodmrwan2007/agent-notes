@@ -22,7 +22,7 @@ final class SmokeTests: XCTestCase {
             "-allowsFingerDrawing", "YES",
             "-AppleLanguages", "(\(language))",
             "-AppleLocale", language
-        ] + extraArguments
+        ] + (extraArguments.contains("-whatsNewSeen") ? [] : ["-whatsNewSeen", "99"]) + extraArguments
         app.launch()
         return app
     }
@@ -275,6 +275,7 @@ final class SmokeTests: XCTestCase {
         // Insert a sticky note; the text sheet opens. Type into it.
         openMenu(app, "Insert")
         menuItem(app, "Sticky Note")
+        menuItem(app, "Plain")
         let editor = element(app, "object.textEditor")
         XCTAssertTrue(editor.waitForExistence(timeout: 5), "text sheet did not open")
         editor.tap()
@@ -556,4 +557,48 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("52-purple-interface")
     }
+
+    func test9zz_stickersStylesAndWhatsNew() {
+        continueAfterFailure = true
+        // What's New opens by itself the first time (an explicit argument overrides "99").
+        let app = launch(language: "en", extraArguments: ["-whatsNewSeen", "0"])
+        let done = element(app, "whatsNew.done")
+        XCTAssertTrue(done.waitForExistence(timeout: 15), "What's New did not open")
+        sleep(1)
+        shot("53-whats-new")
+        tap(app, "whatsNew.done")
+
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        shot("54-labelled-top-bar")
+
+        // Medical stickers (Twemoji) in the panel.
+        tap(app, "editor.panel")
+        app.buttons["Stickers"].firstMatch.tap()
+        XCTAssertTrue(element(app, "sticker.tw-1fac0").waitForExistence(timeout: 5), "Twemoji stickers missing")
+        sleep(1)
+        shot("55-medical-stickers")
+        tap(app, "sticker.tw-1fac0")
+        tap(app, "sticker.tw-1fac1")
+        tap(app, "sticker.tw-1fa7a")
+        tap(app, "editor.panel")
+
+        // Sticky note styles.
+        for style in ["Lined", "Taped", "Pinned"] {
+            openMenu(app, "Insert")
+            menuItem(app, "Sticky Note")
+            menuItem(app, style)
+            let editor = element(app, "object.textEditor")
+            if editor.waitForExistence(timeout: 5) {
+                editor.tap()
+                editor.typeText(style == "Lined" ? "Left ventricle" : "البطين الأيسر")
+                app.buttons["Done"].firstMatch.tap()
+            }
+        }
+        sleep(1)
+        shot("56-sticky-styles-and-stickers")
+    }
 }
+

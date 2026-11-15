@@ -220,7 +220,9 @@ struct EditorScreen: View {
             Button {
                 withAnimation { model.isReadingMode.toggle() }
             } label: {
-                Image(systemName: model.isReadingMode ? "book.fill" : "book")
+                let title: LocalizedStringKey = model.isReadingMode ? "Write" : "Read"
+                Label(title, systemImage: model.isReadingMode ? "pencil.tip" : "book")
+                    .labelStyle(.titleAndIcon)
             }
             .accessibilityLabel("Reading Mode")
             .accessibilityIdentifier("editor.reading")
@@ -236,8 +238,14 @@ struct EditorScreen: View {
                 } label: {
                     Label("Text Box", systemImage: "textformat")
                 }
-                Button {
-                    model.insertObject(kind: .stickyNote)
+                Menu {
+                    ForEach(NoteStyle.allCases, id: \.self) { style in
+                        Button {
+                            model.insertObject(kind: .stickyNote, noteStyle: style)
+                        } label: {
+                            Label(style.title, systemImage: style.symbol)
+                        }
+                    }
                 } label: {
                     Label("Sticky Note", systemImage: "note.text")
                 }
@@ -263,7 +271,8 @@ struct EditorScreen: View {
                     Label("Sticker…", systemImage: "face.smiling")
                 }
             } label: {
-                Image(systemName: "plus.circle")
+                Label("Insert", systemImage: "plus.circle")
+                    .labelStyle(.titleAndIcon)
             }
             .accessibilityLabel("Insert")
 
@@ -307,7 +316,8 @@ struct EditorScreen: View {
             Button {
                 withAnimation { showsToolPanel.toggle() }
             } label: {
-                Image(systemName: "sidebar.trailing")
+                Label("Tools", systemImage: "sidebar.trailing")
+                    .labelStyle(.titleAndIcon)
             }
             .accessibilityLabel("Tools and Stickers")
             .accessibilityIdentifier("editor.panel")
@@ -538,6 +548,28 @@ struct InkToolbar: View {
 
 // MARK: - Page objects
 
+extension NoteStyle {
+    var title: LocalizedStringKey {
+        switch self {
+        case .plain: return "Plain"
+        case .lined: return "Lined"
+        case .grid: return "Grid Paper"
+        case .taped: return "Taped"
+        case .pinned: return "Pinned"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .plain: return "note"
+        case .lined: return "note.text"
+        case .grid: return "squareshape.split.3x3"
+        case .taped: return "bandage"
+        case .pinned: return "pin"
+        }
+    }
+}
+
 extension ShapeKind {
     var title: LocalizedStringKey {
         switch self {
@@ -607,7 +639,7 @@ struct TextSelectionOptions: View {
 struct ObjectOptions: View {
     let model: EditorModel
 
-    private static let stickyColors = ["FFE066", "B8F2C8", "A8E0FF", "FFC2D6", "FFFFFF"]
+    private static let stickyColors = ["FFE066", "FFB86B", "B8F2C8", "A8E0FF", "D9C2FF", "FFC2D6", "FFFFFF"]
 
     var body: some View {
         if let object = model.selectedObject {

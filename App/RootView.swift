@@ -2,6 +2,8 @@ import SwiftUI
 
 struct RootView: View {
     @Environment(AppModel.self) private var app
+    @AppStorage(WhatsNewView.seenKey) private var whatsNewSeen = 0
+    @State private var showsWhatsNew = false
 
     var body: some View {
         @Bindable var app = app
@@ -16,6 +18,15 @@ struct RootView: View {
                     detail(for: app.sidebarSelection ?? .all)
                 }
                 .id(app.sidebarSelection)
+            }
+            .sheet(isPresented: $showsWhatsNew) {
+                WhatsNewView()
+            }
+            .onAppear {
+                if whatsNewSeen < WhatsNewView.contentVersion {
+                    whatsNewSeen = WhatsNewView.contentVersion
+                    showsWhatsNew = true
+                }
             }
         }
     }

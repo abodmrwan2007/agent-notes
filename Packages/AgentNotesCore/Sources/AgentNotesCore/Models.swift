@@ -5,7 +5,8 @@ public enum DocumentFormat {
     /// Bump when the manifest schema changes and add a step to `ManifestCodec.migrations`.
     /// Version 2 added page objects (`objects/`) and their binary assets (`assets/`).
     /// Version 3 added the `planner` template and per-page background images.
-    public static let currentVersion = 3
+    /// Version 4 added sticky-note styles (`noteStyle` on page objects).
+    public static let currentVersion = 4
     public static let packageExtension = "agentnote"
     public static let manifestFileName = "manifest.json"
     public static let sourcesDirectoryName = "sources"
