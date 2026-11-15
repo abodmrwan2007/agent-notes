@@ -645,4 +645,3 @@ final class SmokeTests: XCTestCase {
         shot("59-tap-writing-plays-audio")
     }
 }
-\n
