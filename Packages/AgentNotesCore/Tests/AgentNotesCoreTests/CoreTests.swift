@@ -243,7 +243,7 @@ final class TemplateGeometryTests: XCTestCase {
     }
 
     func testVersion2DocumentsOpenWithoutBackgrounds() throws {
-        var manifest = sampleManifest()
+        var manifest = DocumentManifest(title: "v2", pages: [PageRecord(size: .a4, template: .grid)])
         manifest.formatVersion = 2
         let decoded = try ManifestCodec.decode(ManifestCodec.encode(manifest))
         XCTAssertEqual(decoded.formatVersion, DocumentFormat.currentVersion)
