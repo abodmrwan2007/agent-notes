@@ -6,13 +6,15 @@ public enum DocumentFormat {
     /// Version 2 added page objects (`objects/`) and their binary assets (`assets/`).
     /// Version 3 added the `planner` template and per-page background images.
     /// Version 4 added sticky-note styles (`noteStyle` on page objects).
-    public static let currentVersion = 4
+    /// Version 5 added audio recordings (`recordings` in the manifest, files in `audio/`).
+    public static let currentVersion = 5
     public static let packageExtension = "agentnote"
     public static let manifestFileName = "manifest.json"
     public static let sourcesDirectoryName = "sources"
     public static let inkDirectoryName = "ink"
     public static let objectsDirectoryName = "objects"
     public static let assetsDirectoryName = "assets"
+    public static let audioDirectoryName = "audio"
     /// Identifier of the ink payload encoding stored per page.
     public static let pencilKitInkEncoding = "apple.pencilkit.drawing"
 }
@@ -111,6 +113,10 @@ public struct DocumentManifest: Codable, Hashable, Identifiable, Sendable {
     public var inkEncoding: String
     public var sources: [SourceRecord]
     public var pages: [PageRecord]
+    /// Lecture recordings (v5). nil in older documents; read through `allRecordings`.
+    public var recordings: [AudioRecording]?
+
+    public var allRecordings: [AudioRecording] { recordings ?? [] }
 
     public init(
         id: UUID = UUID(),

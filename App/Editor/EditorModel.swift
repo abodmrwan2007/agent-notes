@@ -54,6 +54,9 @@ final class EditorModel {
     var isRulerActive = false
     /// Reading mode: toolbars hidden, nothing on the page can be changed by touch.
     var isReadingMode = false
+    /// "Tap writing to hear it": a tap on a stroke plays the recording from when it was written.
+    var isListening = false
+    @ObservationIgnored let audio = LectureAudio()
     /// Short message shown over the canvas (for example after scribble-to-erase), with Undo.
     private(set) var notice: String?
     @ObservationIgnored private var noticeToken = UUID()
@@ -130,6 +133,65 @@ final class EditorModel {
     func inkChanged(pageID: UUID, drawing: PKDrawing) {
         hasUnrecordedChanges = true
         autosaver.schedule(pageID: pageID, drawing: drawing)
+    }
+
+    // MARK: Lecture audio
+
+    var recordings: [AudioRecording] { manifest.allRecordings }
+
+    func startRecording() {
+        do {
+            let target = try store.newAudioURL(documentID: documentID)
+            let title = String(localized: "Recording") + " " + Date().formatted(date: .abbreviated, time: .shortened)
+            Task {
+                do {
+                    try await audio.startRecording(to: target.url) { [weak self] startedAt, duration in
+                        self?.finishRecording(fileName: target.fileName, title: title, startedAt: startedAt, duration: duration)
+                    }
+                } catch {
+                    alertMessage = error.localizedDescription
+                }
+            }
+        } catch {
+            alertMessage = error.localizedDescription
+        }
+    }
+
+    func stopRecording() {
+        audio.stopRecording()
+    }
+
+    private func finishRecording(fileName: String, title: String, startedAt: Date, duration: TimeInterval) {
+        guard duration >= 0.5 else {
+            store.deleteAudio(documentID: documentID, fileName: fileName)
+            return
+        }
+        var list = manifest.allRecordings
+        list.append(AudioRecording(fileName: fileName, title: title, startedAt: startedAt, duration: duration))
+        manifest.recordings = list
+        saveManifest()
+        showNotice(String(localized: "Recording saved"))
+    }
+
+    func play(_ recording: AudioRecording, from offset: TimeInterval = 0) {
+        audio.play(url: store.audioURL(documentID: documentID, fileName: recording.fileName),
+                   recordingID: recording.id, from: offset)
+    }
+
+    func deleteRecording(_ recording: AudioRecording) {
+        if audio.playingID == recording.id { audio.stopPlayback() }
+        manifest.recordings = manifest.allRecordings.filter { $0.id != recording.id }
+        store.deleteAudio(documentID: documentID, fileName: recording.fileName)
+        saveManifest()
+    }
+
+    /// A stroke was tapped in listening mode: play what was being said when it was written.
+    func playAudio(writtenAt moment: Date) {
+        guard let hit = AudioTimeline.locate(moment, in: manifest.allRecordings) else {
+            showNotice(String(localized: "This was not written during a recording."))
+            return
+        }
+        play(hit.recording, from: hit.offset)
     }
 
     // MARK: Tools and notices
@@ -509,7 +571,9 @@ final class EditorModel {
     // MARK: Saving
 
     /// Call when the app leaves the foreground: everything reaches the disk before returning.
+    /// A running recording is stopped and saved first.
     func persistNow() {
+        if audio.isRecording { audio.stopRecording() }
         autosaver.flush(wait: true)
         if hasUnrecordedChanges {
             saveManifest()

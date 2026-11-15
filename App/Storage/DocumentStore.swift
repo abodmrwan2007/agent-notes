@@ -121,6 +121,22 @@ final class DocumentStore: @unchecked Sendable {
         layout(for: documentID).assetURL(fileName: fileName)
     }
 
+    func audioURL(documentID: UUID, fileName: String) -> URL {
+        layout(for: documentID).audioURL(fileName: fileName)
+    }
+
+    /// A new, empty location for a recording inside the package.
+    func newAudioURL(documentID: UUID) throws -> (fileName: String, url: URL) {
+        let files = self.layout(for: documentID)
+        try fileManager.createDirectory(at: files.audioDirectory, withIntermediateDirectories: true)
+        let fileName = UUID().uuidString + ".m4a"
+        return (fileName, files.audioURL(fileName: fileName))
+    }
+
+    func deleteAudio(documentID: UUID, fileName: String) {
+        try? fileManager.removeItem(at: layout(for: documentID).audioURL(fileName: fileName))
+    }
+
     /// Stores image data inside the package and returns its file name.
     func addAsset(_ data: Data, fileExtension: String, documentID: UUID) throws -> String {
         let files = self.layout(for: documentID)

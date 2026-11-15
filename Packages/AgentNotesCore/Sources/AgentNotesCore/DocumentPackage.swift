@@ -37,6 +37,14 @@ public struct DocumentPackageLayout: Sendable {
         root.appendingPathComponent(DocumentFormat.assetsDirectoryName, isDirectory: true)
     }
 
+    public var audioDirectory: URL {
+        root.appendingPathComponent(DocumentFormat.audioDirectoryName, isDirectory: true)
+    }
+
+    public func audioURL(fileName: String) -> URL {
+        audioDirectory.appendingPathComponent(fileName, isDirectory: false)
+    }
+
     /// Typed text, sticky notes, shapes and image placements of one page.
     public func objectsURL(pageID: UUID) -> URL {
         objectsDirectory.appendingPathComponent(pageID.uuidString + ".json", isDirectory: false)
@@ -49,7 +57,7 @@ public struct DocumentPackageLayout: Sendable {
 
     /// Safe to call on an existing package: also creates directories added by newer format versions.
     public func createDirectories(using fileManager: FileManager = .default) throws {
-        for directory in [root, sourcesDirectory, inkDirectory, objectsDirectory, assetsDirectory] {
+        for directory in [root, sourcesDirectory, inkDirectory, objectsDirectory, assetsDirectory, audioDirectory] {
             try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         }
     }
@@ -105,7 +113,9 @@ public enum ManifestCodec {
         // Nothing to rewrite; the bump keeps older versions from dropping them on save.
         2: { _ in },
         // 3 -> 4: optional `noteStyle` on sticky notes; old notes are plain.
-        3: { _ in }
+        3: { _ in },
+        // 4 -> 5: optional `recordings` list; older documents have none.
+        4: { _ in }
     ]
 
     public static func encode(_ manifest: DocumentManifest) throws -> Data {

@@ -241,6 +241,16 @@
         }
       }
     },
+    "Audio": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت"
+          }
+        }
+      }
+    },
     "Back to Library": {
       "localizations": {
         "ar": {
@@ -687,6 +697,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "حذف هذه الصفحة؟"
+          }
+        }
+      }
+    },
+    "Delete this recording?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذا التسجيل؟"
           }
         }
       }
@@ -1491,6 +1511,16 @@
         }
       }
     },
+    "Microphone access is off for this app. Turn it on in Settings ▸ Privacy ▸ Microphone.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول إلى الميكروفون متوقف لهذا التطبيق. فعّله من الإعدادات ◂ الخصوصية ◂ الميكروفون."
+          }
+        }
+      }
+    },
     "Monoline": {
       "localizations": {
         "ar": {
@@ -2101,6 +2131,16 @@
         }
       }
     },
+    "Play": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل"
+          }
+        }
+      }
+    },
     "Plot up to three functions of x. Drag to move, pinch to zoom.": {
       "localizations": {
         "ar": {
@@ -2197,6 +2237,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأخيرة"
+          }
+        }
+      }
+    },
+    "Record": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل"
+          }
+        }
+      }
+    },
+    "Recording": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل"
+          }
+        }
+      }
+    },
+    "Recording could not start.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر بدء التسجيل."
+          }
+        }
+      }
+    },
+    "Recording saved": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُفظ التسجيل"
+          }
+        }
+      }
+    },
+    "Recording stopped because another app or a call used the audio. What was recorded is saved.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ."
+          }
+        }
+      }
+    },
+    "Recordings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التسجيلات"
           }
         }
       }
@@ -2731,6 +2831,26 @@
         }
       }
     },
+    "Stop %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف %@"
+          }
+        }
+      }
+    },
+    "Stop Recording": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف التسجيل"
+          }
+        }
+      }
+    },
     "Storage unavailable": {
       "localizations": {
         "ar": {
@@ -2861,12 +2981,42 @@
         }
       }
     },
+    "Tap Record at the top while you write. Recordings are saved inside this notebook.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط «تسجيل» في الأعلى أثناء الكتابة. تُحفظ التسجيلات داخل هذا الدفتر."
+          }
+        }
+      }
+    },
+    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا."
+          }
+        }
+      }
+    },
     "Tap an object to select it. Use Insert to add text, notes, shapes and images.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "اضغط على عنصر لتحديده. استخدم «إدراج» لإضافة نص وملاحظات وأشكال وصور."
+          }
+        }
+      }
+    },
+    "Tap writing to hear it": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على الكتابة لتسمعها"
           }
         }
       }
@@ -2907,6 +3057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مربع نص"
+          }
+        }
+      }
+    },
+    "The audio is removed from this notebook. Your writing stays.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحذف الصوت من هذا الدفتر وتبقى كتابتك."
           }
         }
       }
@@ -3087,6 +3247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّرت قراءة هذه الصورة."
+          }
+        }
+      }
+    },
+    "This recording could not be played.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر تشغيل هذا التسجيل."
+          }
+        }
+      }
+    },
+    "This was not written during a recording.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُكتب هذا أثناء تسجيل."
           }
         }
       }

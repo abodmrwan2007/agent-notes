@@ -55,7 +55,7 @@ def catalog_key(literal: str, source: str) -> str:
     def replace(match: re.Match) -> str:
         expression = match.group(1)
         # String-typed interpolations in this codebase; everything else is an integer.
-        return "%@" if expression in {"milestone", "text", "name", "function"} else "%lld"
+        return "%@" if expression in {"milestone", "text", "name", "function", "time"} else "%lld"
     return re.sub(r"\\\(([^)]*)\)", replace, literal)
 
 

@@ -59,6 +59,7 @@ targets:
         ITSAppUsesNonExemptEncryption: false
         NSFaceIDUsageDescription: Face ID unlocks the notebooks you have locked.
         NSPhotoLibraryUsageDescription: Pictures you choose are added to your notes.
+        NSMicrophoneUsageDescription: The microphone records lectures while you take notes. Recordings stay inside your notebook.
         # The native editable notebook package (a directory treated as one file).
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: com.agentnotes.document

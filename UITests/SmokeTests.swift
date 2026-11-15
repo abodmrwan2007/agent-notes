@@ -600,5 +600,49 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("56-sticky-styles-and-stickers")
     }
-}
 
+    func test9zzz_lectureRecording() {
+        continueAfterFailure = true
+        // If the system still asks for the microphone, allow it.
+        addUIInterruptionMonitor(withDescription: "Microphone") { alert in
+            for label in ["Allow", "OK"] where alert.buttons[label].exists {
+                alert.buttons[label].tap()
+                return true
+            }
+            return false
+        }
+        let app = launch(language: "en")
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+
+        // Record, write while recording, stop.
+        tap(app, "editor.record")
+        app.tap() // lets the interruption monitor handle a permission alert
+        sleep(3)
+        shot("57-recording")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.90))
+            .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.70, dy: 0.92)))
+        sleep(2)
+        tap(app, "editor.record")
+        sleep(1)
+
+        // The recording is listed in the panel's Audio tab.
+        tap(app, "editor.panel")
+        app.buttons["Audio"].firstMatch.tap()
+        XCTAssertTrue(element(app, "audio.recording").waitForExistence(timeout: 5), "no recording saved")
+        shot("58-recordings-list")
+
+        // Tap the stroke written during the recording: playback starts from that moment.
+        let listen = element(app, "audio.listen")
+        if listen.waitForExistence(timeout: 5) {
+            listen.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        }
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.50, dy: 0.91)).tap()
+        XCTAssertTrue(element(app, "audio.nowPlaying").waitForExistence(timeout: 5), "tapping the writing did not play the recording")
+        sleep(1)
+        shot("59-tap-writing-plays-audio")
+    }
+}
+\n

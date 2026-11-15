@@ -71,6 +71,8 @@ enum PageInteraction {
     case text
     /// Reading mode: nothing on the page reacts to touch except scrolling and zooming.
     case read
+    /// A tap on a stroke plays the audio recorded when it was written.
+    case listen
 }
 
 final class PageView: UIView {
@@ -93,6 +95,9 @@ final class PageView: UIView {
     private(set) var isApplyingDrawing = false
     /// Strokes on the canvas after the last change; tells a newly drawn stroke from other edits.
     var strokeCount = 0
+    /// Listening mode: called with the time the tapped stroke was written.
+    var onListenTap: ((Date) -> Void)?
+    private lazy var listenTap = UITapGestureRecognizer(target: self, action: #selector(handleListenTap))
 
     var isLoaded: Bool { canvas != nil }
 
@@ -196,10 +201,21 @@ final class PageView: UIView {
     /// Only the layer that matches the mode receives touches; the others let them through.
     func setInteraction(_ mode: PageInteraction) {
         interaction = mode
+        if mode == .listen, listenTap.view == nil { addGestureRecognizer(listenTap) }
+        listenTap.isEnabled = mode == .listen
         canvas?.isUserInteractionEnabled = isInkEditable && mode == .ink
         objectsView?.isEditingEnabled = mode == .objects
         objectsView?.setNeedsDisplay()
         textLayer?.isSelectionEnabled = mode == .text
+    }
+
+    @objc private func handleListenTap(_ recognizer: UITapGestureRecognizer) {
+        guard let drawing = canvas?.drawing else { return }
+        let point = recognizer.location(in: self)
+        // The most recent stroke under the finger (generous margin: strokes are thin).
+        if let stroke = drawing.strokes.last(where: { $0.renderBounds.insetBy(dx: -10, dy: -10).contains(point) }) {
+            onListenTap?(stroke.path.creationDate)
+        }
     }
 
     func unload() {

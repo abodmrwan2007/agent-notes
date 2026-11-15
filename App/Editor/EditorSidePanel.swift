@@ -8,6 +8,7 @@ struct EditorSidePanel: View {
     enum Tab: Hashable {
         case tools
         case stickers
+        case audio
     }
 
     @State private var tab = Tab.tools
@@ -17,6 +18,7 @@ struct EditorSidePanel: View {
             Picker("Panel", selection: $tab) {
                 Text("Tools").tag(Tab.tools)
                 Text("Stickers").tag(Tab.stickers)
+                Text("Audio").tag(Tab.audio)
             }
             .pickerStyle(.segmented)
             .padding(10)
@@ -49,6 +51,8 @@ struct EditorSidePanel: View {
                         }
                     }
                 }
+            case .audio:
+                RecordingsList(model: model)
             case .stickers:
                 ScrollView {
                     StickerGrid(onPick: { data, size in

@@ -93,6 +93,9 @@ jobs:
           sys.exit('no iPad simulator found')
           ")
           echo "SIM_UDID=$UDID" >> "$GITHUB_ENV"
+          # Allow the microphone up front so the recording test is not blocked by the permission alert.
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl privacy "$UDID" grant microphone com.agentnotes.app || true
           xcrun simctl list devices available | grep "$UDID"
       - name: Build and run UI smoke tests on the simulator
         env:

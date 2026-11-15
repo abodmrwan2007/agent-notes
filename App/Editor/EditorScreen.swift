@@ -83,7 +83,8 @@ struct EditorScreen: View {
                     layoutVersion: model.layoutVersion,
                     allowsFingerDrawing: allowsFingerDrawing,
                     isRulerActive: model.isRulerActive,
-                    isReadingMode: model.isReadingMode)
+                    isReadingMode: model.isReadingMode,
+                    isListening: model.isListening)
                 if showsToolPanel, !model.isReadingMode {
                     Divider()
                     EditorSidePanel(model: model)
@@ -216,6 +217,8 @@ struct EditorScreen: View {
             .accessibilityHint("Rename Notebook")
 
             Spacer(minLength: 8)
+
+            RecordButton(model: model)
 
             Button {
                 withAnimation { model.isReadingMode.toggle() }
@@ -871,6 +874,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
     let allowsFingerDrawing: Bool
     let isRulerActive: Bool
     let isReadingMode: Bool
+    let isListening: Bool
 
     final class Coordinator {
         var appliedTool: ToolState?
@@ -898,7 +902,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
             context.coordinator.appliedTool = tool
             controller.apply(tool: tool.makeTool())
         }
-        controller.setInteraction(isReadingMode ? .read : tool.kind.pageInteraction)
+        controller.setInteraction(isReadingMode ? .read : (isListening ? .listen : tool.kind.pageInteraction))
         controller.setRulerActive(isRulerActive)
     }
 }

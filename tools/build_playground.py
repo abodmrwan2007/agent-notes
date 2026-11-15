@@ -60,7 +60,8 @@ let package = Package(
                 .portraitUpsideDown
             ],
             capabilities: [
-                .faceID(purposeString: "Face ID unlocks the notebooks you have locked.")
+                .faceID(purposeString: "Face ID unlocks the notebooks you have locked."),
+                .microphone(purposeString: "The microphone records lectures while you take notes. Recordings stay inside your notebook.")
             ]
         )
     ],

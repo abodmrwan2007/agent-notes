@@ -395,6 +395,10 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
             drawing: drawing, isEditable: isEditable, objectsView: objectsView, interaction: interaction,
             tool: currentTool, policy: drawingPolicy, delegate: self)
 
+        pageView.onListenTap = { [weak self] date in
+            self?.model.playAudio(writtenAt: date)
+        }
+
         if let textLayer = pageView.textLayer {
             textLayer.onSelectionChange = { [weak self] text in
                 self?.model.setTextSelection(text.map { TextSelection(pageID: pageID, text: $0) })

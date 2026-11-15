@@ -417,6 +417,29 @@ AR = {
     "Touch and hold a notebook in the library for Lock…, Cover and Tags…":
         "اضغط مطولًا على دفتر في المكتبة لتجد «قفل…» و«الغلاف» و«الوسوم…».",
     "Study tools": "أدوات الدراسة",
+    # Lecture audio
+    "Record": "تسجيل",
+    "Stop %@": "إيقاف %@",
+    "Stop Recording": "إيقاف التسجيل",
+    "Recording": "تسجيل",
+    "Audio": "الصوت",
+    "Recordings": "التسجيلات",
+    "Recording saved": "حُفظ التسجيل",
+    "Play": "تشغيل",
+    "Tap writing to hear it": "اضغط على الكتابة لتسمعها",
+    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.":
+        "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا.",
+    "Tap Record at the top while you write. Recordings are saved inside this notebook.":
+        "اضغط «تسجيل» في الأعلى أثناء الكتابة. تُحفظ التسجيلات داخل هذا الدفتر.",
+    "Delete this recording?": "حذف هذا التسجيل؟",
+    "The audio is removed from this notebook. Your writing stays.": "يُحذف الصوت من هذا الدفتر وتبقى كتابتك.",
+    "This was not written during a recording.": "لم يُكتب هذا أثناء تسجيل.",
+    "This recording could not be played.": "تعذّر تشغيل هذا التسجيل.",
+    "Recording could not start.": "تعذّر بدء التسجيل.",
+    "Microphone access is off for this app. Turn it on in Settings ▸ Privacy ▸ Microphone.":
+        "الوصول إلى الميكروفون متوقف لهذا التطبيق. فعّله من الإعدادات ◂ الخصوصية ◂ الميكروفون.",
+    "Recording stopped because another app or a call used the audio. What was recorded is saved.":
+        "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ.",
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
         "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
 }
