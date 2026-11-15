@@ -379,12 +379,22 @@ enum Sticker: String, CaseIterable, Identifiable {
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         paragraph.baseWritingDirection = rightToLeft ? .rightToLeft : .leftToRight
-        let label = NSAttributedString(string: text, attributes: [
-            .font: UIFont.systemFont(ofSize: rightToLeft ? 44 : 36, weight: .heavy),
-            .foregroundColor: UIColor.white,
-            .paragraphStyle: paragraph,
-            .kern: rightToLeft ? 0 : 2
-        ])
+        paragraph.lineBreakMode = .byClipping
+        // Largest size that keeps the word on one line inside the ribbon.
+        var fontSize: CGFloat = rightToLeft ? 44 : 36
+        func makeLabel() -> NSAttributedString {
+            NSAttributedString(string: text, attributes: [
+                .font: UIFont.systemFont(ofSize: fontSize, weight: .heavy),
+                .foregroundColor: UIColor.white,
+                .paragraphStyle: paragraph,
+                .kern: rightToLeft ? 0 : 1
+            ])
+        }
+        var label = makeLabel()
+        while label.size().width > 192, fontSize > 14 {
+            fontSize -= 2
+            label = makeLabel()
+        }
         let height = label.boundingRect(with: CGSize(width: 200, height: 96), options: .usesLineFragmentOrigin, context: nil).height
         label.draw(with: CGRect(x: 28, y: 48 - height / 2, width: 200, height: height), options: .usesLineFragmentOrigin, context: nil)
     }

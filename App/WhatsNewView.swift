@@ -43,7 +43,9 @@ struct WhatsNewView: View {
 
     var body: some View {
         NavigationStack {
-            List(entries) { entry in
+            List {
+                Section {
+                    ForEach(entries) { entry in
                 HStack(alignment: .top, spacing: 14) {
                     Image(systemName: entry.symbol)
                         .font(.title2)
@@ -58,15 +60,13 @@ struct WhatsNewView: View {
                     }
                 }
                 .padding(.vertical, 4)
+                    }
+                } footer: {
+                    Text("You can open this again from Settings.")
+                }
             }
             .navigationTitle("What's New")
             .navigationBarTitleDisplayMode(.inline)
-            .safeAreaInset(edge: .bottom) {
-                Text("You can open this again from Settings.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom, 8)
-            }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
