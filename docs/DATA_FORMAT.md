@@ -1,4 +1,4 @@
-# Native document format (version 3)
+# Native document format (version 5)
 
 A document is a directory with the extension `.agentnote`
 (uniform type `com.agentnotes.document`, conforms to `com.apple.package`).
@@ -10,6 +10,7 @@ A document is a directory with the extension `.agentnote`
   ink/<page-id>.ink        handwriting for one page (absent when the page has no ink)
   objects/<page-id>.json   typed text, sticky notes, shapes, image placements (absent when none)
   assets/<uuid>.jpg        binary assets referenced by objects (inserted images)
+  audio/<uuid>.m4a         lecture recordings (v5, absent when none)
 ```
 
 ## manifest.json
@@ -18,13 +19,14 @@ UTF-8 JSON, keys sorted, dates in ISO 8601 (UTC, second precision).
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `formatVersion` | int | `3`. Readers must refuse larger values |
+| `formatVersion` | int | `5`. Readers must refuse larger values |
 | `id` | UUID string | Stable document identifier |
 | `title` | string | |
 | `createdAt`, `modifiedAt` | date | |
 | `inkEncoding` | string | `apple.pencilkit.drawing` |
 | `sources[]` | object | `id` (UUID), `kind` (`pdf`), `fileName` (inside `sources/`), `originalFileName` |
 | `pages[]` | object | In display order, see below |
+| `recordings[]` | object or absent | (v5) `id` (UUID), `fileName` (inside `audio/`), `startedAt` (date), `duration` (seconds). Ink strokes are linked to a recording by their PencilKit creation date falling inside `startedAt…startedAt+duration` |
 
 Page object:
 
@@ -69,6 +71,7 @@ object is on top. On a page, objects are drawn above the background and below th
 | `colorHex` | `RRGGBB` | Text colour, shape stroke colour, or sticky-note paper colour |
 | `shape`, `lineWidth` | string, number | `rectangle`, `ellipse`, `line`, `arrow` (line and arrow run from the top-left to the bottom-right corner of the frame) |
 | `assetFileName` | string | File inside `assets/` (images) |
+| `noteStyle` | string | (v4) Sticky notes: `plain`, `lined`, `grid`, `taped`, `pinned`; absent means `plain` |
 
 Optional fields are omitted when unused.
 
@@ -78,7 +81,8 @@ Optional fields are omitted when unused.
 one version at a time (`ManifestCodec.migrations`, keyed by the version being upgraded from) before
 decoding. The 1→2 step is empty: version 2 only added new optional files, and the bump exists
 so that older app versions refuse (rather than silently ignore the objects of) newer documents.
-The 2→3 step is also empty (one new optional page field and one new template value).
+The 2→3 step is also empty (one new optional page field and one new template value), as are
+3→4 (optional `noteStyle`) and 4→5 (optional `recordings` and the `audio/` folder).
 When the schema changes:
 bump `DocumentFormat.currentVersion`, add the step, add a test with a fixture of the old version.
 
