@@ -1,4 +1,4 @@
-# Native document format (version 2)
+# Native document format (version 3)
 
 A document is a directory with the extension `.agentnote`
 (uniform type `com.agentnotes.document`, conforms to `com.apple.package`).
@@ -18,7 +18,7 @@ UTF-8 JSON, keys sorted, dates in ISO 8601 (UTC, second precision).
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `formatVersion` | int | `2`. Readers must refuse larger values |
+| `formatVersion` | int | `3`. Readers must refuse larger values |
 | `id` | UUID string | Stable document identifier |
 | `title` | string | |
 | `createdAt`, `modifiedAt` | date | |
@@ -32,7 +32,8 @@ Page object:
 | --- | --- | --- |
 | `id` | UUID string | Stable page identifier; names the ink file |
 | `size` | `{width, height}` | Canonical size in points |
-| `template` | string | `blank`, `ruled`, `grid`, `dotGrid`, `cornell`. Ignored when `pdf` is set |
+| `template` | string | `blank`, `ruled`, `grid`, `dotGrid`, `cornell`, `planner` (v3). Ignored when `pdf` or `backgroundAsset` is set |
+| `backgroundAsset` | string or absent | (v3) File in `assets/` drawn as the page's paper, aspect-filled |
 | `pdf` | object or absent | `sourceID` (UUID of a source), `pageIndex` (zero-based) |
 | `isBookmarked` | bool | |
 
@@ -77,6 +78,7 @@ Optional fields are omitted when unused.
 one version at a time (`ManifestCodec.migrations`, keyed by the version being upgraded from) before
 decoding. The 1→2 step is empty: version 2 only added new optional files, and the bump exists
 so that older app versions refuse (rather than silently ignore the objects of) newer documents.
+The 2→3 step is also empty (one new optional page field and one new template value).
 When the schema changes:
 bump `DocumentFormat.currentVersion`, add the step, add a test with a fixture of the old version.
 

@@ -58,7 +58,7 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Bookmarks | A | Partial | Per-page flag and badge; no bookmark list |
 | Covers, chapter outlines, internal links | B | Not started | |
 | Templates: blank, ruled, grid, dot, Cornell | A | Partial | Ruled and grid Sim-verified; blank, dot, Cornell compile but were not captured |
-| Templates: planner, custom imported background | B | Not started | |
+| Templates: planner, custom imported background | B | Partial | Planner Sim-verified. Background image from Photos Written (page menu), not driven by a test |
 | Change background without moving ink | A | Written | |
 | Vertical scrolling | A | Sim-verified |  |
 | Horizontal page turning | B | Not started | |
@@ -85,13 +85,13 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 | Lasso selection | A | Written | Native PencilKit lasso |
 | Rectangular selection, resize selection | B | Not started | |
 | Undo / redo | A | Sim-verified | Ink and page objects |
-| Pencil double-tap, Pencil Pro squeeze, hover | B | Not started | |
+| Pencil double-tap, Pencil Pro squeeze, hover | B | Written | Double-tap per system preference, squeeze to previous tool, hover ring. Cannot be tested in the simulator |
 | (1) Stroke smoothing with adjustable strength | B | Partial | Strength 0–1 in Settings, unit-tested in core. Applied when the stroke is finished, not live while writing (PencilKit limit); not checked on a device |
 | (2) Mixed Arabic–English recognition | B | Not started | Requires vendor evaluation on a real sample set |
 | (3) Handwriting beautification with preview | B | Not started | Experimental until proven; never a font swap |
 | Recognition vendor evaluation (native / ML Kit / MyScript) | B | Not started | |
 | Hold-to-snap shapes | B | Partial | Line, circle, ellipse, rectangle (axis-aligned) after holding ≥0.45 s; recognizer unit-tested incl. no false positives on handwriting; snapped on lift, not while holding. No arrows/curves/rotated shapes |
-| Scribble-to-erase with undo | B | Not started | |
+| Scribble-to-erase with undo | B | Partial | Detector unit-tested (no false positives on cursive, W/M, N/Z, jitter); erases strokes under the scribble with an Undo notice. Not exercised in the app by a test (XCUITest cannot draw zigzags); not tried with Pencil |
 | Configurable gesture preferences | B | Not started | |
 | Mind-map connectors | C | Not started | |
 

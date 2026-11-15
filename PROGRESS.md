@@ -7,9 +7,9 @@ Last updated: 2026-11-10. Update this file at the end of every working session.
 | Item | Status |
 | --- | --- |
 | Milestone A source code | Written and compiling |
-| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43622982759, 2026-11-14) |
+| App build (Xcode 16.4, iPad simulator, Debug) | **Passes in CI**, 0 errors (latest run 43695433516, 2026-11-15) |
 | Core unit tests | **All core tests pass** in CI on Linux (Swift 6.0) |
-| UI smoke tests on an iPad Pro simulator | **7 tests pass** in CI; 43 screenshots, the new ones inspected by eye |
+| UI smoke tests on an iPad Pro simulator | **8 tests pass** in CI; 44 screenshots, the new ones inspected by eye |
 | Static checks (`python tools/check_strings.py`) | Pass |
 | Physical iPad run | Owner ran the Swift Playgrounds build `playground-1` (Milestone A) on their iPad on 2026-11-10 and reported no errors. No detailed per-feature report yet |
 | Apple Pencil test | **Never executed** (the simulator has no Pencil; tests draw with a finger) |
@@ -56,6 +56,31 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## Milestone B, part 5: scribble erase, Apple Pencil, planner, backgrounds (2026-11-15) — done
+
+CI run 43695433516: build, 8 UI tests, core tests all pass. Planner screenshot (42) inspected.
+
+- **Scribble to erase** (`InkGeometry.isScribble`, `InkRefiner.scribbleErase`): five or more
+  back-and-forth passes across ink erase the strokes whose centre lies under the scribble; a notice
+  "Erased N strokes" offers Undo. A scribble over empty paper stays ink. The detector counts a
+  reversal only when the pen travels back ≥ 35% of the scribble's width, so cursive loops, W/M,
+  N/Z shapes and small jitter are not scribbles (unit-tested, and simulated before CI).
+  Setting: on by default.
+- **Apple Pencil**: double-tap follows the system preference (switch to eraser / previous tool;
+  "show palette" does nothing because there is no floating palette yet); squeeze (Pencil Pro,
+  iPadOS 17.5+) returns to the previous tool; hover shows a ring at the tip with the pen's width
+  and colour.
+- **Planner template**: header band, seven day rows, day-name column.
+- **Page background image**: page menu "Background Image…" uses a photo as the paper (aspect fill),
+  replacing the template; ink and objects do not move. Shown in thumbnails and PDF export.
+- Document format **version 3** (`backgroundAsset` page field, `planner` value), empty 2→3 migration.
+
+Verified: Undo after a snapped shape removes the corrected stroke entirely (screenshot from run
+43622982759), which is the behaviour scribble-erase relies on.
+
+Not verified (simulator cannot do it): scribble-to-erase in the app (XCUITest can only drag in
+straight lines), all Apple Pencil gestures, background images (no test drives the Photos picker).
 
 ## Milestone B, part 4: shapes, smoothing, tags, image import (2026-11-14) — done
 
@@ -212,18 +237,18 @@ assertions and were only visible in the pictures.
   `Package.swift`. Building through the package manifest itself is attempted as an informational step.
 - Releases in the private repository (asset `AgentNotes.swiftpm.zip`): `playground-1` (Milestone A),
   `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection), `playground-5` (adds hold-to-snap, smoothing,
-  tags, image import).
+  tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
-  without a declared type. `playground-2` to `-5` have not been reported on yet.
+  without a declared type. `playground-2` to `-6` have not been reported on yet.
 - Regenerate and publish a new release after every app change the owner should test.
 
 ## Next steps, in order
 
 1. Owner tries `playground-4` on the iPad with real lecture PDFs (Pencil writing, import, search,
    text selection) and reports specifics; fix what fails.
-2. Rest of Milestone B: stickers (needs original artwork), templates (planner, custom background),
-   horizontal page turning, scribble-to-erase, Pencil double-tap/squeeze, then the
+2. Rest of Milestone B: stickers (needs original artwork or the owner's go-ahead for simple
+   original ones), horizontal page turning, Insert/Study Tools panel inside the editor, then the
    handwriting-recognition vendor evaluation (needs a real bilingual sample set from the owner)
    and OCR for scanned pages (Apple Vision supports Arabic text recognition on recent iPadOS;
    verify before relying on it).
