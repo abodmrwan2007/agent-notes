@@ -459,7 +459,7 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "object.delete").waitForExistence(timeout: 5), "sticker was not inserted")
         openMenu(app, "Insert")
         menuItem(app, "Sticker…")
-        tap(app, "sticker.tw-1f4cc")
+        tap(app, "sticker.tw-1fac1")
         sleep(1)
         shot("44-stickers-on-page")
     }
@@ -621,7 +621,6 @@ final class SmokeTests: XCTestCase {
 
         // Record, write while recording, stop.
         tap(app, "editor.record")
-        app.tap() // lets the interruption monitor handle a permission alert
         sleep(3)
         shot("57-recording")
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.90))
@@ -637,10 +636,14 @@ final class SmokeTests: XCTestCase {
         shot("58-recordings-list")
 
         // Tap the stroke written during the recording: playback starts from that moment.
-        let listen = element(app, "audio.listen")
-        if listen.waitForExistence(timeout: 5) {
-            listen.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        // Turn on "Tap writing to hear it": tap the switch itself and confirm it is on.
+        let listen = app.switches["audio.listen"].firstMatch
+        XCTAssertTrue(listen.waitForExistence(timeout: 5), "listen switch")
+        for _ in 0..<3 where (listen.value as? String) != "1" {
+            listen.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+            sleep(1)
         }
+        XCTAssertEqual(listen.value as? String, "1", "listening mode did not turn on")
         // Close the panel so the page is back where the stroke was drawn, then tap the stroke.
         tap(app, "editor.panel")
         sleep(1)
