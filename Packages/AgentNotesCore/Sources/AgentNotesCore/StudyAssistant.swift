@@ -221,6 +221,13 @@ public enum StudyAssistant {
         public var isTruncated: Bool
         public var inputTokens: Int
         public var outputTokens: Int
+
+        public init(text: String, isTruncated: Bool, inputTokens: Int, outputTokens: Int) {
+            self.text = text
+            self.isTruncated = isTruncated
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+        }
     }
 
     public enum Failure: Error, Equatable, Sendable {

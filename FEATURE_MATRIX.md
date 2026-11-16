@@ -125,11 +125,11 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
-| Assistant modes with preview/confirm | C | Not started | |
-| Retrieval with page citations that open and highlight | C | Not started | |
-| Summaries, flashcards (spaced review, CSV/TSV), quizzes, mind maps | C | Not started | |
-| Provider abstraction (OpenAI, Gemini, xAI, Anthropic) | C | Blocked | Needs API keys; model IDs and prices must come from current docs. No provider tested |
-| BYOK | E | Not started | Needs App Store rule check |
+| Assistant modes with preview/confirm | C | Partial | AI tab in the side panel: answer shown first, then Add to notebook (new pages) or Copy |
+| Retrieval with page citations that open and highlight | C | Not started | Ask sends the chosen pages (this page, or up to 20 from the notebook); no retrieval index |
+| Summaries, flashcards (spaced review, CSV/TSV), quizzes, mind maps | C | Partial | Summaries, flip cards and multiple-choice quiz (structured output), Explain for selected PDF text, follow-up questions. Pages sent as pictures + text, so handwriting is read. UI Sim-verified with canned answers only; real Claude calls untested until the owner adds a key. No spaced review, export or mind maps |
+| Provider abstraction (OpenAI, Gemini, xAI, Anthropic) | C | Partial | Anthropic (Claude Opus 5.5 default, Sonnet 5.5, Haiku 5.5) over HTTPS; request/response code unit-tested. Other providers not added |
+| BYOK | E | Partial | Owner's personal build only: key pasted in Settings ▸ AI Assistant, kept in the Keychain (D12). Must move to a server before others use the app |
 
 ## 9. Lectures, audio, study tools
 

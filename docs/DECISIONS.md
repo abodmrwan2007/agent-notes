@@ -62,6 +62,15 @@ maintained service covers auth, per-user authorization, private storage and SQL 
 atomic usage ledger. Provider keys stay in server-side secrets. To be confirmed against current
 Supabase documentation and pricing before implementation in Milestone C/E.
 
+## D12. AI key on the owner's iPad (temporary exception to D10)
+The owner asked for AI features before any backend exists and chose Claude (2026-11-17). For the
+owner's personal testing build only, the owner's own Anthropic API key is pasted in Settings ▸ AI
+Assistant and stored in the Keychain (this device only, not synced). It is never in the repository,
+notebooks or logs. Spending is bounded by a daily request limit in the app and by the spending limit
+the owner sets in the Anthropic console. Requests go straight to `api.anthropic.com/v1/messages`
+(no Swift SDK exists). Before the app is offered to anyone else, requests must go through the
+server in D10, with sign-in and per-user limits, and this path must be removed.
+
 ## D11. Honesty rules in the UI
 Areas that are not built show `PlannedAreaView` ("Not available in this build"), never a mock screen.
 Every visible button has behaviour.
