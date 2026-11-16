@@ -658,4 +658,42 @@ final class SmokeTests: XCTestCase {
         sleep(1)
         shot("59-tap-writing-plays-audio")
     }
+
+    func test9zzzz_labelledDiagrams() {
+        continueAfterFailure = true
+        let app = launch(language: "en")
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+
+        tap(app, "editor.panel")
+        app.buttons["Stickers"].firstMatch.tap()
+        XCTAssertTrue(element(app, "diagram.heart").waitForExistence(timeout: 5), "diagrams missing from the panel")
+        sleep(1)
+        shot("60-diagrams-panel")
+
+        // One diagram per label mode, each on its own: undo removes the previous one.
+        for (mode, diagram, name) in [("English", "diagram.heart", "61-heart-english"),
+                                      ("Arabic", "diagram.heart", "62-heart-arabic"),
+                                      ("Blank (quiz)", "diagram.heart", "63-heart-blank"),
+                                      ("English", "diagram.lungs", "64-lungs"),
+                                      ("English", "diagram.brain", "65-brain"),
+                                      ("English", "diagram.neuron", "66-neuron"),
+                                      ("Arabic", "diagram.eye", "67-eye-arabic"),
+                                      ("English", "diagram.cell", "68-cell")] {
+            if !element(app, diagram).exists {
+                tap(app, "editor.panel")
+                app.buttons["Stickers"].firstMatch.tap()
+            }
+            app.buttons[mode].firstMatch.tap()
+            tap(app, diagram)
+            sleep(1)
+            tap(app, "editor.panel")  // close the panel to see the whole page
+            sleep(1)
+            shot(name)
+            app.buttons["Undo"].firstMatch.tap()
+            sleep(1)
+        }
+    }
 }

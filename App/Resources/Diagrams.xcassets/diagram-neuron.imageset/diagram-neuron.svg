@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- Agent Notes original artwork. Schematic motor neuron. Not to scale. -->
+  <!-- Dendrites -->
+  <path d="M100 90 L70 50 M70 50 L52 26 M70 50 L46 52 M88 112 L38 104 M38 104 L18 86 M38 104 L16 116 M104 132 L76 176 M76 176 L56 186 M76 176 L74 204 M120 82 L126 34 M126 34 L112 14 M126 34 L146 18 M132 96 L176 64 M176 64 L196 62 M176 64 L180 40" fill="none" stroke="#a8692c" stroke-width="7" stroke-linecap="round"/>
+  <path d="M100 90 L70 50 M70 50 L52 26 M70 50 L46 52 M88 112 L38 104 M38 104 L18 86 M38 104 L16 116 M104 132 L76 176 M76 176 L56 186 M76 176 L74 204 M120 82 L126 34 M126 34 L112 14 M126 34 L146 18 M132 96 L176 64 M176 64 L196 62 M176 64 L180 40" fill="none" stroke="#f2c48d" stroke-width="4" stroke-linecap="round"/>
+  <!-- Axon -->
+  <path d="M150 150 L336 336" fill="none" stroke="#a8692c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M150 150 L336 336" fill="none" stroke="#f2c48d" stroke-width="5" stroke-linecap="round"/>
+  <!-- Axon terminals -->
+  <path d="M336 336 L376 318 M336 336 L372 370 M336 336 L330 382 M350 342 L388 344" fill="none" stroke="#a8692c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M336 336 L376 318 M336 336 L372 370 M336 336 L330 382 M350 342 L388 344" fill="none" stroke="#f2c48d" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="376" cy="318" r="7" fill="#f2c48d" stroke="#a8692c" stroke-width="2"/>
+  <circle cx="372" cy="370" r="7" fill="#f2c48d" stroke="#a8692c" stroke-width="2"/>
+  <circle cx="330" cy="382" r="7" fill="#f2c48d" stroke="#a8692c" stroke-width="2"/>
+  <circle cx="388" cy="344" r="7" fill="#f2c48d" stroke="#a8692c" stroke-width="2"/>
+  <!-- Cell body and axon hillock -->
+  <path d="M110 64 C140 62 158 88 154 112 C152 124 150 132 160 150 L150 160 C134 152 126 150 112 154 C84 158 64 134 66 108 C68 84 86 66 110 64 Z" fill="#f2c48d" stroke="#a8692c" stroke-width="3"/>
+  <circle cx="108" cy="108" r="17" fill="#9b6bc4" stroke="#5b3787" stroke-width="2"/>
+  <circle cx="113" cy="104" r="5" fill="#5b3787"/>
+  <!-- Myelin sheath (Schwann cells) with nodes of Ranvier between them -->
+  <path d="M178 178 L210 210 M232 232 L264 264 M286 286 L314 314" fill="none" stroke="#b9a14a" stroke-width="22" stroke-linecap="round"/>
+  <path d="M178 178 L210 210 M232 232 L264 264 M286 286 L314 314" fill="none" stroke="#fbeeb8" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="197" cy="191" r="3.5" fill="#b9a14a"/>
+  <circle cx="251" cy="245" r="3.5" fill="#b9a14a"/>
+  <circle cx="303" cy="297" r="3.5" fill="#b9a14a"/>
+</svg>

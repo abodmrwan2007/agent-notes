@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="440" viewBox="0 0 420 440">
+  <!-- Agent Notes original artwork. Schematic frontal section of the heart, anterior view
+       (the patient's right is on the viewer's left). Not to scale. -->
+  <!-- Right pulmonary artery, behind the aorta and superior vena cava -->
+  <path d="M262 142 L48 142" fill="none" stroke="#2f4a8a" stroke-width="30" stroke-linecap="round"/>
+  <path d="M262 142 L48 142" fill="none" stroke="#6f8fd6" stroke-width="24" stroke-linecap="round"/>
+  <!-- Aorta: ascending, arch, descending (behind the heart) with three branches -->
+  <path d="M248 92 L246 22 M272 86 L274 18 M296 92 L304 24" fill="none" stroke="#8c2a22" stroke-width="18" stroke-linecap="round"/>
+  <path d="M248 92 L246 22 M272 86 L274 18 M296 92 L304 24" fill="none" stroke="#e0645a" stroke-width="12" stroke-linecap="round"/>
+  <path d="M226 232 L226 120 C226 66 312 66 312 120 L312 200" fill="none" stroke="#8c2a22" stroke-width="38"/>
+  <path d="M226 234 L226 120 C226 66 312 66 312 120 L312 202" fill="none" stroke="#e0645a" stroke-width="32"/>
+  <!-- Heart muscle -->
+  <path d="M100 195 C92 160 130 145 165 152 L300 150 C345 150 352 200 338 245 C322 320 300 380 272 414 C232 402 150 352 116 302 C96 272 94 230 100 195 Z" fill="#e9a99c" stroke="#9c4a3f" stroke-width="3"/>
+  <!-- Right atrium -->
+  <path d="M112 205 C108 172 140 162 168 170 C180 195 178 232 166 252 L128 256 C114 242 110 225 112 205 Z" fill="#6f8fd6" stroke="#2f4a8a" stroke-width="2"/>
+  <!-- Inferior vena cava opening into the right atrium -->
+  <path d="M103 262 L103 340 M129 262 L129 340" fill="none" stroke="#2f4a8a" stroke-width="3"/>
+  <path d="M116 232 L116 340" fill="none" stroke="#6f8fd6" stroke-width="23"/>
+  <!-- Right ventricle -->
+  <path d="M134 274 L170 268 C178 252 180 236 182 226 L206 226 C214 250 226 280 236 362 C200 352 160 322 134 274 Z" fill="#6f8fd6" stroke="#2f4a8a" stroke-width="2"/>
+  <!-- Tricuspid opening and leaflets -->
+  <path d="M132 252 L166 250 L170 270 L134 274 Z" fill="#6f8fd6"/>
+  <path d="M134 256 L146 284 L152 258 M154 257 L162 286 L168 256" fill="#fff6dc" stroke="#9c7a3f" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Left atrium -->
+  <path d="M240 172 C260 160 310 160 322 180 C332 200 322 220 300 226 L252 226 C238 215 232 188 240 172 Z" fill="#e0645a" stroke="#8c2a22" stroke-width="2"/>
+  <!-- Left ventricle -->
+  <path d="M214 228 L238 228 C244 236 250 242 256 246 L302 246 C316 290 300 350 268 392 C258 345 248 300 238 270 C230 255 220 242 214 228 Z" fill="#e0645a" stroke="#8c2a22" stroke-width="2"/>
+  <!-- Mitral opening and leaflets -->
+  <path d="M258 222 L298 222 L302 250 L256 250 Z" fill="#e0645a"/>
+  <path d="M260 228 L272 258 L278 229 M280 229 L288 260 L296 228" fill="#fff6dc" stroke="#9c7a3f" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Ascending aorta leaving the left ventricle (in front of the left atrium) -->
+  <path d="M226 236 L226 110" fill="none" stroke="#8c2a22" stroke-width="38"/>
+  <path d="M226 238 L226 108" fill="none" stroke="#e0645a" stroke-width="32"/>
+  <path d="M212 230 Q218 238 224 230 Q230 238 236 230 Q240 236 242 230" fill="none" stroke="#fff6dc" stroke-width="3"/>
+  <!-- Superior vena cava -->
+  <path d="M140 30 L140 182" fill="none" stroke="#2f4a8a" stroke-width="34" stroke-linecap="round"/>
+  <path d="M140 30 L140 186" fill="none" stroke="#6f8fd6" stroke-width="28" stroke-linecap="round"/>
+  <!-- Pulmonary trunk (in front of the aorta) and left pulmonary artery -->
+  <path d="M194 236 L194 190 C194 156 214 145 262 142 L372 134" fill="none" stroke="#2f4a8a" stroke-width="30" stroke-linejoin="round"/>
+  <path d="M194 240 L194 190 C194 156 214 145 262 142 L374 134" fill="none" stroke="#6f8fd6" stroke-width="24" stroke-linejoin="round"/>
+  <!-- Pulmonary valve -->
+  <path d="M182 230 Q188 238 194 230 Q200 238 206 230" fill="none" stroke="#fff6dc" stroke-width="3"/>
+  <!-- Pulmonary veins into the left atrium -->
+  <path d="M318 188 L380 178 M318 212 L380 222" fill="none" stroke="#8c2a22" stroke-width="20" stroke-linecap="round"/>
+  <path d="M312 188 L380 178 M312 212 L380 222" fill="none" stroke="#e0645a" stroke-width="14" stroke-linecap="round"/>
+</svg>

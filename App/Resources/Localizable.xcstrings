@@ -191,6 +191,16 @@
         }
       }
     },
+    "Arabic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عربي"
+          }
+        }
+      }
+    },
     "Arabic and English, with or without diacritics.": {
       "localizations": {
         "ar": {
@@ -287,6 +297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فارغ"
+          }
+        }
+      }
+    },
+    "Blank (quiz)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فارغة (اختبر نفسك)"
           }
         }
       }
@@ -881,6 +901,16 @@
         }
       }
     },
+    "English": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنجليزي"
+          }
+        }
+      }
+    },
     "Enter an expression.": {
       "localizations": {
         "ar": {
@@ -1347,6 +1377,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "لون الواجهة"
+          }
+        }
+      }
+    },
+    "Labelled Diagrams": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسوم توضيحية مُعنونة"
+          }
+        }
+      }
+    },
+    "Labelled medical diagrams": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسوم طبية مُعنونة"
+          }
+        }
+      }
+    },
+    "Labels": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التسميات"
           }
         }
       }
@@ -2251,6 +2311,16 @@
         }
       }
     },
+    "Record lectures": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجّل المحاضرات"
+          }
+        }
+      }
+    },
     "Recording": {
       "localizations": {
         "ar": {
@@ -2741,6 +2811,16 @@
         }
       }
     },
+    "Simplified study drawings made for this app, not to scale. Choose Blank to test yourself: write the names in the empty boxes.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسوم دراسية مبسّطة صُمّمت لهذا التطبيق، وليست بمقياس حقيقي. اختر «فارغة» لتختبر نفسك: اكتب الأسماء في المربعات الفارغة."
+          }
+        }
+      }
+    },
     "Something went wrong": {
       "localizations": {
         "ar": {
@@ -2977,6 +3057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اضغط «قراءة» في الأعلى لإخفاء الأدوات أثناء المذاكرة."
+          }
+        }
+      }
+    },
+    "Tap Record at the top while you write. In Tools ▸ Audio, turn on Tap writing to hear it, then tap your notes to hear that moment.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط «تسجيل» في الأعلى أثناء الكتابة. ومن الأدوات ◂ الصوت فعّل «اضغط على الكتابة لتسمعها»، ثم اضغط على ملاحظاتك لتسمع تلك اللحظة."
           }
         }
       }
@@ -3337,6 +3427,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأدوات بجانب صفحتك"
+          }
+        }
+      }
+    },
+    "Tools ▸ Stickers ▸ Labelled Diagrams: heart, lungs, brain, neuron, eye and cell, with English, Arabic or blank labels to test yourself.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدوات ◂ الملصقات ◂ رسوم توضيحية مُعنونة: القلب والرئتان والدماغ والخلية العصبية والعين والخلية، بتسميات إنجليزية أو عربية أو فارغة لتختبر نفسك."
           }
         }
       }

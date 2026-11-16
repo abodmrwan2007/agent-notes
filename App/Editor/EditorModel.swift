@@ -397,7 +397,9 @@ final class EditorModel {
         guard let page = currentPage else { return }
         do {
             let fileName = try store.addAsset(pngData, fileExtension: "png", documentID: documentID)
-            let frame = placement((width: Double(size.width), height: Double(size.height)), on: page)
+            // Large pictures (diagrams) are shrunk to fit the page with a small border.
+            let fit = min(1, (page.size.width - 24) / Double(size.width), (page.size.height - 24) / Double(size.height))
+            let frame = placement((width: Double(size.width) * fit, height: Double(size.height) * fit), on: page)
             add(PageObject(kind: .image, frame: frame, assetFileName: fileName), to: page.id)
         } catch {
             alertMessage = String(localized: "The notebook could not be saved.") + "\n" + error.localizedDescription

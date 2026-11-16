@@ -377,6 +377,20 @@ AR = {
     "Grid Paper": "مربعات",
     "Taped": "بشريط لاصق",
     "Pinned": "بدبوس",
+    # Labelled diagrams
+    "Labelled Diagrams": "رسوم توضيحية مُعنونة",
+    "Labels": "التسميات",
+    "English": "إنجليزي",
+    "Arabic": "عربي",
+    "Blank (quiz)": "فارغة (اختبر نفسك)",
+    "Simplified study drawings made for this app, not to scale. Choose Blank to test yourself: write the names in the empty boxes.":
+        "رسوم دراسية مبسّطة صُمّمت لهذا التطبيق، وليست بمقياس حقيقي. اختر «فارغة» لتختبر نفسك: اكتب الأسماء في المربعات الفارغة.",
+    "Labelled medical diagrams": "رسوم طبية مُعنونة",
+    "Tools ▸ Stickers ▸ Labelled Diagrams: heart, lungs, brain, neuron, eye and cell, with English, Arabic or blank labels to test yourself.":
+        "الأدوات ◂ الملصقات ◂ رسوم توضيحية مُعنونة: القلب والرئتان والدماغ والخلية العصبية والعين والخلية، بتسميات إنجليزية أو عربية أو فارغة لتختبر نفسك.",
+    "Record lectures": "سجّل المحاضرات",
+    "Tap Record at the top while you write. In Tools ▸ Audio, turn on Tap writing to hear it, then tap your notes to hear that moment.":
+        "اضغط «تسجيل» في الأعلى أثناء الكتابة. ومن الأدوات ◂ الصوت فعّل «اضغط على الكتابة لتسمعها»، ثم اضغط على ملاحظاتك لتسمع تلك اللحظة.",
     # Top bar
     "Read": "قراءة",
     "Write": "كتابة",

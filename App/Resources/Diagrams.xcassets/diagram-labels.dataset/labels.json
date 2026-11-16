@@ -1,0 +1,130 @@
+{
+  "diagrams": [
+    {
+      "id": "heart",
+      "en": "Heart: interior",
+      "ar": "القلب من الداخل",
+      "size": [420, 440],
+      "labels": [
+        { "en": "Superior vena cava", "ar": "الوريد الأجوف العلوي", "at": [140, 60], "side": "left" },
+        { "en": "Right pulmonary artery", "ar": "الشريان الرئوي الأيمن", "at": [70, 142], "side": "left" },
+        { "en": "Pulmonary trunk", "ar": "الجذع الرئوي", "at": [194, 196], "side": "left" },
+        { "en": "Right atrium", "ar": "الأذين الأيمن", "at": [140, 210], "side": "left" },
+        { "en": "Pulmonary valve", "ar": "الصمام الرئوي", "at": [190, 232], "side": "left" },
+        { "en": "Tricuspid valve", "ar": "الصمام ثلاثي الشرفات", "at": [150, 266], "side": "left" },
+        { "en": "Right ventricle", "ar": "البطين الأيمن", "at": [185, 300], "side": "left" },
+        { "en": "Inferior vena cava", "ar": "الوريد الأجوف السفلي", "at": [116, 326], "side": "left" },
+        { "en": "Aortic arch", "ar": "قوس الأبهر", "at": [290, 80], "side": "right" },
+        { "en": "Left pulmonary artery", "ar": "الشريان الرئوي الأيسر", "at": [350, 136], "side": "right" },
+        { "en": "Pulmonary veins", "ar": "الأوردة الرئوية", "at": [364, 182], "side": "right" },
+        { "en": "Left atrium", "ar": "الأذين الأيسر", "at": [290, 196], "side": "right" },
+        { "en": "Aortic valve", "ar": "الصمام الأبهري", "at": [228, 232], "side": "right" },
+        { "en": "Mitral valve", "ar": "الصمام التاجي", "at": [282, 240], "side": "right" },
+        { "en": "Interventricular septum", "ar": "الحاجز بين البطينين", "at": [242, 320], "side": "right" },
+        { "en": "Left ventricle", "ar": "البطين الأيسر", "at": [286, 300], "side": "right" }
+      ]
+    },
+    {
+      "id": "lungs",
+      "en": "Respiratory system",
+      "ar": "الجهاز التنفسي",
+      "size": [400, 420],
+      "labels": [
+        { "en": "Larynx", "ar": "الحنجرة", "at": [192, 36], "side": "left" },
+        { "en": "Trachea", "ar": "القصبة الهوائية", "at": [196, 110], "side": "left" },
+        { "en": "Superior lobe", "ar": "الفص العلوي", "at": [80, 190], "side": "left" },
+        { "en": "Right main bronchus", "ar": "القصبة الرئيسية اليمنى", "at": [176, 194], "side": "left" },
+        { "en": "Horizontal fissure", "ar": "الشق الأفقي", "at": [70, 243], "side": "left" },
+        { "en": "Middle lobe", "ar": "الفص الأوسط", "at": [150, 262], "side": "left" },
+        { "en": "Inferior lobe", "ar": "الفص السفلي", "at": [80, 340], "side": "left" },
+        { "en": "Diaphragm", "ar": "الحجاب الحاجز", "at": [110, 374], "side": "left" },
+        { "en": "Bronchioles", "ar": "القصيبات", "at": [304, 128], "side": "right" },
+        { "en": "Superior lobe", "ar": "الفص العلوي", "at": [320, 190], "side": "right" },
+        { "en": "Left main bronchus", "ar": "القصبة الرئيسية اليسرى", "at": [232, 192], "side": "right" },
+        { "en": "Oblique fissure", "ar": "الشق المائل", "at": [318, 262], "side": "right" },
+        { "en": "Cardiac notch", "ar": "الثلمة القلبية", "at": [244, 300], "side": "right" },
+        { "en": "Inferior lobe", "ar": "الفص السفلي", "at": [324, 330], "side": "right" },
+        { "en": "Pleura", "ar": "غشاء الجنب", "at": [350, 300], "side": "right" }
+      ]
+    },
+    {
+      "id": "brain",
+      "en": "Brain: lobes",
+      "ar": "الدماغ: الفصوص",
+      "size": [440, 400],
+      "labels": [
+        { "en": "Frontal lobe", "ar": "الفص الجبهي", "at": [120, 130], "side": "left" },
+        { "en": "Lateral sulcus", "ar": "التلم الجانبي", "at": [150, 196], "side": "left" },
+        { "en": "Temporal lobe", "ar": "الفص الصدغي", "at": [180, 250], "side": "left" },
+        { "en": "Pons", "ar": "الجسر", "at": [240, 300], "side": "left" },
+        { "en": "Medulla oblongata", "ar": "النخاع المستطيل", "at": [248, 336], "side": "left" },
+        { "en": "Spinal cord", "ar": "الحبل الشوكي", "at": [250, 380], "side": "left" },
+        { "en": "Central sulcus", "ar": "التلم المركزي", "at": [208, 70], "side": "right" },
+        { "en": "Parietal lobe", "ar": "الفص الجداري", "at": [280, 110], "side": "right" },
+        { "en": "Occipital lobe", "ar": "الفص القذالي", "at": [372, 180], "side": "right" },
+        { "en": "Cerebellum", "ar": "المخيخ", "at": [350, 300], "side": "right" }
+      ]
+    },
+    {
+      "id": "neuron",
+      "en": "Neuron",
+      "ar": "الخلية العصبية",
+      "size": [400, 400],
+      "labels": [
+        { "en": "Dendrites", "ar": "التغصنات", "at": [56, 72], "side": "left" },
+        { "en": "Nucleus", "ar": "النواة", "at": [100, 112], "side": "left" },
+        { "en": "Cell body (soma)", "ar": "جسم الخلية", "at": [84, 140], "side": "left" },
+        { "en": "Axon terminal", "ar": "نهاية المحور", "at": [330, 382], "side": "left" },
+        { "en": "Axon hillock", "ar": "رابية المحور", "at": [154, 154], "side": "right" },
+        { "en": "Myelin sheath", "ar": "غمد الميالين", "at": [204, 196], "side": "right" },
+        { "en": "Schwann cell nucleus", "ar": "نواة خلية شوان", "at": [251, 245], "side": "right" },
+        { "en": "Node of Ranvier", "ar": "عقدة رانفييه", "at": [221, 221], "side": "right" },
+        { "en": "Axon", "ar": "المحور العصبي", "at": [275, 275], "side": "right" },
+        { "en": "Synaptic knob", "ar": "الزر المشبكي", "at": [376, 318], "side": "right" }
+      ]
+    },
+    {
+      "id": "eye",
+      "en": "Eye: cross-section",
+      "ar": "مقطع العين",
+      "size": [440, 360],
+      "labels": [
+        { "en": "Ciliary body", "ar": "الجسم الهدبي", "at": [124, 114], "side": "left" },
+        { "en": "Iris", "ar": "القزحية", "at": [120, 140], "side": "left" },
+        { "en": "Aqueous humour", "ar": "الخلط المائي", "at": [104, 158], "side": "left" },
+        { "en": "Pupil", "ar": "البؤبؤ", "at": [120, 180], "side": "left" },
+        { "en": "Cornea", "ar": "القرنية", "at": [82, 200], "side": "left" },
+        { "en": "Lens", "ar": "العدسة", "at": [146, 210], "side": "left" },
+        { "en": "Suspensory ligaments", "ar": "الأربطة المعلّقة", "at": [136, 224], "side": "left" },
+        { "en": "Sclera", "ar": "الصلبة", "at": [254, 42], "side": "right" },
+        { "en": "Choroid", "ar": "المشيمية", "at": [296, 66], "side": "right" },
+        { "en": "Retina", "ar": "الشبكية", "at": [319, 91], "side": "right" },
+        { "en": "Vitreous humour", "ar": "الخلط الزجاجي", "at": [240, 160], "side": "right" },
+        { "en": "Fovea", "ar": "النقرة", "at": [356, 180], "side": "right" },
+        { "en": "Optic disc (blind spot)", "ar": "القرص البصري (البقعة العمياء)", "at": [353, 217], "side": "right" },
+        { "en": "Optic nerve", "ar": "العصب البصري", "at": [400, 226], "side": "right" }
+      ]
+    },
+    {
+      "id": "cell",
+      "en": "Animal cell",
+      "ar": "الخلية الحيوانية",
+      "size": [400, 400],
+      "labels": [
+        { "en": "Mitochondrion", "ar": "الميتوكوندريا", "at": [92, 104], "side": "left" },
+        { "en": "Nuclear envelope", "ar": "الغلاف النووي", "at": [110, 170], "side": "left" },
+        { "en": "Lysosome", "ar": "الجسيم الحال", "at": [60, 190], "side": "left" },
+        { "en": "Nucleolus", "ar": "النوية", "at": [176, 194], "side": "left" },
+        { "en": "Nucleus", "ar": "النواة", "at": [150, 226], "side": "left" },
+        { "en": "Smooth endoplasmic reticulum", "ar": "الشبكة الإندوبلازمية الملساء", "at": [96, 290], "side": "left" },
+        { "en": "Cytoplasm", "ar": "السيتوبلازم", "at": [60, 350], "side": "left" },
+        { "en": "Cell membrane", "ar": "الغشاء الخلوي", "at": [200, 20], "side": "right" },
+        { "en": "Rough endoplasmic reticulum", "ar": "الشبكة الإندوبلازمية الخشنة", "at": [262, 172], "side": "right" },
+        { "en": "Ribosomes", "ar": "الريبوسومات", "at": [262, 96], "side": "right" },
+        { "en": "Centrioles", "ar": "المريكزات", "at": [262, 196], "side": "right" },
+        { "en": "Golgi apparatus", "ar": "جهاز غولجي", "at": [300, 258], "side": "right" },
+        { "en": "Vesicle", "ar": "حويصلة", "at": [330, 300], "side": "right" }
+      ]
+    }
+  ]
+}

@@ -37,6 +37,7 @@ struct StickerGrid: View {
     @State private var custom = CustomStickerStore()
     @State private var pickedPhoto: PhotosPickerItem?
     @State private var pendingRemoval: CustomStickerStore.Item?
+    @State private var diagramLabels = MedicalDiagrams.LabelMode.preferred
 
     private var columns: [GridItem] {
         [GridItem(.adaptive(minimum: minimumCell, maximum: minimumCell + 26), spacing: 12)]
@@ -44,6 +45,7 @@ struct StickerGrid: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
+            diagramSection
             twemojiSection("Medical", group: .medical)
             twemojiSection("Study", group: .study)
 
@@ -135,6 +137,51 @@ struct StickerGrid: View {
         } message: {
             Text(verbatim: custom.errorMessage ?? "")
         }
+    }
+
+    @ViewBuilder
+    private var diagramSection: some View {
+        Text("Labelled Diagrams")
+            .font(.headline)
+        Picker("Labels", selection: $diagramLabels) {
+            Text("English").tag(MedicalDiagrams.LabelMode.english)
+            Text("Arabic").tag(MedicalDiagrams.LabelMode.arabic)
+            Text("Blank (quiz)").tag(MedicalDiagrams.LabelMode.blank)
+        }
+        .pickerStyle(.segmented)
+        .accessibilityIdentifier("diagram.labels")
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: minimumCell * 1.6, maximum: minimumCell * 2.4), spacing: 12)], spacing: 12) {
+            ForEach(MedicalDiagrams.all) { spec in
+                Button {
+                    if let rendered = MedicalDiagrams.render(spec, mode: diagramLabels) {
+                        onPick(rendered.0, rendered.1)
+                    }
+                } label: {
+                    VStack(spacing: 4) {
+                        Group {
+                            if let image = MedicalDiagrams.artwork(for: spec) {
+                                Image(uiImage: image).resizable().scaledToFit()
+                            } else {
+                                Image(systemName: "questionmark.square.dashed").foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(height: minimumCell)
+                        Text(verbatim: MedicalDiagrams.title(of: spec))
+                            .font(.caption)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(8)
+                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("diagram.\(spec.id)")
+            }
+        }
+        Text("Simplified study drawings made for this app, not to scale. Choose Blank to test yourself: write the names in the empty boxes.")
+            .font(.footnote)
+            .foregroundStyle(.secondary)
     }
 
     @ViewBuilder

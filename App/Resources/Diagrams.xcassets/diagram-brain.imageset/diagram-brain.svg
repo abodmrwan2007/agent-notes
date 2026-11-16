@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="400" viewBox="0 0 440 400">
+  <!-- Agent Notes original artwork. Schematic left lateral view of the brain (front on the left). Not to scale. -->
+  <!-- Spinal cord, medulla oblongata and pons -->
+  <path d="M242 330 L242 396 L262 396 L262 330 Z" fill="#e8cdb8" stroke="#8f6a52" stroke-width="2.5"/>
+  <path d="M236 316 C236 300 268 300 268 316 L264 346 C262 352 242 352 240 346 Z" fill="#d9b7a0" stroke="#8f6a52" stroke-width="2.5"/>
+  <path d="M226 276 C252 268 282 276 286 296 C288 314 272 322 252 322 C232 322 222 312 224 296 C224 288 224 282 226 276 Z" fill="#d9b7a0" stroke="#8f6a52" stroke-width="2.5"/>
+  <!-- Cerebellum -->
+  <path d="M276 270 C306 254 356 250 384 264 C404 286 386 320 344 324 C304 326 274 306 276 270 Z" fill="#c9a6e0" stroke="#6f4f8c" stroke-width="2.5"/>
+  <path d="M286 280 C316 268 356 266 380 276 M284 292 C316 282 358 282 386 290 M290 304 C320 298 356 300 380 304 M300 315 C326 312 350 314 368 314" fill="none" stroke="#6f4f8c" stroke-width="1.5"/>
+  <!-- Cerebral lobes -->
+  <path d="M118 214 C92 232 62 222 58 190 C50 120 110 52 205 40 C210 90 212 140 208 182 C175 186 140 196 118 214 Z" fill="#8ec3e6" stroke="#3f6f93" stroke-width="2.5"/>
+  <path d="M205 40 C260 34 310 42 335 60 C330 120 325 170 322 200 C300 196 260 188 208 182 C212 140 210 90 205 40 Z" fill="#f3d27a" stroke="#9a7a26" stroke-width="2.5"/>
+  <path d="M335 60 C385 90 410 150 400 205 C392 240 365 255 340 252 C330 236 324 220 322 200 C325 170 330 120 335 60 Z" fill="#f2a07b" stroke="#a5583a" stroke-width="2.5"/>
+  <path d="M118 214 C140 196 175 186 208 182 C260 188 300 196 322 200 C324 220 330 236 340 252 C300 268 240 290 180 286 C140 282 112 262 118 214 Z" fill="#9fd39a" stroke="#3f7f3a" stroke-width="2.5"/>
+  <!-- Gyri -->
+  <path d="M90 120 C110 110 120 130 140 118 M76 160 C100 150 120 170 150 156 C170 148 180 160 196 150 M150 80 C160 100 180 90 190 110 M100 196 C120 186 150 190 170 176" fill="none" stroke="#3f6f93" stroke-width="1.5"/>
+  <path d="M230 70 C250 90 270 70 300 88 M226 120 C250 110 270 130 310 116 M232 160 C260 150 290 170 316 160" fill="none" stroke="#9a7a26" stroke-width="1.5"/>
+  <path d="M350 100 C370 120 360 140 384 150 M340 180 C360 170 372 196 392 190" fill="none" stroke="#a5583a" stroke-width="1.5"/>
+  <path d="M140 230 C180 220 230 236 300 222 M146 258 C190 250 240 266 310 244" fill="none" stroke="#3f7f3a" stroke-width="1.5"/>
+  <!-- Central and lateral sulci -->
+  <path d="M205 40 C210 90 212 140 208 182" fill="none" stroke="#333" stroke-width="3.5"/>
+  <path d="M118 214 C140 196 175 186 208 182 C260 188 300 196 322 200" fill="none" stroke="#333" stroke-width="3.5"/>
+</svg>

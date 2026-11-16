@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="360" viewBox="0 0 440 360">
+  <!-- Agent Notes original artwork. Schematic horizontal section of the right eye (front on the left). Not to scale. -->
+  <!-- Optic nerve -->
+  <path d="M352 198 L436 192 L436 240 L350 236 Z" fill="#f1d9a6" stroke="#b08a4a" stroke-width="2.5"/>
+  <!-- Sclera and vitreous body -->
+  <circle cx="230" cy="180" r="140" fill="#fbfbf7" stroke="#8d8d8d" stroke-width="3"/>
+  <circle cx="230" cy="180" r="124" fill="#eef5fb"/>
+  <!-- Choroid and retina (they end at the ciliary body) -->
+  <path d="M121.9 104.3 A132 132 0 1 1 121.9 255.7" fill="none" stroke="#8b4a5a" stroke-width="6"/>
+  <path d="M126.8 107.7 A126 126 0 1 1 126.8 252.3" fill="none" stroke="#e7a33e" stroke-width="4"/>
+  <!-- Fovea and optic disc -->
+  <path d="M352 170 Q362 180 352 190" fill="#eef5fb" stroke="#e7a33e" stroke-width="4"/>
+  <ellipse cx="353" cy="217" rx="5" ry="14" fill="#f6e08a" stroke="#b08a4a" stroke-width="1.5"/>
+  <!-- Cornea and anterior chamber -->
+  <path d="M108 118 A80 80 0 0 0 108 242 Z" fill="#dff0fa" stroke="#5a8fb5" stroke-width="3"/>
+  <path d="M108 118 L120 128 L120 232 L108 242 Z" fill="#dff0fa"/>
+  <!-- Ciliary body and suspensory ligaments -->
+  <path d="M112 106 L136 112 L132 132 L118 126 Z M112 254 L136 248 L132 228 L118 234 Z" fill="#a4566a" stroke="#6d2f40" stroke-width="1.5"/>
+  <path d="M132 128 L142 142 M128 130 L136 144 M132 232 L142 218 M128 230 L136 216" fill="none" stroke="#6d2f40" stroke-width="1"/>
+  <!-- Lens -->
+  <ellipse cx="146" cy="180" rx="15" ry="40" fill="#fdf3c4" stroke="#c9a64a" stroke-width="2"/>
+  <!-- Iris with the pupil between its two halves -->
+  <path d="M116 124 L124 124 L124 166 L116 166 Z M116 194 L124 194 L124 236 L116 236 Z" fill="#6b8e4e" stroke="#3f5a2a" stroke-width="1.5"/>
+</svg>
