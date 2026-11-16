@@ -60,10 +60,13 @@ enum MedicalDiagrams {
             art.draw(in: CGRect(origin: CGPoint(x: margin, y: 0), size: artSize))
 
             let ink = UIColor(red: 0.13, green: 0.13, blue: 0.15, alpha: 1)
-            for (label, y) in zip(spec.labels, ys) {
+            let rightEdge: CGFloat = margin + artSize.width
+            for (label, labelY) in zip(spec.labels, ys) {
                 let left = label.side == .left
-                let anchor = CGPoint(x: margin + label.anchorX, y: label.anchorY)
-                let end = CGPoint(x: left ? margin - 8 : margin + artSize.width + 8, y: y)
+                let y = CGFloat(labelY)
+                let anchor = CGPoint(x: margin + CGFloat(label.anchorX), y: CGFloat(label.anchorY))
+                let endX: CGFloat = left ? margin - 8 : rightEdge + 8
+                let end = CGPoint(x: endX, y: y)
 
                 cg.setStrokeColor(ink.withAlphaComponent(0.8).cgColor)
                 cg.setLineWidth(0.8)
@@ -73,7 +76,8 @@ enum MedicalDiagrams {
                 cg.setFillColor(ink.cgColor)
                 cg.fillEllipse(in: CGRect(x: anchor.x - 2.4, y: anchor.y - 2.4, width: 4.8, height: 4.8))
 
-                let box = CGRect(x: left ? 8 : margin + artSize.width + 12, y: y - 14,
+                let boxX: CGFloat = left ? 8 : rightEdge + 12
+                let box = CGRect(x: boxX, y: y - 14,
                                  width: margin - 20, height: 28)
                 switch mode {
                 case .blank:

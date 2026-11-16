@@ -398,7 +398,9 @@ final class EditorModel {
         do {
             let fileName = try store.addAsset(pngData, fileExtension: "png", documentID: documentID)
             // Large pictures (diagrams) are shrunk to fit the page with a small border.
-            let fit = min(1, (page.size.width - 24) / Double(size.width), (page.size.height - 24) / Double(size.height))
+            let fitWidth: Double = (Double(page.size.width) - 24) / Double(size.width)
+            let fitHeight: Double = (Double(page.size.height) - 24) / Double(size.height)
+            let fit: Double = min(1.0, fitWidth, fitHeight)
             let frame = placement((width: Double(size.width) * fit, height: Double(size.height) * fit), on: page)
             add(PageObject(kind: .image, frame: frame, assetFileName: fileName), to: page.id)
         } catch {
