@@ -17,6 +17,18 @@ struct TextSelection: Equatable {
     let text: String
 }
 
+enum EditorPanelTab: Hashable {
+    case tools
+    case stickers
+    case audio
+    case assistant
+}
+
+struct ExplainRequest: Equatable, Identifiable {
+    let id = UUID()
+    let text: String
+}
+
 /// A request to edit the text of an object (drives the text sheet).
 struct TextEditTarget: Identifiable {
     let id = UUID()
@@ -62,6 +74,11 @@ final class EditorModel {
     @ObservationIgnored private var noticeToken = UUID()
     @ObservationIgnored private var previousToolKind: InkToolKind = .eraser
     private(set) var textSelection: TextSelection?
+    /// The panel beside the page (tools, stickers, audio, assistant) and its open tab.
+    var isSidePanelOpen = false
+    var panelTab = EditorPanelTab.tools
+    /// Selected PDF text the assistant should explain; the assistant panel picks it up.
+    var explainRequest: ExplainRequest?
     /// Page to show first and query to highlight, when opened from a search result.
     @ObservationIgnored var openTarget: OpenTarget?
 
@@ -502,6 +519,50 @@ final class EditorModel {
         let size = currentPage?.size ?? AppConfig.defaultPageSize
         let page = manifest.insertBlankPage(template: template, size: size, at: insertIndex)
         commitStructureChange(scrollTo: page.id)
+    }
+
+    /// Adds new blank pages after the current one holding `text` (for example an AI summary),
+    /// split so each page's text box fits on its page. The last new page becomes current.
+    func addTextPages(_ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        let size = currentPage?.size ?? AppConfig.defaultPageSize
+        let margin = 40.0
+        let fontSize = 14.0
+        let width = size.width - 2 * margin
+        let charactersPerLine = max(Int(width / (fontSize * 0.62)), 20)
+        let linesPerPage = max(Int((size.height - 2 * margin) / (fontSize * 1.45)) - 2, 10)
+
+        // Greedy split on paragraph lines, counting wrapped lines.
+        var chunks: [String] = []
+        var current: [String] = []
+        var used = 0
+        for line in trimmed.components(separatedBy: "\n") {
+            let cost = max(1, Int((Double(line.count) / Double(charactersPerLine)).rounded(.up)))
+            if used + cost > linesPerPage, !current.isEmpty {
+                chunks.append(current.joined(separator: "\n"))
+                current = []
+                used = 0
+            }
+            current.append(line)
+            used += cost
+        }
+        if !current.isEmpty { chunks.append(current.joined(separator: "\n")) }
+
+        var insertIndex = min(currentPageIndex + 1, manifest.pages.count)
+        var lastPage: PageRecord?
+        for chunk in chunks {
+            let page = manifest.insertBlankPage(template: .blank, size: size, at: insertIndex)
+            insertIndex += 1
+            var layer = objects(for: page.id)
+            layer.add(PageObject(
+                kind: .text,
+                frame: PageRect(x: margin, y: margin, width: width, height: size.height - 2 * margin),
+                text: chunk, fontSize: fontSize, colorHex: "122145"))
+            commitObjects(layer, pageID: page.id)
+            lastPage = page
+        }
+        commitStructureChange(scrollTo: lastPage?.id)
     }
 
     func duplicatePage(_ pageID: UUID) {

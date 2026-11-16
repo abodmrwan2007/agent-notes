@@ -21,6 +21,56 @@
         }
       }
     },
+    "A key is saved on this iPad.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يوجد مفتاح محفوظ على هذا الآيباد."
+          }
+        }
+      }
+    },
+    "AI": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الذكاء الاصطناعي"
+          }
+        }
+      }
+    },
+    "AI Assistant": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مساعد الذكاء الاصطناعي"
+          }
+        }
+      }
+    },
+    "AI needs your Claude API key": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الذكاء الاصطناعي يحتاج مفتاح Claude API الخاص بك"
+          }
+        }
+      }
+    },
+    "AI study assistant": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مساعد دراسة بالذكاء الاصطناعي"
+          }
+        }
+      }
+    },
     "About": {
       "localizations": {
         "ar": {
@@ -91,12 +141,42 @@
         }
       }
     },
+    "Add to notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف إلى الدفتر"
+          }
+        }
+      }
+    },
+    "Add your Claude API key in Settings ▸ AI Assistant first.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف مفتاح Claude API أولًا من الإعدادات ◂ مساعد الذكاء الاصطناعي."
+          }
+        }
+      }
+    },
     "Add your own pictures to use them as stickers. Cut-outs with transparent backgrounds work best.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "أضف صورك لتستخدمها ملصقات. الصور المقصوصة بخلفية شفافة تبدو أفضل."
+          }
+        }
+      }
+    },
+    "Added": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُضيف"
           }
         }
       }
@@ -181,6 +261,16 @@
         }
       }
     },
+    "Answer language": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لغة الإجابة"
+          }
+        }
+      }
+    },
     "Appearance": {
       "localizations": {
         "ar": {
@@ -217,6 +307,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "سهم"
+          }
+        }
+      }
+    },
+    "Ask": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسأل"
+          }
+        }
+      }
+    },
+    "Ask about these pages": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسأل عن هذه الصفحات"
           }
         }
       }
@@ -481,6 +591,16 @@
         }
       }
     },
+    "Claude API key": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفتاح Claude API"
+          }
+        }
+      }
+    },
     "Color": {
       "localizations": {
         "ar": {
@@ -571,6 +691,16 @@
         }
       }
     },
+    "Create a key at console.anthropic.com (API Keys) and set a monthly spending limit there. The key is kept in this iPad's Keychain only. Never share it or put it in a file.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنشئ مفتاحًا في console.anthropic.com ‏(API Keys) وضع هناك حدًا شهريًا للصرف. يُحفظ المفتاح في سلسلة مفاتيح هذا الآيباد فقط. لا تشاركه ولا تضعه في ملف."
+          }
+        }
+      }
+    },
     "Create a notebook or import a PDF to start writing.": {
       "localizations": {
         "ar": {
@@ -607,6 +737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "حمض نووي"
+          }
+        }
+      }
+    },
+    "Daily limit: %lld requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحد اليومي: %lld طلب"
           }
         }
       }
@@ -961,6 +1101,16 @@
         }
       }
     },
+    "Explain": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اشرح"
+          }
+        }
+      }
+    },
     "Export": {
       "localizations": {
         "ar": {
@@ -1027,6 +1177,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الصفحة الأولى"
+          }
+        }
+      }
+    },
+    "Flashcards": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطاقات"
+          }
+        }
+      }
+    },
+    "Flashcards & quiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطاقات واختبار"
           }
         }
       }
@@ -1581,6 +1751,26 @@
         }
       }
     },
+    "Model": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النموذج"
+          }
+        }
+      }
+    },
+    "Model and limit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النموذج والحد"
+          }
+        }
+      }
+    },
     "Monoline": {
       "localizations": {
         "ar": {
@@ -1721,6 +1911,16 @@
         }
       }
     },
+    "New conversation": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محادثة جديدة"
+          }
+        }
+      }
+    },
     "New notebooks": {
       "localizations": {
         "ar": {
@@ -1737,6 +1937,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "وسم جديد"
+          }
+        }
+      }
+    },
+    "No connection to the AI service. Check the internet and try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد اتصال بخدمة الذكاء الاصطناعي. تحقق من الإنترنت وحاول مرة أخرى."
           }
         }
       }
@@ -1871,12 +2081,12 @@
         }
       }
     },
-    "Notes are stored only on this device in this build. Sync, AI features, subscriptions and the atlas are not implemented yet.": {
+    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تُحفظ الملاحظات على هذا الجهاز فقط في هذه النسخة. المزامنة وميزات الذكاء الاصطناعي والاشتراكات والأطلس غير منفَّذة بعد."
+            "value": "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات والأطلس غير منفّذة بعد."
           }
         }
       }
@@ -1971,6 +2181,16 @@
         }
       }
     },
+    "Open Settings ▸ AI Assistant and paste a key from console.anthropic.com. Each request is billed to that account.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الإعدادات ◂ مساعد الذكاء الاصطناعي والصق مفتاحًا من console.anthropic.com. كل طلب يُحسب على ذلك الحساب."
+          }
+        }
+      }
+    },
     "Open a notebook and tap Tools at the top. The calculator, graphing, periodic table, timer and stickers stay open next to the page.": {
       "localizations": {
         "ar": {
@@ -1997,6 +2217,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تبقى المشاركة الاختيارية معطّلة إلى أن تتوفر خدمات الإبلاغ والحظر والإشراف."
+          }
+        }
+      }
+    },
+    "Opus is the most capable and the most expensive; Haiku is much cheaper. A one-page summary costs roughly a few cents with Opus, less than a cent with Haiku.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opus الأقوى والأغلى، وHaiku أرخص بكثير. تلخيص صفحة واحدة يكلّف تقريبًا بضعة سنتات مع Opus، وأقل من سنت مع Haiku."
           }
         }
       }
@@ -2061,6 +2291,16 @@
         }
       }
     },
+    "Pages": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحات"
+          }
+        }
+      }
+    },
     "Panel": {
       "localizations": {
         "ar": {
@@ -2087,6 +2327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ملفات PDF المحمية بكلمة مرور غير مدعومة بعد."
+          }
+        }
+      }
+    },
+    "Paste your API key": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصق مفتاح API"
           }
         }
       }
@@ -2231,6 +2481,16 @@
         }
       }
     },
+    "Privacy and accuracy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخصوصية والدقة"
+          }
+        }
+      }
+    },
     "Purple": {
       "localizations": {
         "ar": {
@@ -2247,6 +2507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "سؤال"
+          }
+        }
+      }
+    },
+    "Quiz": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاختبار"
           }
         }
       }
@@ -2287,6 +2557,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "وضع القراءة"
+          }
+        }
+      }
+    },
+    "Reading your pages…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقرأ صفحاتك…"
           }
         }
       }
@@ -2451,6 +2731,16 @@
         }
       }
     },
+    "Remove key": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة المفتاح"
+          }
+        }
+      }
+    },
     "Remove the lock from this notebook": {
       "localizations": {
         "ar": {
@@ -2507,6 +2797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة تسمية الدفتر"
+          }
+        }
+      }
+    },
+    "Requests left today: %lld": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطلبات المتبقية اليوم: %lld"
           }
         }
       }
@@ -2617,6 +2917,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "حفظ"
+          }
+        }
+      }
+    },
+    "Save key": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ المفتاح"
+          }
+        }
+      }
+    },
+    "Saved. Open a notebook, tap Tools, then the AI tab.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُفظ. افتح دفترًا، واضغط «الأدوات» ثم تبويب «الذكاء الاصطناعي»."
           }
         }
       }
@@ -3021,6 +3341,26 @@
         }
       }
     },
+    "Summaries, flashcards and quizzes, explanations and questions send a picture and the text of the chosen pages to Anthropic. Answers can be wrong: check important medical facts against your textbook.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التلخيص والبطاقات والاختبارات والشرح والأسئلة ترسل صورة ونص الصفحات المختارة إلى Anthropic. قد تخطئ الإجابات: راجع المعلومات الطبية المهمة في كتابك."
+          }
+        }
+      }
+    },
+    "Summarize": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لخّص"
+          }
+        }
+      }
+    },
     "Symbol": {
       "localizations": {
         "ar": {
@@ -3077,6 +3417,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اضغط «تسجيل» في الأعلى أثناء الكتابة. تُحفظ التسجيلات داخل هذا الدفتر."
+          }
+        }
+      }
+    },
+    "Tap a card to see the answer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على البطاقة لترى الإجابة."
           }
         }
       }
@@ -3151,6 +3501,56 @@
         }
       }
     },
+    "The AI declined this request.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رفض الذكاء الاصطناعي هذا الطلب."
+          }
+        }
+      }
+    },
+    "The AI service is busy right now. Try again in a minute.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خدمة الذكاء الاصطناعي مشغولة الآن. حاول بعد دقيقة."
+          }
+        }
+      }
+    },
+    "The API key was not accepted. Check it in Settings ▸ AI Assistant.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُقبل مفتاح API. راجعه في الإعدادات ◂ مساعد الذكاء الاصطناعي."
+          }
+        }
+      }
+    },
+    "The answer could not be read. Try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الإجابة. حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "The answer was cut off because it was very long.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقطعت الإجابة لأنها طويلة جدًا."
+          }
+        }
+      }
+    },
     "The audio is removed from this notebook. Your writing stays.": {
       "localizations": {
         "ar": {
@@ -3197,6 +3597,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "يبدأ أطلس التشريح التفاعلي بوحدة القلب، ويحتاج إلى نماذج ثلاثية الأبعاد مُراجَعة غير متوفرة بعد."
+          }
+        }
+      }
+    },
+    "The key could not be saved.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ المفتاح."
+          }
+        }
+      }
+    },
+    "The key was removed from this iPad.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أُزيل المفتاح من هذا الآيباد."
           }
         }
       }
@@ -3251,12 +3671,32 @@
         }
       }
     },
+    "The request was rejected (it may be too large: try one page).": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رُفض الطلب (قد يكون كبيرًا: جرّب صفحة واحدة)."
+          }
+        }
+      }
+    },
     "The result is too large.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "الناتج أكبر من أن يُعرض."
+          }
+        }
+      }
+    },
+    "These pages are empty. Write or import something first.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه الصفحات فارغة. اكتب أو استورد شيئًا أولًا."
           }
         }
       }
@@ -3331,6 +3771,16 @@
         }
       }
     },
+    "This page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذه الصفحة"
+          }
+        }
+      }
+    },
     "This picture could not be read.": {
       "localizations": {
         "ar": {
@@ -3381,6 +3831,16 @@
         }
       }
     },
+    "Tip: select text on a PDF page with the Select Text tool, then tap Explain.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلميح: حدّد نصًا في صفحة PDF بأداة «تحديد النص» ثم اضغط «اشرح»."
+          }
+        }
+      }
+    },
     "Title": {
       "localizations": {
         "ar": {
@@ -3397,6 +3857,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "للمسح، خربش ذهابًا وإيابًا خمس مرات على الأقل فوق الخطوط. التراجع يعيدها."
+          }
+        }
+      }
+    },
+    "Too many requests, or your account's spending limit was reached. Wait a minute, or check your limits at console.anthropic.com.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبات كثيرة، أو وصل حسابك إلى حد الصرف. انتظر دقيقة، أو راجع حدودك في console.anthropic.com."
           }
         }
       }
@@ -3427,6 +3897,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأدوات بجانب صفحتك"
+          }
+        }
+      }
+    },
+    "Tools ▸ AI: summarize a page or the notebook, make flashcards and a quiz, ask questions, or select PDF text and tap Explain. Add your Claude API key in Settings ▸ AI Assistant first.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأدوات ◂ الذكاء الاصطناعي: لخّص صفحة أو الدفتر، واصنع بطاقات واختبارًا، واسأل، أو حدّد نصًا في PDF واضغط «اشرح». أضف مفتاح Claude API أولًا من الإعدادات ◂ مساعد الذكاء الاصطناعي."
           }
         }
       }
@@ -3581,6 +4061,16 @@
         }
       }
     },
+    "Used today": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المستخدم اليوم"
+          }
+        }
+      }
+    },
     "Used unmodified as medical and study stickers.": {
       "localizations": {
         "ar": {
@@ -3661,6 +4151,16 @@
         }
       }
     },
+    "Whole notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفتر كاملًا"
+          }
+        }
+      }
+    },
     "Whole stroke": {
       "localizations": {
         "ar": {
@@ -3731,12 +4231,32 @@
         }
       }
     },
+    "You have used today's %lld AI requests. Change the daily limit in Settings ▸ AI Assistant.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدمت طلبات اليوم وعددها %lld. غيّر الحد اليومي من الإعدادات ◂ مساعد الذكاء الاصطناعي."
+          }
+        }
+      }
+    },
     "Your latest strokes could not be saved.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر حفظ آخر ما كتبته."
+          }
+        }
+      }
+    },
+    "Your pages are sent to Anthropic (Claude) to answer. Check important medical facts against your textbook.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُرسل صفحاتك إلى Anthropic ‏(Claude) للإجابة. راجع المعلومات الطبية المهمة في كتابك."
           }
         }
       }

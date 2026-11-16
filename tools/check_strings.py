@@ -27,6 +27,7 @@ KEY_PATTERNS = [
     r'\bPicker\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bMenu\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bTextField\(\s*"((?:[^"\\]|\\.)*)"',
+    r'\bSecureField\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bProgressView\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bLabeledContent\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bColorPicker\(\s*"((?:[^"\\]|\\.)*)"',

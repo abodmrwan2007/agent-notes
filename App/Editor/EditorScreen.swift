@@ -60,7 +60,6 @@ struct EditorScreen: View {
     @State private var pickedPhoto: PhotosPickerItem?
     @State private var isPickingBackground = false
     @State private var isPickingSticker = false
-    @State private var showsToolPanel = false
     @State private var pickedBackground: PhotosPickerItem?
 
     var body: some View {
@@ -85,7 +84,7 @@ struct EditorScreen: View {
                     isRulerActive: model.isRulerActive,
                     isReadingMode: model.isReadingMode,
                     isListening: model.isListening)
-                if showsToolPanel, !model.isReadingMode {
+                if model.isSidePanelOpen, !model.isReadingMode {
                     Divider()
                     EditorSidePanel(model: model)
                         .frame(width: 360)
@@ -317,7 +316,7 @@ struct EditorScreen: View {
             .disabled(isExporting)
 
             Button {
-                withAnimation { showsToolPanel.toggle() }
+                withAnimation { model.isSidePanelOpen.toggle() }
             } label: {
                 Label("Tools", systemImage: "sidebar.trailing")
                     .labelStyle(.titleAndIcon)
@@ -624,6 +623,14 @@ struct TextSelectionOptions: View {
                     Label("Where Else?", systemImage: "text.magnifyingglass")
                 }
                 .accessibilityIdentifier("text.searchNotes")
+                Button {
+                    model.explainRequest = ExplainRequest(text: selection.text)
+                    model.panelTab = .assistant
+                    withAnimation { model.isSidePanelOpen = true }
+                } label: {
+                    Label("Explain", systemImage: "sparkles")
+                }
+                .accessibilityIdentifier("text.explain")
             }
             .onChange(of: selection) { _, _ in didCopy = false }
         } else if model.textSelection != nil {

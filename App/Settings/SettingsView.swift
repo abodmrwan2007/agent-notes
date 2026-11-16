@@ -62,6 +62,15 @@ struct SettingsView: View {
                 }
             }
 
+            Section("AI") {
+                NavigationLink {
+                    AISettingsView()
+                } label: {
+                    Label("AI Assistant", systemImage: "sparkles")
+                }
+                .accessibilityIdentifier("settings.ai")
+            }
+
             Section("Help") {
                 Button {
                     showsWhatsNew = true
@@ -81,7 +90,7 @@ struct SettingsView: View {
             } header: {
                 Text("About")
             } footer: {
-                Text("Notes are stored only on this device in this build. Sync, AI features, subscriptions and the atlas are not implemented yet.")
+                Text("Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.")
             }
         }
         .navigationTitle("Settings")

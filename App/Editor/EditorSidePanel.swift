@@ -3,29 +3,24 @@ import SwiftUI
 /// A panel beside the page while writing: study tools and stickers stay open next to the
 /// notebook instead of covering it. Opening or closing it keeps the page position.
 struct EditorSidePanel: View {
-    let model: EditorModel
-
-    enum Tab: Hashable {
-        case tools
-        case stickers
-        case audio
-    }
-
-    @State private var tab = Tab.tools
+    @Bindable var model: EditorModel
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("Panel", selection: $tab) {
-                Text("Tools").tag(Tab.tools)
-                Text("Stickers").tag(Tab.stickers)
-                Text("Audio").tag(Tab.audio)
+            Picker("Panel", selection: $model.panelTab) {
+                Text("Tools").tag(EditorPanelTab.tools)
+                Text("Stickers").tag(EditorPanelTab.stickers)
+                Text("Audio").tag(EditorPanelTab.audio)
+                Text("AI").tag(EditorPanelTab.assistant)
             }
             .pickerStyle(.segmented)
             .padding(10)
             .accessibilityIdentifier("panel.tabs")
             Divider()
 
-            switch tab {
+            switch model.panelTab {
+            case .assistant:
+                AssistantPanel(model: model)
             case .tools:
                 NavigationStack {
                     List(StudyTool.allCases) { tool in

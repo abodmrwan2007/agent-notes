@@ -724,4 +724,70 @@ final class SmokeTests: XCTestCase {
             sleep(1)
         }
     }
+
+    /// The AI tab with canned answers (`-uiTestAIMock`, Debug only): no key and no network.
+    /// Proves the panel, flashcards, quiz, follow-up questions, Explain and Add to notebook work;
+    /// it says nothing about the quality of real answers.
+    func test9zzzzz_aiAssistant() {
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF", "-uiTestAIMock"])
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+
+        tap(app, "editor.panel")
+        app.buttons["AI"].firstMatch.tap()
+        XCTAssertTrue(element(app, "assistant.summarize").waitForExistence(timeout: 5), "AI tab missing")
+        shot("70-ai-panel")
+
+        tap(app, "assistant.summarize")
+        XCTAssertTrue(element(app, "assistant.answer").waitForExistence(timeout: 10), "no summary")
+        sleep(1)
+        shot("71-ai-summary")
+        tap(app, "assistant.addToNotebook")
+        sleep(2)
+        shot("72-ai-summary-added-as-page")
+
+        tap(app, "assistant.studySet")
+        XCTAssertTrue(element(app, "assistant.card.0").waitForExistence(timeout: 10), "no flashcards")
+        tap(app, "assistant.card.0")
+        revealInPanel(app, "assistant.quiz.0.0")
+        tap(app, "assistant.quiz.0.0")
+        sleep(1)
+        shot("73-ai-flashcards-quiz")
+
+        let field = element(app, "assistant.question")
+        revealInPanel(app, "assistant.question")
+        field.tap()
+        field.typeText("What is systole?")
+        tap(app, "assistant.ask")
+        XCTAssertTrue(app.staticTexts["Test answer to: What is systole?"].waitForExistence(timeout: 10), "no answer")
+        sleep(1)
+        shot("74-ai-question")
+
+        // Explain selected PDF text: open the PDF from search, select, Explain.
+        tap(app, "editor.back")
+        tap(app, "sidebar.search", timeout: 15)
+        search(app, "mitral valve")
+        XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 20))
+        tap(app, "search.hit")
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        sleep(2)
+        app.buttons["Select Text"].firstMatch.tap()
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
+            .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+        tap(app, "text.explain")
+        XCTAssertTrue(element(app, "assistant.answer").waitForExistence(timeout: 10), "no explanation")
+        sleep(1)
+        shot("75-ai-explain")
+
+        // Settings ▸ AI Assistant.
+        tap(app, "editor.back")
+        app.staticTexts["Settings"].firstMatch.tap()
+        tap(app, "settings.ai")
+        XCTAssertTrue(element(app, "ai.keyField").waitForExistence(timeout: 5), "key field")
+        sleep(1)
+        shot("76-ai-settings")
+    }
 }

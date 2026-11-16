@@ -104,8 +104,6 @@ AR = {
     "Version": "الإصدار",
     "Document format": "تنسيق المستند",
     "About": "حول",
-    "Notes are stored only on this device in this build. Sync, AI features, subscriptions and the atlas are not implemented yet.":
-        "تُحفظ الملاحظات على هذا الجهاز فقط في هذه النسخة. المزامنة وميزات الذكاء الاصطناعي والاشتراكات والأطلس غير منفَّذة بعد.",
     # Tools
     "Pen": "قلم حبر",
     "Pencil": "قلم رصاص",
@@ -456,6 +454,73 @@ AR = {
         "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ.",
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
         "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
+    # AI study assistant
+    "AI": "الذكاء الاصطناعي",
+    "Explain": "اشرح",
+    "This page": "هذه الصفحة",
+    "Whole notebook": "الدفتر كاملًا",
+    "Pages": "الصفحات",
+    "Answer language": "لغة الإجابة",
+    "Summarize": "لخّص",
+    "Flashcards & quiz": "بطاقات واختبار",
+    "Ask about these pages": "اسأل عن هذه الصفحات",
+    "Ask": "اسأل",
+    "Tip: select text on a PDF page with the Select Text tool, then tap Explain.":
+        "تلميح: حدّد نصًا في صفحة PDF بأداة «تحديد النص» ثم اضغط «اشرح».",
+    "Reading your pages…": "يقرأ صفحاتك…",
+    "AI needs your Claude API key": "الذكاء الاصطناعي يحتاج مفتاح Claude API الخاص بك",
+    "Open Settings ▸ AI Assistant and paste a key from console.anthropic.com. Each request is billed to that account.":
+        "افتح الإعدادات ◂ مساعد الذكاء الاصطناعي والصق مفتاحًا من console.anthropic.com. كل طلب يُحسب على ذلك الحساب.",
+    "The answer was cut off because it was very long.": "انقطعت الإجابة لأنها طويلة جدًا.",
+    "Flashcards": "البطاقات",
+    "Quiz": "الاختبار",
+    "New conversation": "محادثة جديدة",
+    "Added": "أُضيف",
+    "Add to notebook": "أضف إلى الدفتر",
+    "Requests left today: %lld": "الطلبات المتبقية اليوم: %lld",
+    "Your pages are sent to Anthropic (Claude) to answer. Check important medical facts against your textbook.":
+        "تُرسل صفحاتك إلى Anthropic ‏(Claude) للإجابة. راجع المعلومات الطبية المهمة في كتابك.",
+    "Tap a card to see the answer.": "اضغط على البطاقة لترى الإجابة.",
+    "The answer could not be read. Try again.": "تعذّرت قراءة الإجابة. حاول مرة أخرى.",
+    "Add your Claude API key in Settings ▸ AI Assistant first.":
+        "أضف مفتاح Claude API أولًا من الإعدادات ◂ مساعد الذكاء الاصطناعي.",
+    "You have used today's %lld AI requests. Change the daily limit in Settings ▸ AI Assistant.":
+        "استخدمت طلبات اليوم وعددها %lld. غيّر الحد اليومي من الإعدادات ◂ مساعد الذكاء الاصطناعي.",
+    "These pages are empty. Write or import something first.": "هذه الصفحات فارغة. اكتب أو استورد شيئًا أولًا.",
+    "No connection to the AI service. Check the internet and try again.":
+        "لا يوجد اتصال بخدمة الذكاء الاصطناعي. تحقق من الإنترنت وحاول مرة أخرى.",
+    "The API key was not accepted. Check it in Settings ▸ AI Assistant.":
+        "لم يُقبل مفتاح API. راجعه في الإعدادات ◂ مساعد الذكاء الاصطناعي.",
+    "Too many requests, or your account's spending limit was reached. Wait a minute, or check your limits at console.anthropic.com.":
+        "طلبات كثيرة، أو وصل حسابك إلى حد الصرف. انتظر دقيقة، أو راجع حدودك في console.anthropic.com.",
+    "The AI service is busy right now. Try again in a minute.": "خدمة الذكاء الاصطناعي مشغولة الآن. حاول بعد دقيقة.",
+    "The request was rejected (it may be too large: try one page).": "رُفض الطلب (قد يكون كبيرًا: جرّب صفحة واحدة).",
+    "The AI declined this request.": "رفض الذكاء الاصطناعي هذا الطلب.",
+    "A key is saved on this iPad.": "يوجد مفتاح محفوظ على هذا الآيباد.",
+    "Remove key": "إزالة المفتاح",
+    "The key was removed from this iPad.": "أُزيل المفتاح من هذا الآيباد.",
+    "Paste your API key": "الصق مفتاح API",
+    "Save key": "حفظ المفتاح",
+    "Saved. Open a notebook, tap Tools, then the AI tab.": "حُفظ. افتح دفترًا، واضغط «الأدوات» ثم تبويب «الذكاء الاصطناعي».",
+    "The key could not be saved.": "تعذّر حفظ المفتاح.",
+    "Claude API key": "مفتاح Claude API",
+    "Create a key at console.anthropic.com (API Keys) and set a monthly spending limit there. The key is kept in this iPad's Keychain only. Never share it or put it in a file.":
+        "أنشئ مفتاحًا في console.anthropic.com ‏(API Keys) وضع هناك حدًا شهريًا للصرف. يُحفظ المفتاح في سلسلة مفاتيح هذا الآيباد فقط. لا تشاركه ولا تضعه في ملف.",
+    "Model": "النموذج",
+    "Daily limit: %lld requests": "الحد اليومي: %lld طلب",
+    "Used today": "المستخدم اليوم",
+    "Model and limit": "النموذج والحد",
+    "Opus is the most capable and the most expensive; Haiku is much cheaper. A one-page summary costs roughly a few cents with Opus, less than a cent with Haiku.":
+        "Opus الأقوى والأغلى، وHaiku أرخص بكثير. تلخيص صفحة واحدة يكلّف تقريبًا بضعة سنتات مع Opus، وأقل من سنت مع Haiku.",
+    "Summaries, flashcards and quizzes, explanations and questions send a picture and the text of the chosen pages to Anthropic. Answers can be wrong: check important medical facts against your textbook.":
+        "التلخيص والبطاقات والاختبارات والشرح والأسئلة ترسل صورة ونص الصفحات المختارة إلى Anthropic. قد تخطئ الإجابات: راجع المعلومات الطبية المهمة في كتابك.",
+    "Privacy and accuracy": "الخصوصية والدقة",
+    "AI Assistant": "مساعد الذكاء الاصطناعي",
+    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.":
+        "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات والأطلس غير منفّذة بعد.",
+    "AI study assistant": "مساعد دراسة بالذكاء الاصطناعي",
+    "Tools ▸ AI: summarize a page or the notebook, make flashcards and a quiz, ask questions, or select PDF text and tap Explain. Add your Claude API key in Settings ▸ AI Assistant first.":
+        "الأدوات ◂ الذكاء الاصطناعي: لخّص صفحة أو الدفتر، واصنع بطاقات واختبارًا، واسأل، أو حدّد نصًا في PDF واضغط «اشرح». أضف مفتاح Claude API أولًا من الإعدادات ◂ مساعد الذكاء الاصطناعي.",
 }
 
 
