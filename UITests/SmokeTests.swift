@@ -44,6 +44,29 @@ final class SmokeTests: XCTestCase {
         target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
 
+    /// Scrolls the side panel (right edge of the screen) until the element is on screen.
+    private func revealInPanel(_ app: XCUIApplication, _ identifier: String) {
+        for _ in 0..<8 {
+            let target = element(app, identifier)
+            if target.exists && target.isHittable { return }
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.83, dy: 0.8))
+            let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.83, dy: 0.4))
+            start.press(forDuration: 0.05, thenDragTo: end)
+            sleep(1)
+        }
+    }
+
+    /// Opens the side panel on its Stickers tab unless the diagram picker is already showing.
+    private func openStickerPanel(_ app: XCUIApplication) {
+        if element(app, "diagram.labels").isHittable { return }
+        if !app.buttons["Stickers"].firstMatch.isHittable {
+            tap(app, "editor.panel")
+        }
+        XCTAssertTrue(app.buttons["Stickers"].firstMatch.waitForExistence(timeout: 5))
+        app.buttons["Stickers"].firstMatch.tap()
+        XCTAssertTrue(element(app, "diagram.labels").waitForExistence(timeout: 5), "diagram picker missing")
+    }
+
     private func stroke(_ app: XCUIApplication, from: CGVector, to: CGVector) {
         let start = app.coordinate(withNormalizedOffset: from)
         let end = app.coordinate(withNormalizedOffset: to)
@@ -485,7 +508,9 @@ final class SmokeTests: XCTestCase {
 
         // Stickers from the panel, without leaving the page.
         app.buttons["Stickers"].firstMatch.tap()
+        revealInPanel(app, "sticker.tw-2b50")
         tap(app, "sticker.tw-2b50")
+        revealInPanel(app, "sticker.examAR")
         tap(app, "sticker.examAR")
         sleep(1)
         shot("47-panel-stickers")
@@ -674,19 +699,22 @@ final class SmokeTests: XCTestCase {
         shot("60-diagrams-panel")
 
         // One diagram per label mode, each on its own: undo removes the previous one.
-        for (mode, diagram, name) in [("English", "diagram.heart", "61-heart-english"),
-                                      ("Arabic", "diagram.heart", "62-heart-arabic"),
-                                      ("Blank (quiz)", "diagram.heart", "63-heart-blank"),
-                                      ("English", "diagram.lungs", "64-lungs"),
-                                      ("English", "diagram.brain", "65-brain"),
-                                      ("English", "diagram.neuron", "66-neuron"),
-                                      ("Arabic", "diagram.eye", "67-eye-arabic"),
-                                      ("English", "diagram.cell", "68-cell")] {
-            if !element(app, diagram).exists {
-                tap(app, "editor.panel")
-                app.buttons["Stickers"].firstMatch.tap()
-            }
-            app.buttons[mode].firstMatch.tap()
+        // Segment 0 English, 1 Arabic, 2 Blank.
+        for (mode, diagram, name) in [(0, "diagram.heart", "61-heart-english"),
+                                      (1, "diagram.heart", "62-heart-arabic"),
+                                      (2, "diagram.heart", "63-heart-blank"),
+                                      (0, "diagram.lungs", "64-lungs"),
+                                      (0, "diagram.brain", "65-brain"),
+                                      (0, "diagram.neuron", "66-neuron"),
+                                      (1, "diagram.eye", "67-eye-arabic"),
+                                      (0, "diagram.cell", "68-cell")] {
+            openStickerPanel(app)
+            let picker = app.segmentedControls["diagram.labels"]
+            let segment = picker.exists ? picker.buttons.element(boundBy: mode)
+                                        : app.buttons[["English", "Arabic", "Blank (quiz)"][mode]].firstMatch
+            XCTAssertTrue(segment.waitForExistence(timeout: 5), "label mode \(mode) missing")
+            segment.tap()
+            revealInPanel(app, diagram)
             tap(app, diagram)
             sleep(1)
             tap(app, "editor.panel")  // close the panel to see the whole page
