@@ -110,6 +110,7 @@ detail was reported, so rows stay at Sim-verified until specific device results 
 
 | Feature | Milestone | Status | Notes |
 | --- | --- | --- | --- |
+| Labelled 2D study diagrams (heart, lungs, brain, neuron, eye, cell) | D | Done (2D) | Original artwork; English, Arabic or blank (quiz) labels; inserted as a page picture. Sim-verified in `playground-10`. Not reviewed by a medical professional |
 | RealityKit viewer (rotate, zoom, isolate, hide, transparency, labels) | D | Not started | |
 | Heart module with per-structure meshes and IDs | D | Blocked | Needs original/licensed segmented 3D assets and anatomy review |
 | Bilingual structure metadata | D | Blocked | Needs reviewer-approved metadata |

@@ -1,6 +1,6 @@
 # Progress and remaining work
 
-Last updated: 2026-11-10. Update this file at the end of every working session.
+Last updated: 2026-11-16. Update this file at the end of every working session.
 
 ## Honest status
 
@@ -56,6 +56,19 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## Labelled medical diagrams (2026-11-16) — done, Sim-verified (`playground-10`)
+
+- Six original SVG diagrams in `App/Resources/Diagrams.xcassets` (heart interior, respiratory
+  system, brain lobes, neuron, eye cross-section, animal cell) plus `diagram-labels.dataset/labels.json`
+  (bilingual names, anchor points, side).
+- Layout (`DiagramLayout` in AgentNotesCore, unit-tested) keeps labels in their anchor order with
+  fixed spacing and inside the artwork height. Rendering (`App/Stickers/MedicalDiagrams.swift`)
+  draws leader lines, dots and labels in English, Arabic (RTL) or empty boxes for self-testing.
+- Tools ▸ Stickers ▸ Labelled Diagrams (and Insert ▸ Sticker…). Large pictures are shrunk to fit
+  the page. Listed in What's New (content version 2).
+- CI run 43966048930: all UI tests pass; screenshots 60–68 inspected (all six diagrams, all three
+  label modes). Limits: simplified drawings, not to scale, no medical review; not tried on a device.
 
 ## Discoverability, Twemoji stickers, sticky-note styles, lecture audio (2026-11-15) — done
 
@@ -283,7 +296,8 @@ assertions and were only visible in the pictures.
   `playground-2` (adds the study tools), `playground-3` (adds page objects), `playground-4` (adds search and PDF text selection), `playground-5` (adds hold-to-snap, smoothing,
   tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds),
   `playground-7`/`playground-8` (side panel, stickers, brushes, ruler, reading mode, lock, covers, colour),
-  `playground-9` (Twemoji stickers, sticky-note styles, labelled buttons, What's New, lecture audio).
+  `playground-9` (Twemoji stickers, sticky-note styles, labelled buttons, What's New, lecture audio),
+  `playground-10` (labelled medical diagrams).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
   without a declared type. The owner reported on `playground-8` (features hard to find; stickers poor), addressed in `playground-9`.
