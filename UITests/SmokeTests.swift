@@ -61,6 +61,7 @@ final class SmokeTests: XCTestCase {
         if element(app, "diagram.labels").isHittable { return }
         if !app.buttons["Stickers"].firstMatch.isHittable {
             tap(app, "editor.panel")
+            sleep(1)  // let the panel finish sliding in before tapping its tabs
         }
         XCTAssertTrue(app.buttons["Stickers"].firstMatch.waitForExistence(timeout: 5))
         app.buttons["Stickers"].firstMatch.tap()
@@ -692,8 +693,7 @@ final class SmokeTests: XCTestCase {
         notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
 
-        tap(app, "editor.panel")
-        app.buttons["Stickers"].firstMatch.tap()
+        openStickerPanel(app)
         XCTAssertTrue(element(app, "diagram.heart").waitForExistence(timeout: 5), "diagrams missing from the panel")
         sleep(1)
         shot("60-diagrams-panel")
@@ -737,6 +737,7 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
 
         tap(app, "editor.panel")
+        sleep(1)
         app.buttons["AI"].firstMatch.tap()
         XCTAssertTrue(element(app, "assistant.summarize").waitForExistence(timeout: 5), "AI tab missing")
         shot("70-ai-panel")
@@ -774,9 +775,15 @@ final class SmokeTests: XCTestCase {
         tap(app, "search.hit")
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
         sleep(2)
-        app.buttons["Select Text"].firstMatch.tap()
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
-            .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+        for attempt in 0..<3 where !element(app, "text.explain").exists {
+            app.buttons["Select Text"].firstMatch.tap()
+            sleep(1)
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
+                .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+            if !element(app, "text.explain").waitForExistence(timeout: 5) {
+                shot("75-explain-attempt-\(attempt)")
+            }
+        }
         tap(app, "text.explain")
         XCTAssertTrue(element(app, "assistant.answer").waitForExistence(timeout: 10), "no explanation")
         sleep(1)
