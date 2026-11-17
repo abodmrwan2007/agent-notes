@@ -624,7 +624,7 @@ struct TextSelectionOptions: View {
                 }
                 .accessibilityIdentifier("text.searchNotes")
                 Button {
-                    model.explainRequest = ExplainRequest(text: selection.text)
+                    model.explainRequest = ExplainRequest(text: selection.text, pageID: selection.pageID)
                     model.panelTab = .assistant
                     withAnimation { model.isSidePanelOpen = true }
                 } label: {

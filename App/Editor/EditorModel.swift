@@ -27,6 +27,8 @@ enum EditorPanelTab: Hashable {
 struct ExplainRequest: Equatable, Identifiable {
     let id = UUID()
     let text: String
+    /// The page the text was selected on, sent as context.
+    let pageID: UUID
 }
 
 /// A request to edit the text of an object (drives the text sheet).

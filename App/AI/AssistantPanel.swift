@@ -220,16 +220,16 @@ struct AssistantPanel: View {
     private func consumeExplainRequest() {
         guard let request = model.explainRequest else { return }
         model.explainRequest = nil
-        scope = .currentPage
-        run(.explain(selection: request.text))
+        run(.explain(selection: request.text), pagesFrom: .page(request.pageID))
     }
 
-    private func run(_ task: AITask) {
+    /// `pagesFrom` overrides the scope picker (Explain uses the page the text was selected on).
+    private func run(_ task: AITask, pagesFrom override: EditorModel.AssistantScope? = nil) {
         guard !isWorking else { return }
         errorText = nil
         didAdd = false
         isWorking = true
-        let pages = model.assistantPages(scope: scope)
+        let pages = model.assistantPages(scope: override ?? scope)
         let language = language
         Task {
             defer {

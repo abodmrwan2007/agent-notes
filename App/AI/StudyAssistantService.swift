@@ -157,6 +157,7 @@ extension EditorModel {
     enum AssistantScope: Hashable {
         case currentPage
         case notebook
+        case page(UUID)
     }
 
     /// The pages to send: a picture of each (so handwriting can be read) plus any text on it.
@@ -167,6 +168,8 @@ extension EditorModel {
         switch scope {
         case .currentPage:
             indices = manifest.pages.indices.contains(currentPageIndex) ? [currentPageIndex] : []
+        case .page(let pageID):
+            indices = manifest.index(of: pageID).map { [$0] } ?? []
         case .notebook:
             let count = manifest.pages.count
             let start = count > StudyAssistant.maxPages ? min(currentPageIndex, count - StudyAssistant.maxPages) : 0
