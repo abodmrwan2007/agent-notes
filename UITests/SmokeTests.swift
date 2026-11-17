@@ -652,7 +652,8 @@ final class SmokeTests: XCTestCase {
         shot("57-recording")
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.90))
             .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.70, dy: 0.92)))
-        sleep(2)
+        // Keep recording a while, so playback from the stroke lasts long enough to be checked.
+        sleep(8)
         tap(app, "editor.record")
         sleep(1)
 
@@ -677,6 +678,7 @@ final class SmokeTests: XCTestCase {
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.50, dy: 0.91)).tap()
         shot("58b-after-tapping-writing")
         tap(app, "editor.panel")
+        sleep(1)
         app.buttons["Audio"].firstMatch.tap()
         // The progress bar is shown only for the recording that is playing (List rows merge
         // their contents into one cell, so it is found by type rather than identifier).
@@ -773,10 +775,9 @@ final class SmokeTests: XCTestCase {
             tap(app, "editor.back")
             _ = element(app, "sidebar.search").waitForExistence(timeout: 5)
         }
-        tap(app, "sidebar.search", timeout: 15)
-        search(app, "mitral valve")
-        XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 20))
-        tap(app, "search.hit")
+        let lecture = card(app, titled: "Cardiology fixture")
+        XCTAssertTrue(lecture.waitForExistence(timeout: 15), "PDF notebook missing")
+        lecture.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
         sleep(2)
         for attempt in 0..<3 where !element(app, "text.explain").exists {
