@@ -1,6 +1,6 @@
 # Progress and remaining work
 
-Last updated: 2026-11-16. Update this file at the end of every working session.
+Last updated: 2026-11-17. Update this file at the end of every working session.
 
 ## Honest status
 
@@ -56,6 +56,25 @@ timer notification, timer behaviour across a real background/relaunch (unit-test
 Found in screenshots and fixed: 1/x branches stopping short of the window edge; a possible false
 line through a pole at some window sizes; a large blank area above the periodic table; the table
 opening on its right end in Arabic; axis labels clipped at the plot edge.
+
+## AI study assistant (2026-11-17) — done, Sim-verified with canned answers (`playground-11`)
+
+- Provider: Claude over HTTPS (`api.anthropic.com/v1/messages`, API version `2026-10-21`; no Swift
+  SDK exists). Model chosen in Settings ▸ AI Assistant: Opus 5.5 (default), Sonnet 5.5, Haiku 5.5.
+  Opus/Sonnet requests carry server-side refusal fallback (`fallbacks: "default"`, beta header).
+- Key: the owner's own key, pasted in Settings, kept in the Keychain (this device only). Temporary
+  exception recorded as D12 in docs/DECISIONS.md; must move to a server before anyone else uses it.
+  Daily request limit (default 20) counted on the device.
+- Side panel ▸ AI tab: Summarize, Flashcards & quiz (structured JSON output, flip cards and
+  multiple choice), Ask (follow-up conversation), Explain for selected PDF text (sends the page the
+  text was selected on). Scope: this page or up to 20 pages. Answer language Arabic (with English
+  terms) or English. Pages are sent as JPEG pictures plus extracted/typed text, so handwriting is
+  read. Answers can be added to the notebook as new pages (text boxes split across pages).
+- Core: `StudyAssistant.swift` (request bodies, prompts, response parsing, study-set decoding, daily
+  usage), unit-tested on Linux. App: `App/AI/` (Keychain, service, panel, settings).
+- CI run 44100625437: all UI tests pass; screenshots 70–76 inspected. The UI test uses
+  `-uiTestAIMock` (Debug only, canned answers). **No real Claude request has been made yet**: that
+  needs the owner's key. Answer quality, real latency and cost are unverified.
 
 ## Labelled medical diagrams (2026-11-16) — done, Sim-verified (`playground-10`)
 
@@ -297,7 +316,7 @@ assertions and were only visible in the pictures.
   tags, image import), `playground-6` (adds scribble-to-erase, Pencil gestures, planner, backgrounds),
   `playground-7`/`playground-8` (side panel, stickers, brushes, ruler, reading mode, lock, covers, colour),
   `playground-9` (Twemoji stickers, sticky-note styles, labelled buttons, What's New, lecture audio),
-  `playground-10` (labelled medical diagrams).
+  `playground-10` (labelled medical diagrams), `playground-11` (AI study assistant).
 - The owner opened `playground-1` on their iPad and reported no errors. Still unknown: whether the
   Arabic strings are picked up from the package resources, and whether `.agentnote` import works
   without a declared type. The owner reported on `playground-8` (features hard to find; stickers poor), addressed in `playground-9`.
