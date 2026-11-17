@@ -768,7 +768,11 @@ final class SmokeTests: XCTestCase {
         shot("74-ai-question")
 
         // Explain selected PDF text: open the PDF from search, select, Explain.
-        tap(app, "editor.back")
+        // The first tap on Library may only close the keyboard, so retry until the library shows.
+        for _ in 0..<3 where !element(app, "sidebar.search").exists {
+            tap(app, "editor.back")
+            _ = element(app, "sidebar.search").waitForExistence(timeout: 5)
+        }
         tap(app, "sidebar.search", timeout: 15)
         search(app, "mitral valve")
         XCTAssertTrue(element(app, "search.hit").waitForExistence(timeout: 20))
