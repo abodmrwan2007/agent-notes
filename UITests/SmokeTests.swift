@@ -604,8 +604,8 @@ final class SmokeTests: XCTestCase {
         shot("54-labelled-top-bar")
 
         // Medical stickers (Twemoji) in the panel.
-        tap(app, "editor.panel")
-        app.buttons["Stickers"].firstMatch.tap()
+        openStickerPanel(app)
+        revealInPanel(app, "sticker.tw-1fac0")
         XCTAssertTrue(element(app, "sticker.tw-1fac0").waitForExistence(timeout: 5), "Twemoji stickers missing")
         sleep(1)
         shot("55-medical-stickers")
@@ -659,6 +659,7 @@ final class SmokeTests: XCTestCase {
 
         // The recording is listed in the panel's Audio tab.
         tap(app, "editor.panel")
+        sleep(1)
         app.buttons["Audio"].firstMatch.tap()
         XCTAssertTrue(element(app, "audio.recording").waitForExistence(timeout: 5), "no recording saved")
         shot("58-recordings-list")
