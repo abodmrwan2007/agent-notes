@@ -27,12 +27,12 @@ final class HeartModel {
         }
 
         let camera = SCNCamera()
-        camera.fieldOfView = 38
+        camera.fieldOfView = 40
         camera.zNear = 1
         camera.zFar = 200
         let cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(0, 2, 34)
+        cameraNode.position = SCNVector3(0, 0, 36)
         cameraNode.name = "camera"
         scene.rootNode.addChildNode(cameraNode)
 
@@ -103,6 +103,15 @@ final class HeartModel {
     }
 }
 
+/// Keeps the whole model in frame: the field of view applies to the narrower side of the view,
+/// so a tall, narrow view (iPad portrait with the sidebar) does not crop the heart.
+private final class FittingSceneView: SCNView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        pointOfView?.camera?.projectionDirection = bounds.width < bounds.height ? .horizontal : .vertical
+    }
+}
+
 /// SceneKit view with built-in rotate (one finger), zoom (pinch) and move (two fingers).
 private struct HeartSceneView: UIViewRepresentable {
     let model: HeartModel
@@ -112,7 +121,7 @@ private struct HeartSceneView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator { Coordinator(selected: $selected) }
 
     func makeUIView(context: Context) -> SCNView {
-        let view = SCNView()
+        let view = FittingSceneView()
         view.scene = model.scene
         view.allowsCameraControl = true
         view.backgroundColor = .clear

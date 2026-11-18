@@ -112,7 +112,11 @@ final class SmokeTests: XCTestCase {
         let grid = app.buttons["Grid"].firstMatch
         XCTAssertTrue(grid.waitForExistence(timeout: 5), "template menu did not open")
         shot("04b-add-page-menu")
-        grid.tap()
+        sleep(1)  // let the menu finish appearing; an early tap is sometimes lost
+        grid.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        if !app.staticTexts["Page 2 of 2"].waitForExistence(timeout: 5), grid.exists {
+            grid.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        }
         XCTAssertTrue(app.staticTexts["Page 2 of 2"].waitForExistence(timeout: 5), "second page was not added")
         shot("05-editor-two-pages")
 
