@@ -1,0 +1,318 @@
+{
+ "source": "BodyParts3D release 4.0, (c) The Database Center for Life Science, CC BY-SA 2.1 JP",
+ "parts": [
+  {
+   "id": "rightAtrium",
+   "en": "Right atrium (wall)",
+   "ar": "الأذين الأيمن (الجدار)",
+   "group": "chambers",
+   "color": "6F8FD8",
+   "vertexOffset": 0,
+   "vertexCount": 5206,
+   "indexOffset": 124944,
+   "indexCount": 31509,
+   "sources": [
+    "Wall of right atrium"
+   ]
+  },
+  {
+   "id": "leftAtrium",
+   "en": "Left atrium (wall)",
+   "ar": "الأذين الأيسر (الجدار)",
+   "group": "chambers",
+   "color": "D87A6F",
+   "vertexOffset": 250980,
+   "vertexCount": 2816,
+   "indexOffset": 318564,
+   "indexCount": 16944,
+   "sources": [
+    "Wall of left atrium"
+   ]
+  },
+  {
+   "id": "ventricles",
+   "en": "Ventricles (muscle wall)",
+   "ar": "البطينان (الجدار العضلي)",
+   "group": "chambers",
+   "color": "C2564D",
+   "vertexOffset": 386340,
+   "vertexCount": 11399,
+   "indexOffset": 659916,
+   "indexCount": 68829,
+   "sources": [
+    "Wall of ventricle"
+   ]
+  },
+  {
+   "id": "rightAtriumCavity",
+   "en": "Right atrium (cavity)",
+   "ar": "تجويف الأذين الأيمن",
+   "group": "chambers",
+   "color": "2F5FC0",
+   "vertexOffset": 935232,
+   "vertexCount": 1054,
+   "indexOffset": 960528,
+   "indexCount": 6312,
+   "sources": [
+    "Cavity of right atrium"
+   ]
+  },
+  {
+   "id": "leftAtriumCavity",
+   "en": "Left atrium (cavity)",
+   "ar": "تجويف الأذين الأيسر",
+   "group": "chambers",
+   "color": "C0392B",
+   "vertexOffset": 985776,
+   "vertexCount": 495,
+   "indexOffset": 997656,
+   "indexCount": 2958,
+   "sources": [
+    "Cavity of left atrium"
+   ]
+  },
+  {
+   "id": "rightVentricle",
+   "en": "Right ventricle (cavity)",
+   "ar": "تجويف البطين الأيمن",
+   "group": "chambers",
+   "color": "3A6ED6",
+   "vertexOffset": 1009488,
+   "vertexCount": 917,
+   "indexOffset": 1031496,
+   "indexCount": 5493,
+   "sources": [
+    "Cavity of right ventricle"
+   ]
+  },
+  {
+   "id": "leftVentricle",
+   "en": "Left ventricle (cavity)",
+   "ar": "تجويف البطين الأيسر",
+   "group": "chambers",
+   "color": "D0453A",
+   "vertexOffset": 1053468,
+   "vertexCount": 834,
+   "indexOffset": 1073484,
+   "indexCount": 4992,
+   "sources": [
+    "Cavity of left ventricle"
+   ]
+  },
+  {
+   "id": "tricuspidValve",
+   "en": "Tricuspid valve",
+   "ar": "الصمام ثلاثي الشرفات",
+   "group": "valves",
+   "color": "F2E3B3",
+   "vertexOffset": 1093452,
+   "vertexCount": 4132,
+   "indexOffset": 1192620,
+   "indexCount": 26271,
+   "sources": [
+    "Anterior leaflet of tricuspid valve",
+    "Posterior leaflet of tricuspid valve",
+    "Septal leaflet of tricuspid valve"
+   ]
+  },
+  {
+   "id": "mitralValve",
+   "en": "Mitral valve",
+   "ar": "الصمام التاجي",
+   "group": "valves",
+   "color": "F5D58A",
+   "vertexOffset": 1297704,
+   "vertexCount": 2858,
+   "indexOffset": 1366296,
+   "indexCount": 17883,
+   "sources": [
+    "Anterior leaflet of mitral valve",
+    "Posterior leaflet of mitral valve"
+   ]
+  },
+  {
+   "id": "pulmonaryValve",
+   "en": "Pulmonary valve",
+   "ar": "الصمام الرئوي",
+   "group": "valves",
+   "color": "EFE6C8",
+   "vertexOffset": 1437828,
+   "vertexCount": 1710,
+   "indexOffset": 1478868,
+   "indexCount": 10311,
+   "sources": [
+    "Left anterior cusp of pulmonary valve",
+    "Posterior cusp of pulmonary valve",
+    "Right anterior cusp of pulmonary valve"
+   ]
+  },
+  {
+   "id": "aorticValve",
+   "en": "Aortic valve",
+   "ar": "الصمام الأبهري",
+   "group": "valves",
+   "color": "F7CF7A",
+   "vertexOffset": 1520112,
+   "vertexCount": 992,
+   "indexOffset": 1543920,
+   "indexCount": 6003,
+   "sources": [
+    "Anterior cusp of aortic valve",
+    "Left posterior cusp of aortic valve",
+    "Right posterior cusp of aortic valve"
+   ]
+  },
+  {
+   "id": "papillaryRight",
+   "en": "Papillary muscles (right ventricle)",
+   "ar": "العضلات الحليمية (البطين الأيمن)",
+   "group": "valves",
+   "color": "B07A6A",
+   "vertexOffset": 1567932,
+   "vertexCount": 934,
+   "indexOffset": 1590348,
+   "indexCount": 5583,
+   "sources": [
+    "Anterior papillary muscle of right ventricle",
+    "Posterior papillary muscle of right ventricle",
+    "Septal papillary muscle of right ventricle"
+   ]
+  },
+  {
+   "id": "papillaryLeft",
+   "en": "Papillary muscles (left ventricle)",
+   "ar": "العضلات الحليمية (البطين الأيسر)",
+   "group": "valves",
+   "color": "B5675C",
+   "vertexOffset": 1612680,
+   "vertexCount": 687,
+   "indexOffset": 1629168,
+   "indexCount": 4086,
+   "sources": [
+    "Anterolateral head of lateral papillary muscle of left ventricle",
+    "Lateral papillary muscle of left ventricle"
+   ]
+  },
+  {
+   "id": "aorta",
+   "en": "Aorta (ascending and arch)",
+   "ar": "الأبهر (الصاعد والقوس)",
+   "group": "vessels",
+   "color": "D93A30",
+   "vertexOffset": 1645512,
+   "vertexCount": 467,
+   "indexOffset": 1656720,
+   "indexCount": 2775,
+   "sources": [
+    "Arch of aorta",
+    "Ascending aorta"
+   ]
+  },
+  {
+   "id": "pulmonaryTrunk",
+   "en": "Pulmonary trunk and arteries",
+   "ar": "الجذع الرئوي والشريانان الرئويان",
+   "group": "vessels",
+   "color": "3F66C4",
+   "vertexOffset": 1667820,
+   "vertexCount": 2449,
+   "indexOffset": 1726596,
+   "indexCount": 15084,
+   "sources": [
+    "Left pulmonary artery",
+    "Pulmonary trunk",
+    "Right pulmonary artery"
+   ]
+  },
+  {
+   "id": "pulmonaryVeins",
+   "en": "Pulmonary veins",
+   "ar": "الأوردة الرئوية",
+   "group": "vessels",
+   "color": "E0685E",
+   "vertexOffset": 1786932,
+   "vertexCount": 997,
+   "indexOffset": 1810860,
+   "indexCount": 6120,
+   "sources": [
+    "Left inferior pulmonary vein",
+    "Left superior pulmonary vein",
+    "Right inferior pulmonary vein",
+    "Right superior pulmonary vein"
+   ]
+  },
+  {
+   "id": "superiorVenaCava",
+   "en": "Superior vena cava",
+   "ar": "الوريد الأجوف العلوي",
+   "group": "vessels",
+   "color": "3355B0",
+   "vertexOffset": 1835340,
+   "vertexCount": 249,
+   "indexOffset": 1841316,
+   "indexCount": 1482,
+   "sources": [
+    "Superior vena cava"
+   ]
+  },
+  {
+   "id": "inferiorVenaCava",
+   "en": "Inferior vena cava",
+   "ar": "الوريد الأجوف السفلي",
+   "group": "vessels",
+   "color": "2E4FA6",
+   "vertexOffset": 1847244,
+   "vertexCount": 242,
+   "indexOffset": 1853052,
+   "indexCount": 1305,
+   "sources": [
+    "Inferior vena cava"
+   ]
+  },
+  {
+   "id": "coronaryArteries",
+   "en": "Coronary arteries",
+   "ar": "الشرايين التاجية",
+   "group": "coronary",
+   "color": "E6463C",
+   "vertexOffset": 1858272,
+   "vertexCount": 6234,
+   "indexOffset": 2007888,
+   "indexCount": 39474,
+   "sources": [
+    "Circumflex branch of left coronary artery",
+    "Conus branch of anterior interventricular branch of left coronary artery",
+    "Diagonal branch of anterior descending branch of left coronary artery",
+    "First anterior ventricular branch of right coronary artery",
+    "First posterior ventricular branch of right coronary artery",
+    "First right anterior branch of anterior interventricular branch of left coronary artery",
+    "Marginal branch of right coronary artery",
+    "Posterior interventricular branch of right coronary artery",
+    "Right conus artery",
+    "Second right anterior branch of anterior interventricular branch of left coronary artery",
+    "Third right anterior branch of anterior interventricular branch of left coronary artery",
+    "Trunk of anterior interventricular branch of left coronary artery",
+    "Trunk of left coronary artery",
+    "Trunk of right coronary artery"
+   ]
+  },
+  {
+   "id": "cardiacVeins",
+   "en": "Cardiac veins and coronary sinus",
+   "ar": "الأوردة القلبية والجيب التاجي",
+   "group": "coronary",
+   "color": "5C7FD6",
+   "vertexOffset": 2165784,
+   "vertexCount": 2685,
+   "indexOffset": 2230224,
+   "indexCount": 16698,
+   "sources": [
+    "Coronary sinus",
+    "Great cardiac vein",
+    "Middle cardiac vein",
+    "Posterior vein of left ventricle",
+    "Small cardiac vein"
+   ]
+  }
+ ]
+}

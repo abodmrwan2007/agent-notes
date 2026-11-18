@@ -137,6 +137,8 @@ def build() -> int:
     shutil.copytree(ROOT / "App" / "Resources" / "Twemoji.xcassets", PACKAGE / "Resources" / "Twemoji.xcassets")
     # Labelled medical diagrams (original artwork) and their label data.
     shutil.copytree(ROOT / "App" / "Resources" / "Diagrams.xcassets", PACKAGE / "Resources" / "Diagrams.xcassets")
+    # 3D heart for the atlas (derived from BodyParts3D, CC BY-SA 2.1 JP).
+    shutil.copytree(ROOT / "App" / "Resources" / "Atlas.xcassets", PACKAGE / "Resources" / "Atlas.xcassets")
     write_strings(PACKAGE / "Resources" / "ar.lproj" / "Localizable.strings", AR)
     write_strings(PACKAGE / "Resources" / "en.lproj" / "Localizable.strings", {key: key for key in AR})
     (PACKAGE / "Package.swift").write_text(PACKAGE_SWIFT, encoding="utf-8")

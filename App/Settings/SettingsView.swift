@@ -90,7 +90,7 @@ struct SettingsView: View {
             } header: {
                 Text("About")
             } footer: {
-                Text("Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.")
+                Text("Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync and subscriptions are not implemented yet.")
             }
         }
         .navigationTitle("Settings")
@@ -107,6 +107,11 @@ struct AcknowledgementsView: View {
             Section(header: Text(verbatim: "Twemoji")) {
                 Text(verbatim: "Copyright 2019 Twitter, Inc and other contributors. Graphics licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/")
                 Text("Used unmodified as medical and study stickers.")
+                    .foregroundStyle(.secondary)
+            }
+            Section(header: Text(verbatim: "BodyParts3D")) {
+                Text(verbatim: "BodyParts3D, © The Database Center for Life Science, licensed under CC Attribution-Share Alike 2.1 Japan: https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en. Source: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/")
+                Text("The 3D heart in Atlas is made from these models: parts selected, merged, reduced and coloured. The changed model is shared under the same license.")
                     .foregroundStyle(.secondary)
             }
             Section(header: Text(verbatim: "GRDB.swift")) {

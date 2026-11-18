@@ -11,6 +11,26 @@
         }
       }
     },
+    "3D data: BodyParts3D, © The Database Center for Life Science, licensed under CC Attribution-Share Alike 2.1 Japan. Reduced and coloured for this app. A study model, not reviewed by an anatomist. The muscle wall of both ventricles is one piece.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بيانات ثلاثية الأبعاد: BodyParts3D، © The Database Center for Life Science، بترخيص CC Attribution-Share Alike 2.1 Japan. مُصغّرة وملوّنة لهذا التطبيق. مجسّم للدراسة لم يراجعه مختص تشريح. الجدار العضلي للبطينين قطعة واحدة."
+          }
+        }
+      }
+    },
+    "3D heart atlas": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أطلس القلب ثلاثي الأبعاد"
+          }
+        }
+      }
+    },
     "A closing parenthesis is missing.": {
       "localizations": {
         "ar": {
@@ -341,6 +361,16 @@
         }
       }
     },
+    "Atlas in the sidebar: turn and zoom a 3D heart, tap a part to see its name in Arabic and English, hide parts or make the walls see-through to look at the valves.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "«الأطلس» في الشريط الجانبي: دوّر قلبًا ثلاثي الأبعاد وكبّره، واضغط على جزء لترى اسمه بالعربية والإنجليزية، وأخفِ أجزاء أو اجعل الجدران شفّافة لترى الصمامات."
+          }
+        }
+      }
+    },
     "Atomic mass": {
       "localizations": {
         "ar": {
@@ -551,6 +581,16 @@
         }
       }
     },
+    "Chambers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحجرات"
+          }
+        }
+      }
+    },
     "Change Template": {
       "localizations": {
         "ar": {
@@ -667,6 +707,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "كورنيل"
+          }
+        }
+      }
+    },
+    "Coronary vessels": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأوعية التاجية"
           }
         }
       }
@@ -927,6 +977,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسحب فوق نص صفحة PDF لتحديده."
+          }
+        }
+      }
+    },
+    "Drag to turn, pinch to zoom, tap a part to name it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب للتدوير، وقرّب بإصبعين للتكبير، واضغط على جزء لترى اسمه."
           }
         }
       }
@@ -1321,6 +1381,16 @@
         }
       }
     },
+    "Great vessels": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأوعية الكبيرة"
+          }
+        }
+      }
+    },
     "Green": {
       "localizations": {
         "ar": {
@@ -1386,7 +1456,7 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "قلب"
+            "value": "القلب"
           }
         }
       }
@@ -1407,6 +1477,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مساعدة"
+          }
+        }
+      }
+    },
+    "Hide": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء"
           }
         }
       }
@@ -1647,6 +1727,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مسطّرة"
+          }
+        }
+      }
+    },
+    "Loading the heart model…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُحمّل مجسّم القلب…"
           }
         }
       }
@@ -2081,12 +2171,12 @@
         }
       }
     },
-    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.": {
+    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync and subscriptions are not implemented yet.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات والأطلس غير منفّذة بعد."
+            "value": "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات غير منفّذة بعد."
           }
         }
       }
@@ -2831,6 +2921,16 @@
         }
       }
     },
+    "Reset view": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة المنظر"
+          }
+        }
+      }
+    },
     "Restore": {
       "localizations": {
         "ar": {
@@ -3051,6 +3151,16 @@
         }
       }
     },
+    "See-through walls": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جدران شفّافة"
+          }
+        }
+      }
+    },
     "Select Text": {
       "localizations": {
         "ar": {
@@ -3127,6 +3237,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأشكال والتنعيم"
+          }
+        }
+      }
+    },
+    "Show": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار"
+          }
+        }
+      }
+    },
+    "Show all": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض الكل"
+          }
+        }
+      }
+    },
+    "Show only this": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعرض هذا فقط"
           }
         }
       }
@@ -3501,6 +3641,16 @@
         }
       }
     },
+    "The 3D heart in Atlas is made from these models: parts selected, merged, reduced and coloured. The changed model is shared under the same license.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القلب ثلاثي الأبعاد في الأطلس مصنوع من هذه المجسّمات: اختيرت أجزاؤه ودُمجت وصُغّرت ولُوّنت، ويُشارك المجسّم المعدّل بالترخيص نفسه."
+          }
+        }
+      }
+    },
     "The AI declined this request.": {
       "localizations": {
         "ar": {
@@ -3591,12 +3741,12 @@
         }
       }
     },
-    "The interactive anatomy atlas starts with a heart module. It needs reviewed 3D assets that do not exist yet.": {
+    "The heart model could not be loaded": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يبدأ أطلس التشريح التفاعلي بوحدة القلب، ويحتاج إلى نماذج ثلاثية الأبعاد مُراجَعة غير متوفرة بعد."
+            "value": "تعذّر تحميل مجسّم القلب"
           }
         }
       }
@@ -4077,6 +4227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مستخدمة دون تعديل كملصقات طبية ودراسية."
+          }
+        }
+      }
+    },
+    "Valves and papillary muscles": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصمامات والعضلات الحليمية"
           }
         }
       }

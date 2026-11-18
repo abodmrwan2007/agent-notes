@@ -39,11 +39,7 @@ struct RootView: View {
         case .study:
             StudyHomeView()
         case .atlas:
-            PlannedAreaView(
-                title: "Atlas",
-                symbol: "heart.text.square",
-                milestone: "D",
-                summary: "The interactive anatomy atlas starts with a heart module. It needs reviewed 3D assets that do not exist yet.")
+            HeartAtlasView()
         case .community:
             PlannedAreaView(
                 title: "Community",

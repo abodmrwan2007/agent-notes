@@ -24,8 +24,6 @@ AR = {
     "Settings": "الإعدادات",
     "Not available in this build.": "غير متاح في هذه النسخة.",
     "Planned for milestone %@.": "مخطط له في المرحلة %@.",
-    "The interactive anatomy atlas starts with a heart module. It needs reviewed 3D assets that do not exist yet.":
-        "يبدأ أطلس التشريح التفاعلي بوحدة القلب، ويحتاج إلى نماذج ثلاثية الأبعاد مُراجَعة غير متوفرة بعد.",
     "Opt-in sharing stays disabled until reporting, blocking and moderation services exist.":
         "تبقى المشاركة الاختيارية معطّلة إلى أن تتوفر خدمات الإبلاغ والحظر والإشراف.",
     # Folders
@@ -454,6 +452,28 @@ AR = {
         "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ.",
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
         "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
+    # Heart atlas
+    "The heart model could not be loaded": "تعذّر تحميل مجسّم القلب",
+    "Loading the heart model…": "يُحمّل مجسّم القلب…",
+    "Heart": "القلب",
+    "Show only this": "اعرض هذا فقط",
+    "Hide": "إخفاء",
+    "Drag to turn, pinch to zoom, tap a part to name it.": "اسحب للتدوير، وقرّب بإصبعين للتكبير، واضغط على جزء لترى اسمه.",
+    "See-through walls": "جدران شفّافة",
+    "Show all": "عرض الكل",
+    "Reset view": "إعادة المنظر",
+    "Show": "إظهار",
+    "Chambers": "الحجرات",
+    "Valves and papillary muscles": "الصمامات والعضلات الحليمية",
+    "Great vessels": "الأوعية الكبيرة",
+    "Coronary vessels": "الأوعية التاجية",
+    "3D data: BodyParts3D, © The Database Center for Life Science, licensed under CC Attribution-Share Alike 2.1 Japan. Reduced and coloured for this app. A study model, not reviewed by an anatomist. The muscle wall of both ventricles is one piece.":
+        "بيانات ثلاثية الأبعاد: BodyParts3D، © The Database Center for Life Science، بترخيص CC Attribution-Share Alike 2.1 Japan. مُصغّرة وملوّنة لهذا التطبيق. مجسّم للدراسة لم يراجعه مختص تشريح. الجدار العضلي للبطينين قطعة واحدة.",
+    "The 3D heart in Atlas is made from these models: parts selected, merged, reduced and coloured. The changed model is shared under the same license.":
+        "القلب ثلاثي الأبعاد في الأطلس مصنوع من هذه المجسّمات: اختيرت أجزاؤه ودُمجت وصُغّرت ولُوّنت، ويُشارك المجسّم المعدّل بالترخيص نفسه.",
+    "3D heart atlas": "أطلس القلب ثلاثي الأبعاد",
+    "Atlas in the sidebar: turn and zoom a 3D heart, tap a part to see its name in Arabic and English, hide parts or make the walls see-through to look at the valves.":
+        "«الأطلس» في الشريط الجانبي: دوّر قلبًا ثلاثي الأبعاد وكبّره، واضغط على جزء لترى اسمه بالعربية والإنجليزية، وأخفِ أجزاء أو اجعل الجدران شفّافة لترى الصمامات.",
     # AI study assistant
     "AI": "الذكاء الاصطناعي",
     "Explain": "اشرح",
@@ -516,8 +536,8 @@ AR = {
         "التلخيص والبطاقات والاختبارات والشرح والأسئلة ترسل صورة ونص الصفحات المختارة إلى Anthropic. قد تخطئ الإجابات: راجع المعلومات الطبية المهمة في كتابك.",
     "Privacy and accuracy": "الخصوصية والدقة",
     "AI Assistant": "مساعد الذكاء الاصطناعي",
-    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync, subscriptions and the atlas are not implemented yet.":
-        "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات والأطلس غير منفّذة بعد.",
+    "Notes are stored only on this device in this build. The AI assistant sends only the pages you choose. Sync and subscriptions are not implemented yet.":
+        "تُحفظ الملاحظات على هذا الجهاز فقط في هذا الإصدار. مساعد الذكاء الاصطناعي يرسل الصفحات التي تختارها فقط. المزامنة والاشتراكات غير منفّذة بعد.",
     "AI study assistant": "مساعد دراسة بالذكاء الاصطناعي",
     "Tools ▸ AI: summarize a page or the notebook, make flashcards and a quiz, ask questions, or select PDF text and tap Explain. Add your Claude API key in Settings ▸ AI Assistant first.":
         "الأدوات ◂ الذكاء الاصطناعي: لخّص صفحة أو الدفتر، واصنع بطاقات واختبارًا، واسأل، أو حدّد نصًا في PDF واضغط «اشرح». أضف مفتاح Claude API أولًا من الإعدادات ◂ مساعد الذكاء الاصطناعي.",

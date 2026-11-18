@@ -728,6 +728,47 @@ final class SmokeTests: XCTestCase {
         }
     }
 
+    /// Atlas ▸ 3D heart: the model loads, a tap on the model or a name in the list selects a
+    /// part, parts can be isolated and the walls made see-through. Pictures are judged by a person.
+    func test9zzzzzz_heartAtlas() {
+        continueAfterFailure = true
+        let app = launch(language: "en")
+        app.staticTexts["Atlas"].firstMatch.tap()
+        XCTAssertTrue(element(app, "atlas.scene").waitForExistence(timeout: 20), "3D view missing")
+        sleep(3)
+        shot("80-atlas-heart")
+
+        // Tap the middle of the model: some part is picked and named.
+        element(app, "atlas.scene").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55)).tap()
+        XCTAssertTrue(element(app, "atlas.selected").waitForExistence(timeout: 5), "tapping the model named nothing")
+        sleep(1)
+        shot("81-atlas-tap-part")
+
+        // Pick the mitral valve from the list and show only it.
+        revealInPanel(app, "atlas.part.mitralValve")
+        tap(app, "atlas.part.mitralValve")
+        XCTAssertEqual(element(app, "atlas.selected").label, "Mitral valve")
+        tap(app, "atlas.isolate")
+        sleep(2)
+        shot("82-atlas-mitral-only")
+
+        // Everything back, walls see-through: the valves and cavities show inside.
+        revealInPanel(app, "atlas.showAll")
+        tap(app, "atlas.showAll")
+        let slider = app.sliders["atlas.opacity"].firstMatch
+        XCTAssertTrue(slider.waitForExistence(timeout: 5))
+        slider.adjust(toNormalizedSliderPosition: 0.05)
+        sleep(2)
+        shot("83-atlas-see-through")
+
+        // Turn the model with a drag.
+        let scene = element(app, "atlas.scene")
+        scene.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.5))
+            .press(forDuration: 0.05, thenDragTo: scene.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)))
+        sleep(2)
+        shot("84-atlas-turned")
+    }
+
     /// The AI tab with canned answers (`-uiTestAIMock`, Debug only): no key and no network.
     /// Proves the panel, flashcards, quiz, follow-up questions, Explain and Add to notebook work;
     /// it says nothing about the quality of real answers.

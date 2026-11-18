@@ -4,7 +4,7 @@ import SwiftUI
 /// that adds features (when `contentVersion` is raised) and from Settings at any time.
 struct WhatsNewView: View {
     /// Raise when this list gains entries the person should be told about.
-    static let contentVersion = 3
+    static let contentVersion = 4
     static let seenKey = "whatsNewSeen"
 
     @Environment(\.dismiss) private var dismiss
@@ -17,6 +17,8 @@ struct WhatsNewView: View {
     }
 
     private let entries: [Entry] = [
+        Entry(symbol: "heart.text.square", title: "3D heart atlas",
+              detail: "Atlas in the sidebar: turn and zoom a 3D heart, tap a part to see its name in Arabic and English, hide parts or make the walls see-through to look at the valves."),
         Entry(symbol: "sparkles", title: "AI study assistant",
               detail: "Tools ▸ AI: summarize a page or the notebook, make flashcards and a quiz, ask questions, or select PDF text and tap Explain. Add your Claude API key in Settings ▸ AI Assistant first."),
         Entry(symbol: "heart.circle", title: "Labelled medical diagrams",
