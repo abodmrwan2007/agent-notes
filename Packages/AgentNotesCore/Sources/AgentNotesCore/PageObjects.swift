@@ -70,6 +70,8 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
     public var assetFileName: String?
     /// Sticky notes only; nil means plain.
     public var noteStyle: NoteStyle?
+    /// Text boxes that are links: "page:<page id>" or a web address. See `PageLink`.
+    public var link: String?
 
     public init(
         id: UUID = UUID(),
@@ -83,8 +85,10 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
         shape: ShapeKind? = nil,
         lineWidth: Double? = nil,
         assetFileName: String? = nil,
-        noteStyle: NoteStyle? = nil
+        noteStyle: NoteStyle? = nil,
+        link: String? = nil
     ) {
+        self.link = link
         self.id = id
         self.kind = kind
         self.frame = frame
@@ -100,6 +104,8 @@ public struct PageObject: Codable, Hashable, Identifiable, Sendable {
     }
 
     public var hasText: Bool { kind == .text || kind == .stickyNote }
+
+    public var pageLink: PageLink? { link.flatMap(PageLink.init(rawValue:)) }
 
     /// Whether `point` (page coordinates) falls inside the object, taking its rotation into account.
     public func contains(_ point: PagePoint) -> Bool {

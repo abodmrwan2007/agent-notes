@@ -326,6 +326,7 @@ final class LibraryModel {
         do {
             if let id = document.documentID {
                 try store.deleteDocument(id: id)
+                store.deleteHistory(of: id)
                 thumbnails.removeCovers(for: id)
                 textIndex.removeCache(documentID: id)
             }
@@ -343,6 +344,24 @@ final class LibraryModel {
     }
 
     /// Called by the editor after it saved: copies title, dates and page count into the index.
+    // MARK: Version history
+
+    func versions(of document: DocumentRow) -> [NotebookVersion] {
+        document.documentID.map { store.versions(of: $0) } ?? []
+    }
+
+    func restore(_ version: NotebookVersion, for document: DocumentRow) {
+        guard let id = document.documentID else { return }
+        do {
+            let manifest = try store.restore(version, of: id)
+            thumbnails.removeCovers(for: id)
+            textIndex.removeCache(documentID: id)
+            refreshRow(from: manifest)
+        } catch {
+            report(error)
+        }
+    }
+
     func refreshRow(from manifest: DocumentManifest) {
         do {
             guard var row = try database.document(id: manifest.id.uuidString) else { return }

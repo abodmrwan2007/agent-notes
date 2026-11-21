@@ -839,6 +839,72 @@ final class SmokeTests: XCTestCase {
         shot("97-export-images")
     }
 
+    /// Flashcard deck and review session, a page link, and version history.
+    func test9zzzzzzzz_flashcardsLinksHistory() {
+        continueAfterFailure = true
+        let app = launch(language: "en")
+
+        // Study ▸ Flashcards: make a deck with one card and review it.
+        app.staticTexts["Study"].firstMatch.tap()
+        tap(app, "study.tool.flashcards")
+        tap(app, "deck.new")
+        let nameField = app.textFields.firstMatch
+        XCTAssertTrue(nameField.waitForExistence(timeout: 5))
+        nameField.typeText("Cardiology")
+        app.buttons["Save"].firstMatch.tap()
+        tap(app, "deck.row")
+        tap(app, "deck.addCard")
+        let front = element(app, "card.front")
+        XCTAssertTrue(front.waitForExistence(timeout: 5))
+        front.tap()
+        front.typeText("Pacemaker of the heart")
+        let back = element(app, "card.back")
+        back.tap()
+        back.typeText("Sinoatrial node")
+        tap(app, "card.save")
+        sleep(1)
+        shot("100-deck")
+        tap(app, "deck.study")
+        tap(app, "session.card")
+        sleep(1)
+        shot("101-card-answer")
+        tap(app, "session.remembered")
+        XCTAssertTrue(element(app, "session.done").waitForExistence(timeout: 5), "session did not finish")
+        shot("102-session-done")
+        tap(app, "session.close")
+
+        // A link to page 2 in a notebook, opened from reading mode.
+        app.staticTexts["All Notes"].firstMatch.tap()
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        app.buttons["Insert"].firstMatch.tap()
+        let linkItem = app.buttons["Link…"].firstMatch
+        XCTAssertTrue(linkItem.waitForExistence(timeout: 5))
+        sleep(1)
+        linkItem.tap()
+        tap(app, "link.add")
+        sleep(1)
+        shot("103-link-on-page")
+        tap(app, "object.openLink")
+        sleep(2)
+        shot("104-link-opened")
+
+        // Close the notebook: a version is kept; Version History lists it.
+        tap(app, "editor.back")
+        sleep(3)
+        let again = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(again.waitForExistence(timeout: 15))
+        again.press(forDuration: 1.2)
+        let history = app.buttons["Version History…"].firstMatch
+        XCTAssertTrue(history.waitForExistence(timeout: 5), "version history menu item")
+        history.tap()
+        XCTAssertTrue(element(app, "history.restore").waitForExistence(timeout: 5), "no saved version")
+        sleep(1)
+        shot("105-version-history")
+    }
+
     /// The AI tab with canned answers (`-uiTestAIMock`, Debug only): no key and no network.
     /// Proves the panel, flashcards, quiz, follow-up questions, Explain and Add to notebook work;
     /// it says nothing about the quality of real answers.

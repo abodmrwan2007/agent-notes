@@ -4,7 +4,7 @@ import SwiftUI
 /// that adds features (when `contentVersion` is raised) and from Settings at any time.
 struct WhatsNewView: View {
     /// Raise when this list gains entries the person should be told about.
-    static let contentVersion = 5
+    static let contentVersion = 6
     static let seenKey = "whatsNewSeen"
 
     @Environment(\.dismiss) private var dismiss
@@ -17,6 +17,8 @@ struct WhatsNewView: View {
     }
 
     private let entries: [Entry] = [
+        Entry(symbol: "rectangle.on.rectangle.angled", title: "Flashcards, links, transcripts, versions",
+              detail: "Study ▸ Flashcards: decks with spaced review (Hard, Remembered, Easy); save AI cards as a deck. Insert ▸ Link… to another page or a website. Touch and hold a recording to transcribe it. In the library, touch and hold a notebook ▸ Version History…."),
         Entry(symbol: "text.viewfinder", title: "Handwriting to text, translate, scan",
               detail: "Page actions (•••) ▸ Recognize Handwriting turns your writing into text you can translate, look up, hear or put on the page. Insert ▸ Scan Document, Export ▸ Pages as Images or Print, five new papers, audio speed in Tools ▸ Audio, and Remove Background for pictures."),
         Entry(symbol: "heart.text.square", title: "3D heart atlas",

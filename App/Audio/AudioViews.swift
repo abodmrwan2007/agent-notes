@@ -51,6 +51,7 @@ struct RecordButton: View {
 struct RecordingsList: View {
     let model: EditorModel
     @State private var pendingDeletion: AudioRecording?
+    @State private var isTranscribing = false
 
     var body: some View {
         let audio = model.audio
@@ -63,7 +64,7 @@ struct RecordingsList: View {
                 }
                 .accessibilityIdentifier("audio.listen")
             } footer: {
-                Text("Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.")
+                Text("Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on. Touch and hold a recording to transcribe it.")
             }
 
             Section {
@@ -124,6 +125,18 @@ struct RecordingsList: View {
                         }
                     }
                     .accessibilityIdentifier("audio.recording")
+                    .contextMenu {
+                        Button {
+                            transcribe(recording, arabic: true)
+                        } label: {
+                            Label("Transcribe (Arabic)", systemImage: "text.bubble")
+                        }
+                        Button {
+                            transcribe(recording, arabic: false)
+                        } label: {
+                            Label("Transcribe (English)", systemImage: "text.bubble")
+                        }
+                    }
                     .swipeActions {
                         Button(role: .destructive) {
                             pendingDeletion = recording
@@ -143,6 +156,27 @@ struct RecordingsList: View {
             Button("Delete", role: .destructive) { model.deleteRecording(recording) }
         } message: { _ in
             Text("The audio is removed from this notebook. Your writing stays.")
+        }
+        .overlay {
+            if isTranscribing {
+                ProgressView("Transcribing…")
+                    .padding(20)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 14))
+            }
+        }
+    }
+
+    private func transcribe(_ recording: AudioRecording, arabic: Bool) {
+        isTranscribing = true
+        let url = model.store.audioURL(documentID: model.documentID, fileName: recording.fileName)
+        Task {
+            defer { isTranscribing = false }
+            do {
+                let text = try await Transcriber.transcribe(url: url, arabic: arabic)
+                model.textToolsRequest = TextToolsRequest(text: text, origin: .recognized)
+            } catch {
+                model.alertMessage = error.localizedDescription
+            }
         }
     }
 }

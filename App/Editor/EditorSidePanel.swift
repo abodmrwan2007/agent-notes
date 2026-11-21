@@ -32,17 +32,8 @@ struct EditorSidePanel: View {
                     .navigationTitle("Tools")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationDestination(for: StudyTool.self) { tool in
-                        switch tool {
-                        case .calculator:
-                            CalculatorView(compact: true) { text in
-                                model.insertTextObject(text)
-                            }
-                        case .graph:
-                            GraphView(compact: true)
-                        case .periodicTable:
-                            PeriodicTableView()
-                        case .focusTimer:
-                            FocusTimerView()
+                        tool.destination(compact: true) { text in
+                            model.insertTextBlock(text)
                         }
                     }
                 }

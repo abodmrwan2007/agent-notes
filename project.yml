@@ -61,6 +61,7 @@ targets:
         NSPhotoLibraryUsageDescription: Pictures you choose are added to your notes.
         NSMicrophoneUsageDescription: The microphone records lectures while you take notes. Recordings stay inside your notebook.
         NSCameraUsageDescription: The camera scans documents into your notebook.
+        NSSpeechRecognitionUsageDescription: Speech recognition turns your lecture recordings into text.
         # The native editable notebook package (a directory treated as one file).
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: com.agentnotes.document

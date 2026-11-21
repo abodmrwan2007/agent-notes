@@ -6,6 +6,8 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
     case graph
     case periodicTable
     case focusTimer
+    case flashcards
+    case translator
 
     var id: String { rawValue }
 
@@ -15,6 +17,8 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .graph: return "Graphing Calculator"
         case .periodicTable: return "Periodic Table"
         case .focusTimer: return "Focus Timer"
+        case .flashcards: return "Flashcards"
+        case .translator: return "Translator and Dictionary"
         }
     }
 
@@ -24,6 +28,8 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .graph: return "Plot up to three functions of x. Drag to move, pinch to zoom."
         case .periodicTable: return "All 118 elements with symbols, masses and groups."
         case .focusTimer: return "Work and break sessions that keep counting in the background."
+        case .flashcards: return "Decks you make or save from the AI, reviewed when they are due."
+        case .translator: return "Translate, look up and hear Arabic and English text."
         }
     }
 
@@ -33,6 +39,20 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .graph: return "chart.xyaxis.line"
         case .periodicTable: return "tablecells"
         case .focusTimer: return "timer"
+        case .flashcards: return "rectangle.on.rectangle.angled"
+        case .translator: return "character.bubble"
+        }
+    }
+
+    @ViewBuilder
+    func destination(compact: Bool, insert: ((String) -> Void)? = nil) -> some View {
+        switch self {
+        case .calculator: CalculatorView(compact: compact, onInsert: insert)
+        case .graph: GraphView(compact: compact)
+        case .periodicTable: PeriodicTableView()
+        case .focusTimer: FocusTimerView()
+        case .flashcards: FlashcardDecksView()
+        case .translator: TranslatorView(onInsert: insert)
         }
     }
 }
@@ -51,9 +71,6 @@ private struct PlannedTool: Identifiable {
         PlannedTool(
             id: "handwriting", title: "Handwriting Calculator",
             reason: "Needs handwriting recognition, which is not chosen yet.", symbol: "scribble"),
-        PlannedTool(
-            id: "translation", title: "Translation Tool",
-            reason: "Needs a translation provider.", symbol: "character.bubble"),
         PlannedTool(
             id: "games", title: "Study Games",
             reason: "Needs reviewed study content.", symbol: "gamecontroller")
@@ -196,12 +213,7 @@ struct StudyHomeView: View {
         }
         .navigationTitle("Study")
         .navigationDestination(for: StudyTool.self) { tool in
-            switch tool {
-            case .calculator: CalculatorView()
-            case .graph: GraphView()
-            case .periodicTable: PeriodicTableView()
-            case .focusTimer: FocusTimerView()
-            }
+            tool.destination(compact: false)
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {

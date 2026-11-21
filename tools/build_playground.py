@@ -62,7 +62,8 @@ let package = Package(
             capabilities: [
                 .faceID(purposeString: "Face ID unlocks the notebooks you have locked."),
                 .microphone(purposeString: "The microphone records lectures while you take notes. Recordings stay inside your notebook."),
-                .camera(purposeString: "The camera scans documents into your notebook.")
+                .camera(purposeString: "The camera scans documents into your notebook."),
+                .speechRecognition(purposeString: "Speech recognition turns your lecture recordings into text.")
             ]
         )
     ],

@@ -398,6 +398,9 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         pageView.onListenTap = { [weak self] date in
             self?.model.playAudio(writtenAt: date)
         }
+        pageView.onReadTap = { [weak self] point in
+            self?.model.openLink(at: PagePoint(x: Double(point.x), y: Double(point.y)), pageID: pageID)
+        }
 
         if let textLayer = pageView.textLayer {
             textLayer.onSelectionChange = { [weak self] text in

@@ -67,6 +67,7 @@ struct EditorScreen: View {
     @State private var isPickingSticker = false
     @State private var pickedBackground: PhotosPickerItem?
     @State private var isScanning = false
+    @State private var isAddingLink = false
     @State private var isRecognizing = false
     @State private var sharedImages: SharedImages?
 
@@ -132,6 +133,18 @@ struct EditorScreen: View {
         }
         .sheet(item: $sharedImages) { shared in
             ActivityView(items: shared.urls)
+        }
+        .sheet(isPresented: $isAddingLink) {
+            LinkSheet(pageCount: model.manifest.pages.count, currentPage: model.currentPageIndex) { label, choice in
+                switch choice {
+                case .page(let index):
+                    if model.manifest.pages.indices.contains(index) {
+                        model.insertLink(label: label, link: .page(model.manifest.pages[index].id))
+                    }
+                case .web(let url):
+                    model.insertLink(label: label, link: .web(url))
+                }
+            }
         }
         .onChange(of: scenePhase) { _, phase in
             // Leaving the foreground: get everything on disk before the app can be suspended or killed.
@@ -310,6 +323,11 @@ struct EditorScreen: View {
                     Label("Scan Document", systemImage: "doc.viewfinder")
                 }
                 .disabled(!DocumentScanner.isAvailable)
+                Button {
+                    isAddingLink = true
+                } label: {
+                    Label("Link…", systemImage: "link")
+                }
             } label: {
                 Label("Insert", systemImage: "plus.circle")
                     .labelStyle(.titleAndIcon)
@@ -443,6 +461,10 @@ struct EditorScreen: View {
     private func close() {
         let manifest = model.close()
         app.library.refreshRow(from: manifest)
+        // Keep an earlier version for Version History (copied off the main thread).
+        let store = app.store
+        let id = manifest.id
+        Task.detached(priority: .utility) { try? store.saveVersion(of: id) }
         app.closeDocument()
     }
 
@@ -789,6 +811,15 @@ struct ObjectOptions: View {
                         }
                         .accessibilityLabel("Color")
                     }
+                }
+
+                if let link = object.pageLink {
+                    Button {
+                        model.openLink(link)
+                    } label: {
+                        Label("Open Link", systemImage: "arrow.up.forward.square")
+                    }
+                    .accessibilityIdentifier("object.openLink")
                 }
 
                 if object.kind == .image {

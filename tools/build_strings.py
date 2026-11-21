@@ -157,8 +157,6 @@ AR = {
     "Needs a symbolic engine or a verified AI explanation.": "يحتاج إلى محرك رمزي أو شرح بالذكاء الاصطناعي مُتحقَّق منه.",
     "Handwriting Calculator": "آلة حاسبة بخط اليد",
     "Needs handwriting recognition, which is not chosen yet.": "تحتاج إلى التعرّف على خط اليد، ولم يُختر مزوّده بعد.",
-    "Translation Tool": "أداة الترجمة",
-    "Needs a translation provider.": "تحتاج إلى مزوّد ترجمة.",
     "Study Games": "ألعاب دراسية",
     "Needs reviewed study content.": "تحتاج إلى محتوى دراسي مُراجَع.",
     "Tools": "الأدوات",
@@ -437,8 +435,8 @@ AR = {
     "Recording saved": "حُفظ التسجيل",
     "Play": "تشغيل",
     "Tap writing to hear it": "اضغط على الكتابة لتسمعها",
-    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.":
-        "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا.",
+    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on. Touch and hold a recording to transcribe it.":
+        "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا. اضغط مطولًا على تسجيل لتحويله إلى نص.",
     "Tap Record at the top while you write. Recordings are saved inside this notebook.":
         "اضغط «تسجيل» في الأعلى أثناء الكتابة. تُحفظ التسجيلات داخل هذا الدفتر.",
     "Delete this recording?": "حذف هذا التسجيل؟",
@@ -452,6 +450,74 @@ AR = {
         "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ.",
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
         "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
+    "Flashcards, links, transcripts, versions": "بطاقات، روابط، تفريغ صوتي، نسخ",
+    "Study ▸ Flashcards: decks with spaced review (Hard, Remembered, Easy); save AI cards as a deck. Insert ▸ Link… to another page or a website. Touch and hold a recording to transcribe it. In the library, touch and hold a notebook ▸ Version History….":
+        "الدراسة ◂ البطاقات: مجموعات بمراجعة متباعدة (صعبة، تذكّرتها، سهلة)، واحفظ بطاقات الذكاء الاصطناعي كمجموعة. إدراج ◂ رابط… إلى صفحة أخرى أو موقع. اضغط مطولًا على تسجيل لتحويله إلى نص. في المكتبة اضغط مطولًا على دفتر ◂ سجل النسخ….",
+    # Flashcards, links, transcripts, version history
+    "Saved to Study ▸ Flashcards": "حُفظت في الدراسة ◂ البطاقات",
+    "Save as Flashcard Deck": "احفظها كمجموعة بطاقات",
+    "Transcribe (Arabic)": "حوّل إلى نص (عربي)",
+    "Transcribe (English)": "حوّل إلى نص (إنجليزي)",
+    "Transcribing…": "يحوّل إلى نص…",
+    "Speech recognition is off for this app. Turn it on in Settings ▸ Privacy ▸ Speech Recognition.":
+        "التعرّف على الكلام متوقف لهذا التطبيق. فعّله من الإعدادات ◂ الخصوصية ◂ التعرّف على الكلام.",
+    "Speech recognition for this language is not available on this iPad right now.":
+        "التعرّف على الكلام بهذه اللغة غير متاح على هذا الآيباد الآن.",
+    "No speech was recognized in this recording.": "لم يُتعرّف على كلام في هذا التسجيل.",
+    "The linked page was deleted.": "الصفحة المرتبطة حُذفت.",
+    "Link…": "رابط…",
+    "Open Link": "افتح الرابط",
+    "Version History…": "سجل النسخ…",
+    "No earlier versions yet. A version is kept each time you close this notebook after changing it.":
+        "لا توجد نسخ سابقة بعد. تُحفظ نسخة كلما أغلقت هذا الدفتر بعد تعديله.",
+    "The notebook goes back to this version. Its current state is kept in this list, so you can return to it.":
+        "يعود الدفتر إلى هذه النسخة. وتُحفظ حالته الحالية في هذه القائمة لتعود إليها إن أردت.",
+    "Restore this version?": "استعادة هذه النسخة؟",
+    "No decks yet. Tap + to make one, or save the cards the AI makes in Tools ▸ AI.":
+        "لا توجد مجموعات بعد. اضغط + لإنشاء واحدة، أو احفظ البطاقات التي يصنعها الذكاء الاصطناعي من الأدوات ◂ الذكاء الاصطناعي.",
+    "%lld cards · %lld due · %lld learned": "%1$lld بطاقة · %2$lld مستحقة · %3$lld محفوظة",
+    "%lld reviewed · %lld left": "%1$lld رُوجعت · %2$lld متبقية",
+    "Tap the card to see the answer.": "اضغط على البطاقة لترى الإجابة.",
+    "%lld cards reviewed. Cards come back when they are due.": "رُوجعت %lld بطاقة. تعود البطاقات عندما يحين موعدها.",
+    "New Deck": "مجموعة جديدة",
+    "Add Card": "أضف بطاقة",
+    "Import Cards (TSV or CSV)": "استيراد بطاقات (TSV أو CSV)",
+    "Export Cards (TSV)": "تصدير البطاقات (TSV)",
+    "All done": "انتهيت",
+    "Answer first": "الإجابة أولًا",
+    "Cards": "البطاقات",
+    "Front": "الوجه",
+    "Back": "الظهر",
+    "Question or term": "سؤال أو مصطلح",
+    "Answer": "الإجابة",
+    "This deck was deleted.": "حُذفت هذه المجموعة.",
+    "The flashcards file could not be read. It was kept as a copy and a new one was started.":
+        "تعذّرت قراءة ملف البطاقات. حُفظ كنسخة وبُدئ ملف جديد.",
+    "The flashcards could not be saved.": "تعذّر حفظ البطاقات.",
+    "This file could not be read.": "تعذّرت قراءة هذا الملف.",
+    "Card": "بطاقة",
+    "Deck actions": "إجراءات المجموعة",
+    "Hard": "صعبة",
+    "Remembered": "تذكّرتها",
+    "Easy": "سهلة",
+    "Translator and Dictionary": "المترجم والقاموس",
+    "Type or paste Arabic or English text, then Translate, Look Up or Read Aloud. Translation uses Apple's translation, which can download languages to work offline.":
+        "اكتب أو الصق نصًا عربيًا أو إنجليزيًا، ثم ترجم أو ابحث في القاموس أو اسمعه. تستخدم الترجمة ترجمة Apple التي يمكنها تنزيل اللغات لتعمل دون إنترنت.",
+    "Study %lld due cards": "راجع %lld بطاقة مستحقة",
+    "Nothing due: study all cards": "لا شيء مستحق: راجع كل البطاقات",
+    "Decks you make or save from the AI, reviewed when they are due.":
+        "مجموعات تصنعها أو تحفظها من الذكاء الاصطناعي، تُراجع عندما يحين موعدها.",
+    "Translate, look up and hear Arabic and English text.": "ترجم وابحث واسمع النصوص العربية والإنجليزية.",
+    "A page in this notebook": "صفحة في هذا الدفتر",
+    "A website": "موقع إنترنت",
+    "Enter a web address such as en.wikipedia.org/wiki/Heart.": "أدخل عنوان موقع مثل en.wikipedia.org/wiki/Heart.",
+    "Tap the link in reading mode (Read at the top), or select it and tap Open Link.":
+        "اضغط على الرابط في وضع القراءة («اقرأ» في الأعلى)، أو حدّده واضغط «افتح الرابط».",
+    "Link to": "الرابط إلى",
+    "Page": "الصفحة",
+    "Text shown on the page": "النص الظاهر في الصفحة",
+    "example.com": "example.com",
+    "Add Link": "إضافة رابط",
     # Text tools, scanning, export, templates
     "Narrow Ruled": "مسطّر ضيّق",
     "Small Grid": "شبكة صغيرة",

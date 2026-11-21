@@ -127,9 +127,26 @@ struct TextToolsSheet: View {
     @State private var isSpeaking = false
     @State private var copied = false
     var note: LocalizedStringKey?
+    /// Shown inside an existing navigation stack (Study) instead of as a sheet.
+    var embedded = false
 
     var body: some View {
-        NavigationStack {
+        if embedded {
+            content
+        } else {
+            NavigationStack {
+                content
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { dismiss() }
+                                .accessibilityIdentifier("textTools.done")
+                        }
+                    }
+            }
+        }
+    }
+
+    private var content: some View {
             VStack(alignment: .leading, spacing: 12) {
                 if let note {
                     Text(note)
@@ -183,12 +200,6 @@ struct TextToolsSheet: View {
             .padding(16)
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
-                        .accessibilityIdentifier("textTools.done")
-                }
-            }
             .sheet(isPresented: $showsDictionary) {
                 DictionaryView(term: text.trimmingCharacters(in: .whitespacesAndNewlines))
             }
@@ -199,7 +210,6 @@ struct TextToolsSheet: View {
                 if SpeechReader.shared.isSpeaking { SpeechReader.shared.toggle("") }
             }
             .modifier(TranslationSheet(isPresented: $showsTranslation, text: text))
-        }
     }
 
     @ViewBuilder

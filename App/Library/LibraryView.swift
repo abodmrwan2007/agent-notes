@@ -14,6 +14,7 @@ struct LibraryView: View {
     @State private var pendingDeletion: DocumentRow?
     @State private var isConfirmingEmptyTrash = false
     @State private var taggedDocument: DocumentRow?
+    @State private var historyDocument: DocumentRow?
 
     private var library: LibraryModel { app.library }
     private var sort: LibrarySort { LibrarySort(rawValue: sortRaw) ?? .modified }
@@ -79,6 +80,9 @@ struct LibraryView: View {
         .namePrompt($prompt)
         .sheet(item: $taggedDocument) { document in
             TagEditor(document: document)
+        }
+        .sheet(item: $historyDocument) { document in
+            VersionHistorySheet(document: document)
         }
         .confirmationDialog(
             "Delete permanently?",
@@ -226,6 +230,11 @@ struct LibraryView: View {
                 taggedDocument = document
             } label: {
                 Label("Tags…", systemImage: "tag")
+            }
+            Button {
+                historyDocument = document
+            } label: {
+                Label("Version History…", systemImage: "clock.arrow.circlepath")
             }
             Menu {
                 Button("First Page") { library.setCover(nil, for: document) }

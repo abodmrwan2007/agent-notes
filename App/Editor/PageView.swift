@@ -98,6 +98,9 @@ final class PageView: UIView {
     /// Listening mode: called with the time the tapped stroke was written.
     var onListenTap: ((Date) -> Void)?
     private lazy var listenTap = UITapGestureRecognizer(target: self, action: #selector(handleListenTap))
+    /// Reading mode: called with the tapped point (page coordinates), to open links.
+    var onReadTap: ((CGPoint) -> Void)?
+    private lazy var readTap = UITapGestureRecognizer(target: self, action: #selector(handleReadTap))
 
     var isLoaded: Bool { canvas != nil }
 
@@ -203,10 +206,16 @@ final class PageView: UIView {
         interaction = mode
         if mode == .listen, listenTap.view == nil { addGestureRecognizer(listenTap) }
         listenTap.isEnabled = mode == .listen
+        if mode == .read, readTap.view == nil { addGestureRecognizer(readTap) }
+        readTap.isEnabled = mode == .read
         canvas?.isUserInteractionEnabled = isInkEditable && mode == .ink
         objectsView?.isEditingEnabled = mode == .objects
         objectsView?.setNeedsDisplay()
         textLayer?.isSelectionEnabled = mode == .text
+    }
+
+    @objc private func handleReadTap(_ recognizer: UITapGestureRecognizer) {
+        onReadTap?(recognizer.location(in: self))
     }
 
     @objc private func handleListenTap(_ recognizer: UITapGestureRecognizer) {

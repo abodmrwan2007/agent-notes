@@ -1,12 +1,42 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld cards reviewed. Cards come back when they are due.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رُوجعت %lld بطاقة. تعود البطاقات عندما يحين موعدها."
+          }
+        }
+      }
+    },
+    "%lld cards · %lld due · %lld learned": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld بطاقة · %2$lld مستحقة · %3$lld محفوظة"
+          }
+        }
+      }
+    },
     "%lld pages": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld صفحة"
+          }
+        }
+      }
+    },
+    "%lld reviewed · %lld left": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld رُوجعت · %2$lld متبقية"
           }
         }
       }
@@ -47,6 +77,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "يوجد مفتاح محفوظ على هذا الآيباد."
+          }
+        }
+      }
+    },
+    "A page in this notebook": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صفحة في هذا الدفتر"
+          }
+        }
+      }
+    },
+    "A website": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موقع إنترنت"
           }
         }
       }
@@ -137,6 +187,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Add Card": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف بطاقة"
+          }
+        }
+      }
+    },
+    "Add Link": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إضافة رابط"
           }
         }
       }
@@ -251,6 +321,16 @@
         }
       }
     },
+    "All done": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهيت"
+          }
+        }
+      }
+    },
     "All notebooks in the trash will be removed from this device. This cannot be undone.": {
       "localizations": {
         "ar": {
@@ -277,6 +357,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "وحدة الزاوية"
+          }
+        }
+      }
+    },
+    "Answer": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإجابة"
+          }
+        }
+      }
+    },
+    "Answer first": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإجابة أولًا"
           }
         }
       }
@@ -397,6 +497,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الصوت"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الظهر"
           }
         }
       }
@@ -567,6 +677,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "كبسولة"
+          }
+        }
+      }
+    },
+    "Card": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطاقة"
+          }
+        }
+      }
+    },
+    "Cards": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطاقات"
           }
         }
       }
@@ -841,6 +971,26 @@
         }
       }
     },
+    "Deck actions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات المجموعة"
+          }
+        }
+      }
+    },
+    "Decks you make or save from the AI, reviewed when they are due.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجموعات تصنعها أو تحفظها من الذكاء الاصطناعي، تُراجع عندما يحين موعدها."
+          }
+        }
+      }
+    },
     "Default template": {
       "localizations": {
         "ar": {
@@ -1071,6 +1221,16 @@
         }
       }
     },
+    "Easy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سهلة"
+          }
+        }
+      }
+    },
     "Edit Text": {
       "localizations": {
         "ar": {
@@ -1127,6 +1287,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إنجليزي"
+          }
+        }
+      }
+    },
+    "Enter a web address such as en.wikipedia.org/wiki/Heart.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدخل عنوان موقع مثل en.wikipedia.org/wiki/Heart."
           }
         }
       }
@@ -1197,6 +1367,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تصدير"
+          }
+        }
+      }
+    },
+    "Export Cards (TSV)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تصدير البطاقات (TSV)"
           }
         }
       }
@@ -1281,6 +1461,16 @@
         }
       }
     },
+    "Flashcards, links, transcripts, versions": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطاقات، روابط، تفريغ صوتي، نسخ"
+          }
+        }
+      }
+    },
     "Flask": {
       "localizations": {
         "ar": {
@@ -1357,6 +1547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "قلم حبر سائل"
+          }
+        }
+      }
+    },
+    "Front": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوجه"
           }
         }
       }
@@ -1481,6 +1681,16 @@
         }
       }
     },
+    "Hard": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صعبة"
+          }
+        }
+      }
+    },
     "Heart": {
       "localizations": {
         "ar": {
@@ -1567,6 +1777,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "استيراد"
+          }
+        }
+      }
+    },
+    "Import Cards (TSV or CSV)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد بطاقات (TSV أو CSV)"
           }
         }
       }
@@ -1767,6 +1987,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "مسطّرة"
+          }
+        }
+      }
+    },
+    "Link to": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرابط إلى"
+          }
+        }
+      }
+    },
+    "Link…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رابط…"
           }
         }
       }
@@ -2011,16 +2251,6 @@
         }
       }
     },
-    "Needs a translation provider.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تحتاج إلى مزوّد ترجمة."
-          }
-        }
-      }
-    },
     "Needs handwriting recognition, which is not chosen yet.": {
       "localizations": {
         "ar": {
@@ -2037,6 +2267,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تحتاج إلى محتوى دراسي مُراجَع."
+          }
+        }
+      }
+    },
+    "New Deck": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجموعة جديدة"
           }
         }
       }
@@ -2111,6 +2351,26 @@
         }
       }
     },
+    "No decks yet. Tap + to make one, or save the cards the AI makes in Tools ▸ AI.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد مجموعات بعد. اضغط + لإنشاء واحدة، أو احفظ البطاقات التي يصنعها الذكاء الاصطناعي من الأدوات ◂ الذكاء الاصطناعي."
+          }
+        }
+      }
+    },
+    "No earlier versions yet. A version is kept each time you close this notebook after changing it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد نسخ سابقة بعد. تُحفظ نسخة كلما أغلقت هذا الدفتر بعد تعديله."
+          }
+        }
+      }
+    },
     "No favorite tools yet. Swipe a tool to the right to add it.": {
       "localizations": {
         "ar": {
@@ -2147,6 +2407,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لا يوجد نص قابل للتحديد هنا. الصفحات الممسوحة ضوئيًا تحتاج إلى التعرّف الضوئي على النص، وهو غير متاح بعد."
+          }
+        }
+      }
+    },
+    "No speech was recognized in this recording.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُتعرّف على كلام في هذا التسجيل."
           }
         }
       }
@@ -2271,6 +2541,16 @@
         }
       }
     },
+    "Nothing due: study all cards": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا شيء مستحق: راجع كل البطاقات"
+          }
+        }
+      }
+    },
     "Nothing opened yet": {
       "localizations": {
         "ar": {
@@ -2361,6 +2641,16 @@
         }
       }
     },
+    "Open Link": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الرابط"
+          }
+        }
+      }
+    },
     "Open Settings ▸ AI Assistant and paste a key from console.anthropic.com. Each request is billed to that account.": {
       "localizations": {
         "ar": {
@@ -2427,6 +2717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "PDF مع التعليقات (مسطّح)"
+          }
+        }
+      }
+    },
+    "Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة"
           }
         }
       }
@@ -2741,6 +3041,16 @@
         }
       }
     },
+    "Question or term": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سؤال أو مصطلح"
+          }
+        }
+      }
+    },
     "Quiz": {
       "localizations": {
         "ar": {
@@ -2951,6 +3261,16 @@
         }
       }
     },
+    "Remembered": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تذكّرتها"
+          }
+        }
+      }
+    },
     "Remove Background": {
       "localizations": {
         "ar": {
@@ -3141,6 +3461,16 @@
         }
       }
     },
+    "Restore this version?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استعادة هذه النسخة؟"
+          }
+        }
+      }
+    },
     "Results you calculate appear here.": {
       "localizations": {
         "ar": {
@@ -3221,12 +3551,32 @@
         }
       }
     },
+    "Save as Flashcard Deck": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احفظها كمجموعة بطاقات"
+          }
+        }
+      }
+    },
     "Save key": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حفظ المفتاح"
+          }
+        }
+      }
+    },
+    "Saved to Study ▸ Flashcards": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُفظت في الدراسة ◂ البطاقات"
           }
         }
       }
@@ -3521,6 +3871,26 @@
         }
       }
     },
+    "Speech recognition for this language is not available on this iPad right now.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعرّف على الكلام بهذه اللغة غير متاح على هذا الآيباد الآن."
+          }
+        }
+      }
+    },
+    "Speech recognition is off for this app. Turn it on in Settings ▸ Privacy ▸ Speech Recognition.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعرّف على الكلام متوقف لهذا التطبيق. فعّله من الإعدادات ◂ الخصوصية ◂ التعرّف على الكلام."
+          }
+        }
+      }
+    },
     "Star": {
       "localizations": {
         "ar": {
@@ -3671,6 +4041,16 @@
         }
       }
     },
+    "Study %lld due cards": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "راجع %lld بطاقة مستحقة"
+          }
+        }
+      }
+    },
     "Study Games": {
       "localizations": {
         "ar": {
@@ -3697,6 +4077,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أدوات الدراسة"
+          }
+        }
+      }
+    },
+    "Study ▸ Flashcards: decks with spaced review (Hard, Remembered, Easy); save AI cards as a deck. Insert ▸ Link… to another page or a website. Touch and hold a recording to transcribe it. In the library, touch and hold a notebook ▸ Version History….": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدراسة ◂ البطاقات: مجموعات بمراجعة متباعدة (صعبة، تذكّرتها، سهلة)، واحفظ بطاقات الذكاء الاصطناعي كمجموعة. إدراج ◂ رابط… إلى صفحة أخرى أو موقع. اضغط مطولًا على تسجيل لتحويله إلى نص. في المكتبة اضغط مطولًا على دفتر ◂ سجل النسخ…."
           }
         }
       }
@@ -3801,12 +4191,12 @@
         }
       }
     },
-    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.": {
+    "Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on. Touch and hold a recording to transcribe it.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا."
+            "value": "اضغط على كلمة كتبتها أثناء تسجيل لتشغيل المحاضرة من تلك اللحظة. الكتابة متوقفة ما دام هذا الخيار مفعّلًا. اضغط مطولًا على تسجيل لتحويله إلى نص."
           }
         }
       }
@@ -3817,6 +4207,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "اضغط على عنصر لتحديده. استخدم «إدراج» لإضافة نص وملاحظات وأشكال وصور."
+          }
+        }
+      }
+    },
+    "Tap the card to see the answer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على البطاقة لترى الإجابة."
+          }
+        }
+      }
+    },
+    "Tap the link in reading mode (Read at the top), or select it and tap Open Link.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على الرابط في وضع القراءة («اقرأ» في الأعلى)، أو حدّده واضغط «افتح الرابط»."
           }
         }
       }
@@ -3877,6 +4287,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أدوات النص"
+          }
+        }
+      }
+    },
+    "Text shown on the page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النص الظاهر في الصفحة"
           }
         }
       }
@@ -3981,6 +4401,26 @@
         }
       }
     },
+    "The flashcards could not be saved.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ البطاقات."
+          }
+        }
+      }
+    },
+    "The flashcards file could not be read. It was kept as a copy and a new one was started.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة ملف البطاقات. حُفظ كنسخة وبُدئ ملف جديد."
+          }
+        }
+      }
+    },
     "The handwriting on one page could not be read. That page is shown read-only to protect the saved file.": {
       "localizations": {
         "ar": {
@@ -4021,6 +4461,16 @@
         }
       }
     },
+    "The linked page was deleted.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة المرتبطة حُذفت."
+          }
+        }
+      }
+    },
     "The notebook could not be saved.": {
       "localizations": {
         "ar": {
@@ -4037,6 +4487,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر فتح قفل الدفتر."
+          }
+        }
+      }
+    },
+    "The notebook goes back to this version. Its current state is kept in this list, so you can return to it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يعود الدفتر إلى هذه النسخة. وتُحفظ حالته الحالية في هذه القائمة لتعود إليها إن أردت."
           }
         }
       }
@@ -4131,12 +4591,32 @@
         }
       }
     },
+    "This deck was deleted.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُذفت هذه المجموعة."
+          }
+        }
+      }
+    },
     "This file could not be read as a PDF.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "تعذّرت قراءة هذا الملف كملف PDF."
+          }
+        }
+      }
+    },
+    "This file could not be read.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة هذا الملف."
           }
         }
       }
@@ -4341,6 +4821,36 @@
         }
       }
     },
+    "Transcribe (Arabic)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوّل إلى نص (عربي)"
+          }
+        }
+      }
+    },
+    "Transcribe (English)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوّل إلى نص (إنجليزي)"
+          }
+        }
+      }
+    },
+    "Transcribing…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحوّل إلى نص…"
+          }
+        }
+      }
+    },
     "Transition metal": {
       "localizations": {
         "ar": {
@@ -4371,12 +4881,22 @@
         }
       }
     },
-    "Translation Tool": {
+    "Translate, look up and hear Arabic and English text.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "أداة الترجمة"
+            "value": "ترجم وابحث واسمع النصوص العربية والإنجليزية."
+          }
+        }
+      }
+    },
+    "Translator and Dictionary": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المترجم والقاموس"
           }
         }
       }
@@ -4407,6 +4927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "دوال مثلثية ولوغاريتمات وقوى ومضروب، تُحسب على هذا الجهاز."
+          }
+        }
+      }
+    },
+    "Type or paste Arabic or English text, then Translate, Look Up or Read Aloud. Translation uses Apple's translation, which can download languages to work offline.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتب أو الصق نصًا عربيًا أو إنجليزيًا، ثم ترجم أو ابحث في القاموس أو اسمعه. تستخدم الترجمة ترجمة Apple التي يمكنها تنزيل اللغات لتعمل دون إنترنت."
           }
         }
       }
@@ -4517,6 +5047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الإصدار"
+          }
+        }
+      }
+    },
+    "Version History…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجل النسخ…"
           }
         }
       }
@@ -4717,6 +5257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "نسخة"
+          }
+        }
+      }
+    },
+    "example.com": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "example.com"
           }
         }
       }

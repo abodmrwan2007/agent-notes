@@ -21,6 +21,7 @@ struct AssistantPanel: View {
     @State private var errorText: String?
     @State private var remaining = StudyAssistantService.remainingToday
     @State private var didAdd = false
+    @State private var savedDeck = false
     @State private var isReady = StudyAssistantService.isReady
 
     var body: some View {
@@ -148,6 +149,18 @@ struct AssistantPanel: View {
             }
         case .studySet(let set):
             StudySetView(set: set)
+            Button {
+                let cards = set.cards.map { Flashcard(front: $0.front, back: $0.back) }
+                    + set.quiz.map { Flashcard(front: $0.question, back: $0.choices[$0.answer] + "\n" + $0.explanation) }
+                FlashcardStore.shared.addDeck(title: model.manifest.title, cards: cards)
+                savedDeck = true
+            } label: {
+                let saveTitle: LocalizedStringKey = savedDeck ? "Saved to Study ▸ Flashcards" : "Save as Flashcard Deck"
+                Label(saveTitle, systemImage: savedDeck ? "checkmark" : "rectangle.stack.badge.plus")
+            }
+            .buttonStyle(.bordered)
+            .disabled(savedDeck)
+            .accessibilityIdentifier("assistant.saveDeck")
             resultButtons(text: set.pageText(
                 cardsTitle: String(localized: "Flashcards"),
                 quizTitle: String(localized: "Quiz")))
@@ -228,6 +241,7 @@ struct AssistantPanel: View {
         guard !isWorking else { return }
         errorText = nil
         didAdd = false
+        savedDeck = false
         isWorking = true
         let pages = model.assistantPages(scope: override ?? scope)
         let language = language

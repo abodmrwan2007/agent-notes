@@ -446,6 +446,39 @@ final class EditorModel {
         add(object, to: page.id)
     }
 
+    /// A text box that opens another page or a web page (tap it in reading mode, or Open Link).
+    func insertLink(label: String, link: PageLink) {
+        guard let page = currentPage else { return }
+        let text = label.trimmingCharacters(in: .whitespacesAndNewlines)
+        let shown = text.isEmpty ? link.rawValue : text
+        let width = min(max(Double(shown.count) * 10 + 40, 120), page.size.width * 0.8)
+        let object = PageObject(
+            kind: .text, frame: placement((width: width, height: 40), on: page),
+            text: "↗ " + shown, fontSize: 18, colorHex: "1D5FD1", link: link.rawValue)
+        add(object, to: page.id)
+    }
+
+    func openLink(_ link: PageLink) {
+        switch link {
+        case .page(let id):
+            if let index = manifest.index(of: id) {
+                goToPage(index)
+            } else {
+                alertMessage = String(localized: "The linked page was deleted.")
+            }
+        case .web(let url):
+            UIApplication.shared.open(url)
+        }
+    }
+
+    /// Reading mode: a tap on a link object opens it.
+    func openLink(at point: PagePoint, pageID: UUID) {
+        if let object = objects(for: pageID).objects.last(where: { $0.pageLink != nil && $0.contains(point) }),
+           let link = object.pageLink {
+            openLink(link)
+        }
+    }
+
     /// Places a sticker (PNG, transparency kept) in the middle of the visible part of the page.
     func insertSticker(pngData: Data, size: CGSize) {
         guard let page = currentPage else { return }
