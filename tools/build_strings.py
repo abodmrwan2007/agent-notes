@@ -156,7 +156,6 @@ AR = {
     "Step-by-step Math Solver": "حل المسائل خطوة بخطوة",
     "Needs a symbolic engine or a verified AI explanation.": "يحتاج إلى محرك رمزي أو شرح بالذكاء الاصطناعي مُتحقَّق منه.",
     "Handwriting Calculator": "آلة حاسبة بخط اليد",
-    "Needs handwriting recognition, which is not chosen yet.": "تحتاج إلى التعرّف على خط اليد، ولم يُختر مزوّده بعد.",
     "Study Games": "ألعاب دراسية",
     "Needs reviewed study content.": "تحتاج إلى محتوى دراسي مُراجَع.",
     "Tools": "الأدوات",
@@ -450,6 +449,20 @@ AR = {
         "توقف التسجيل لأن تطبيقًا آخر أو مكالمة استخدم الصوت. ما سُجّل محفوظ.",
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.":
         "«الدراسة» في الشريط الجانبي: آلة حاسبة علمية، راسم دوال، جدول دوري، ومؤقت تركيز.",
+    "Laser": "مؤشر الليزر",
+    "Generate Image…": "توليد صورة…",
+    "Write a calculation with Apple Pencil or your finger, for example 12 × 3 + 4, then tap Solve. Check what was read before trusting the answer.":
+        "اكتب عملية حسابية بقلم Apple أو بإصبعك، مثل 12 × 3 + 4، ثم اضغط «احسب». راجع ما قُرئ قبل أن تثق بالنتيجة.",
+    "Read as (you can correct it):": "قُرئت هكذا (يمكنك تصحيحها):",
+    "Solve": "احسب",
+    "Clear": "امسح",
+    "Angles": "الزوايا",
+    "This could not be worked out. Correct the expression above and press Return.":
+        "تعذّر حسابها. صحّح العملية أعلاه واضغط «رجوع».",
+    "Write a sum by hand; the iPad reads it and works it out.": "اكتب عملية بخط يدك، ويقرؤها الآيباد ويحسبها.",
+    "Presenting, handwriting calculator": "العرض، والآلة الحاسبة بخط اليد",
+    "In reading mode, turn on Laser to point at your notes while presenting. Study ▸ Handwriting Calculator works out sums you write. On iPads with Apple Intelligence, Insert ▸ Generate Image….":
+        "في وضع القراءة فعّل «مؤشر الليزر» للإشارة إلى ملاحظاتك أثناء العرض. الدراسة ◂ الآلة الحاسبة بخط اليد تحسب ما تكتبه. وعلى أجهزة الآيباد التي تدعم Apple Intelligence: إدراج ◂ توليد صورة….",
     "Flashcards, links, transcripts, versions": "بطاقات، روابط، تفريغ صوتي، نسخ",
     "Study ▸ Flashcards: decks with spaced review (Hard, Remembered, Easy); save AI cards as a deck. Insert ▸ Link… to another page or a website. Touch and hold a recording to transcribe it. In the library, touch and hold a notebook ▸ Version History….":
         "الدراسة ◂ البطاقات: مجموعات بمراجعة متباعدة (صعبة، تذكّرتها، سهلة)، واحفظ بطاقات الذكاء الاصطناعي كمجموعة. إدراج ◂ رابط… إلى صفحة أخرى أو موقع. اضغط مطولًا على تسجيل لتحويله إلى نص. في المكتبة اضغط مطولًا على دفتر ◂ سجل النسخ….",

@@ -361,6 +361,16 @@
         }
       }
     },
+    "Angles": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الزوايا"
+          }
+        }
+      }
+    },
     "Answer": {
       "localizations": {
         "ar": {
@@ -787,6 +797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مفتاح Claude API"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "امسح"
           }
         }
       }
@@ -1581,6 +1601,16 @@
         }
       }
     },
+    "Generate Image…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توليد صورة…"
+          }
+        }
+      }
+    },
     "Graph": {
       "localizations": {
         "ar": {
@@ -1831,6 +1861,16 @@
         }
       }
     },
+    "In reading mode, turn on Laser to point at your notes while presenting. Study ▸ Handwriting Calculator works out sums you write. On iPads with Apple Intelligence, Insert ▸ Generate Image….": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في وضع القراءة فعّل «مؤشر الليزر» للإشارة إلى ملاحظاتك أثناء العرض. الدراسة ◂ الآلة الحاسبة بخط اليد تحسب ما تكتبه. وعلى أجهزة الآيباد التي تدعم Apple Intelligence: إدراج ◂ توليد صورة…."
+          }
+        }
+      }
+    },
     "Insert": {
       "localizations": {
         "ar": {
@@ -1927,6 +1967,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لانثانيد"
+          }
+        }
+      }
+    },
+    "Laser": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر الليزر"
           }
         }
       }
@@ -2247,16 +2297,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "يحتاج إلى محرك رمزي أو شرح بالذكاء الاصطناعي مُتحقَّق منه."
-          }
-        }
-      }
-    },
-    "Needs handwriting recognition, which is not chosen yet.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تحتاج إلى التعرّف على خط اليد، ولم يُختر مزوّده بعد."
           }
         }
       }
@@ -2991,6 +3031,16 @@
         }
       }
     },
+    "Presenting, handwriting calculator": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض، والآلة الحاسبة بخط اليد"
+          }
+        }
+      }
+    },
     "Print…": {
       "localizations": {
         "ar": {
@@ -3087,6 +3137,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اقرأ بصوت عالٍ"
+          }
+        }
+      }
+    },
+    "Read as (you can correct it):": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قُرئت هكذا (يمكنك تصحيحها):"
           }
         }
       }
@@ -3851,6 +3911,16 @@
         }
       }
     },
+    "Solve": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احسب"
+          }
+        }
+      }
+    },
     "Something went wrong": {
       "localizations": {
         "ar": {
@@ -4591,6 +4661,16 @@
         }
       }
     },
+    "This could not be worked out. Correct the expression above and press Return.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حسابها. صحّح العملية أعلاه واضغط «رجوع»."
+          }
+        }
+      }
+    },
     "This deck was deleted.": {
       "localizations": {
         "ar": {
@@ -5167,6 +5247,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "كتابة"
+          }
+        }
+      }
+    },
+    "Write a calculation with Apple Pencil or your finger, for example 12 × 3 + 4, then tap Solve. Check what was read before trusting the answer.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتب عملية حسابية بقلم Apple أو بإصبعك، مثل 12 × 3 + 4، ثم اضغط «احسب». راجع ما قُرئ قبل أن تثق بالنتيجة."
+          }
+        }
+      }
+    },
+    "Write a sum by hand; the iPad reads it and works it out.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتب عملية بخط يدك، ويقرؤها الآيباد ويحسبها."
           }
         }
       }

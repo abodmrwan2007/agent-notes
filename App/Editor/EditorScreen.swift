@@ -68,6 +68,8 @@ struct EditorScreen: View {
     @State private var pickedBackground: PhotosPickerItem?
     @State private var isScanning = false
     @State private var isAddingLink = false
+    @State private var isLaserActive = false
+    @State private var isGeneratingImage = false
     @State private var isRecognizing = false
     @State private var sharedImages: SharedImages?
 
@@ -93,6 +95,11 @@ struct EditorScreen: View {
                     isRulerActive: model.isRulerActive,
                     isReadingMode: model.isReadingMode,
                     isListening: model.isListening)
+                .overlay {
+                    if isLaserActive && model.isReadingMode {
+                        LaserPointerOverlay()
+                    }
+                }
                 if model.isSidePanelOpen, !model.isReadingMode {
                     Divider()
                     EditorSidePanel(model: model)
@@ -134,6 +141,9 @@ struct EditorScreen: View {
         .sheet(item: $sharedImages) { shared in
             ActivityView(items: shared.urls)
         }
+        .modifier(ImageGenerationSheet(isPresented: $isGeneratingImage) { data in
+            model.insertImage(data: data)
+        })
         .sheet(isPresented: $isAddingLink) {
             LinkSheet(pageCount: model.manifest.pages.count, currentPage: model.currentPageIndex) { label, choice in
                 switch choice {
@@ -274,6 +284,15 @@ struct EditorScreen: View {
             .accessibilityLabel("Reading Mode")
             .accessibilityIdentifier("editor.reading")
 
+            if model.isReadingMode {
+                Toggle(isOn: $isLaserActive) {
+                    Label("Laser", systemImage: "light.max")
+                        .labelStyle(.titleAndIcon)
+                }
+                .toggleStyle(.button)
+                .accessibilityIdentifier("editor.laser")
+            }
+
             Text("Page \(model.currentPageIndex + 1) of \(model.manifest.pages.count)")
                 .font(.subheadline)
                 .monospacedDigit()
@@ -327,6 +346,15 @@ struct EditorScreen: View {
                     isAddingLink = true
                 } label: {
                     Label("Link…", systemImage: "link")
+                }
+                ImageGenerationAvailability { supported in
+                    if supported {
+                        Button {
+                            isGeneratingImage = true
+                        } label: {
+                            Label("Generate Image…", systemImage: "apple.image.playground")
+                        }
+                    }
                 }
             } label: {
                 Label("Insert", systemImage: "plus.circle")

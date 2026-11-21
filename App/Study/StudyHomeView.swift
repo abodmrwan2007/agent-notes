@@ -8,6 +8,7 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
     case focusTimer
     case flashcards
     case translator
+    case handwritingCalculator
 
     var id: String { rawValue }
 
@@ -19,6 +20,7 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .focusTimer: return "Focus Timer"
         case .flashcards: return "Flashcards"
         case .translator: return "Translator and Dictionary"
+        case .handwritingCalculator: return "Handwriting Calculator"
         }
     }
 
@@ -30,6 +32,7 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .focusTimer: return "Work and break sessions that keep counting in the background."
         case .flashcards: return "Decks you make or save from the AI, reviewed when they are due."
         case .translator: return "Translate, look up and hear Arabic and English text."
+        case .handwritingCalculator: return "Write a sum by hand; the iPad reads it and works it out."
         }
     }
 
@@ -41,6 +44,7 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .focusTimer: return "timer"
         case .flashcards: return "rectangle.on.rectangle.angled"
         case .translator: return "character.bubble"
+        case .handwritingCalculator: return "scribble"
         }
     }
 
@@ -53,6 +57,7 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         case .focusTimer: FocusTimerView()
         case .flashcards: FlashcardDecksView()
         case .translator: TranslatorView(onInsert: insert)
+        case .handwritingCalculator: HandwritingCalculatorView(onInsert: insert)
         }
     }
 }
@@ -68,9 +73,6 @@ private struct PlannedTool: Identifiable {
         PlannedTool(
             id: "solver", title: "Step-by-step Math Solver",
             reason: "Needs a symbolic engine or a verified AI explanation.", symbol: "list.number"),
-        PlannedTool(
-            id: "handwriting", title: "Handwriting Calculator",
-            reason: "Needs handwriting recognition, which is not chosen yet.", symbol: "scribble"),
         PlannedTool(
             id: "games", title: "Study Games",
             reason: "Needs reviewed study content.", symbol: "gamecontroller")

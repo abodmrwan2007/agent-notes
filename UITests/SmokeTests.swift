@@ -905,6 +905,34 @@ final class SmokeTests: XCTestCase {
         shot("105-version-history")
     }
 
+    /// The handwriting calculator screen, and the laser pointer in reading mode.
+    func test9zzzzzzzzz_handwritingCalculatorAndLaser() {
+        continueAfterFailure = true
+        let app = launch(language: "en")
+        app.staticTexts["Study"].firstMatch.tap()
+        tap(app, "study.tool.handwritingCalculator")
+        let pad = element(app, "handwriting.pad")
+        XCTAssertTrue(pad.waitForExistence(timeout: 5), "handwriting pad")
+        // A "1": one vertical stroke. Recognition of a finger-drawn digit is not asserted.
+        pad.coordinate(withNormalizedOffset: CGVector(dx: 0.2, dy: 0.2))
+            .press(forDuration: 0.05, thenDragTo: pad.coordinate(withNormalizedOffset: CGVector(dx: 0.2, dy: 0.8)))
+        sleep(1)
+        shot("110-handwriting-calculator")
+
+        app.staticTexts["All Notes"].firstMatch.tap()
+        let notebook = card(app, titled: "Untitled notebook")
+        XCTAssertTrue(notebook.waitForExistence(timeout: 15))
+        notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        tap(app, "editor.reading")
+        tap(app, "editor.laser")
+        let area = element(app, "editor.laserArea")
+        XCTAssertTrue(area.waitForExistence(timeout: 5), "laser overlay")
+        area.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.4))
+            .press(forDuration: 0.05, thenDragTo: area.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.5)), withVelocity: .slow, thenHoldForDuration: 0.1)
+        shot("111-laser")
+    }
+
     /// The AI tab with canned answers (`-uiTestAIMock`, Debug only): no key and no network.
     /// Proves the panel, flashcards, quiz, follow-up questions, Explain and Add to notebook work;
     /// it says nothing about the quality of real answers.
