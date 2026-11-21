@@ -44,6 +44,14 @@ final class SmokeTests: XCTestCase {
         target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
 
+    /// Opens a SwiftUI Menu button by its label. Menus are not "hittable" for XCUITest, so tap by coordinate.
+    private func openMenu(_ app: XCUIApplication, _ label: String) {
+        let button = app.buttons[label].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 10), "missing menu \(label)")
+        button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        sleep(1)
+    }
+
     /// Scrolls the side panel (right edge of the screen) until the element is on screen.
     private func revealInPanel(_ app: XCUIApplication, _ identifier: String) {
         for _ in 0..<8 {
@@ -784,11 +792,10 @@ final class SmokeTests: XCTestCase {
         sleep(2)
 
         // Page actions ▸ Recognize All Text on Page: the printed lecture text is found.
-        app.buttons["Page actions"].firstMatch.tap()
+        openMenu(app, "Page actions")
         let recognize = app.buttons["Recognize All Text on Page"].firstMatch
         XCTAssertTrue(recognize.waitForExistence(timeout: 5), "page actions menu")
-        sleep(1)
-        recognize.tap()
+        recognize.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         let text = element(app, "textTools.text")
         XCTAssertTrue(text.waitForExistence(timeout: 30), "no recognized text sheet")
         sleep(1)
@@ -830,11 +837,10 @@ final class SmokeTests: XCTestCase {
         }
 
         // Export ▸ Pages as Images: the share sheet offers the pictures.
-        app.buttons["Export"].firstMatch.tap()
+        openMenu(app, "Export")
         let images = app.buttons["Pages as Images (PNG)"].firstMatch
         XCTAssertTrue(images.waitForExistence(timeout: 5))
-        sleep(1)
-        images.tap()
+        images.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         sleep(4)
         shot("97-export-images")
     }
@@ -879,11 +885,10 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(notebook.waitForExistence(timeout: 15))
         notebook.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
-        app.buttons["Insert"].firstMatch.tap()
+        openMenu(app, "Insert")
         let linkItem = app.buttons["Link…"].firstMatch
         XCTAssertTrue(linkItem.waitForExistence(timeout: 5))
-        sleep(1)
-        linkItem.tap()
+        linkItem.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         tap(app, "link.add")
         sleep(1)
         shot("103-link-on-page")

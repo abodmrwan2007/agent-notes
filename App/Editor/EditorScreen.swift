@@ -758,14 +758,16 @@ struct TextSelectionOptions: View {
                 Text(verbatim: "“" + String(selection.text.prefix(60)) + (selection.text.count > 60 ? "…" : "") + "”")
                     .font(.footnote)
                     .lineLimit(1)
-                    .frame(maxWidth: 280, alignment: .leading)
+                    .frame(maxWidth: 150, alignment: .leading)
                     .accessibilityIdentifier("text.selection")
+                // Icons only for the common actions, so Explain and Translate fit beside them.
                 Button {
                     UIPasteboard.general.string = selection.text
                     didCopy = true
                 } label: {
                     let title: LocalizedStringKey = didCopy ? "Copied" : "Copy"
                     Label(title, systemImage: didCopy ? "checkmark" : "doc.on.doc")
+                        .labelStyle(.iconOnly)
                 }
                 .accessibilityIdentifier("text.copy")
                 Button {
@@ -775,6 +777,7 @@ struct TextSelectionOptions: View {
                     app.showSearch(for: query)
                 } label: {
                     Label("Where Else?", systemImage: "text.magnifyingglass")
+                        .labelStyle(.iconOnly)
                 }
                 .accessibilityIdentifier("text.searchNotes")
                 Button {
