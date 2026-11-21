@@ -44,6 +44,7 @@ KEY_PATTERNS = [
     r'\bdetail:\s*"((?:[^"\\]|\\.)*)"',
     r'\btwemojiSection\(\s*"((?:[^"\\]|\\.)*)"',
     r'\bsummary:\s*"((?:[^"\\]|\\.)*)"',
+    r'\bnote:\s*"((?:[^"\\]|\\.)*)"',
     r'\bStepper\(\s*"((?:[^"\\]|\\.)*)"',
     r':\s*LocalizedStringKey\s*=\s*[^"]*?\?\s*"((?:[^"\\]|\\.)*)"',
     r':\s*LocalizedStringKey\s*=\s*[^"]*?\?\s*"(?:[^"\\]|\\.)*"\s*:\s*"((?:[^"\\]|\\.)*)"',

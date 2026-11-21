@@ -45,6 +45,11 @@ private struct SharedFile: Identifiable {
     let url: URL
 }
 
+private struct SharedImages: Identifiable {
+    let id = UUID()
+    let urls: [URL]
+}
+
 struct EditorScreen: View {
     @Bindable var model: EditorModel
 
@@ -61,6 +66,9 @@ struct EditorScreen: View {
     @State private var isPickingBackground = false
     @State private var isPickingSticker = false
     @State private var pickedBackground: PhotosPickerItem?
+    @State private var isScanning = false
+    @State private var isRecognizing = false
+    @State private var sharedImages: SharedImages?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -99,7 +107,31 @@ struct EditorScreen: View {
                 ProgressView("Exporting…")
                     .padding(24)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
+            } else if isRecognizing {
+                ProgressView("Reading the page…")
+                    .padding(24)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
             }
+        }
+        .sheet(item: $model.textToolsRequest) { request in
+            switch request.origin {
+            case .recognized:
+                TextToolsSheet(
+                    title: "Recognized Text", text: request.text,
+                    onInsert: { model.insertTextBlock($0) },
+                    note: "Check the text: recognition can misread handwriting. Edit it here before putting it on the page.")
+            case .selection:
+                TextToolsSheet(title: "Text Tools", text: request.text, onInsert: nil, note: nil)
+            }
+        }
+        .fullScreenCover(isPresented: $isScanning) {
+            DocumentScanner { images in
+                model.addImagePages(images)
+            }
+            .ignoresSafeArea()
+        }
+        .sheet(item: $sharedImages) { shared in
+            ActivityView(items: shared.urls)
         }
         .onChange(of: scenePhase) { _, phase in
             // Leaving the foreground: get everything on disk before the app can be suspended or killed.
@@ -272,6 +304,12 @@ struct EditorScreen: View {
                 } label: {
                     Label("Sticker…", systemImage: "face.smiling")
                 }
+                Button {
+                    isScanning = true
+                } label: {
+                    Label("Scan Document", systemImage: "doc.viewfinder")
+                }
+                .disabled(!DocumentScanner.isAvailable)
             } label: {
                 Label("Insert", systemImage: "plus.circle")
                     .labelStyle(.titleAndIcon)
@@ -308,6 +346,16 @@ struct EditorScreen: View {
                     export { try await model.exportPackage() }
                 } label: {
                     Label("Editable notebook package", systemImage: "shippingbox")
+                }
+                Button {
+                    exportImages()
+                } label: {
+                    Label("Pages as Images (PNG)", systemImage: "photo.stack")
+                }
+                Button {
+                    printNotebook()
+                } label: {
+                    Label("Print…", systemImage: "printer")
                 }
             } label: {
                 Image(systemName: "square.and.arrow.up")
@@ -359,6 +407,17 @@ struct EditorScreen: View {
                 }
             }
             Button {
+                recognize(handwritingOnly: true)
+            } label: {
+                Label("Recognize Handwriting", systemImage: "text.viewfinder")
+            }
+            Button {
+                recognize(handwritingOnly: false)
+            } label: {
+                Label("Recognize All Text on Page", systemImage: "doc.text.viewfinder")
+            }
+            Divider()
+            Button {
                 model.toggleBookmark(page.id)
             } label: {
                 let title: LocalizedStringKey = page.isBookmarked ? "Remove Bookmark" : "Bookmark Page"
@@ -385,6 +444,51 @@ struct EditorScreen: View {
         let manifest = model.close()
         app.library.refreshRow(from: manifest)
         app.closeDocument()
+    }
+
+    private func recognize(handwritingOnly: Bool) {
+        isRecognizing = true
+        Task {
+            defer { isRecognizing = false }
+            do {
+                let text = try await model.recognizeTextOnCurrentPage(handwritingOnly: handwritingOnly)
+                model.textToolsRequest = TextToolsRequest(text: text, origin: .recognized)
+            } catch {
+                model.alertMessage = error.localizedDescription
+            }
+        }
+    }
+
+    private func exportImages() {
+        isExporting = true
+        Task {
+            defer { isExporting = false }
+            do {
+                sharedImages = SharedImages(urls: try await model.exportPageImages())
+            } catch {
+                model.alertMessage = error.localizedDescription
+            }
+        }
+    }
+
+    /// Prints the flattened PDF (the same file as the PDF export) with the system print dialog.
+    private func printNotebook() {
+        isExporting = true
+        Task {
+            defer { isExporting = false }
+            do {
+                let url = try await model.exportPDF()
+                let controller = UIPrintInteractionController.shared
+                let info = UIPrintInfo.printInfo()
+                info.jobName = model.manifest.title
+                info.outputType = .general
+                controller.printInfo = info
+                controller.printingItem = url
+                controller.present(animated: true)
+            } catch {
+                model.alertMessage = error.localizedDescription
+            }
+        }
     }
 
     private func export(_ operation: @escaping () async throws -> URL) {
@@ -624,6 +728,12 @@ struct TextSelectionOptions: View {
                 }
                 .accessibilityIdentifier("text.searchNotes")
                 Button {
+                    model.textToolsRequest = TextToolsRequest(text: selection.text, origin: .selection)
+                } label: {
+                    Label("Translate & Look Up", systemImage: "translate")
+                }
+                .accessibilityIdentifier("text.tools")
+                Button {
                     model.explainRequest = ExplainRequest(text: selection.text, pageID: selection.pageID)
                     model.panelTab = .assistant
                     withAnimation { model.isSidePanelOpen = true }
@@ -679,6 +789,16 @@ struct ObjectOptions: View {
                         }
                         .accessibilityLabel("Color")
                     }
+                }
+
+                if object.kind == .image {
+                    Button {
+                        Task { await model.removeBackgroundOfSelectedImage() }
+                    } label: {
+                        Label("Remove Background", systemImage: "person.crop.rectangle.badge.plus")
+                    }
+                    .accessibilityIdentifier("object.removeBackground")
+                    .disabled(object.isLocked)
                 }
 
                 Divider().frame(height: 24)

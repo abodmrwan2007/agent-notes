@@ -30,6 +30,10 @@ final class LectureAudio: NSObject, AVAudioPlayerDelegate, AVAudioRecorderDelega
     private(set) var isPlaying = false
     /// Set when recording stopped by itself (interruption); shown once, then cleared.
     var notice: String?
+    /// Playback speed, 0.25× to 3×. Pitch is kept.
+    var rate: Float = 1 {
+        didSet { player?.rate = rate }
+    }
 
     @ObservationIgnored private var recorder: AVAudioRecorder?
     @ObservationIgnored private var player: AVAudioPlayer?
@@ -108,10 +112,13 @@ final class LectureAudio: NSObject, AVAudioPlayerDelegate, AVAudioRecorderDelega
                 try AVAudioSession.sharedInstance().setActive(true)
                 let player = try AVAudioPlayer(contentsOf: url)
                 player.delegate = self
+                player.enableRate = true
+                player.prepareToPlay()
                 self.player = player
                 playingID = recordingID
             }
             player?.currentTime = min(max(offset, 0), player?.duration ?? 0)
+            player?.rate = rate
             player?.play()
             isPlaying = true
         } catch {

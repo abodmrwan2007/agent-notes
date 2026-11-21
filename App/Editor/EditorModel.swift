@@ -24,6 +24,17 @@ enum EditorPanelTab: Hashable {
     case assistant
 }
 
+struct TextToolsRequest: Identifiable {
+    enum Origin {
+        case recognized
+        case selection
+    }
+
+    let id = UUID()
+    let text: String
+    let origin: Origin
+}
+
 struct ExplainRequest: Equatable, Identifiable {
     let id = UUID()
     let text: String
@@ -81,6 +92,8 @@ final class EditorModel {
     var panelTab = EditorPanelTab.tools
     /// Selected PDF text the assistant should explain; the assistant panel picks it up.
     var explainRequest: ExplainRequest?
+    /// Text shown in the text tools sheet (translate, look up, read aloud, put on page).
+    var textToolsRequest: TextToolsRequest?
     /// Page to show first and query to highlight, when opened from a search result.
     @ObservationIgnored var openTarget: OpenTarget?
 
@@ -411,6 +424,28 @@ final class EditorModel {
         add(object, to: page.id)
     }
 
+    /// Puts several lines of text (for example recognized handwriting) on the current page in a
+    /// text box sized to fit; very long text goes onto new pages instead.
+    func insertTextBlock(_ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let page = currentPage, !trimmed.isEmpty else { return }
+        let fontSize = 16.0
+        let width = min(page.size.width * 0.8, 440)
+        let perLine = max(Int(width / (fontSize * 0.6)), 10)
+        let lineCount = trimmed.components(separatedBy: "\n")
+            .map { max(1, Int((Double($0.count) / Double(perLine)).rounded(.up))) }
+            .reduce(0, +)
+        let height = Double(lineCount) * fontSize * 1.45 + 16
+        guard height < page.size.height * 0.8 else {
+            addTextPages(trimmed)
+            return
+        }
+        let object = PageObject(
+            kind: .text, frame: placement((width: width, height: height), on: page),
+            text: trimmed, fontSize: fontSize, colorHex: tool.objectColorHex)
+        add(object, to: page.id)
+    }
+
     /// Places a sticker (PNG, transparency kept) in the middle of the visible part of the page.
     func insertSticker(pngData: Data, size: CGSize) {
         guard let page = currentPage else { return }
@@ -565,6 +600,30 @@ final class EditorModel {
             lastPage = page
         }
         commitStructureChange(scrollTo: lastPage?.id)
+    }
+
+    /// Adds one page per scanned or photographed sheet after the current page, the picture as
+    /// the page's paper so it can be written on.
+    func addImagePages(_ images: [UIImage]) {
+        var index = min(currentPageIndex + 1, manifest.pages.count)
+        var last: PageRecord?
+        for image in images where image.size.width > 0 && image.size.height > 0 {
+            // A page shaped like the picture, as wide as an A4 page.
+            let width = AppConfig.defaultPageSize.width
+            let size = PageSize(width: width, height: (width * Double(image.size.height / image.size.width)).rounded())
+            guard let data = Self.downscaled(image, maxPixels: 2400).jpegData(compressionQuality: 0.85),
+                  let fileName = try? store.addAsset(data, fileExtension: "jpg", documentID: documentID) else {
+                alertMessage = String(localized: "The notebook could not be saved.")
+                continue
+            }
+            let page = manifest.insertBlankPage(template: .blank, size: size, at: index)
+            if let stored = manifest.index(of: page.id) {
+                manifest.pages[stored].backgroundAsset = fileName
+                last = manifest.pages[stored]
+            }
+            index += 1
+        }
+        if last != nil { commitStructureChange(scrollTo: last?.id) }
     }
 
     func duplicatePage(_ pageID: UUID) {

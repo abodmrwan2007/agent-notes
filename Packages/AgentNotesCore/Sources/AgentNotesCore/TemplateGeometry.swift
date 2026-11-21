@@ -89,8 +89,75 @@ public enum TemplateGeometry {
                     from: rowTop + ruledSpacing, to: rowTop + rowHeight - 4, x0: plannerDayColumn, x1: size.width)
             }
             return TemplateLayout(lines: lines)
+        case .narrowRuled:
+            var lines = horizontalLines(from: ruledTopMargin, to: size.height, x0: 0, x1: size.width, spacing: narrowSpacing)
+            lines.append(TemplateLine(
+                start: PagePoint(x: narrowMargin, y: 0), end: PagePoint(x: narrowMargin, y: size.height), isEmphasized: true))
+            return TemplateLayout(lines: lines)
+        case .smallGrid:
+            var lines = horizontalLines(from: smallGridSpacing, to: size.height, x0: 0, x1: size.width, spacing: smallGridSpacing)
+            var x = smallGridSpacing
+            while x < size.width {
+                lines.append(TemplateLine(start: PagePoint(x: x, y: 0), end: PagePoint(x: x, y: size.height)))
+                x += smallGridSpacing
+            }
+            return TemplateLayout(lines: lines)
+        case .music:
+            // Staves of five lines, `musicLineGap` apart, separated by `musicStaffGap`.
+            var lines: [TemplateLine] = []
+            var top = ruledTopMargin
+            let staffHeight = 4 * musicLineGap
+            while top + staffHeight <= size.height - 40 {
+                for line in 0..<5 {
+                    let y = top + Double(line) * musicLineGap
+                    lines.append(TemplateLine(start: PagePoint(x: 40, y: y), end: PagePoint(x: size.width - 40, y: y)))
+                }
+                top += staffHeight + musicStaffGap
+            }
+            return TemplateLayout(lines: lines)
+        case .isometric:
+            // Rows `isometricSpacing × √3/2` apart, every other row shifted by half a step.
+            var dots: [PagePoint] = []
+            let rowHeight = isometricSpacing * 3.0.squareRoot() / 2
+            var row = 0
+            var y = rowHeight
+            while y < size.height {
+                var x = row % 2 == 0 ? isometricSpacing : isometricSpacing / 2
+                while x < size.width {
+                    dots.append(PagePoint(x: x, y: y))
+                    x += isometricSpacing
+                }
+                y += rowHeight
+                row += 1
+            }
+            return TemplateLayout(dots: dots)
+        case .checklist:
+            var lines = horizontalLines(from: ruledTopMargin, to: size.height, x0: 0, x1: size.width, spacing: checklistSpacing)
+            // A square box sitting on each line, near the left edge.
+            var y = ruledTopMargin + checklistSpacing
+            while y < size.height {
+                let side = checklistBox
+                let left = 34.0, bottom = y - 6, top = bottom - side
+                lines += [
+                    TemplateLine(start: PagePoint(x: left, y: top), end: PagePoint(x: left + side, y: top), isEmphasized: true),
+                    TemplateLine(start: PagePoint(x: left + side, y: top), end: PagePoint(x: left + side, y: bottom), isEmphasized: true),
+                    TemplateLine(start: PagePoint(x: left + side, y: bottom), end: PagePoint(x: left, y: bottom), isEmphasized: true),
+                    TemplateLine(start: PagePoint(x: left, y: bottom), end: PagePoint(x: left, y: top), isEmphasized: true)
+                ]
+                y += checklistSpacing
+            }
+            return TemplateLayout(lines: lines)
         }
     }
+
+    public static let narrowSpacing = 22.0
+    public static let narrowMargin = 64.0
+    public static let smallGridSpacing = 10.0
+    public static let musicLineGap = 8.0
+    public static let musicStaffGap = 44.0
+    public static let isometricSpacing = 20.0
+    public static let checklistSpacing = 34.0
+    public static let checklistBox = 14.0
 
     public static let plannerHeaderHeight = 90.0
     public static let plannerBottomMargin = 30.0

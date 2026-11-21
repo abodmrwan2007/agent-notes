@@ -35,6 +35,11 @@ extension PageTemplate {
         case .dotGrid: return "Dot Grid"
         case .cornell: return "Cornell"
         case .planner: return "Planner"
+        case .narrowRuled: return "Narrow Ruled"
+        case .smallGrid: return "Small Grid"
+        case .music: return "Music Staff"
+        case .isometric: return "Isometric Dots"
+        case .checklist: return "Checklist"
         }
     }
 
@@ -46,6 +51,11 @@ extension PageTemplate {
         case .dotGrid: return "circle.grid.3x3"
         case .cornell: return "rectangle.split.2x1"
         case .planner: return "calendar"
+        case .narrowRuled: return "list.bullet.indent"
+        case .smallGrid: return "grid"
+        case .music: return "music.note.list"
+        case .isometric: return "triangle"
+        case .checklist: return "checklist"
         }
     }
 }

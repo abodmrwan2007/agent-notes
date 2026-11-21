@@ -32,7 +32,7 @@ final class HeartModel {
         camera.zFar = 200
         let cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(0, 0, 36)
+        cameraNode.position = SCNVector3(0, 0, 30)
         cameraNode.name = "camera"
         scene.rootNode.addChildNode(cameraNode)
 

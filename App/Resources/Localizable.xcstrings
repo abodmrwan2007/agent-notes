@@ -611,6 +611,26 @@
         }
       }
     },
+    "Check the text: recognition can misread handwriting. Edit it here before putting it on the page.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "راجع النص: قد يخطئ التعرّف في قراءة خط اليد. عدّله هنا قبل وضعه في الصفحة."
+          }
+        }
+      }
+    },
+    "Checklist": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قائمة مهام"
+          }
+        }
+      }
+    },
     "Choose the Select Text tool and drag across a PDF, then Copy or Where Else?": {
       "localizations": {
         "ar": {
@@ -1451,6 +1471,16 @@
         }
       }
     },
+    "Handwriting to text, translate, scan": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خط اليد إلى نص، ترجمة، مسح"
+          }
+        }
+      }
+    },
     "Heart": {
       "localizations": {
         "ar": {
@@ -1631,6 +1661,16 @@
         }
       }
     },
+    "Isometric Dots": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقاط متساوية القياس"
+          }
+        }
+      }
+    },
     "Labelled Diagrams": {
       "localizations": {
         "ar": {
@@ -1791,6 +1831,16 @@
         }
       }
     },
+    "Look Up": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في القاموس"
+          }
+        }
+      }
+    },
     "Medical": {
       "localizations": {
         "ar": {
@@ -1891,6 +1941,16 @@
         }
       }
     },
+    "Music Staff": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدرج موسيقي"
+          }
+        }
+      }
+    },
     "My Stickers": {
       "localizations": {
         "ar": {
@@ -1917,6 +1977,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الاسم أو الرمز أو الرقم"
+          }
+        }
+      }
+    },
+    "Narrow Ruled": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسطّر ضيّق"
           }
         }
       }
@@ -2077,6 +2147,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "لا يوجد نص قابل للتحديد هنا. الصفحات الممسوحة ضوئيًا تحتاج إلى التعرّف الضوئي على النص، وهو غير متاح بعد."
+          }
+        }
+      }
+    },
+    "No subject was found in this picture.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُعثر على عنصر بارز في هذه الصورة."
+          }
+        }
+      }
+    },
+    "No text was found on this page.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُعثر على نص في هذه الصفحة."
           }
         }
       }
@@ -2371,6 +2461,16 @@
         }
       }
     },
+    "Page actions (•••) ▸ Recognize Handwriting turns your writing into text you can translate, look up, hear or put on the page. Insert ▸ Scan Document, Export ▸ Pages as Images or Print, five new papers, audio speed in Tools ▸ Audio, and Remove Background for pictures.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إجراءات الصفحة (•••) ◂ «تعرّف على خط اليد» يحوّل كتابتك إلى نص تترجمه أو تبحث عنه في القاموس أو تسمعه أو تضعه في الصفحة. وأيضًا: إدراج ◂ مسح مستند، تصدير ◂ الصفحات كصور أو طباعة، خمس أوراق جديدة، سرعة الصوت في الأدوات ◂ الصوت، وإزالة خلفية الصور."
+          }
+        }
+      }
+    },
     "Page thumbnails": {
       "localizations": {
         "ar": {
@@ -2387,6 +2487,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الصفحات"
+          }
+        }
+      }
+    },
+    "Pages as Images (PNG)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحات كصور (PNG)"
           }
         }
       }
@@ -2541,6 +2651,16 @@
         }
       }
     },
+    "Playback speed": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سرعة التشغيل"
+          }
+        }
+      }
+    },
     "Plot up to three functions of x. Drag to move, pinch to zoom.": {
       "localizations": {
         "ar": {
@@ -2571,6 +2691,16 @@
         }
       }
     },
+    "Print…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طباعة…"
+          }
+        }
+      }
+    },
     "Privacy and accuracy": {
       "localizations": {
         "ar": {
@@ -2587,6 +2717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "بنفسجي"
+          }
+        }
+      }
+    },
+    "Put on Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضعه في الصفحة"
           }
         }
       }
@@ -2631,6 +2771,16 @@
         }
       }
     },
+    "Read Aloud": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اقرأ بصوت عالٍ"
+          }
+        }
+      }
+    },
     "Reading Mode": {
       "localizations": {
         "ar": {
@@ -2651,6 +2801,16 @@
         }
       }
     },
+    "Reading the page…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يقرأ الصفحة…"
+          }
+        }
+      }
+    },
     "Reading your pages…": {
       "localizations": {
         "ar": {
@@ -2667,6 +2827,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأخيرة"
+          }
+        }
+      }
+    },
+    "Recognize All Text on Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعرّف على كل نص الصفحة"
+          }
+        }
+      }
+    },
+    "Recognize Handwriting": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعرّف على خط اليد"
+          }
+        }
+      }
+    },
+    "Recognized Text": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النص المتعرَّف عليه"
           }
         }
       }
@@ -2757,6 +2947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إعادة"
+          }
+        }
+      }
+    },
+    "Remove Background": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة الخلفية"
           }
         }
       }
@@ -3041,6 +3241,16 @@
         }
       }
     },
+    "Scan Document": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح مستند"
+          }
+        }
+      }
+    },
     "Scientific Calculator": {
       "localizations": {
         "ar": {
@@ -3281,6 +3491,16 @@
         }
       }
     },
+    "Small Grid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبكة صغيرة"
+          }
+        }
+      }
+    },
     "Something went wrong": {
       "localizations": {
         "ar": {
@@ -3367,6 +3587,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ملاحظات لاصقة بخمسة أنماط"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
           }
         }
       }
@@ -3641,6 +3871,16 @@
         }
       }
     },
+    "Text Tools": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدوات النص"
+          }
+        }
+      }
+    },
     "The 3D heart in Atlas is made from these models: parts selected, merged, reduced and coloured. The changed model is shared under the same license.": {
       "localizations": {
         "ar": {
@@ -3707,6 +3947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يُحذف الصوت من هذا الدفتر وتبقى كتابتك."
+          }
+        }
+      }
+    },
+    "The background could not be removed.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت إزالة الخلفية."
           }
         }
       }
@@ -4097,6 +4347,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "فلز انتقالي"
+          }
+        }
+      }
+    },
+    "Translate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ترجم"
+          }
+        }
+      }
+    },
+    "Translate & Look Up": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ترجمة وقاموس"
           }
         }
       }

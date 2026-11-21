@@ -773,6 +773,72 @@ final class SmokeTests: XCTestCase {
         shot("84-atlas-turned")
     }
 
+    /// Text recognition on a PDF page, text tools (look up), new papers and export as images.
+    func test9zzzzzzz_textToolsPapersExport() {
+        continueAfterFailure = true
+        let app = launch(language: "en", extraArguments: ["-uiTestSeedPDF"])
+        let lecture = card(app, titled: "Cardiology fixture")
+        XCTAssertTrue(lecture.waitForExistence(timeout: 15))
+        lecture.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        XCTAssertTrue(element(app, "editor.back").waitForExistence(timeout: 15))
+        sleep(2)
+
+        // Page actions ▸ Recognize All Text on Page: the printed lecture text is found.
+        app.buttons["Page actions"].firstMatch.tap()
+        let recognize = app.buttons["Recognize All Text on Page"].firstMatch
+        XCTAssertTrue(recognize.waitForExistence(timeout: 5), "page actions menu")
+        sleep(1)
+        recognize.tap()
+        let text = element(app, "textTools.text")
+        XCTAssertTrue(text.waitForExistence(timeout: 30), "no recognized text sheet")
+        sleep(1)
+        shot("90-recognized-text")
+        XCTAssertTrue((text.value as? String ?? "").localizedCaseInsensitiveContains("cardiology"), "lecture title not recognized")
+        tap(app, "textTools.lookUp")
+        sleep(2)
+        shot("91-look-up")
+        app.swipeDown(velocity: .fast)
+        sleep(1)
+        tap(app, "textTools.insert")
+        sleep(1)
+        shot("92-recognized-text-on-page")
+
+        // Selected PDF text ▸ Translate & Look Up.
+        for _ in 0..<3 where !element(app, "text.tools").exists {
+            app.buttons["Select Text"].firstMatch.tap()
+            sleep(1)
+            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
+                .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+            _ = element(app, "text.tools").waitForExistence(timeout: 5)
+        }
+        tap(app, "text.tools")
+        XCTAssertTrue(element(app, "textTools.speak").waitForExistence(timeout: 5), "text tools sheet")
+        sleep(1)
+        shot("93-text-tools")
+        tap(app, "textTools.done")
+
+        // New papers.
+        for (template, name) in [("Music Staff", "94-music-staff"), ("Checklist", "95-checklist"), ("Isometric Dots", "96-isometric")] {
+            let addPage = app.buttons["Add Page"].firstMatch
+            addPage.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            let item = app.buttons[template].firstMatch
+            XCTAssertTrue(item.waitForExistence(timeout: 5), "\(template) missing")
+            sleep(1)
+            item.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            sleep(2)
+            shot(name)
+        }
+
+        // Export ▸ Pages as Images: the share sheet offers the pictures.
+        app.buttons["Export"].firstMatch.tap()
+        let images = app.buttons["Pages as Images (PNG)"].firstMatch
+        XCTAssertTrue(images.waitForExistence(timeout: 5))
+        sleep(1)
+        images.tap()
+        sleep(4)
+        shot("97-export-images")
+    }
+
     /// The AI tab with canned answers (`-uiTestAIMock`, Debug only): no key and no network.
     /// Proves the panel, flashcards, quiz, follow-up questions, Explain and Add to notebook work;
     /// it says nothing about the quality of real answers.

@@ -55,6 +55,7 @@ struct RecordingsList: View {
     var body: some View {
         let audio = model.audio
         @Bindable var editor = model
+        @Bindable var player = audio
         List {
             Section {
                 Toggle(isOn: $editor.isListening) {
@@ -63,6 +64,15 @@ struct RecordingsList: View {
                 .accessibilityIdentifier("audio.listen")
             } footer: {
                 Text("Tap a word you wrote during a recording to play the lecture from that moment. Writing is paused while this is on.")
+            }
+
+            Section {
+                Picker("Playback speed", selection: $player.rate) {
+                    ForEach([Float(0.5), 0.75, 1, 1.25, 1.5, 2, 3], id: \.self) { value in
+                        Text(verbatim: value.formatted(.number.precision(.fractionLength(0...2))) + "×").tag(value)
+                    }
+                }
+                .accessibilityIdentifier("audio.speed")
             }
 
             Section("Recordings") {

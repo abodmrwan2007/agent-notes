@@ -41,6 +41,16 @@ public enum PageTemplate: String, Codable, CaseIterable, Sendable {
     case cornell
     /// A week: header band and seven day rows.
     case planner
+    /// Closer ruling with a left margin line.
+    case narrowRuled
+    /// 10-point grid for graphs and diagrams.
+    case smallGrid
+    /// Staves of five lines for music.
+    case music
+    /// Dots on a triangular lattice for 3D sketches and chemistry.
+    case isometric
+    /// To-do list: a box at the start of every line.
+    case checklist
 }
 
 /// Points a page at one page of a preserved original PDF stored in the package.
