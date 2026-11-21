@@ -280,12 +280,6 @@ final class SmokeTests: XCTestCase {
         tap(app, "timer.pause")
     }
 
-    private func openMenu(_ app: XCUIApplication, _ label: String) {
-        let button = app.buttons[label].firstMatch
-        XCTAssertTrue(button.waitForExistence(timeout: 5), "menu button \(label)")
-        button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
-    }
-
     private func menuItem(_ app: XCUIApplication, _ label: String) {
         let item = app.buttons[label].firstMatch
         XCTAssertTrue(item.waitForExistence(timeout: 5), "menu item \(label)")
