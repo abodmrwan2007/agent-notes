@@ -41,6 +41,16 @@
         }
       }
     },
+    "3D Heart": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القلب ثلاثي الأبعاد"
+          }
+        }
+      }
+    },
     "3D data: BodyParts3D, © The Database Center for Life Science, licensed under CC Attribution-Share Alike 2.1 Japan. Reduced and coloured for this app. A study model, not reviewed by an anatomist. The muscle wall of both ventricles is one piece.": {
       "localizations": {
         "ar": {
@@ -97,6 +107,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "موقع إنترنت"
+          }
+        }
+      }
+    },
+    "A whole new look": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكل جديد بالكامل"
           }
         }
       }
@@ -821,6 +841,16 @@
         }
       }
     },
+    "Colourful shortcuts at the top of the library, real notebook covers in twelve colours (touch and hold ▸ Cover), and a floating pen toolbar: the chosen pen rises and shows its ink. Quick Note starts a notebook with a fresh cover.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختصارات ملوّنة أعلى المكتبة، وأغلفة دفاتر حقيقية باثني عشر لوناً (اضغط مطوّلاً ◂ الغلاف)، وشريط أقلام عائم: القلم المختار يرتفع ويُظهر لون حبره. «ملاحظة سريعة» تبدأ دفتراً بغلاف جديد."
+          }
+        }
+      }
+    },
     "Community": {
       "localizations": {
         "ar": {
@@ -1381,6 +1411,16 @@
         }
       }
     },
+    "Explore the anatomy atlas": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استكشف أطلس التشريح"
+          }
+        }
+      }
+    },
     "Export": {
       "localizations": {
         "ar": {
@@ -1477,6 +1517,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "بطاقات واختبار"
+          }
+        }
+      }
+    },
+    "Flashcards, calculator, timer": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطاقات وآلة حاسبة ومؤقّت"
           }
         }
       }
@@ -1821,6 +1871,16 @@
         }
       }
     },
+    "Import Files": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد ملفات"
+          }
+        }
+      }
+    },
     "Import PDF": {
       "localizations": {
         "ar": {
@@ -1867,6 +1927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "في وضع القراءة فعّل «مؤشر الليزر» للإشارة إلى ملاحظاتك أثناء العرض. الدراسة ◂ الآلة الحاسبة بخط اليد تحسب ما تكتبه. وعلى أجهزة الآيباد التي تدعم Apple Intelligence: إدراج ◂ توليد صورة…."
+          }
+        }
+      }
+    },
+    "In the Trash": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "في سلة المحذوفات"
           }
         }
       }
@@ -1987,6 +2057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تحديد حر"
+          }
+        }
+      }
+    },
+    "Lavender": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لافندر"
           }
         }
       }
@@ -2177,6 +2257,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الوصول إلى الميكروفون متوقف لهذا التطبيق. فعّله من الإعدادات ◂ الخصوصية ◂ الميكروفون."
+          }
+        }
+      }
+    },
+    "Midnight": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منتصف الليل"
+          }
+        }
+      }
+    },
+    "Mint": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نعناعي"
           }
         }
       }
@@ -2541,6 +2641,16 @@
         }
       }
     },
+    "Notebooks": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدفاتر"
+          }
+        }
+      }
+    },
     "Notebooks that already use it keep their copy.": {
       "localizations": {
         "ar": {
@@ -2761,6 +2871,16 @@
         }
       }
     },
+    "PDFs, pictures, notebooks": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات PDF وصور ودفاتر"
+          }
+        }
+      }
+    },
     "Page": {
       "localizations": {
         "ar": {
@@ -2887,6 +3007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إيقاف مؤقت"
+          }
+        }
+      }
+    },
+    "Peach": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خوخي"
           }
         }
       }
@@ -3097,6 +3227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "سؤال أو مصطلح"
+          }
+        }
+      }
+    },
+    "Quick Note": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظة سريعة"
           }
         }
       }
@@ -3901,6 +4041,16 @@
         }
       }
     },
+    "Sky": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سماوي"
+          }
+        }
+      }
+    },
     "Small Grid": {
       "localizations": {
         "ar": {
@@ -3977,6 +4127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ابدأ"
+          }
+        }
+      }
+    },
+    "Start writing now": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابدأ الكتابة الآن"
           }
         }
       }
@@ -4131,6 +4291,16 @@
         }
       }
     },
+    "Study Tools": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدوات الدراسة"
+          }
+        }
+      }
+    },
     "Study in the sidebar: scientific calculator, graphing, periodic table and focus timer.": {
       "localizations": {
         "ar": {
@@ -4187,6 +4357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لخّص"
+          }
+        }
+      }
+    },
+    "Sunset": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غروب"
           }
         }
       }

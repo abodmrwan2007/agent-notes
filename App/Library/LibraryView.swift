@@ -40,18 +40,43 @@ struct LibraryView: View {
         let documents = library.documents(for: item, search: search, sort: sort)
 
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 170, maximum: 230), spacing: 20)], spacing: 24) {
-                ForEach(documents) { document in
-                    DocumentCard(document: document)
-                        .onTapGesture { app.open(document) }
-                        .contextMenu { menu(for: document) }
-                        .accessibilityAddTraits(.isButton)
-                        .accessibilityIdentifier("library.card")
+            VStack(alignment: .leading, spacing: 22) {
+                if showsQuickActions, !documents.isEmpty {
+                    LibraryQuickActions(
+                        onQuickNote: quickNote,
+                        onImport: { isImporting = true },
+                        onStudy: { app.sidebarSelection = .study },
+                        onAtlas: { app.sidebarSelection = .atlas })
                 }
+                if !documents.isEmpty {
+                    let sectionTitle: LocalizedStringKey = isTrash ? "In the Trash" : "Notebooks"
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        Text(sectionTitle)
+                            .font(.title3.weight(.bold))
+                            .foregroundStyle(Theme.text)
+                        Text(verbatim: "\(documents.count)")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Theme.accent)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(Capsule().fill(Theme.accent.opacity(0.14)))
+                    }
+                    .padding(.horizontal, 28)
+                }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 160, maximum: 210), spacing: 26)], spacing: 30) {
+                    ForEach(documents) { document in
+                        DocumentCard(document: document)
+                            .onTapGesture { app.open(document) }
+                            .contextMenu { menu(for: document) }
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityIdentifier("library.card")
+                    }
+                }
+                .padding(.horizontal, 28)
             }
-            .padding(24)
+            .padding(.vertical, 20)
         }
-        .background(Theme.backdrop)
+        .background(Theme.libraryBackground)
         .overlay {
             if documents.isEmpty { emptyState }
         }
@@ -271,6 +296,19 @@ struct LibraryView: View {
         }
     }
 
+    private var showsQuickActions: Bool {
+        search.isEmpty && (item == .all || folderID != nil)
+    }
+
+    /// One tap to a fresh notebook with a cheerful cover.
+    private func quickNote() {
+        guard let row = library.createNotebook(template: defaultTemplate, folderID: folderID) else { return }
+        if let cover = NotebookCover.allCases.randomElement() {
+            library.setCover(cover, for: row)
+        }
+        app.open(row)
+    }
+
     private func createNotebook(_ template: PageTemplate) {
         if let row = library.createNotebook(template: template, folderID: folderID) {
             app.open(row)
@@ -284,56 +322,71 @@ struct DocumentCard: View {
     @Environment(AppModel.self) private var app
     @State private var cover: UIImage?
 
+    private var coverStyle: NotebookCover? {
+        document.coverStyle.flatMap(NotebookCover.init(rawValue:))
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             ZStack {
-                RoundedRectangle(cornerRadius: Theme.cornerRadius).fill(.white)
                 if document.isProtected {
                     LockedCoverView()
-                } else if let style = document.coverStyle.flatMap(NotebookCover.init(rawValue:)) {
-                    NotebookCoverView(cover: style, title: document.title)
-                } else if let cover {
-                    Image(uiImage: cover)
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+                        .shadow(color: .black.opacity(0.22), radius: 10, x: 2, y: 8)
+                } else if let coverStyle {
+                    NotebookCoverView(cover: coverStyle, title: document.title)
+                        .shadow(color: coverStyle.colors.last?.opacity(0.45) ?? .black.opacity(0.2), radius: 12, x: 2, y: 9)
                 } else {
-                    Image(systemName: document.hasPDF ? "doc.richtext" : "note.text")
-                        .font(.largeTitle)
-                        .foregroundStyle(.tertiary)
+                    paperStack
                 }
             }
-            .aspectRatio(0.72, contentMode: .fit)
-            .overlay(RoundedRectangle(cornerRadius: Theme.cornerRadius).strokeBorder(.quaternary))
+            .aspectRatio(0.74, contentMode: .fit)
             .overlay(alignment: .topTrailing) {
                 if document.isFavorite {
                     Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 26, height: 26)
+                        .background(Circle().fill(Color.orange.gradient))
+                        .shadow(color: .orange.opacity(0.4), radius: 4, y: 2)
                         .padding(8)
                         .accessibilityLabel("Favorite")
                 }
             }
-            .opacity(document.isTrashed ? 0.6 : 1)
-
-            Text(verbatim: document.title)
-                .font(.headline)
-                .foregroundStyle(Theme.text)
-                .lineLimit(2)
-
-            if !document.tags.isEmpty {
-                Text(verbatim: document.tags.map { "#" + $0 }.joined(separator: " "))
-                    .font(.caption)
-                    .foregroundStyle(Theme.accent)
-                    .lineLimit(1)
+            .overlay(alignment: .bottomTrailing) {
+                if document.hasPDF, !document.isProtected {
+                    Text(verbatim: "PDF")
+                        .font(.caption2.weight(.heavy))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Capsule().fill(Color.red.gradient))
+                        .padding(8)
+                }
             }
+            .opacity(document.isTrashed ? 0.55 : 1)
 
-            HStack(spacing: 6) {
-                Text(document.modifiedAt, format: .dateTime.day().month().year())
-                Text(verbatim: "·")
-                Text("\(document.pageCount) pages")
+            VStack(alignment: .leading, spacing: 3) {
+                Text(verbatim: document.title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.text)
+                    .lineLimit(2)
+
+                if !document.tags.isEmpty {
+                    Text(verbatim: document.tags.map { "#" + $0 }.joined(separator: " "))
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(Theme.accent)
+                        .lineLimit(1)
+                }
+
+                HStack(spacing: 5) {
+                    Text(document.modifiedAt, format: .dateTime.day().month().year())
+                    Text(verbatim: "·")
+                    Text("\(document.pageCount) pages")
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            .padding(.horizontal, 2)
         }
         .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
@@ -342,6 +395,125 @@ struct DocumentCard: View {
             guard !document.isProtected, let id = document.documentID else { return }
             cover = await app.thumbnails.cover(for: id, stamp: document.modifiedAt)
         }
+    }
+}
+
+extension DocumentCard {
+    /// The first page as a sheet of paper with two more sheets peeking out behind it.
+    @ViewBuilder
+    fileprivate var paperStack: some View {
+        ZStack {
+            ForEach(0..<2, id: \.self) { layer in
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(Color(white: layer == 0 ? 0.90 : 0.95))
+                    .rotationEffect(.degrees(layer == 0 ? 4 : -2.5))
+                    .offset(x: layer == 0 ? 6 : -3, y: layer == 0 ? 4 : 2)
+                    .shadow(color: .black.opacity(0.08), radius: 3, y: 2)
+            }
+            ZStack {
+                RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white)
+                if let cover {
+                    Image(uiImage: cover)
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                } else {
+                    Image(systemName: document.hasPDF ? "doc.richtext" : "note.text")
+                        .font(.system(size: 36, weight: .light))
+                        .foregroundStyle(Theme.accent.opacity(0.5))
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(.black.opacity(0.06)))
+            .shadow(color: .black.opacity(0.16), radius: 10, y: 6)
+        }
+    }
+}
+
+/// Big colourful shortcuts at the top of the library.
+struct LibraryQuickActions: View {
+    let onQuickNote: () -> Void
+    let onImport: () -> Void
+    let onStudy: () -> Void
+    let onAtlas: () -> Void
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                QuickActionTile(
+                    title: "Quick Note", subtitle: "Start writing now", symbol: "square.and.pencil",
+                    colors: [Color(red: 0.36, green: 0.55, blue: 1.0), Color(red: 0.55, green: 0.36, blue: 0.98)],
+                    action: onQuickNote)
+                    .accessibilityIdentifier("library.quickNote")
+                QuickActionTile(
+                    title: "Import Files", subtitle: "PDFs, pictures, notebooks", symbol: "tray.and.arrow.down.fill",
+                    colors: [Color(red: 1.0, green: 0.62, blue: 0.35), Color(red: 0.98, green: 0.38, blue: 0.48)],
+                    action: onImport)
+                    .accessibilityIdentifier("library.quickImport")
+                QuickActionTile(
+                    title: "Study Tools", subtitle: "Flashcards, calculator, timer", symbol: "graduationcap.fill",
+                    colors: [Color(red: 0.20, green: 0.80, blue: 0.62), Color(red: 0.05, green: 0.58, blue: 0.70)],
+                    action: onStudy)
+                    .accessibilityIdentifier("library.quickStudy")
+                QuickActionTile(
+                    title: "3D Heart", subtitle: "Explore the anatomy atlas", symbol: "heart.fill",
+                    colors: [Color(red: 1.0, green: 0.42, blue: 0.52), Color(red: 0.80, green: 0.18, blue: 0.40)],
+                    action: onAtlas)
+                    .accessibilityIdentifier("library.quickAtlas")
+            }
+            .padding(.horizontal, 28)
+            .padding(.vertical, 8)
+        }
+    }
+}
+
+struct QuickActionTile: View {
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
+    let symbol: String
+    let colors: [Color]
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 10) {
+                Image(systemName: symbol)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 44, height: 44)
+                    .background(Circle().fill(.white.opacity(0.22)))
+                Spacer(minLength: 0)
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(1)
+            }
+            .padding(16)
+            .frame(width: 200, height: 130, alignment: .leading)
+            .background(
+                ZStack(alignment: .topTrailing) {
+                    LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                    Circle()
+                        .fill(.white.opacity(0.12))
+                        .frame(width: 120, height: 120)
+                        .offset(x: 40, y: -40)
+                })
+            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+            .shadow(color: (colors.last ?? .black).opacity(0.35), radius: 12, y: 7)
+        }
+        .buttonStyle(PressableStyle())
+    }
+}
+
+/// Shrinks slightly while pressed.
+struct PressableStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.7), value: configuration.isPressed)
     }
 }
 

@@ -63,19 +63,23 @@ struct SidebarView: View {
     var body: some View {
         List(selection: $selection) {
             Section("Library") {
-                Label("All Notes", systemImage: "square.grid.2x2").tag(SidebarItem.all)
-                Label("Search", systemImage: "text.magnifyingglass").tag(SidebarItem.search)
+                Label { Text("All Notes") } icon: { IconBadge(symbol: "square.grid.2x2.fill", color: .blue) }
+                    .tag(SidebarItem.all)
+                Label { Text("Search") } icon: { IconBadge(symbol: "magnifyingglass", color: .indigo) }
+                    .tag(SidebarItem.search)
                     .accessibilityIdentifier("sidebar.search")
-                Label("Recents", systemImage: "clock").tag(SidebarItem.recents)
-                Label("Favorites", systemImage: "star").tag(SidebarItem.favorites)
-                Label("Trash", systemImage: "trash")
+                Label { Text("Recents") } icon: { IconBadge(symbol: "clock.fill", color: .teal) }
+                    .tag(SidebarItem.recents)
+                Label { Text("Favorites") } icon: { IconBadge(symbol: "star.fill", color: .orange) }
+                    .tag(SidebarItem.favorites)
+                Label { Text("Trash") } icon: { IconBadge(symbol: "trash.fill", color: .gray) }
                     .badge(app.library.trashCount)
                     .tag(SidebarItem.trash)
             }
 
             Section("Folders") {
                 OutlineGroup(app.library.folderTree, children: \.children) { node in
-                    Label(node.name, systemImage: "folder")
+                    Label { Text(verbatim: node.name) } icon: { IconBadge(symbol: "folder.fill", color: .cyan) }
                         .tag(SidebarItem.folder(node.id))
                         .contextMenu {
                             Button {
@@ -110,7 +114,7 @@ struct SidebarView: View {
                         Label {
                             Text(verbatim: tag)
                         } icon: {
-                            Image(systemName: "tag")
+                            IconBadge(symbol: "number", color: .pink)
                         }
                         .tag(SidebarItem.tag(tag))
                     }
@@ -118,11 +122,15 @@ struct SidebarView: View {
             }
 
             Section("Workspace") {
-                Label("Study", systemImage: "graduationcap").tag(SidebarItem.study)
+                Label { Text("Study") } icon: { IconBadge(symbol: "graduationcap.fill", color: .green) }
+                    .tag(SidebarItem.study)
                     .accessibilityIdentifier("sidebar.study")
-                Label("Atlas", systemImage: "heart.text.square").tag(SidebarItem.atlas)
-                Label("Community", systemImage: "person.2").tag(SidebarItem.community)
-                Label("Settings", systemImage: "gearshape").tag(SidebarItem.settings)
+                Label { Text("Atlas") } icon: { IconBadge(symbol: "heart.fill", color: .red) }
+                    .tag(SidebarItem.atlas)
+                Label { Text("Community") } icon: { IconBadge(symbol: "person.2.fill", color: .purple) }
+                    .tag(SidebarItem.community)
+                Label { Text("Settings") } icon: { IconBadge(symbol: "gearshape.fill", color: .gray) }
+                    .tag(SidebarItem.settings)
             }
         }
         .navigationTitle(Text(verbatim: AppConfig.displayName))

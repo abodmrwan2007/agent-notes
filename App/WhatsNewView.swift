@@ -4,7 +4,7 @@ import SwiftUI
 /// that adds features (when `contentVersion` is raised) and from Settings at any time.
 struct WhatsNewView: View {
     /// Raise when this list gains entries the person should be told about.
-    static let contentVersion = 7
+    static let contentVersion = 8
     static let seenKey = "whatsNewSeen"
 
     @Environment(\.dismiss) private var dismiss
@@ -17,6 +17,8 @@ struct WhatsNewView: View {
     }
 
     private let entries: [Entry] = [
+        Entry(symbol: "paintpalette", title: "A whole new look",
+              detail: "Colourful shortcuts at the top of the library, real notebook covers in twelve colours (touch and hold ▸ Cover), and a floating pen toolbar: the chosen pen rises and shows its ink. Quick Note starts a notebook with a fresh cover."),
         Entry(symbol: "light.max", title: "Presenting, handwriting calculator",
               detail: "In reading mode, turn on Laser to point at your notes while presenting. Study ▸ Handwriting Calculator works out sums you write. On iPads with Apple Intelligence, Insert ▸ Generate Image…."),
         Entry(symbol: "rectangle.on.rectangle.angled", title: "Flashcards, links, transcripts, versions",

@@ -24,6 +24,76 @@ enum Theme {
 
     static let surface = Color(uiColor: .secondarySystemGroupedBackground)
     static let cornerRadius: CGFloat = 12
+    static let cardRadius: CGFloat = 18
+
+    /// Soft, accent-tinted wash behind the library grid.
+    static var libraryBackground: some View {
+        ZStack {
+            backdrop
+            LinearGradient(
+                colors: [accent.opacity(0.16), accent.opacity(0.04), .clear],
+                startPoint: .top, endPoint: .bottom)
+            RadialGradient(
+                colors: [Color.pink.opacity(0.10), .clear],
+                center: .topTrailing, startRadius: 20, endRadius: 520)
+        }
+        .ignoresSafeArea()
+    }
+}
+
+/// A rounded, coloured square holding a white symbol (sidebar rows, tiles, settings rows).
+struct IconBadge: View {
+    let symbol: String
+    let color: Color
+    var size: CGFloat = 28
+
+    var body: some View {
+        Image(systemName: symbol)
+            .font(.system(size: size * 0.48, weight: .semibold))
+            .foregroundStyle(.white)
+            .frame(width: size, height: size)
+            .background(color.gradient, in: RoundedRectangle(cornerRadius: size * 0.27, style: .continuous))
+    }
+}
+
+/// Circular icon used in the editor bars.
+struct BarIcon: View {
+    let symbol: String
+    var isActive = false
+
+    var body: some View {
+        Image(systemName: symbol)
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundStyle(isActive ? Color.white : Theme.text.opacity(0.85))
+            .frame(width: 36, height: 36)
+            .background(Circle().fill(isActive ? AnyShapeStyle(Theme.accent.gradient) : AnyShapeStyle(Theme.accent.opacity(0.10))))
+            .contentShape(Circle())
+    }
+}
+
+extension View {
+    /// Capsule "chip" look for labelled bar buttons.
+    func barChip(isActive: Bool = false) -> some View {
+        self
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(isActive ? Color.white : Theme.text.opacity(0.9))
+            .padding(.horizontal, 12)
+            .frame(height: 36)
+            .background(Capsule().fill(isActive ? AnyShapeStyle(Theme.accent.gradient) : AnyShapeStyle(Theme.accent.opacity(0.10))))
+            .contentShape(Capsule())
+    }
+
+    /// Floating rounded panel with a soft shadow.
+    func floatingPanel(cornerRadius: CGFloat = 20) -> some View {
+        self
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(.regularMaterial)
+                    .shadow(color: .black.opacity(0.10), radius: 10, y: 4))
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .strokeBorder(.white.opacity(0.35), lineWidth: 0.5))
+    }
 }
 
 extension PageTemplate {
