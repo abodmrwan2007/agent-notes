@@ -35,6 +35,15 @@ struct TextToolsRequest: Identifiable {
     let origin: Origin
 }
 
+/// Text read from inside a circle drawn on a page.
+struct CircleLookupRequest: Identifiable {
+    let id = UUID()
+    let text: String
+    let pageID: UUID
+    /// The circled area, in page points.
+    let area: CGRect
+}
+
 struct ExplainRequest: Equatable, Identifiable {
     let id = UUID()
     let text: String
@@ -76,7 +85,13 @@ final class EditorModel {
     private(set) var objectsRevision = 0
     var textEditTarget: TextEditTarget?
     /// Shows PencilKit's ruler on the page being written on.
-    var isRulerActive = false
+    /// The drawing guide shown over the page (straight ruler, circle, protractor or set square).
+    var guide: DrawingGuide?
+    var isRulerActive: Bool { guide == .ruler }
+    /// Text found inside a circle drawn with the Circle to Translate tool.
+    var circleLookup: CircleLookupRequest?
+    /// True while the circled area is being read.
+    var isReadingCircle = false
     /// Reading mode: toolbars hidden, nothing on the page can be changed by touch.
     var isReadingMode = false
     /// "Tap writing to hear it": a tap on a stroke plays the recording from when it was written.
@@ -447,13 +462,19 @@ final class EditorModel {
     }
 
     /// A text box that opens another page or a web page (tap it in reading mode, or Open Link).
-    func insertLink(label: String, link: PageLink) {
-        guard let page = currentPage else { return }
+    /// With `below`, it is placed just under that area of the page (for example a circled word).
+    func insertLink(label: String, link: PageLink, below area: CGRect? = nil, pageID: UUID? = nil) {
+        guard let page = pageID.flatMap({ id in manifest.pages.first { $0.id == id } }) ?? currentPage else { return }
         let text = label.trimmingCharacters(in: .whitespacesAndNewlines)
         let shown = text.isEmpty ? link.rawValue : text
         let width = min(max(Double(shown.count) * 10 + 40, 120), page.size.width * 0.8)
+        var frame = placement((width: width, height: 40), on: page)
+        if let area {
+            frame.x = min(max(Double(area.minX), 0), max(page.size.width - width, 0))
+            frame.y = min(Double(area.maxY) + 6, max(page.size.height - 40, 0))
+        }
         let object = PageObject(
-            kind: .text, frame: placement((width: width, height: 40), on: page),
+            kind: .text, frame: frame,
             text: "↗ " + shown, fontSize: 18, colorHex: "1D5FD1", link: link.rawValue)
         add(object, to: page.id)
     }

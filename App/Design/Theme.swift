@@ -60,26 +60,31 @@ struct IconBadge: View {
 struct BarIcon: View {
     let symbol: String
     var isActive = false
+    /// Each bar button has its own colour; nil uses the interface colour.
+    var tint: Color?
 
     var body: some View {
+        let color = tint ?? Theme.accent
         Image(systemName: symbol)
-            .font(.system(size: 16, weight: .semibold))
-            .foregroundStyle(isActive ? Color.white : Theme.text.opacity(0.85))
-            .frame(width: 36, height: 36)
-            .background(Circle().fill(isActive ? AnyShapeStyle(Theme.accent.gradient) : AnyShapeStyle(Theme.accent.opacity(0.10))))
+            .font(.system(size: 15, weight: .semibold))
+            .foregroundStyle(isActive ? Color.white : color)
+            .frame(width: 34, height: 34)
+            .background(Circle().fill(isActive ? AnyShapeStyle(color.gradient) : AnyShapeStyle(color.opacity(0.14))))
+            .shadow(color: isActive ? color.opacity(0.35) : .clear, radius: 4, y: 2)
             .contentShape(Circle())
     }
 }
 
 extension View {
     /// Capsule "chip" look for labelled bar buttons.
-    func barChip(isActive: Bool = false) -> some View {
-        self
+    func barChip(isActive: Bool = false, tint: Color? = nil) -> some View {
+        let color = tint ?? Theme.accent
+        return self
             .font(.subheadline.weight(.semibold))
-            .foregroundStyle(isActive ? Color.white : Theme.text.opacity(0.9))
+            .foregroundStyle(isActive ? Color.white : color)
             .padding(.horizontal, 12)
-            .frame(height: 36)
-            .background(Capsule().fill(isActive ? AnyShapeStyle(Theme.accent.gradient) : AnyShapeStyle(Theme.accent.opacity(0.10))))
+            .frame(height: 34)
+            .background(Capsule().fill(isActive ? AnyShapeStyle(color.gradient) : AnyShapeStyle(color.opacity(0.14))))
             .contentShape(Capsule())
     }
 

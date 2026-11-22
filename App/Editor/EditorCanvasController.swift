@@ -22,6 +22,8 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
     private var currentTool: PKTool = PKInkingTool(.pen, color: .black, width: 3)
     private var interaction: PageInteraction = .ink
     private var isRulerActive = false
+    /// Circle, protractor or set square floating over the pages.
+    private var guideView: GuideView?
     private let hoverRing = CAShapeLayer()
     private var hasAppliedOpenTarget = false
 
@@ -137,12 +139,28 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         }
         applyDrawingPolicy()
         applyRuler()
+        guideView?.isHidden = mode != .ink
     }
 
-    func setRulerActive(_ active: Bool) {
-        guard isRulerActive != active else { return }
-        isRulerActive = active
-        applyRuler()
+    /// Shows the chosen drawing guide: PencilKit's ruler, or one of this app's templates.
+    func setGuide(_ guide: DrawingGuide?) {
+        let ruler = guide == .ruler
+        if isRulerActive != ruler {
+            isRulerActive = ruler
+            applyRuler()
+        }
+        let template = ruler ? nil : guide
+        if guideView?.kind != template {
+            guideView?.removeFromSuperview()
+            guideView = nil
+            if let template {
+                let guideView = GuideView(kind: template)
+                guideView.center = CGPoint(x: view.bounds.midX, y: max(view.bounds.midY * 0.75, 160))
+                view.addSubview(guideView)
+                self.guideView = guideView
+            }
+        }
+        guideView?.isHidden = interaction != .ink
     }
 
     /// The ruler is shown on the current page only (each page has its own canvas).
@@ -516,6 +534,40 @@ final class EditorCanvasController: UIViewController, UIScrollViewDelegate, PKCa
         // Exactly one new stroke drawn with a pen, pencil or highlighter: erase, snap or smooth.
         let addedOneStroke = drawing.strokes.count == pageView.strokeCount + 1
         pageView.strokeCount = drawing.strokes.count
+
+        // Circle to Translate: the circle is not ink. Remove it and read what it surrounds.
+        if addedOneStroke, model.tool.kind == .lookup, let circle = drawing.strokes.last {
+            var withoutCircle = drawing
+            withoutCircle.strokes.removeLast()
+            let restored = withoutCircle
+            let area = circle.renderBounds
+            let pageID = pageView.pageID
+            DispatchQueue.main.async { [weak self, weak pageView] in
+                guard let self, let pageView, pageView.canvas === canvasView else { return }
+                pageView.replaceDrawing(restored)
+                self.model.inkChanged(pageID: pageID, drawing: restored)
+                self.undoStateChanged()
+                self.model.lookUpCircledArea(area, pageID: pageID)
+            }
+            return
+        }
+
+        // Drawn along a circle, protractor or set square: lay the stroke onto its edge.
+        if addedOneStroke, currentTool is PKInkingTool, let guideView, !guideView.isHidden,
+           let stroke = drawing.strokes.last, let snapped = guideView.snapped(stroke, in: canvasView) {
+            var onEdge = drawing
+            onEdge.strokes[onEdge.strokes.count - 1] = snapped
+            let result = onEdge
+            let pageID = pageView.pageID
+            DispatchQueue.main.async { [weak self, weak pageView] in
+                guard let self, let pageView, pageView.canvas === canvasView else { return }
+                pageView.replaceDrawing(result)
+                self.model.inkChanged(pageID: pageID, drawing: result)
+                self.undoStateChanged()
+            }
+            return
+        }
+
         if addedOneStroke, currentTool is PKInkingTool, let result = InkRefiner.scribbleErase(in: drawing) {
             let pageID = pageView.pageID
             DispatchQueue.main.async { [weak self, weak pageView] in

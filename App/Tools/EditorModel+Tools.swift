@@ -41,6 +41,32 @@ extension EditorModel {
         return try await TextRecognizer.recognize(image)
     }
 
+    /// Circle to Translate: reads the text (handwriting or print) inside the circled area of a
+    /// page with on-device Vision, then offers translate, look up, search and link.
+    func lookUpCircledArea(_ area: CGRect, pageID: UUID) {
+        guard let page = manifest.pages.first(where: { $0.id == pageID }),
+              area.width > 4, area.height > 4 else { return }
+        persistNow()
+        isReadingCircle = true
+        let image = renderPage(page, inkOnly: false, maxDimension: 2400)
+        Task { @MainActor in
+            defer { isReadingCircle = false }
+            guard let cgImage = image.cgImage else { return }
+            let scale = CGFloat(cgImage.width) / CGFloat(page.size.width)
+            let crop = area.insetBy(dx: -6, dy: -6)
+                .applying(CGAffineTransform(scaleX: scale, y: scale))
+                .intersection(CGRect(x: 0, y: 0, width: cgImage.width, height: cgImage.height))
+                .integral
+            guard !crop.isEmpty, let piece = cgImage.cropping(to: crop) else { return }
+            do {
+                let text = try await TextRecognizer.recognize(UIImage(cgImage: piece))
+                circleLookup = CircleLookupRequest(text: text, pageID: pageID, area: area)
+            } catch {
+                alertMessage = String(localized: "No text was found inside the circle.")
+            }
+        }
+    }
+
     /// Cuts the subject of the selected picture out of its background (iPadOS 17 and later).
     func removeBackgroundOfSelectedImage() async {
         guard let object = selectedObject, object.kind == .image,

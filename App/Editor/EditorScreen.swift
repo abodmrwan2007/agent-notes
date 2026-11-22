@@ -76,9 +76,6 @@ struct EditorScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             topBar
-            if !model.isReadingMode {
-                InkToolbar(model: model, allowsFingerDrawing: $allowsFingerDrawing)
-            }
             HStack(spacing: 0) {
                 if showsThumbnails, !model.isReadingMode {
                     PageSidebar(model: model) { pagePendingDeletion = $0 }
@@ -90,7 +87,7 @@ struct EditorScreen: View {
                     tool: model.tool,
                     layoutVersion: model.layoutVersion,
                     allowsFingerDrawing: allowsFingerDrawing,
-                    isRulerActive: model.isRulerActive,
+                    guide: model.isReadingMode ? nil : model.guide,
                     isReadingMode: model.isReadingMode,
                     isListening: model.isListening)
                 .overlay {
@@ -98,6 +95,25 @@ struct EditorScreen: View {
                         LaserPointerOverlay()
                     }
                 }
+                .overlay(alignment: .top) {
+                    if !model.isReadingMode {
+                        ContextBar(model: model)
+                    }
+                }
+                .overlay(alignment: .bottomTrailing) {
+                    Text("Page \(model.currentPageIndex + 1) of \(model.manifest.pages.count)")
+                        .font(.caption.weight(.bold))
+                        .monospacedDigit()
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .frame(height: 28)
+                        .background(Capsule().fill(LinearGradient(
+                            colors: [Vivid.purple, Vivid.pink], startPoint: .leading, endPoint: .trailing)))
+                        .shadow(color: Vivid.purple.opacity(0.3), radius: 6, y: 3)
+                        .padding(16)
+                        .allowsHitTesting(false)
+                }
+                .animation(.easeInOut(duration: 0.2), value: model.tool.kind)
                 if model.isSidePanelOpen, !model.isReadingMode {
                     Divider()
                     EditorSidePanel(model: model)
@@ -117,7 +133,22 @@ struct EditorScreen: View {
                 ProgressView("Reading the page…")
                     .padding(24)
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
+            } else if model.isReadingCircle {
+                ProgressView("Reading the circle…")
+                    .padding(24)
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.cornerRadius))
             }
+        }
+        .onChange(of: model.tool.kind) { _, kind in
+            // Leaving a selection mode clears its selection.
+            if kind != .objects { model.select(nil) }
+            if kind != .text { model.setTextSelection(nil) }
+        }
+        .sheet(item: $model.circleLookup) { request in
+            TextToolsSheet(
+                title: "Circle to Translate", text: request.text, onInsert: nil,
+                note: "Read from your circle. Fix any misread letters before translating or searching.",
+                extraActions: circleActions(for: request))
         }
         .sheet(item: $model.textToolsRequest) { request in
             switch request.origin {
@@ -242,19 +273,22 @@ struct EditorScreen: View {
 
     // MARK: Top bar
 
+    /// One bar, CollaNote style: notebook controls on the leading side, the writing tools in the
+    /// middle, page and export actions on the trailing side. Tapping the chosen pen again opens
+    /// its pen types, colours and thickness.
     private var topBar: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 5) {
             Button(action: close) {
-                Label("Library", systemImage: "chevron.backward")
-                    .barChip()
+                BarIcon(symbol: "chevron.backward", tint: Vivid.blue)
             }
             .buttonStyle(PressableStyle())
+            .accessibilityLabel("Library")
             .accessibilityIdentifier("editor.back")
 
             Button {
                 withAnimation { showsThumbnails.toggle() }
             } label: {
-                BarIcon(symbol: "sidebar.leading", isActive: showsThumbnails && !model.isReadingMode)
+                BarIcon(symbol: "sidebar.leading", isActive: showsThumbnails && !model.isReadingMode, tint: Vivid.indigo)
             }
             .buttonStyle(PressableStyle())
             .accessibilityLabel("Page thumbnails")
@@ -264,29 +298,59 @@ struct EditorScreen: View {
                     model.rename(to: title)
                 }
             } label: {
-                HStack(spacing: 6) {
+                HStack(spacing: 4) {
                     Text(verbatim: model.manifest.title)
-                        .font(.system(.headline, design: .rounded))
+                        .font(.system(.subheadline, design: .rounded).weight(.bold))
                         .foregroundStyle(Theme.text)
                         .lineLimit(1)
                     Image(systemName: "chevron.down")
                         .font(.caption2.weight(.bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Vivid.purple)
                 }
+                .frame(maxWidth: 120, alignment: .leading)
             }
             .accessibilityHint("Rename Notebook")
 
-            Spacer(minLength: 8)
+            if !model.isReadingMode {
+                Button {
+                    model.canvas?.undo()
+                } label: {
+                    BarIcon(symbol: "arrow.uturn.backward", tint: Vivid.teal)
+                }
+                .disabled(!model.canUndo)
+                .opacity(model.canUndo ? 1 : 0.4)
+                .keyboardShortcut("z", modifiers: .command)
+                .accessibilityLabel("Undo")
+
+                Button {
+                    model.canvas?.redo()
+                } label: {
+                    BarIcon(symbol: "arrow.uturn.forward", tint: Vivid.teal)
+                }
+                .disabled(!model.canRedo)
+                .opacity(model.canRedo ? 1 : 0.4)
+                .keyboardShortcut("z", modifiers: [.command, .shift])
+                .accessibilityLabel("Redo")
+            }
+
+            Spacer(minLength: 4)
+
+            if !model.isReadingMode {
+                ViewThatFits(in: .horizontal) {
+                    ToolStrip(model: model)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        ToolStrip(model: model)
+                    }
+                }
+                Spacer(minLength: 4)
+            }
 
             RecordButton(model: model)
 
             Button {
                 withAnimation { model.isReadingMode.toggle() }
             } label: {
-                let title: LocalizedStringKey = model.isReadingMode ? "Write" : "Read"
-                Label(title, systemImage: model.isReadingMode ? "pencil.tip" : "book")
-                    .labelStyle(.titleAndIcon)
-                    .barChip(isActive: model.isReadingMode)
+                BarIcon(symbol: model.isReadingMode ? "pencil.tip" : "book.fill", isActive: model.isReadingMode, tint: Vivid.orange)
             }
             .buttonStyle(PressableStyle())
             .accessibilityLabel("Reading Mode")
@@ -296,85 +360,18 @@ struct EditorScreen: View {
                 Button {
                     isLaserActive.toggle()
                 } label: {
-                    Label("Laser", systemImage: "light.max")
-                        .labelStyle(.titleAndIcon)
-                        .barChip(isActive: isLaserActive)
+                    BarIcon(symbol: "light.max", isActive: isLaserActive, tint: Vivid.red)
                 }
                 .buttonStyle(PressableStyle())
+                .accessibilityLabel("Laser")
                 .accessibilityAddTraits(isLaserActive ? .isSelected : [])
                 .accessibilityIdentifier("editor.laser")
             }
 
-            Text("Page \(model.currentPageIndex + 1) of \(model.manifest.pages.count)")
-                .font(.caption.weight(.semibold))
-                .monospacedDigit()
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 10)
-                .frame(height: 28)
-                .background(Capsule().fill(Color.secondary.opacity(0.12)))
-
             Menu {
-                Button {
-                    model.insertObject(kind: .text)
-                } label: {
-                    Label("Text Box", systemImage: "textformat")
-                }
-                Menu {
-                    ForEach(NoteStyle.allCases, id: \.self) { style in
-                        Button {
-                            model.insertObject(kind: .stickyNote, noteStyle: style)
-                        } label: {
-                            Label(style.title, systemImage: style.symbol)
-                        }
-                    }
-                } label: {
-                    Label("Sticky Note", systemImage: "note.text")
-                }
-                Menu {
-                    ForEach(ShapeKind.allCases, id: \.self) { shape in
-                        Button {
-                            model.insertObject(kind: .shape, shape: shape)
-                        } label: {
-                            Label(shape.title, systemImage: shape.symbol)
-                        }
-                    }
-                } label: {
-                    Label("Shape", systemImage: "square.on.circle")
-                }
-                Button {
-                    isPickingPhoto = true
-                } label: {
-                    Label("Image from Photos", systemImage: "photo")
-                }
-                Button {
-                    isPickingSticker = true
-                } label: {
-                    Label("Sticker…", systemImage: "face.smiling")
-                }
-                Button {
-                    isScanning = true
-                } label: {
-                    Label("Scan Document", systemImage: "doc.viewfinder")
-                }
-                .disabled(!DocumentScanner.isAvailable)
-                Button {
-                    isAddingLink = true
-                } label: {
-                    Label("Link…", systemImage: "link")
-                }
-                ImageGenerationAvailability { supported in
-                    if supported {
-                        Button {
-                            isGeneratingImage = true
-                        } label: {
-                            Label("Generate Image…", systemImage: "apple.image.playground")
-                        }
-                    }
-                }
+                insertItems
             } label: {
-                Label("Insert", systemImage: "plus.circle.fill")
-                    .labelStyle(.titleAndIcon)
-                    .barChip()
+                BarIcon(symbol: "plus", tint: Vivid.green)
             }
             .accessibilityLabel("Insert")
 
@@ -387,14 +384,18 @@ struct EditorScreen: View {
                     }
                 }
             } label: {
-                BarIcon(symbol: "plus.rectangle.on.rectangle")
+                BarIcon(symbol: "plus.rectangle.on.rectangle", tint: Vivid.yellow)
             }
             .accessibilityLabel("Add Page")
 
             Menu {
                 pageActions
+                Divider()
+                Toggle(isOn: $allowsFingerDrawing) {
+                    Label("Draw with finger", systemImage: "hand.point.up.left.fill")
+                }
             } label: {
-                BarIcon(symbol: "ellipsis")
+                BarIcon(symbol: "ellipsis", tint: Vivid.purple)
             }
             .accessibilityLabel("Page actions")
 
@@ -420,7 +421,7 @@ struct EditorScreen: View {
                     Label("Print…", systemImage: "printer")
                 }
             } label: {
-                BarIcon(symbol: "square.and.arrow.up")
+                BarIcon(symbol: "square.and.arrow.up", tint: Vivid.blue)
             }
             .accessibilityLabel("Export")
             .disabled(isExporting)
@@ -428,18 +429,90 @@ struct EditorScreen: View {
             Button {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) { model.isSidePanelOpen.toggle() }
             } label: {
-                Label("Tools", systemImage: "square.grid.2x2.fill")
-                    .labelStyle(.titleAndIcon)
-                    .barChip(isActive: model.isSidePanelOpen && !model.isReadingMode)
+                BarIcon(symbol: "square.grid.2x2.fill", isActive: model.isSidePanelOpen && !model.isReadingMode, tint: Vivid.pink)
             }
             .buttonStyle(PressableStyle())
             .accessibilityLabel("Tools and Stickers")
             .accessibilityIdentifier("editor.panel")
             .disabled(model.isReadingMode)
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 4)
-        .background(.regularMaterial)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background {
+            ZStack {
+                Rectangle().fill(.regularMaterial)
+                LinearGradient(
+                    colors: Vivid.rainbow.map { $0.opacity(0.10) },
+                    startPoint: .leading, endPoint: .trailing)
+            }
+            .ignoresSafeArea(edges: .top)
+        }
+        .overlay(alignment: .bottom) {
+            LinearGradient(colors: Vivid.rainbow, startPoint: .leading, endPoint: .trailing)
+                .frame(height: 2)
+                .opacity(0.8)
+        }
+    }
+
+    @ViewBuilder
+    private var insertItems: some View {
+        Button {
+            model.insertObject(kind: .text)
+        } label: {
+            Label("Text Box", systemImage: "textformat")
+        }
+        Menu {
+            ForEach(NoteStyle.allCases, id: \.self) { style in
+                Button {
+                    model.insertObject(kind: .stickyNote, noteStyle: style)
+                } label: {
+                    Label(style.title, systemImage: style.symbol)
+                }
+            }
+        } label: {
+            Label("Sticky Note", systemImage: "note.text")
+        }
+        Menu {
+            ForEach(ShapeKind.allCases, id: \.self) { shape in
+                Button {
+                    model.insertObject(kind: .shape, shape: shape)
+                } label: {
+                    Label(shape.title, systemImage: shape.symbol)
+                }
+            }
+        } label: {
+            Label("Shape", systemImage: "square.on.circle")
+        }
+        Button {
+            isPickingPhoto = true
+        } label: {
+            Label("Image from Photos", systemImage: "photo")
+        }
+        Button {
+            isPickingSticker = true
+        } label: {
+            Label("Sticker…", systemImage: "face.smiling")
+        }
+        Button {
+            isScanning = true
+        } label: {
+            Label("Scan Document", systemImage: "doc.viewfinder")
+        }
+        .disabled(!DocumentScanner.isAvailable)
+        Button {
+            isAddingLink = true
+        } label: {
+            Label("Link…", systemImage: "link")
+        }
+        ImageGenerationAvailability { supported in
+            if supported {
+                Button {
+                    isGeneratingImage = true
+                } label: {
+                    Label("Generate Image…", systemImage: "apple.image.playground")
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -503,6 +576,37 @@ struct EditorScreen: View {
     }
 
     // MARK: Actions
+
+    /// What can be done with circled text besides translate and look up.
+    private func circleActions(for request: CircleLookupRequest) -> [TextToolAction] {
+        [
+            TextToolAction(id: "web", title: "Search the Web", symbol: "globe", tint: Vivid.blue) { text in
+                if let url = Self.webSearchURL(text) { UIApplication.shared.open(url) }
+            },
+            TextToolAction(id: "link", title: "Put Link on Page", symbol: "link", tint: Vivid.green) { text in
+                guard let url = Self.webSearchURL(text) else { return }
+                model.insertLink(
+                    label: String(text.prefix(40)), link: .web(url), below: request.area, pageID: request.pageID)
+            },
+            TextToolAction(id: "notes", title: "Search My Notes", symbol: "text.magnifyingglass", tint: Vivid.purple) { text in
+                model.persistNow()
+                app.library.refreshRow(from: model.manifest)
+                app.showSearch(for: text)
+            },
+            TextToolAction(id: "explain", title: "Explain", symbol: "sparkles", tint: Vivid.pink) { text in
+                model.explainRequest = ExplainRequest(text: text, pageID: request.pageID)
+                model.panelTab = .assistant
+                withAnimation { model.isSidePanelOpen = true }
+            }
+        ]
+    }
+
+    /// A web search for the text (opened in the browser only when the user taps it).
+    static func webSearchURL(_ text: String) -> URL? {
+        var components = URLComponents(string: "https://www.google.com/search")
+        components?.queryItems = [URLQueryItem(name: "q", value: text.trimmingCharacters(in: .whitespacesAndNewlines))]
+        return components?.url
+    }
 
     private func close() {
         let manifest = model.close()
@@ -574,133 +678,169 @@ struct EditorScreen: View {
 
 // MARK: - Toolbar
 
-struct InkToolbar: View {
+/// The writing tools in the top bar. Tap a tool to pick it; tap the chosen pen (or the eraser)
+/// again for its options.
+struct ToolStrip: View {
     @Bindable var model: EditorModel
-    @Binding var allowsFingerDrawing: Bool
+    @State private var optionsFor: InkToolKind?
 
     var body: some View {
-        HStack(spacing: 10) {
-            // Tools and their options scroll sideways when space is short (for example with the
-            // side panel open); Undo, Redo and finger drawing stay fixed on the trailing edge.
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    toolButtons
-                    Divider().frame(height: 24)
-                    options
-                }
-                .padding(.vertical, 2)
-            }
-            Spacer(minLength: 8)
-
-            Button {
-                model.canvas?.undo()
-            } label: {
-                BarIcon(symbol: "arrow.uturn.backward")
-            }
-            .disabled(!model.canUndo)
-            .opacity(model.canUndo ? 1 : 0.45)
-            .keyboardShortcut("z", modifiers: .command)
-            .accessibilityLabel("Undo")
-
-            Button {
-                model.canvas?.redo()
-            } label: {
-                BarIcon(symbol: "arrow.uturn.forward")
-            }
-            .disabled(!model.canRedo)
-            .opacity(model.canRedo ? 1 : 0.45)
-            .keyboardShortcut("z", modifiers: [.command, .shift])
-            .accessibilityLabel("Redo")
-
-            Button {
-                allowsFingerDrawing.toggle()
-            } label: {
-                BarIcon(symbol: "hand.point.up.left.fill", isActive: allowsFingerDrawing)
-            }
-            .accessibilityLabel("Draw with finger")
-            .accessibilityAddTraits(allowsFingerDrawing ? .isSelected : [])
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 2)
-        .floatingPanel(cornerRadius: 22)
-        .padding(.horizontal, 12)
-        .padding(.top, 4)
-        .padding(.bottom, 4)
-        .background(Theme.backdrop)
-        .onChange(of: model.tool.kind) { _, kind in
-            // Leaving a selection mode clears its selection.
-            if kind != .objects { model.select(nil) }
-            if kind != .text { model.setTextSelection(nil) }
-        }
-    }
-
-    @ViewBuilder
-    private var toolButtons: some View {
+        HStack(spacing: 1) {
             ForEach(InkToolKind.allCases) { kind in
-                let isSelected = model.tool.kind == kind
-                let icon = ToolGlyph(
-                    kind: kind,
-                    symbol: kind == .brush ? model.tool.brushInk.symbol : kind.symbol,
-                    ink: isSelected && model.tool.widthRange != nil ? Color(uiColor: model.tool.color) : nil,
-                    isSelected: isSelected)
-                if kind == .brush {
-                    // Tap selects the brush; the menu chooses its ink.
-                    Menu {
-                        ForEach(BrushInk.allCases) { ink in
-                            Button {
-                                model.tool.brushInk = ink
-                                model.selectTool(.brush)
-                            } label: {
-                                Label(ink.title, systemImage: ink.symbol)
-                            }
-                        }
-                    } label: {
-                        icon
-                    } primaryAction: {
-                        model.selectTool(.brush)
-                    }
-                    .accessibilityLabel(Text(kind.title))
-                    .accessibilityAddTraits(isSelected ? .isSelected : [])
-                } else {
-                    Button {
-                        model.selectTool(kind)
-                    } label: {
-                        icon
-                    }
-                    .accessibilityLabel(Text(kind.title))
-                    .accessibilityAddTraits(isSelected ? .isSelected : [])
+                slot(kind)
+                if kind == .brush || kind == .lookup {
+                    Capsule()
+                        .fill(Color.secondary.opacity(0.25))
+                        .frame(width: 1.5, height: 22)
+                        .padding(.horizontal, 3)
                 }
             }
-
-            Button {
-                model.isRulerActive.toggle()
-            } label: {
-                BarIcon(symbol: "ruler", isActive: model.isRulerActive)
-            }
-            .accessibilityLabel("Ruler")
-            .accessibilityAddTraits(model.isRulerActive ? .isSelected : [])
-            .accessibilityIdentifier("tool.ruler")
+            GuideMenu(model: model)
+        }
+        .padding(.horizontal, 8)
+        .frame(height: 44)
+        .background(Capsule().fill(Color(uiColor: .systemBackground).opacity(0.55)))
+        .overlay(Capsule().strokeBorder(Color.white.opacity(0.6), lineWidth: 0.5))
     }
 
-    @ViewBuilder
-    private var options: some View {
-        if let range = model.tool.widthRange {
-            ForEach(Array(model.tool.palette.enumerated()), id: \.offset) { _, color in
-                let isChosen = model.tool.color == color
+    private func slot(_ kind: InkToolKind) -> some View {
+        let isSelected = model.tool.kind == kind
+        return Button {
+            if isSelected, kind.isPen || kind == .eraser {
+                optionsFor = kind
+            } else {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { model.selectTool(kind) }
+            }
+        } label: {
+            ToolGlyph(
+                kind: kind,
+                style: model.tool.style(of: kind),
+                ink: Color(uiColor: model.tool.color(of: kind)),
+                isSelected: isSelected)
+        }
+        .accessibilityLabel(Text(kind.title))
+        .accessibilityIdentifier("tool.\(kind.rawValue)")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .popover(isPresented: Binding(get: { optionsFor == kind }, set: { if !$0 { optionsFor = nil } })) {
+            if kind == .eraser {
+                EraserOptions(model: model)
+            } else {
+                PenOptions(model: model, kind: kind)
+            }
+        }
+    }
+}
+
+/// Rulers: PencilKit's straight ruler, or a circle, protractor or set square to draw along.
+struct GuideMenu: View {
+    @Bindable var model: EditorModel
+
+    var body: some View {
+        Menu {
+            ForEach(DrawingGuide.allCases) { guide in
                 Button {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { model.tool.color = color }
+                    model.guide = model.guide == guide ? nil : guide
                 } label: {
-                    Circle()
-                        .fill(Color(uiColor: color).gradient)
-                        .frame(width: 26, height: 26)
-                        .overlay(Circle().strokeBorder(.white, lineWidth: 2))
-                        .shadow(color: .black.opacity(0.18), radius: 2, y: 1)
-                        .padding(3)
-                        .overlay(Circle().strokeBorder(Color(uiColor: color), lineWidth: isChosen ? 2.5 : 0))
-                        .scaleEffect(isChosen ? 1.08 : 1)
+                    Label(guide.title, systemImage: model.guide == guide ? "checkmark" : guide.symbol)
                 }
-                .accessibilityLabel("Color")
-                .accessibilityAddTraits(isChosen ? .isSelected : [])
+            }
+            if model.guide != nil {
+                Divider()
+                Button(role: .destructive) {
+                    model.guide = nil
+                } label: {
+                    Label("Hide Ruler", systemImage: "eye.slash")
+                }
+            }
+        } label: {
+            ToolIcon(
+                symbol: model.guide?.symbol ?? "ruler",
+                tint: model.guide?.tint ?? Vivid.green,
+                isSelected: model.guide != nil)
+        }
+        .accessibilityLabel("Rulers")
+        .accessibilityIdentifier("tool.ruler")
+    }
+}
+
+/// Options for the chosen pen: pen type, thickness and colour, in a popover.
+struct PenOptions: View {
+    @Bindable var model: EditorModel
+    let kind: InkToolKind
+
+    private var columns: [GridItem] { Array(repeating: GridItem(.fixed(34), spacing: 8), count: 7) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(kind.title)
+                .font(.system(.headline, design: .rounded))
+                .foregroundStyle(Theme.text)
+
+            if kind.styles.count > 1 {
+                HStack(spacing: 10) {
+                    ForEach(kind.styles) { style in
+                        let isChosen = model.tool.style(of: kind) == style
+                        Button {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) { model.tool.setStyle(style) }
+                        } label: {
+                            VStack(spacing: 6) {
+                                PenShapeView(style: style, ink: Color(uiColor: model.tool.color))
+                                    .frame(width: style.glyphWidth, height: 50)
+                                Text(style.title)
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundStyle(Theme.text)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.8)
+                            }
+                            .padding(.vertical, 8)
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(isChosen ? Color(uiColor: model.tool.color).opacity(0.16) : Color.secondary.opacity(0.08)))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .strokeBorder(isChosen ? Color(uiColor: model.tool.color) : .clear, lineWidth: 2))
+                        }
+                        .buttonStyle(PressableStyle())
+                        .accessibilityLabel(Text(style.title))
+                        .accessibilityAddTraits(isChosen ? .isSelected : [])
+                    }
+                }
+            }
+
+            StrokePreview(style: model.tool.style ?? .ballpoint, color: Color(uiColor: model.tool.color), width: model.tool.width)
+                .frame(height: 50)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
+                .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.secondary.opacity(0.2)))
+
+            if let range = model.tool.widthRange {
+                HStack(spacing: 10) {
+                    Circle().fill(Color(uiColor: model.tool.color)).frame(width: 6, height: 6)
+                    Slider(
+                        value: Binding(get: { model.tool.width }, set: { model.tool.width = $0 }),
+                        in: range)
+                        .tint(Color(uiColor: model.tool.color))
+                        .accessibilityLabel("Thickness")
+                    Circle().fill(Color(uiColor: model.tool.color)).frame(width: 20, height: 20)
+                }
+            }
+
+            LazyVGrid(columns: columns, spacing: 8) {
+                ForEach(Array(model.tool.palette.enumerated()), id: \.offset) { _, color in
+                    let isChosen = model.tool.color == color
+                    Button {
+                        withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) { model.tool.color = color }
+                    } label: {
+                        Circle()
+                            .fill(Color(uiColor: color).gradient)
+                            .frame(width: 28, height: 28)
+                            .overlay(Circle().strokeBorder(Color.black.opacity(0.12), lineWidth: 1))
+                            .padding(3)
+                            .overlay(Circle().strokeBorder(Color(uiColor: color == .white ? .gray : color), lineWidth: isChosen ? 2.5 : 0))
+                    }
+                    .accessibilityLabel("Color")
+                    .accessibilityAddTraits(isChosen ? .isSelected : [])
+                }
             }
             ColorPicker(
                 "Custom color",
@@ -708,131 +848,181 @@ struct InkToolbar: View {
                     get: { Color(uiColor: model.tool.color) },
                     set: { model.tool.color = UIColor($0) }),
                 supportsOpacity: false)
-                .labelsHidden()
+                .font(.subheadline.weight(.semibold))
+        }
+        .padding(18)
+        .frame(width: 330)
+    }
+}
 
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(Color(uiColor: model.tool.color))
-                    .frame(width: 6, height: 6)
-                Slider(
-                    value: Binding(get: { model.tool.width }, set: { model.tool.width = $0 }),
-                    in: range)
-                    .tint(Color(uiColor: model.tool.color))
-                    .frame(width: 140)
-                    .accessibilityLabel("Thickness")
-                Circle()
-                    .fill(Color(uiColor: model.tool.color))
-                    .frame(width: 18, height: 18)
-            }
-            .padding(.horizontal, 10)
-            .frame(height: 34)
-            .background(Capsule().fill(Color.secondary.opacity(0.10)))
-        } else if model.tool.kind == .eraser {
+struct EraserOptions: View {
+    @Bindable var model: EditorModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Eraser")
+                .font(.system(.headline, design: .rounded))
             Picker("Eraser mode", selection: $model.tool.eraserMode) {
                 Text("Whole stroke").tag(EraserMode.stroke)
                 Text("Partial").tag(EraserMode.pixel)
             }
             .pickerStyle(.segmented)
-            .frame(width: 240)
-        } else if model.tool.kind == .objects {
-            ObjectOptions(model: model)
-        } else if model.tool.kind == .text {
-            TextSelectionOptions(model: model)
-        } else {
-            Text("Circle strokes to select them, then drag to move.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
         }
+        .padding(18)
+        .frame(width: 280)
     }
 }
 
-/// A toolbar tool: writing tools are drawn as pens that rise out of the bar when chosen (tip in
-/// the current ink); the other tools are round icons.
-struct ToolGlyph: View {
-    let kind: InkToolKind
-    let symbol: String
-    /// The current ink, for the selected writing tool.
-    let ink: Color?
-    let isSelected: Bool
-
-    private var isPen: Bool { [InkToolKind.pen, .pencil, .highlighter, .brush].contains(kind) }
-
-    private var defaultInk: Color {
-        switch kind {
-        case .highlighter: return Color(red: 1.0, green: 0.82, blue: 0.20)
-        case .brush: return Color(red: 0.36, green: 0.45, blue: 0.95)
-        case .pencil: return Color(white: 0.35)
-        default: return Color(red: 0.10, green: 0.15, blue: 0.30)
-        }
-    }
+/// A sample wave in the current pen, colour and thickness.
+struct StrokePreview: View {
+    let style: PenStyle
+    let color: Color
+    let width: CGFloat
 
     var body: some View {
-        Group {
-            if isPen {
-                PenShapeView(kind: kind, ink: ink ?? defaultInk)
-                    .frame(width: kind == .highlighter ? 22 : 18, height: 46)
-                    .offset(y: isSelected ? 6 : 17)
-                    .frame(width: 34, height: 40, alignment: .top)
-                    .clipped()
-                    .overlay(alignment: .bottom) {
-                        if kind == .brush {
-                            Image(systemName: symbol)
-                                .font(.system(size: 9, weight: .bold))
-                                .foregroundStyle(.white)
-                                .frame(width: 16, height: 16)
-                                .background(Circle().fill(Theme.accent))
-                                .offset(x: 11, y: -2)
-                        }
-                    }
-            } else {
-                Image(systemName: symbol)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(isSelected ? Color.white : Theme.text.opacity(0.8))
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(isSelected ? AnyShapeStyle(Theme.accent.gradient) : AnyShapeStyle(Color.clear)))
-                    .frame(width: 38, height: 40)
+        Canvas { context, size in
+            var path = Path()
+            let midY = size.height / 2
+            path.move(to: CGPoint(x: 16, y: midY))
+            let steps = 40
+            for step in 1...steps {
+                let x = 16 + (size.width - 32) * CGFloat(step) / CGFloat(steps)
+                let y = midY + sin(CGFloat(step) / CGFloat(steps) * .pi * 2) * size.height * 0.22
+                path.addLine(to: CGPoint(x: x, y: y))
             }
+            let opacity: Double = (style == .marker || style == .watercolor) ? 0.5 : 1
+            let lineWidth = min(width, 26)
+            context.stroke(
+                path, with: .color(color.opacity(opacity)),
+                style: StrokeStyle(lineWidth: lineWidth, lineCap: style == .marker ? .butt : .round, lineJoin: .round))
         }
-        .contentShape(Rectangle())
-        .animation(.spring(response: 0.3, dampingFraction: 0.65), value: isSelected)
+        .accessibilityHidden(true)
     }
 }
 
-/// A pen, pencil, highlighter or brush seen from the side, tip up.
-struct PenShapeView: View {
+/// A round, coloured tool icon (eraser, lasso, rulers…).
+struct ToolIcon: View {
+    let symbol: String
+    let tint: Color
+    let isSelected: Bool
+
+    var body: some View {
+        Image(systemName: symbol)
+            .font(.system(size: 15, weight: .semibold))
+            .foregroundStyle(isSelected ? Color.white : tint)
+            .frame(width: 32, height: 32)
+            .background(Circle().fill(isSelected ? AnyShapeStyle(tint.gradient) : AnyShapeStyle(tint.opacity(0.13))))
+            .shadow(color: isSelected ? tint.opacity(0.4) : .clear, radius: 4, y: 2)
+            .frame(width: 36, height: 40)
+            .contentShape(Rectangle())
+            .animation(.spring(response: 0.3, dampingFraction: 0.65), value: isSelected)
+    }
+}
+
+/// A toolbar tool: writing tools are drawn as pens in their own ink that rise out of the bar when
+/// chosen; the other tools are round coloured icons.
+struct ToolGlyph: View {
     let kind: InkToolKind
+    let style: PenStyle?
+    let ink: Color
+    let isSelected: Bool
+
+    var body: some View {
+        if let style, kind.isPen {
+            PenShapeView(style: style, ink: ink)
+                .frame(width: style.glyphWidth, height: 46)
+                .offset(y: isSelected ? 5 : 17)
+                .frame(width: 30, height: 40, alignment: .top)
+                .clipped()
+                .contentShape(Rectangle())
+                .animation(.spring(response: 0.3, dampingFraction: 0.65), value: isSelected)
+        } else {
+            ToolIcon(symbol: kind.symbol, tint: kind.tint, isSelected: isSelected)
+        }
+    }
+}
+
+extension PenStyle {
+    /// Width of the pen drawing in the toolbar.
+    var glyphWidth: CGFloat {
+        switch self {
+        case .marker: return 22
+        case .crayon, .calligraphy: return 19
+        case .fineliner: return 14
+        default: return 17
+        }
+    }
+}
+
+/// A pen seen from the side, tip up, drawn for each pen type.
+struct PenShapeView: View {
+    let style: PenStyle
     let ink: Color
 
     var body: some View {
         Canvas { context, size in
             let w = size.width
             let h = size.height
-            let tipHeight = h * 0.30
+            let tipHeight = h * (style == .fineliner ? 0.36 : 0.30)
             let barrel = CGRect(x: 0.5, y: tipHeight, width: w - 1, height: h - tipHeight)
-            let bodyPath = Path(roundedRect: barrel, cornerRadius: 3)
-            let casing = kind == .pencil ? Color(red: 0.98, green: 0.78, blue: 0.30) : Color(white: 0.97)
-            context.fill(bodyPath, with: .color(casing))
+            let bodyPath = Path(roundedRect: barrel, cornerRadius: style == .crayon ? 2 : 3.5)
+
+            // Barrel.
+            switch style {
+            case .pencil:
+                context.fill(bodyPath, with: .color(Color(red: 0.98, green: 0.78, blue: 0.30)))
+                context.fill(Path(CGRect(x: w * 0.33, y: tipHeight, width: 0.8, height: h - tipHeight)), with: .color(.black.opacity(0.12)))
+                context.fill(Path(CGRect(x: w * 0.66, y: tipHeight, width: 0.8, height: h - tipHeight)), with: .color(.black.opacity(0.12)))
+            case .crayon:
+                context.fill(bodyPath, with: .color(ink))
+                context.fill(Path(CGRect(x: 0.5, y: tipHeight + 8, width: w - 1, height: h * 0.45)), with: .color(.white.opacity(0.55)))
+                context.fill(Path(CGRect(x: 0.5, y: tipHeight + 12, width: w - 1, height: 2)), with: .color(ink.opacity(0.9)))
+            case .fountainPen, .calligraphy:
+                context.fill(bodyPath, with: .linearGradient(
+                    Gradient(colors: [ink.opacity(0.95), ink.opacity(0.65)]),
+                    startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: w, y: 0)))
+                context.fill(Path(CGRect(x: 0.5, y: tipHeight + 3, width: w - 1, height: 3)), with: .color(Color(red: 0.92, green: 0.75, blue: 0.30)))
+            case .watercolor:
+                context.fill(bodyPath, with: .color(Color(red: 0.80, green: 0.55, blue: 0.32)))
+                context.fill(Path(CGRect(x: 0.5, y: tipHeight, width: w - 1, height: 7)), with: .color(Color(white: 0.78)))
+            default:
+                context.fill(bodyPath, with: .color(Color(white: 0.98)))
+                context.fill(bodyPath, with: .color(ink.opacity(0.18)))
+                context.fill(Path(CGRect(x: 0.5, y: tipHeight + 5, width: w - 1, height: 5)), with: .color(ink))
+            }
             // Side shading for roundness.
             context.fill(
-                Path(CGRect(x: w * 0.62, y: tipHeight, width: w * 0.38 - 0.5, height: h - tipHeight)),
-                with: .color(.black.opacity(0.07)))
+                Path(CGRect(x: w * 0.64, y: tipHeight, width: w * 0.36 - 0.5, height: h - tipHeight)),
+                with: .color(.black.opacity(0.08)))
             context.stroke(bodyPath, with: .color(.black.opacity(0.18)), lineWidth: 0.8)
-            // Ink band.
-            context.fill(Path(CGRect(x: 0.5, y: tipHeight + 5, width: w - 1, height: 5)), with: .color(ink))
 
+            // Tip.
             var tip = Path()
-            switch kind {
-            case .highlighter:
+            switch style {
+            case .marker:
                 tip.move(to: CGPoint(x: 1, y: tipHeight))
                 tip.addLine(to: CGPoint(x: w * 0.22, y: tipHeight * 0.30))
                 tip.addLine(to: CGPoint(x: w * 0.78, y: 1))
                 tip.addLine(to: CGPoint(x: w - 1, y: tipHeight))
                 tip.closeSubpath()
                 context.fill(tip, with: .color(ink))
-            case .brush:
+            case .watercolor:
                 tip.move(to: CGPoint(x: 1.5, y: tipHeight))
                 tip.addQuadCurve(to: CGPoint(x: w / 2, y: 0), control: CGPoint(x: 0, y: tipHeight * 0.35))
                 tip.addQuadCurve(to: CGPoint(x: w - 1.5, y: tipHeight), control: CGPoint(x: w, y: tipHeight * 0.35))
+                tip.closeSubpath()
+                context.fill(tip, with: .color(ink))
+            case .brushPen:
+                tip.move(to: CGPoint(x: 2, y: tipHeight))
+                tip.addQuadCurve(to: CGPoint(x: w * 0.55, y: 0), control: CGPoint(x: w * 0.1, y: tipHeight * 0.2))
+                tip.addQuadCurve(to: CGPoint(x: w - 2, y: tipHeight), control: CGPoint(x: w * 0.8, y: tipHeight * 0.5))
+                tip.closeSubpath()
+                context.fill(tip, with: .color(ink))
+            case .crayon:
+                tip.move(to: CGPoint(x: 1, y: tipHeight))
+                tip.addLine(to: CGPoint(x: w * 0.30, y: tipHeight * 0.25))
+                tip.addQuadCurve(to: CGPoint(x: w * 0.70, y: tipHeight * 0.25), control: CGPoint(x: w / 2, y: -1))
+                tip.addLine(to: CGPoint(x: w - 1, y: tipHeight))
                 tip.closeSubpath()
                 context.fill(tip, with: .color(ink))
             case .pencil:
@@ -847,24 +1037,102 @@ struct PenShapeView: View {
                 lead.addLine(to: CGPoint(x: w * 0.64, y: tipHeight * 0.36))
                 lead.closeSubpath()
                 context.fill(lead, with: .color(ink))
-            default:
+            case .fountainPen:
+                // A gold nib with a slit.
+                tip.move(to: CGPoint(x: 1.5, y: tipHeight))
+                tip.addQuadCurve(to: CGPoint(x: w / 2, y: 0.5), control: CGPoint(x: w * 0.05, y: tipHeight * 0.3))
+                tip.addQuadCurve(to: CGPoint(x: w - 1.5, y: tipHeight), control: CGPoint(x: w * 0.95, y: tipHeight * 0.3))
+                tip.closeSubpath()
+                context.fill(tip, with: .color(Color(red: 0.93, green: 0.77, blue: 0.33)))
+                var slit = Path()
+                slit.move(to: CGPoint(x: w / 2, y: 1))
+                slit.addLine(to: CGPoint(x: w / 2, y: tipHeight * 0.6))
+                context.stroke(slit, with: .color(ink), lineWidth: 1.2)
+                context.fill(Path(ellipseIn: CGRect(x: w / 2 - 1.5, y: tipHeight * 0.6, width: 3, height: 3)), with: .color(ink))
+            case .calligraphy:
+                // A broad, flat nib.
+                tip.move(to: CGPoint(x: 1.5, y: tipHeight))
+                tip.addLine(to: CGPoint(x: w * 0.15, y: 1))
+                tip.addLine(to: CGPoint(x: w * 0.85, y: 1))
+                tip.addLine(to: CGPoint(x: w - 1.5, y: tipHeight))
+                tip.closeSubpath()
+                context.fill(tip, with: .color(Color(white: 0.75)))
+                context.fill(Path(CGRect(x: w * 0.15, y: 0.5, width: w * 0.7, height: 2.5)), with: .color(ink))
+            case .fineliner:
+                // A long, thin metal tip.
+                tip.move(to: CGPoint(x: 1, y: tipHeight))
+                tip.addLine(to: CGPoint(x: w * 0.40, y: tipHeight * 0.45))
+                tip.addLine(to: CGPoint(x: w * 0.60, y: tipHeight * 0.45))
+                tip.addLine(to: CGPoint(x: w - 1, y: tipHeight))
+                tip.closeSubpath()
+                context.fill(tip, with: .color(Color(white: 0.70)))
+                context.fill(Path(CGRect(x: w * 0.44, y: 0, width: w * 0.12, height: tipHeight * 0.46)), with: .color(ink))
+            case .ballpoint:
                 tip.move(to: CGPoint(x: 1, y: tipHeight))
                 tip.addLine(to: CGPoint(x: w * 0.42, y: 1.5))
                 tip.addLine(to: CGPoint(x: w * 0.58, y: 1.5))
                 tip.addLine(to: CGPoint(x: w - 1, y: tipHeight))
                 tip.closeSubpath()
-                context.fill(tip, with: .color(Color(white: 0.25)))
+                context.fill(tip, with: .color(Color(white: 0.85)))
                 var nib = Path()
-                nib.move(to: CGPoint(x: w * 0.30, y: tipHeight * 0.45))
+                nib.move(to: CGPoint(x: w * 0.36, y: tipHeight * 0.35))
                 nib.addLine(to: CGPoint(x: w * 0.42, y: 1.5))
                 nib.addLine(to: CGPoint(x: w * 0.58, y: 1.5))
-                nib.addLine(to: CGPoint(x: w * 0.70, y: tipHeight * 0.45))
+                nib.addLine(to: CGPoint(x: w * 0.64, y: tipHeight * 0.35))
                 nib.closeSubpath()
                 context.fill(nib, with: .color(ink))
             }
             context.stroke(tip, with: .color(.black.opacity(0.15)), lineWidth: 0.6)
         }
         .shadow(color: .black.opacity(0.18), radius: 2, x: 1, y: 1)
+    }
+}
+
+/// Floating bar over the page for the tool in use: text actions, object actions or a short hint.
+struct ContextBar: View {
+    let model: EditorModel
+
+    var body: some View {
+        if let content {
+            content
+                .padding(.horizontal, 14)
+                .frame(minHeight: 44)
+                .floatingPanel(cornerRadius: 22)
+                .padding(.top, 10)
+                .padding(.horizontal, 16)
+                .transition(.move(edge: .top).combined(with: .opacity))
+        }
+    }
+
+    private var content: AnyView? {
+        switch model.tool.kind {
+        case .text:
+            return AnyView(TextSelectionOptions(model: model))
+        case .objects:
+            return AnyView(ObjectOptions(model: model))
+        case .lasso:
+            return AnyView(hint("Circle strokes to select them, then drag to move.", symbol: "lasso", tint: Vivid.purple))
+        case .lookup:
+            return AnyView(hint(
+                "Circle a word or sentence to translate it, look it up or search for it.",
+                symbol: "character.magnify", tint: Vivid.orange))
+        default:
+            if let guide = model.guide, guide != .ruler {
+                return AnyView(hint(
+                    "Move the guide with one finger, turn it with two, pinch to resize. Draw along an edge.",
+                    symbol: guide.symbol, tint: guide.tint))
+            }
+            return nil
+        }
+    }
+
+    private func hint(_ text: LocalizedStringKey, symbol: String, tint: Color) -> some View {
+        HStack(spacing: 10) {
+            IconBadge(symbol: symbol, color: tint, size: 26)
+            Text(text)
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(Theme.text)
+        }
     }
 }
 
@@ -960,7 +1228,7 @@ struct TextSelectionOptions: View {
                 } label: {
                     Label("Explain", systemImage: "sparkles")
                         .labelStyle(.titleAndIcon)
-                        .barChip(isActive: true)
+                        .barChip(isActive: true, tint: Vivid.pink)
                 }
                 .buttonStyle(PressableStyle())
                 .accessibilityIdentifier("text.explain")
@@ -1238,7 +1506,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
     let tool: ToolState
     let layoutVersion: Int
     let allowsFingerDrawing: Bool
-    let isRulerActive: Bool
+    let guide: DrawingGuide?
     let isReadingMode: Bool
     let isListening: Bool
 
@@ -1269,7 +1537,7 @@ struct EditorCanvasView: UIViewControllerRepresentable {
             controller.apply(tool: tool.makeTool())
         }
         controller.setInteraction(isReadingMode ? .read : (isListening ? .listen : tool.kind.pageInteraction))
-        controller.setRulerActive(isRulerActive)
+        controller.setGuide(guide)
     }
 }
 

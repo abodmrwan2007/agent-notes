@@ -114,6 +114,15 @@ struct DictionaryView: UIViewControllerRepresentable {
     func updateUIViewController(_ controller: UIReferenceLibraryViewController, context: Context) {}
 }
 
+/// An extra button in the text tools sheet. It runs after the sheet closes.
+struct TextToolAction: Identifiable {
+    let id: String
+    let title: LocalizedStringKey
+    let symbol: String
+    let tint: Color
+    let perform: (String) -> Void
+}
+
 /// What can be done with a piece of text: recognized from a page or selected on a PDF.
 struct TextToolsSheet: View {
     let title: LocalizedStringKey
@@ -129,6 +138,8 @@ struct TextToolsSheet: View {
     var note: LocalizedStringKey?
     /// Shown inside an existing navigation stack (Study) instead of as a sheet.
     var embedded = false
+    /// More things to do with the text (for example after Circle to Translate).
+    var extraActions: [TextToolAction] = []
 
     var body: some View {
         if embedded {
@@ -158,44 +169,61 @@ struct TextToolsSheet: View {
                     .padding(8)
                     .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
                     .accessibilityIdentifier("textTools.text")
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        if let onInsert {
-                            Button {
-                                onInsert(text)
-                                dismiss()
-                            } label: {
-                                Label("Put on Page", systemImage: "text.badge.plus")
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .accessibilityIdentifier("textTools.insert")
-                        }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 10)], spacing: 10) {
+                    if let onInsert {
                         Button {
-                            UIPasteboard.general.string = text
-                            copied = true
+                            onInsert(text)
+                            dismiss()
                         } label: {
-                            let copyTitle: LocalizedStringKey = copied ? "Copied" : "Copy"
-                            Label(copyTitle, systemImage: copied ? "checkmark" : "doc.on.doc")
+                            Label("Put on Page", systemImage: "text.badge.plus")
+                                .frame(maxWidth: .infinity)
                         }
-                        .buttonStyle(.bordered)
-                        translateButton
+                        .tint(Vivid.green)
+                        .accessibilityIdentifier("textTools.insert")
+                    }
+                    Button {
+                        UIPasteboard.general.string = text
+                        copied = true
+                    } label: {
+                        let copyTitle: LocalizedStringKey = copied ? "Copied" : "Copy"
+                        Label(copyTitle, systemImage: copied ? "checkmark" : "doc.on.doc")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .tint(Vivid.teal)
+                    translateButton
+                    Button {
+                        showsDictionary = true
+                    } label: {
+                        Label("Look Up", systemImage: "character.book.closed")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .tint(Vivid.indigo)
+                    .accessibilityIdentifier("textTools.lookUp")
+                    Button {
+                        SpeechReader.shared.toggle(text)
+                    } label: {
+                        let speakTitle: LocalizedStringKey = isSpeaking ? "Stop" : "Read Aloud"
+                        Label(speakTitle, systemImage: isSpeaking ? "stop.fill" : "speaker.wave.2")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .tint(Vivid.yellow)
+                    .accessibilityIdentifier("textTools.speak")
+                    ForEach(extraActions) { action in
                         Button {
-                            showsDictionary = true
+                            let current = text
+                            dismiss()
+                            // After the sheet has gone, so actions that leave the notebook work.
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { action.perform(current) }
                         } label: {
-                            Label("Look Up", systemImage: "character.book.closed")
+                            Label(action.title, systemImage: action.symbol)
+                                .frame(maxWidth: .infinity)
                         }
-                        .buttonStyle(.bordered)
-                        .accessibilityIdentifier("textTools.lookUp")
-                        Button {
-                            SpeechReader.shared.toggle(text)
-                        } label: {
-                            let speakTitle: LocalizedStringKey = isSpeaking ? "Stop" : "Read Aloud"
-                            Label(speakTitle, systemImage: isSpeaking ? "stop.fill" : "speaker.wave.2")
-                        }
-                        .buttonStyle(.bordered)
-                        .accessibilityIdentifier("textTools.speak")
+                        .tint(action.tint)
+                        .accessibilityIdentifier("textTools.\(action.id)")
                     }
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
             .padding(16)
             .navigationTitle(title)
@@ -219,8 +247,9 @@ struct TextToolsSheet: View {
                 showsTranslation = true
             } label: {
                 Label("Translate", systemImage: "translate")
+                    .frame(maxWidth: .infinity)
             }
-            .buttonStyle(.bordered)
+            .tint(Vivid.orange)
             .accessibilityIdentifier("textTools.translate")
         }
     }

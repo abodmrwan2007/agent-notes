@@ -21,16 +21,15 @@ struct RecordButton: View {
                             Image(systemName: "stop.circle.fill")
                         }
                         .labelStyle(.titleAndIcon)
+                        .barChip(isActive: true, tint: Vivid.red)
                     }
                 }
-                .tint(.red)
                 .accessibilityLabel("Stop Recording")
             } else {
                 Button {
                     model.startRecording()
                 } label: {
-                    Label("Record", systemImage: "record.circle")
-                        .labelStyle(.titleAndIcon)
+                    BarIcon(symbol: "record.circle", tint: Vivid.red)
                 }
                 .accessibilityLabel("Record")
             }

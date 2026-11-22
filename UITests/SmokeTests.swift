@@ -76,6 +76,27 @@ final class SmokeTests: XCTestCase {
         XCTAssertTrue(element(app, "diagram.labels").waitForExistence(timeout: 5), "diagram picker missing")
     }
 
+    /// The top of the page area: just under the editor's top bar (measured from the Library
+    /// button, which sits in the middle of the bar).
+    private func canvasTop(_ app: XCUIApplication) -> CGFloat {
+        element(app, "editor.back").frame.maxY + 10
+    }
+
+    /// Drags across "the start of" in the first paragraph of the fixture PDF's first page.
+    private func selectFirstParagraphText(_ app: XCUIApplication) {
+        let top = canvasTop(app)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        origin.withOffset(CGVector(dx: 310, dy: top + 187))
+            .press(forDuration: 0.1, thenDragTo: origin.withOffset(CGVector(dx: 681, dy: top + 220)))
+    }
+
+    /// Closes an open popover by tapping outside it.
+    private func dismissPopover(_ app: XCUIApplication) {
+        let region = app.otherElements["PopoverDismissRegion"].firstMatch
+        if region.exists { region.tap() }
+        sleep(1)
+    }
+
     private func stroke(_ app: XCUIApplication, from: CGVector, to: CGVector) {
         let start = app.coordinate(withNormalizedOffset: from)
         let end = app.coordinate(withNormalizedOffset: to)
@@ -384,12 +405,28 @@ final class SmokeTests: XCTestCase {
 
         // Select PDF text by dragging across the first paragraph.
         app.buttons["Select Text"].firstMatch.tap()
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
-            .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+        selectFirstParagraphText(app)
         let copy = element(app, "text.copy")
         XCTAssertTrue(copy.waitForExistence(timeout: 5), "no text was selected")
         sleep(1)
         shot("32-text-selected")
+
+        // Circle to Translate: circle the heading; its text is read and the actions are offered.
+        tap(app, "tool.lookup")
+        sleep(1)
+        let top = canvasTop(app)
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        origin.withOffset(CGVector(dx: 350, dy: top + 66))
+            .press(forDuration: 0.05, thenDragTo: origin.withOffset(CGVector(dx: 625, dy: top + 110)))
+        let webSearch = element(app, "textTools.web")
+        XCTAssertTrue(webSearch.waitForExistence(timeout: 15), "circle lookup did not open")
+        sleep(1)
+        shot("32b-circle-to-translate")
+        tap(app, "textTools.done")
+        sleep(1)
+        app.buttons["Select Text"].firstMatch.tap()
+        selectFirstParagraphText(app)
+        XCTAssertTrue(element(app, "text.copy").waitForExistence(timeout: 5), "text could not be selected again")
 
         // "Where else?" goes back to search with the selected text.
         if element(app, "text.searchNotes").exists {
@@ -530,16 +567,38 @@ final class SmokeTests: XCTestCase {
         // Brushes menu and the ruler.
         let brushes = app.buttons["Brushes"].firstMatch
         XCTAssertTrue(brushes.waitForExistence(timeout: 5))
-        brushes.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 1.0)
+        // First tap picks the brush, the second opens its pen types, colours and thickness.
+        brushes.tap()
+        sleep(1)
+        brushes.tap()
         let watercolor = app.buttons["Watercolor"].firstMatch
-        XCTAssertTrue(watercolor.waitForExistence(timeout: 5), "brush menu did not open")
+        XCTAssertTrue(watercolor.waitForExistence(timeout: 5), "pen options did not open")
         watercolor.tap()
+        sleep(1)
+        shot("48a-pen-options")
+        dismissPopover(app)
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.80))
             .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.70, dy: 0.84)))
         tap(app, "tool.ruler")
         sleep(1)
+        app.buttons["Ruler"].firstMatch.tap()
+        sleep(1)
         shot("48-watercolor-and-ruler")
+        // The other rulers: circle, protractor and set square.
+        for (name, file) in [("Circle", "48b-circle-guide"), ("Protractor", "48c-protractor"), ("Set Square", "48d-set-square")] {
+            tap(app, "tool.ruler")
+            sleep(1)
+            let item = app.buttons[name].firstMatch
+            XCTAssertTrue(item.waitForExistence(timeout: 5), "missing ruler \(name)")
+            item.tap()
+            sleep(1)
+            let guide = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'guide.'")).firstMatch
+            XCTAssertTrue(guide.exists, "\(name) guide not shown")
+            shot(file)
+        }
         tap(app, "tool.ruler")
+        sleep(1)
+        app.buttons["Hide Ruler"].firstMatch.tap()
 
         // Reading mode hides the tools.
         tap(app, "editor.reading")
@@ -807,8 +866,7 @@ final class SmokeTests: XCTestCase {
         for _ in 0..<3 where !element(app, "text.tools").exists {
             app.buttons["Select Text"].firstMatch.tap()
             sleep(1)
-            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
-                .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+            selectFirstParagraphText(app)
             _ = element(app, "text.tools").waitForExistence(timeout: 5)
         }
         tap(app, "text.tools")
@@ -987,8 +1045,7 @@ final class SmokeTests: XCTestCase {
         for attempt in 0..<3 where !element(app, "text.explain").exists {
             app.buttons["Select Text"].firstMatch.tap()
             sleep(1)
-            app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.232))
-                .press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.66, dy: 0.256)))
+            selectFirstParagraphText(app)
             if !element(app, "text.explain").waitForExistence(timeout: 5) {
                 shot("75-explain-attempt-\(attempt)")
             }

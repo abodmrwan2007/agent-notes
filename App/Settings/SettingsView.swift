@@ -13,7 +13,7 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section {
-                Toggle("Draw with finger", isOn: $allowsFingerDrawing)
+                Toggle(isOn: $allowsFingerDrawing) { Label { Text("Draw with finger") } icon: { IconBadge(symbol: "hand.point.up.left.fill", color: Vivid.blue) } }
             } header: {
                 Text("Writing")
             } footer: {
@@ -21,10 +21,10 @@ struct SettingsView: View {
             }
 
             Section {
-                Toggle("Straighten shapes when holding the pen at the end", isOn: $snapShapesOnHold)
-                Toggle("Scribble over ink to erase it", isOn: $scribbleToErase)
+                Toggle(isOn: $snapShapesOnHold) { Label { Text("Straighten shapes when holding the pen at the end") } icon: { IconBadge(symbol: "scribble", color: Vivid.purple) } }
+                Toggle(isOn: $scribbleToErase) { Label { Text("Scribble over ink to erase it") } icon: { IconBadge(symbol: "eraser.fill", color: Vivid.pink) } }
                 VStack(alignment: .leading) {
-                    Text("Stroke smoothing")
+                    Label { Text("Stroke smoothing") } icon: { IconBadge(symbol: "wand.and.stars", color: Vivid.teal) }
                     Slider(value: $smoothingStrength, in: 0...1) {
                         Text("Stroke smoothing")
                     } minimumValueLabel: {
@@ -41,7 +41,7 @@ struct SettingsView: View {
             }
 
             Section("Appearance") {
-                Picker("Interface color", selection: $interfaceColor) {
+                Picker(selection: $interfaceColor) {
                     ForEach(AccentChoice.allCases) { choice in
                         Label {
                             Text(choice.title)
@@ -50,15 +50,19 @@ struct SettingsView: View {
                         }
                         .tag(choice.rawValue)
                     }
+                } label: {
+                    Label { Text("Interface color") } icon: { IconBadge(symbol: "paintpalette.fill", color: Vivid.orange) }
                 }
                 .accessibilityIdentifier("settings.interfaceColor")
             }
 
             Section("New notebooks") {
-                Picker("Default template", selection: $defaultTemplateRaw) {
+                Picker(selection: $defaultTemplateRaw) {
                     ForEach(PageTemplate.allCases, id: \.self) { template in
                         Text(template.title).tag(template.rawValue)
                     }
+                } label: {
+                    Label { Text("Default template") } icon: { IconBadge(symbol: "doc.richtext.fill", color: Vivid.green) }
                 }
             }
 
@@ -66,7 +70,7 @@ struct SettingsView: View {
                 NavigationLink {
                     AISettingsView()
                 } label: {
-                    Label("AI Assistant", systemImage: "sparkles")
+                    Label { Text("AI Assistant") } icon: { IconBadge(symbol: "sparkles", color: Vivid.purple) }
                 }
                 .accessibilityIdentifier("settings.ai")
             }
@@ -75,12 +79,12 @@ struct SettingsView: View {
                 Button {
                     showsWhatsNew = true
                 } label: {
-                    Label("What's New", systemImage: "sparkles")
+                    Label { Text("What's New") } icon: { IconBadge(symbol: "gift.fill", color: Vivid.pink) }
                 }
                 NavigationLink {
                     AcknowledgementsView()
                 } label: {
-                    Label("Acknowledgements", systemImage: "doc.text")
+                    Label { Text("Acknowledgements") } icon: { IconBadge(symbol: "heart.text.square.fill", color: Vivid.red) }
                 }
             }
 

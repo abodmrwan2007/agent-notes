@@ -52,14 +52,17 @@ struct LibraryView: View {
                     let sectionTitle: LocalizedStringKey = isTrash ? "In the Trash" : "Notebooks"
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text(sectionTitle)
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(Theme.text)
+                            .font(.system(.title2, design: .rounded).weight(.heavy))
+                            .foregroundStyle(LinearGradient(
+                                colors: [Vivid.purple, Vivid.pink, Vivid.orange],
+                                startPoint: .leading, endPoint: .trailing))
                         Text(verbatim: "\(documents.count)")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Theme.accent)
-                            .padding(.horizontal, 8)
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 9)
                             .padding(.vertical, 2)
-                            .background(Capsule().fill(Theme.accent.opacity(0.14)))
+                            .background(Capsule().fill(LinearGradient(
+                                colors: [Vivid.pink, Vivid.orange], startPoint: .leading, endPoint: .trailing)))
                     }
                     .padding(.horizontal, 28)
                 }
@@ -374,17 +377,20 @@ struct DocumentCard: View {
                 if !document.tags.isEmpty {
                     Text(verbatim: document.tags.map { "#" + $0 }.joined(separator: " "))
                         .font(.caption.weight(.medium))
-                        .foregroundStyle(Theme.accent)
+                        .foregroundStyle(Vivid.pink)
                         .lineLimit(1)
                 }
 
                 HStack(spacing: 5) {
                     Text(document.modifiedAt, format: .dateTime.day().month().year())
+                        .foregroundStyle(.secondary)
                     Text(verbatim: "·")
+                        .foregroundStyle(.secondary)
                     Text("\(document.pageCount) pages")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Vivid.blue)
                 }
                 .font(.caption)
-                .foregroundStyle(.secondary)
             }
             .padding(.horizontal, 2)
         }

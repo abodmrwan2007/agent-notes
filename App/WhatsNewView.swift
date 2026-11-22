@@ -4,7 +4,7 @@ import SwiftUI
 /// that adds features (when `contentVersion` is raised) and from Settings at any time.
 struct WhatsNewView: View {
     /// Raise when this list gains entries the person should be told about.
-    static let contentVersion = 8
+    static let contentVersion = 9
     static let seenKey = "whatsNewSeen"
 
     @Environment(\.dismiss) private var dismiss
@@ -17,6 +17,12 @@ struct WhatsNewView: View {
     }
 
     private let entries: [Entry] = [
+        Entry(symbol: "pencil.tip.crop.circle", title: "Tools in one bar, more pens",
+              detail: "All writing tools now sit in the top bar. Tap the chosen pen again for its types, colours and thickness: ballpoint, fineliner, fountain pen, calligraphy, pencil, crayon, marker, watercolor and brush pen."),
+        Entry(symbol: "character.magnify", title: "Circle to Translate",
+              detail: "Pick the circle tool beside the lasso and circle a word or sentence, handwritten or printed: translate it, look it up, search the web or your notes, or put a link to it on the page."),
+        Entry(symbol: "angle", title: "Circle, protractor and set square",
+              detail: "The ruler button now also offers a circle, a protractor and a set square. Move them with one finger, turn with two, and draw along an edge: the line snaps onto it."),
         Entry(symbol: "paintpalette", title: "A whole new look",
               detail: "Colourful shortcuts at the top of the library, real notebook covers in twelve colours (touch and hold ▸ Cover), and a floating pen toolbar: the chosen pen rises and shows its ink. Quick Note starts a notebook with a fresh cover."),
         Entry(symbol: "light.max", title: "Presenting, handwriting calculator",

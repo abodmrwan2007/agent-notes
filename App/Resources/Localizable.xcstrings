@@ -371,6 +371,16 @@
         }
       }
     },
+    "All writing tools now sit in the top bar. Tap the chosen pen again for its types, colours and thickness: ballpoint, fineliner, fountain pen, calligraphy, pencil, crayon, marker, watercolor and brush pen.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل أدوات الكتابة صارت في الشريط العلوي. اضغط على القلم المختار مرة ثانية لتختار نوعه ولونه وسُمكه: قلم جاف، قلم رفيع، قلم حبر سائل، قلم خطّاط، رصاص، شمع ملوّن، قلم تظليل، ألوان مائية وقلم فرشاة."
+          }
+        }
+      }
+    },
     "Angle unit": {
       "localizations": {
         "ar": {
@@ -561,6 +571,16 @@
         }
       }
     },
+    "Ballpoint": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم جاف"
+          }
+        }
+      }
+    },
     "Banners": {
       "localizations": {
         "ar": {
@@ -671,6 +691,16 @@
         }
       }
     },
+    "Brush Pen": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم فرشاة"
+          }
+        }
+      }
+    },
     "Brushes": {
       "localizations": {
         "ar": {
@@ -687,6 +717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الفُرَش والمسطرة"
+          }
+        }
+      }
+    },
+    "Calligraphy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم خطّاط"
           }
         }
       }
@@ -801,12 +841,52 @@
         }
       }
     },
+    "Circle": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائرة"
+          }
+        }
+      }
+    },
+    "Circle a word or sentence to translate it, look it up or search for it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوّط كلمة أو جملة لتترجمها أو تبحث عن معناها أو تبحث عنها."
+          }
+        }
+      }
+    },
     "Circle strokes to select them, then drag to move.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ارسم دائرة حول الخطوط لتحديدها ثم اسحب لتحريكها."
+          }
+        }
+      }
+    },
+    "Circle to Translate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوّط وترجم"
+          }
+        }
+      }
+    },
+    "Circle, protractor and set square": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائرة ومنقلة ومثلث"
           }
         }
       }
@@ -1241,6 +1321,16 @@
         }
       }
     },
+    "Drawing guide": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أداة رسم"
+          }
+        }
+      }
+    },
     "Duplicate": {
       "localizations": {
         "ar": {
@@ -1487,6 +1577,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المفضلة فقط"
+          }
+        }
+      }
+    },
+    "Fineliner": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم رفيع"
           }
         }
       }
@@ -1807,6 +1907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إخفاء"
+          }
+        }
+      }
+    },
+    "Hide Ruler": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء المسطرة"
           }
         }
       }
@@ -2211,6 +2321,16 @@
         }
       }
     },
+    "Marker": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قلم تظليل"
+          }
+        }
+      }
+    },
     "Medical": {
       "localizations": {
         "ar": {
@@ -2301,12 +2421,12 @@
         }
       }
     },
-    "Monoline": {
+    "Move the guide with one finger, turn it with two, pinch to resize. Draw along an edge.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "خط موحّد"
+            "value": "حرّك الأداة بإصبع، ودوّرها بإصبعين، وقرّب الإصبعين أو باعدهما لتغيير الحجم. ارسم على طول الحافة."
           }
         }
       }
@@ -2567,6 +2687,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لم يُعثر على عنصر بارز في هذه الصورة."
+          }
+        }
+      }
+    },
+    "No text was found inside the circle.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُعثر على نص داخل الدائرة."
           }
         }
       }
@@ -2961,16 +3091,6 @@
         }
       }
     },
-    "Panel": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اللوحة"
-          }
-        }
-      }
-    },
     "Partial": {
       "localizations": {
         "ar": {
@@ -3067,6 +3187,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الجدول الدوري"
+          }
+        }
+      }
+    },
+    "Pick the circle tool beside the lasso and circle a word or sentence, handwritten or printed: translate it, look it up, search the web or your notes, or put a link to it on the page.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر أداة التحويط بجانب أداة التحديد، وحوّط كلمة أو جملة مكتوبة بخط اليد أو مطبوعة: ترجمها، أو ابحث عن معناها، أو ابحث عنها في الإنترنت أو في ملاحظاتك، أو ضع رابطاً لها على الصفحة."
           }
         }
       }
@@ -3191,12 +3321,32 @@
         }
       }
     },
+    "Protractor": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منقلة"
+          }
+        }
+      }
+    },
     "Purple": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "بنفسجي"
+          }
+        }
+      }
+    },
+    "Put Link on Page": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضع رابطاً على الصفحة"
           }
         }
       }
@@ -3261,16 +3411,6 @@
         }
       }
     },
-    "Read": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "قراءة"
-          }
-        }
-      }
-    },
     "Read Aloud": {
       "localizations": {
         "ar": {
@@ -3291,6 +3431,16 @@
         }
       }
     },
+    "Read from your circle. Fix any misread letters before translating or searching.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا ما قُرئ من داخل الدائرة. صحّح أي حرف مقروء خطأً قبل الترجمة أو البحث."
+          }
+        }
+      }
+    },
     "Reading Mode": {
       "localizations": {
         "ar": {
@@ -3307,6 +3457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "وضع القراءة"
+          }
+        }
+      }
+    },
+    "Reading the circle…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ قراءة ما حوّطته…"
           }
         }
       }
@@ -3731,6 +3891,16 @@
         }
       }
     },
+    "Rulers": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المساطر"
+          }
+        }
+      }
+    },
     "Sand": {
       "localizations": {
         "ar": {
@@ -3851,6 +4021,16 @@
         }
       }
     },
+    "Search My Notes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في ملاحظاتي"
+          }
+        }
+      }
+    },
     "Search all notes": {
       "localizations": {
         "ar": {
@@ -3877,6 +4057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "«البحث» في الشريط الجانبي يجد الكلمات في العناوين وملفات PDF والنصوص المكتوبة، بالعربية والإنجليزية."
+          }
+        }
+      }
+    },
+    "Search the Web": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ابحث في الإنترنت"
           }
         }
       }
@@ -3957,6 +4147,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "مدة الجلسة"
+          }
+        }
+      }
+    },
+    "Set Square": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مثلث قائم"
           }
         }
       }
@@ -4801,6 +5001,16 @@
         }
       }
     },
+    "The ruler button now also offers a circle, a protractor and a set square. Move them with one finger, turn with two, and draw along an edge: the line snaps onto it.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زر المسطرة صار فيه أيضاً دائرة ومنقلة ومثلث. حرّكها بإصبع ودوّرها بإصبعين، وارسم على طول الحافة فيلتصق الخط بها."
+          }
+        }
+      }
+    },
     "These pages are empty. Write or import something first.": {
       "localizations": {
         "ar": {
@@ -5037,6 +5247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأدوات بجانب صفحتك"
+          }
+        }
+      }
+    },
+    "Tools in one bar, more pens": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كل الأدوات في شريط واحد، وأقلام أكثر"
           }
         }
       }
@@ -5417,16 +5637,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "مساحة العمل"
-          }
-        }
-      }
-    },
-    "Write": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "كتابة"
           }
         }
       }

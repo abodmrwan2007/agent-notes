@@ -7,13 +7,12 @@ struct EditorSidePanel: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Picker("Panel", selection: $model.panelTab) {
-                Text("Tools").tag(EditorPanelTab.tools)
-                Text("Stickers").tag(EditorPanelTab.stickers)
-                Text("Audio").tag(EditorPanelTab.audio)
-                Text("AI").tag(EditorPanelTab.assistant)
+            HStack(spacing: 6) {
+                tab("Tools", symbol: "square.grid.2x2.fill", tint: Vivid.blue, value: .tools)
+                tab("Stickers", symbol: "face.smiling.inverse", tint: Vivid.orange, value: .stickers)
+                tab("Audio", symbol: "waveform", tint: Vivid.red, value: .audio)
+                tab("AI", symbol: "sparkles", tint: Vivid.purple, value: .assistant)
             }
-            .pickerStyle(.segmented)
             .padding(10)
             .accessibilityIdentifier("panel.tabs")
             Divider()
@@ -25,7 +24,12 @@ struct EditorSidePanel: View {
                 NavigationStack {
                     List(StudyTool.allCases) { tool in
                         NavigationLink(value: tool) {
-                            Label(tool.title, systemImage: tool.symbol)
+                            Label {
+                                Text(tool.title)
+                                    .font(.body.weight(.medium))
+                            } icon: {
+                                IconBadge(symbol: tool.symbol, color: tool.color, size: 30)
+                            }
                         }
                         .accessibilityIdentifier("panel.tool.\(tool.rawValue)")
                     }
@@ -49,5 +53,30 @@ struct EditorSidePanel: View {
             }
         }
         .background(Theme.backdrop)
+    }
+
+    private func tab(_ title: LocalizedStringKey, symbol: String, tint: Color, value: EditorPanelTab) -> some View {
+        let isSelected = model.panelTab == value
+        return Button {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { model.panelTab = value }
+        } label: {
+            VStack(spacing: 3) {
+                Image(systemName: symbol)
+                    .font(.system(size: 15, weight: .semibold))
+                Text(title)
+                    .font(.caption.weight(.semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .foregroundStyle(isSelected ? Color.white : tint)
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(isSelected ? AnyShapeStyle(tint.gradient) : AnyShapeStyle(tint.opacity(0.12))))
+        }
+        .buttonStyle(PressableStyle())
+        .accessibilityLabel(Text(title))
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
