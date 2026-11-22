@@ -1,6 +1,33 @@
 # Progress and remaining work
 
-Last updated: 2026-11-17. Update this file at the end of every working session.
+Last updated: 2026-11-22. Update this file at the end of every working session.
+
+## CollaNote-style features (2026-11-21/22) — `playground-13`
+
+Gap list from CollaNote's official site and App Store page. Built (CI run 44954722225, app builds,
+screenshots inspected):
+- Text recognition (Vision) of handwriting or the whole page; recognized the fixture PDF in English
+  and Arabic. Text tools sheet: put on page, copy, Apple Translation sheet (iPadOS 17.4+), system
+  dictionary, read aloud (AVSpeechSynthesizer). Also from a PDF text selection.
+- Document scanner (VisionKit), Remove Background (Vision foreground mask), export pages as PNG,
+  print, audio speed 0.5–3×, five new papers (unit-tested), links to pages or websites (PageObject
+  `link`, unit-tested; opens in reading mode or via Open Link), lecture transcription (Speech),
+  flashcard decks with Leitner spaced review (unit-tested; TSV/CSV import/export; AI cards saved as
+  a deck), translator, handwriting calculator (Vision + MathExpression), laser pointer in reading
+  mode, Image Playground insertion (Apple Intelligence devices only), version history (copy on close,
+  15 kept, restore keeps the current state as a version).
+- Sim-verified in screenshots: recognition, flashcards, links, version history, handwriting
+  calculator screen, laser. Not tried on a device: scanner, Remove Background, transcription,
+  translation sheet, image generation, printing (simulator lacks camera/models).
+- Not possible yet: real-time collaboration, community, iCloud sync (need a backend/accounts or
+  iCloud entitlements Swift Playgrounds lacks); Word/PowerPoint import (no on-device converter);
+  Apple Pencil Pro tool wheel (needs a real Pencil Pro to build and test).
+
+## 3D heart atlas (2026-11-19) — `playground-12`
+
+BodyParts3D meshes (CC BY-SA 2.1 JP per the OBJ headers; site says CC BY 4.0, the stricter is
+followed), 20 parts, ~97k triangles, built by `tools/build_heart_model.py` (archives not in the
+repo). SceneKit viewer: rotate, zoom, tap to name (EN/AR), show/hide, isolate, see-through walls.
 
 ## Honest status
 
