@@ -924,7 +924,7 @@ struct TextSelectionOptions: View {
                 Text(verbatim: "“" + String(selection.text.prefix(60)) + (selection.text.count > 60 ? "…" : "") + "”")
                     .font(.footnote)
                     .lineLimit(1)
-                    .frame(maxWidth: 150, alignment: .leading)
+                    .frame(maxWidth: 110, alignment: .leading)
                     .accessibilityIdentifier("text.selection")
                 // Icons only for the common actions, so Explain and Translate fit beside them.
                 Button {
@@ -950,6 +950,7 @@ struct TextSelectionOptions: View {
                     model.textToolsRequest = TextToolsRequest(text: selection.text, origin: .selection)
                 } label: {
                     Label("Translate & Look Up", systemImage: "translate")
+                        .labelStyle(.iconOnly)
                 }
                 .accessibilityIdentifier("text.tools")
                 Button {
@@ -958,7 +959,10 @@ struct TextSelectionOptions: View {
                     withAnimation { model.isSidePanelOpen = true }
                 } label: {
                     Label("Explain", systemImage: "sparkles")
+                        .labelStyle(.titleAndIcon)
+                        .barChip(isActive: true)
                 }
+                .buttonStyle(PressableStyle())
                 .accessibilityIdentifier("text.explain")
             }
             .onChange(of: selection) { _, _ in didCopy = false }
