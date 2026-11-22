@@ -48,6 +48,18 @@ enum StudyTool: String, CaseIterable, Identifiable, Hashable {
         }
     }
 
+    var color: Color {
+        switch self {
+        case .calculator: return .orange
+        case .graph: return .blue
+        case .periodicTable: return .teal
+        case .focusTimer: return .red
+        case .flashcards: return .purple
+        case .translator: return .indigo
+        case .handwritingCalculator: return .green
+        }
+    }
+
     @ViewBuilder
     func destination(compact: Bool, insert: ((String) -> Void)? = nil) -> some View {
         switch self {
@@ -245,10 +257,8 @@ private struct StudyToolRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            Image(systemName: tool.symbol)
-                .font(.title2)
-                .foregroundStyle(Theme.accent)
-                .frame(width: 36)
+            IconBadge(symbol: tool.symbol, color: tool.color, size: 44)
+                .shadow(color: tool.color.opacity(0.35), radius: 5, y: 3)
             VStack(alignment: .leading, spacing: 2) {
                 Text(tool.title)
                     .font(.headline)

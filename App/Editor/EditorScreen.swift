@@ -1186,9 +1186,9 @@ struct PageThumbnailCell: View {
     var body: some View {
         let revision = model.inkRevisions[page.id] ?? 0
 
-        VStack(spacing: 4) {
+        VStack(spacing: 6) {
             ZStack {
-                Rectangle().fill(.white)
+                RoundedRectangle(cornerRadius: 6, style: .continuous).fill(.white)
                 if let image {
                     Image(uiImage: image)
                         .resizable()
@@ -1196,20 +1196,27 @@ struct PageThumbnailCell: View {
                 }
             }
             .aspectRatio(page.size.width / max(page.size.height, 1), contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .shadow(color: .black.opacity(isCurrent ? 0.18 : 0.10), radius: isCurrent ? 6 : 3, y: 2)
+            .padding(3)
             .overlay(
-                Rectangle().strokeBorder(
-                    isCurrent ? Theme.accent : Color.gray.opacity(0.3), lineWidth: isCurrent ? 2 : 1))
+                RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(
+                    isCurrent ? Theme.accent : Color.clear, lineWidth: 2.5))
             .overlay(alignment: .topTrailing) {
                 if page.isBookmarked {
                     Image(systemName: "bookmark.fill")
                         .foregroundStyle(.red)
-                        .padding(4)
+                        .padding(6)
                 }
             }
 
             Text(index + 1, format: .number)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.caption2.weight(.bold))
+                .monospacedDigit()
+                .foregroundStyle(isCurrent ? Color.white : Color.secondary)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 2)
+                .background(Capsule().fill(isCurrent ? AnyShapeStyle(Theme.accent) : AnyShapeStyle(Color.clear)))
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Page \(index + 1)"))
