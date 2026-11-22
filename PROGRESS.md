@@ -2,6 +2,22 @@
 
 Last updated: 2026-11-22. Update this file at the end of every working session.
 
+## Visual redesign (2026-11-22) — `playground-14`
+
+The owner said the app looked plain and primitive ("make it amazing, like CollaNote"). Visual-only
+pass, no behaviour changes, original design (no copied assets):
+- Library: accent-tinted background, four gradient quick-action tiles (Quick Note with a random
+  cover, Import Files, Study Tools, 3D Heart), "Notebooks" header with count, notebook-shaped
+  covers (12 gradients with patterns, binding, elastic band, title label), first-page cards drawn
+  as a stack of paper, PDF and favourite badges.
+- Sidebar and Study list: coloured icon badges.
+- Editor: material top bar with round icons and capsule chips; floating rounded pen toolbar where
+  writing tools are drawn as pens that rise when chosen and show the current ink; larger colour
+  swatches; thickness slider tinted with the ink; rounded page thumbnails with a numbered pill.
+- Text-selection toolbar: Translate is icon-only so Explain stays on screen (the wider buttons had
+  pushed it off — caught by the AI UI test).
+Sim-verified from CI screenshots (library, editor, PDF selection). Not seen on a device yet.
+
 ## CollaNote-style features (2026-11-21/22) — `playground-13`
 
 Gap list from CollaNote's official site and App Store page. Built (CI run 44954722225, app builds,

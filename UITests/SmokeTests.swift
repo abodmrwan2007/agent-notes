@@ -203,8 +203,12 @@ final class SmokeTests: XCTestCase {
         app.terminate()
         let relaunched = launch(language: "ar")
         XCTAssertTrue(element(relaunched, "library.card").waitForExistence(timeout: 15))
-        sleep(1)
-        tap(relaunched, "library.card")
+        sleep(2)
+        // A tap during the relaunch layout can be lost; try again a couple of times.
+        for _ in 0..<3 where !element(relaunched, "editor.back").exists {
+            tap(relaunched, "library.card")
+            _ = element(relaunched, "editor.back").waitForExistence(timeout: 10)
+        }
         XCTAssertTrue(element(relaunched, "editor.back").waitForExistence(timeout: 30))
         sleep(2)
         shot("11-editor-arabic")
