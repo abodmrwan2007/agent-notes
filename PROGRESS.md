@@ -2,6 +2,41 @@
 
 Last updated: 2026-11-22. Update this file at the end of every working session.
 
+## One tool bar, more pens, rulers, Circle to Translate (2026-11-22) — `playground-15`
+
+The owner asked for: a strong, colourful theme everywhere; the tools inside the top bar as one
+strip, CollaNote-style (tap the pen again to change pen type and colour, no separate options
+strip); more rulers (circle, protractor, set square); circling text to translate, look it up, search
+it or link it; more pen types with proper drawings.
+- Editor: a single top bar (back, thumbnails, title, undo/redo · tools · record, read, insert, add
+  page, page actions, export, panel). The second toolbar strip is gone. Page actions now also hold
+  "Draw with finger". The page number is a pill over the bottom corner of the page.
+- Pens: five slots (Pen, Fountain Pen, Pencil, Highlighter, Brushes) with nine types — ballpoint,
+  fineliner, fountain pen, calligraphy, pencil, crayon, marker, watercolor, brush pen. All are
+  native PencilKit inks (some types share an ink and differ in starting width). Tapping the chosen
+  pen again opens a popover: pen types (drawn), stroke preview, thickness, 14 colours + custom.
+  Eraser options are in a popover too.
+- Text selection and object actions moved to a floating bar over the top of the page, shown only
+  for those tools; lasso, Circle to Translate and the guides show a short hint there.
+- Rulers menu: PencilKit's ruler, plus this app's circle, protractor and set square
+  (`App/Editor/DrawingGuides.swift`). They float over the pages in screen space: one finger moves,
+  two turn, pinch resizes. A stroke with ≥75% of its points within 24 pt of an edge is laid onto
+  that edge when the pen lifts (not live while drawing).
+- Circle to Translate (tool after the lasso): the circle stroke is removed, the circled area is
+  rendered and read with on-device Vision (handwriting and print), and the text tools sheet opens
+  with Translate, Look Up, Read Aloud, Search the Web (opens a Google search only when tapped),
+  Search My Notes, Put Link on Page (link placed under the circled area) and Explain.
+- Colour: every bar icon has its own colour, rainbow hairline under the top bar, coloured side panel
+  tabs and tool badges, coloured Settings rows, gradient library section header, coloured buttons in
+  the text tools sheet.
+- UI tests measure the text-selection drag from the top bar instead of fixed screen fractions, and
+  cover the pen popover, all four guides and Circle to Translate.
+Status: CI run 45069334609 (commit 3886f7a) built the app and passed all UI tests. Screenshots
+checked: one-bar editor, Brushes popover (types, preview, thickness, colours), circle/protractor/set
+square guides, Circle to Translate reading "Cardiology lecture 3" from the PDF heading. Not seen on
+a device yet. Ruler snapping and Circle to
+Translate need a real Pencil test (the simulator draws with a finger along straight lines only).
+
 ## Visual redesign (2026-11-22) — `playground-14`
 
 The owner said the app looked plain and primitive ("make it amazing, like CollaNote"). Visual-only
